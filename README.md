@@ -13,7 +13,7 @@ npm run check
 # Gallery / preview command will be introduced in the next foundation milestone.
 ```
 
-No third-party dependencies are needed for this first foundation milestone.
+No third-party dependencies are needed for this first foundation milestone. **No GitHub Actions workflows are used; build and test are run locally.**
 
 ## Source of truth
 
@@ -21,8 +21,7 @@ No third-party dependencies are needed for this first foundation milestone.
 - `design-system/components/catalog.json` — complete component backlog with priorities and implementation status.
 - `design-system/components/button.contract.json` — first canonical behavior/API contract.
 - `packages/theme/src/tokens.css` — **generated**, do not edit manually.
-- `packages/theme/src/components.css` — reusable Fluent Calm visual classes for the web preview.
-- `apps/playground-web/` — dependency-free reference gallery.
+- `docs/FOUNDATION_PLAN.md` — local-only roadmap; web component gallery and preview are planned, not yet implemented.
 
 ## Repository evolution
 
