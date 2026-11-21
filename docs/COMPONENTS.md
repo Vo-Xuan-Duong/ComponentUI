@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog is tracked as data at [catalog.json](../design-system/components/catalog.json). **All entries are planned**, not published components. The preview demonstrates some using native HTML and CSS.
+The catalog is tracked as data at [catalog.json](../design-system/components/catalog.json). **All entries are planned**, not published components. The preview has not been implemented yet.
 
 The component families cover actions, input/form, navigation, data display, feedback/overlays, layout, desktop patterns and complex application patterns.
 
