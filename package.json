@@ -1,0 +1,13 @@
+{
+  "name": "componentui",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Fluent Calm design-system foundation",
+  "type": "module",
+  "scripts": {
+    "tokens:build": "node scripts/build-tokens.mjs",
+    "tokens:check": "node scripts/build-tokens.mjs --check",
+    "test": "node --test",
+    "check": "npm run tokens:check && npm test"
+  }
+}

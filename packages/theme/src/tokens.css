@@ -1,0 +1,139 @@
+/* AUTO GENERATED from design-system/tokens/fluent-calm.tokens.json. Do not edit. */
+:root {
+  --cu-palette-neutral-0: #FFFFFF;
+  --cu-palette-neutral-10: #FAFAFA;
+  --cu-palette-neutral-20: #F3F3F3;
+  --cu-palette-neutral-30: #E5E5E5;
+  --cu-palette-neutral-40: #D1D1D1;
+  --cu-palette-neutral-50: #ADADAD;
+  --cu-palette-neutral-60: #616161;
+  --cu-palette-neutral-80: #242424;
+  --cu-palette-neutral-90: #202020;
+  --cu-palette-neutral-95: #2B2B2B;
+  --cu-palette-neutral-100: #333333;
+  --cu-palette-neutral-110: #454545;
+  --cu-palette-blue-20: #60CDFF;
+  --cu-palette-blue-40: #0F86D8;
+  --cu-palette-blue-60: #0067C0;
+  --cu-palette-blue-70: #005A9E;
+  --cu-palette-blue-90: #004578;
+  --cu-palette-green-50: #107C41;
+  --cu-palette-green-light: #DFF6DD;
+  --cu-palette-green-dark: #6CCB86;
+  --cu-palette-yellow-60: #9A6700;
+  --cu-palette-yellow-light: #FFF4CE;
+  --cu-palette-yellow-dark: #FCE100;
+  --cu-palette-red-60: #C42B1C;
+  --cu-palette-red-light: #FDE7E9;
+  --cu-palette-red-dark: #FF9999;
+  --cu-space-0: 0px;
+  --cu-space-1: 4px;
+  --cu-space-2: 8px;
+  --cu-space-3: 12px;
+  --cu-space-4: 16px;
+  --cu-space-5: 20px;
+  --cu-space-6: 24px;
+  --cu-space-8: 32px;
+  --cu-space-10: 40px;
+  --cu-space-12: 48px;
+  --cu-space-16: 64px;
+  --cu-space-20: 80px;
+  --cu-radius-none: 0px;
+  --cu-radius-xs: 2px;
+  --cu-radius-sm: 4px;
+  --cu-radius-md: 6px;
+  --cu-radius-lg: 8px;
+  --cu-radius-xl: 12px;
+  --cu-radius-pill: 999px;
+  --cu-control-sm: 28px;
+  --cu-control-md: 32px;
+  --cu-control-lg: 40px;
+  --cu-control-xl: 48px;
+  --cu-font-body: "Segoe UI Variable", "Segoe UI", Inter, "system-ui", "sans-serif";
+  --cu-font-mono: "Cascadia Code", "JetBrains Mono", "ui-monospace", monospace;
+  --cu-text-xs: 12px;
+  --cu-text-sm: 13px;
+  --cu-text-md: 14px;
+  --cu-text-lg: 16px;
+  --cu-text-xl: 20px;
+  --cu-text-title: 28px;
+  --cu-text-display: 36px;
+  --cu-motion-instant: 0ms;
+  --cu-motion-fast: 100ms;
+  --cu-motion-normal: 160ms;
+  --cu-motion-slow: 240ms;
+  --cu-shadow-soft: 0 2px 8px rgb(0 0 0 / .065);
+  --cu-shadow-flyout: 0 12px 28px rgb(0 0 0 / .16);
+}
+
+:root, :root[data-cu-theme="light"] {
+  color-scheme: light;
+  --cu-canvas: #F3F3F3;
+  --cu-surface: #FFFFFF;
+  --cu-surface-alt: #FAFAFA;
+  --cu-surface-elevated: #FFFFFF;
+  --cu-text: #242424;
+  --cu-text-muted: #616161;
+  --cu-border: #E5E5E5;
+  --cu-border-strong: #D1D1D1;
+  --cu-accent: #0067C0;
+  --cu-accent-hover: #005A9E;
+  --cu-accent-text: #FFFFFF;
+  --cu-focus: #0067C0;
+  --cu-success: #107C41;
+  --cu-success-surface: #DFF6DD;
+  --cu-warning: #9A6700;
+  --cu-warning-surface: #FFF4CE;
+  --cu-danger: #C42B1C;
+  --cu-danger-surface: #FDE7E9;
+}
+
+:root[data-cu-theme="dark"] {
+  color-scheme: dark;
+  --cu-canvas: #202020;
+  --cu-surface: #2B2B2B;
+  --cu-surface-alt: #333333;
+  --cu-surface-elevated: #333333;
+  --cu-text: #FFFFFF;
+  --cu-text-muted: #ADADAD;
+  --cu-border: #454545;
+  --cu-border-strong: #616161;
+  --cu-accent: #60CDFF;
+  --cu-accent-hover: #0F86D8;
+  --cu-accent-text: #202020;
+  --cu-focus: #60CDFF;
+  --cu-success: #6CCB86;
+  --cu-success-surface: #333333;
+  --cu-warning: #FCE100;
+  --cu-warning-surface: #333333;
+  --cu-danger: #FF9999;
+  --cu-danger-surface: #333333;
+}
+
+@media (prefers-color-scheme: dark) {
+:root:not([data-cu-theme]) {
+  color-scheme: dark;
+  --cu-canvas: #202020;
+  --cu-surface: #2B2B2B;
+  --cu-surface-alt: #333333;
+  --cu-surface-elevated: #333333;
+  --cu-text: #FFFFFF;
+  --cu-text-muted: #ADADAD;
+  --cu-border: #454545;
+  --cu-border-strong: #616161;
+  --cu-accent: #60CDFF;
+  --cu-accent-hover: #0F86D8;
+  --cu-accent-text: #202020;
+  --cu-focus: #60CDFF;
+  --cu-success: #6CCB86;
+  --cu-success-surface: #333333;
+  --cu-warning: #FCE100;
+  --cu-warning-surface: #333333;
+  --cu-danger: #FF9999;
+  --cu-danger-surface: #333333;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --cu-motion-fast: 0ms; --cu-motion-normal: 0ms; --cu-motion-slow: 0ms; }
+}
