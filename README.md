@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Foundation preview (v0.1.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component backlog, the first Button contract, reusable CSS reference styles, a theme preference controller and a responsive interactive gallery. **There are still 0 production-ready Web Components.** The gallery uses native HTML + CSS to validate visual direction; it is not a published component package.
+**Current milestone — Foundation preview (v0.1.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component backlog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and a first set of reusable DOM interaction controllers. **There are still 0 production-ready Web Components.** The gallery uses native HTML + CSS to validate visual direction; it is not a published component package.
 
 ## Preview locally
 
@@ -15,7 +15,7 @@ npm run check    # static, unit and token consistency checks
 npm run preview  # http://127.0.0.1:4173/apps/playground-web/
 ```
 
-Open [local preview](http://127.0.0.1:4173/apps/playground-web/). Use the top toolbar to switch **System / Light / Dark**, **Compact / Comfortable / Touch** and the **Blue / Purple / Green** accent palette. Test native dialog, toasts, keyboard-accessible tabs and the searchable planned-component catalog. Open the gallery through the server, **not** by double-clicking its HTML file (JSON fetch requires HTTP).
+Open [local preview](http://127.0.0.1:4173/apps/playground-web/). Use the top toolbar to switch **System / Light / Dark**, **Compact / Comfortable / Touch** and the **Blue / Purple / Green** accent palette. Test native dialog, toasts, keyboard-accessible tabs, Accordion, Tooltip, Drawer, Popover/Menu, Pagination and Command Palette (Ctrl/⌘ K), plus the searchable planned-component catalog. Open the gallery through the server, **not** by double-clicking its HTML file (JSON fetch requires HTTP).
 
 > **Local-only policy:** GitHub Actions are deliberately not used. The maintainer performs all builds and tests locally. None of the implementation should be described as verified until local checks are actually run.
 
@@ -31,6 +31,7 @@ packages/
     src/tokens.css                    # Generated tokens; do not edit
     src/components.css                # Reusable preview visual primitives (not Web Components)
     src/theme.js                      # Framework-neutral theme preference controller
+  web/src/interactions.js             # Native-first HTML interaction controllers
 apps/
   playground-web/
     index.html                        # Responsive gallery; no framework dependencies
@@ -53,12 +54,13 @@ pnpm-workspace.yaml                   # Future monorepo package boundaries
 | `npm test` | Node-based foundation + preview checks |
 | `npm run check` | Token + syntax + unit checks |
 
-The pnpm workspace is prepared for future `web-core`, React/Vue adapters and native renderers. They are **not implemented yet**. Web Components work across DOM-based frameworks; Flutter, React Native and SwiftUI require separate platform renderers.
+The pnpm workspace now also contains `packages/web` with reusable progressive-enhancement controllers. Future production Web Components, React/Vue adapters and native renderers remain planned. They are **not implemented yet**. Web Components work across DOM-based frameworks; Flutter, React Native and SwiftUI require separate platform renderers.
 
 ## Documentation
 
 - [Foundation milestones](docs/FOUNDATION_PLAN.md)
 - [Local development](docs/LOCAL_DEVELOPMENT.md)
+- [Component preview interactions](docs/COMPONENT_PREVIEWS.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)
 - [Component inventory](docs/COMPONENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)

@@ -7,7 +7,7 @@
   "scripts": {
     "tokens:build": "node scripts/build-tokens.mjs",
     "tokens:check": "node scripts/build-tokens.mjs --check",
-    "syntax:check": "node --check scripts/serve.mjs && node --check apps/playground-web/main.js && node --check packages/theme/src/theme.js",
+    "syntax:check": "node --check scripts/serve.mjs && node --check apps/playground-web/main.js && node --check packages/theme/src/theme.js && node --check packages/web/src/interactions.js",
     "test": "node --test",
     "check": "npm run tokens:check && npm run syntax:check && npm test",
     "preview": "node scripts/serve.mjs"

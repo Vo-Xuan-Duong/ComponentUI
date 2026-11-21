@@ -63,6 +63,17 @@
 - [x] Theme/density/accent toolbar and native dialog, toast, tabs and catalog interactions
 - [x] Add Node-based theme and preview integration tests (must be verified by maintainer locally)
 
+## Progressive-enhancement batch (local preview only)
+
+- [x] Remove placeholder glyphs and the left-edge selection bar from sidebar links
+- [x] Add Accordion, Tooltip, Popover, Menu, Drawer, Empty State, Pagination and Command Palette gallery examples
+- [x] Extract Menu, Popover, Dialog trigger, Pagination and Command Palette behavior into reusable `packages/web/src/interactions.js`
+- [x] Add Node tests for pagination, command filtering, keyboard navigation helpers and static integration
+- [ ] Run tests locally and verify behavior in Chromium, Firefox and WebKit
+- [ ] Audit keyboard and assistive technology behavior before marking components production-ready
+
+Reference documentation: [Component previews](COMPONENT_PREVIEWS.md).
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

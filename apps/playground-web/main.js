@@ -1,4 +1,9 @@
 import {
+  enhanceMenu, enhancePopover, enhanceDialogTrigger,
+  enhancePagination, enhanceCommandPalette
+} from "../../packages/web/src/interactions.js";
+
+import {
   applyPreferences, readPreferences,
   THEME_OPTIONS, DENSITY_OPTIONS, ACCENT_OPTIONS
 } from "../../packages/theme/src/theme.js";
@@ -42,11 +47,17 @@ swatches.forEach(button => {
 });
 
 const navLinks = [...document.querySelectorAll(".side-link")];
-navLinks.forEach(link => link.addEventListener("click", () => {
-  navLinks.forEach(other => { other.classList.remove("is-active"); other.removeAttribute("aria-current"); });
-  link.classList.add("is-active");
-  link.setAttribute("aria-current", "location");
-}));
+function syncActiveNavigation() {
+  const hash = location.hash || "#overview";
+  navLinks.forEach(link => {
+    const active = link.getAttribute("href") === hash;
+    link.classList.toggle("is-active", active);
+    if (active) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  });
+}
+window.addEventListener("hashchange", syncActiveNavigation);
+syncActiveNavigation();
 
 const dialog = document.getElementById("sample-dialog");
 document.getElementById("open-dialog").addEventListener("click", () => dialog.showModal());
@@ -188,3 +199,76 @@ async function loadCatalog() {
   }
 }
 loadCatalog();
+
+
+// Fluent Calm — reference components. These controllers can be imported
+// separately by other DOM-based apps; no framework is required.
+enhanceMenu(document.querySelector("[data-cu-menu]"), {
+  onSelect: action => showToast(action, `${action} selected in the menu preview.`)
+});
+enhancePopover(document.querySelector("[data-cu-popover]"));
+
+const drawer = document.getElementById("sample-drawer");
+enhanceDialogTrigger(document.getElementById("open-drawer"), drawer);
+document.getElementById("drawer-save").addEventListener("click", () => {
+  drawer.close("saved");
+  showToast("Drawer updated", "Example settings were not sent to a server.");
+});
+
+const paginationItems = [
+  { name:"Button", category:"Actions" },
+  { name:"TextField", category:"Inputs" },
+  { name:"Checkbox", category:"Inputs" },
+  { name:"Accordion", category:"Layouts" },
+  { name:"Popover", category:"Overlays" },
+  { name:"Pagination", category:"Navigation" },
+  { name:"Dialog", category:"Overlays" },
+  { name:"Tooltip", category:"Overlays" },
+  { name:"Drawer", category:"Overlays" },
+  { name:"Menu", category:"Navigation" },
+  { name:"CommandPalette", category:"Navigation" },
+  { name:"EmptyState", category:"Data display" }
+];
+enhancePagination(document.getElementById("demo-pagination"), {
+  items: paginationItems,
+  pageSize: 4,
+  renderItem(item) {
+    const row = document.createElement("div");
+    row.className = "cu-page-entry";
+    const title = document.createElement("strong");
+    title.textContent = item.name;
+    const category = document.createElement("small");
+    category.textContent = item.category;
+    row.append(title, category);
+    return row;
+  }
+});
+
+const paletteCommands = [
+  { label:"Open overview", description:"Project introduction and metrics", target:"overview", keywords:["home", "dashboard"] },
+  { label:"Browse actions", description:"Buttons, variants and sizes", target:"controls", keywords:["button"] },
+  { label:"Browse forms", description:"Inputs, checkboxes and switches", target:"forms", keywords:["input", "field"] },
+  { label:"Browse navigation", description:"Tabs and settings", target:"navigation", keywords:["tabs"] },
+  { label:"Browse data", description:"Tables, badges and progress", target:"data", keywords:["table"] },
+  { label:"Browse feedback", description:"Dialog, alerts and toast", target:"feedback", keywords:["notification"] },
+  { label:"Browse more components", description:"Accordion, Menu, Drawer and Pagination", target:"patterns", keywords:["popover", "command"] },
+  { label:"Search component catalog", description:"Filter 128 planned components", target:"catalog", keywords:["inventory"] },
+  { label:"Switch to Light Mode", description:"Change the gallery theme", action:"light", keywords:["theme", "appearance"] },
+  { label:"Switch to Dark Mode", description:"Change the gallery theme", action:"dark", keywords:["theme", "appearance"] },
+  { label:"Follow System Theme", description:"Use operating system theme", action:"system", keywords:["theme", "appearance"] }
+];
+const commandPalette = enhanceCommandPalette(document.getElementById("command-palette"), {
+  trigger: document.getElementById("open-command"),
+  commands: paletteCommands,
+  onSelect(command) {
+    if (command.action) {
+      setPreferences({ theme: command.action });
+      showToast("Theme updated", `Theme: ${command.action}`);
+    } else if (command.target) {
+      location.hash = "#" + command.target;
+      document.getElementById(command.target)?.scrollIntoView({ block:"start" });
+      syncActiveNavigation();
+    }
+  }
+});
+document.getElementById("open-command-secondary").addEventListener("click", commandPalette.open);

@@ -21,14 +21,15 @@
       </a>
       <nav class="sidebar-nav" aria-label="Sections">
         <div class="nav-group-label">Design system</div>
-        <a class="side-link is-active" href="#overview" aria-current="location"><span class="side-icon" aria-hidden="true">▦</span> Overview</a>
-        <a class="side-link" href="#controls"><span class="side-icon" aria-hidden="true">▣</span> Actions</a>
-        <a class="side-link" href="#forms"><span class="side-icon" aria-hidden="true">☷</span> Forms &amp; inputs</a>
-        <a class="side-link" href="#navigation"><span class="side-icon" aria-hidden="true">⇥</span> Navigation</a>
-        <a class="side-link" href="#data"><span class="side-icon" aria-hidden="true">▤</span> Data &amp; status</a>
-        <a class="side-link" href="#feedback"><span class="side-icon" aria-hidden="true">◎</span> Feedback</a>
+        <a class="side-link is-active" href="#overview" aria-current="location">Overview</a>
+        <a class="side-link" href="#controls">Actions</a>
+        <a class="side-link" href="#forms">Forms &amp; inputs</a>
+        <a class="side-link" href="#navigation">Navigation</a>
+        <a class="side-link" href="#data">Data &amp; status</a>
+        <a class="side-link" href="#feedback">Feedback</a>
+        <a class="side-link" href="#patterns">More components</a>
         <div class="nav-group-label">Documentation</div>
-        <a class="side-link" href="#catalog"><span class="side-icon" aria-hidden="true">▦</span> Component catalog</a>
+        <a class="side-link" href="#catalog">Component catalog</a>
       </nav>
       <div class="sidebar-footer">
         <span>Visual foundation · No production components yet</span>
@@ -40,6 +41,7 @@
       <header class="toolbar">
         <div class="toolbar-heading">Design system <small>/ Fluent Calm</small></div>
         <div class="toolbar-options" aria-label="Preview preferences">
+          <button type="button" class="cu-btn" data-size="sm" id="open-command" aria-keyshortcuts="Control+K Meta+K">Search <kbd>Ctrl K</kbd></button>
           <label class="cu-helper" for="theme-select">Theme</label>
           <select class="toolbar-select" id="theme-select" aria-label="Theme">
             <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
@@ -246,6 +248,85 @@
           </div>
         </section>
 
+
+        <section class="section" id="patterns" aria-labelledby="patterns-heading">
+          <div class="section-heading">
+            <div><h2 id="patterns-heading">More components</h2><p>Reusable, progressively-enhanced HTML patterns: Accordion, Tooltip, Popover, Menu, Drawer, Pagination and Command Palette.</p></div>
+            <span class="section-flag">Interactive reference components</span>
+          </div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>Accordion</h3><p class="demo-subtitle">Native disclosure panels with keyboard support.</p>
+              <div class="cu-accordion">
+                <details class="cu-accordion-item" open><summary>Appearance settings</summary><div class="cu-accordion-content">Choose Light/Dark, accent and density in the toolbar.</div></details>
+                <details class="cu-accordion-item"><summary>Notifications</summary><div class="cu-accordion-content">Control application alerts and messages.</div></details>
+                <details class="cu-accordion-item"><summary>Privacy</summary><div class="cu-accordion-content">Theme preferences remain in local browser storage.</div></details>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Tooltip &amp; Popover</h3><p class="demo-subtitle">Hover or focus a hint, or open a dismissible popover.</p>
+              <div class="demo-row">
+                <span class="cu-tooltip-wrap">
+                  <button class="cu-btn" type="button" aria-describedby="save-tooltip" data-toast="Save action">Hover or focus</button>
+                  <span class="cu-tooltip" id="save-tooltip" role="tooltip">Save changes (preview)</span>
+                </span>
+                <div class="cu-popup-anchor" data-cu-popover>
+                  <button class="cu-btn" type="button" aria-expanded="false" aria-controls="info-popover" data-cu-popover-trigger>Popover ▾</button>
+                  <div class="cu-popover-panel" id="info-popover" data-cu-popover-panel hidden>
+                    <strong>Quick info</strong>
+                    <p>Closes on Escape or an outside click; non-modal by design.</p>
+                    <span class="cu-badge" data-tone="accent">Fluent Calm</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cu-info">Tooltips are supplemental. Keep essential content visible without hover.</div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Menu &amp; Drawer</h3><p class="demo-subtitle">Menu arrow-key navigation and native modal drawer.</p>
+              <div class="demo-row">
+                <div class="cu-popup-anchor" data-cu-menu>
+                  <button class="cu-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menu" data-cu-menu-trigger>Actions ▾</button>
+                  <div class="cu-menu-popup" role="menu" id="demo-menu" aria-label="Example actions" hidden>
+                    <button type="button" role="menuitem" data-action="Duplicate">Duplicate item</button>
+                    <button type="button" role="menuitem" data-action="Rename">Rename item</button>
+                    <div class="cu-menu-separator" role="separator"></div>
+                    <button type="button" role="menuitem" data-action="Archive">Archive item</button>
+                  </div>
+                </div>
+                <button class="cu-btn" data-variant="accent" type="button" id="open-drawer">Open drawer</button>
+              </div>
+              <div class="cu-subtle-panel cu-pattern-hint">Keyboard: <kbd>↑</kbd> <kbd>↓</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Esc</kbd>. Drawer traps focus using native dialog.</div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Empty State</h3><p class="demo-subtitle">A useful starting point for an empty workspace.</p>
+              <div class="cu-empty-state">
+                <div class="cu-empty-illustration" aria-hidden="true">◇</div>
+                <strong>Nothing here yet</strong>
+                <p>Create a workspace to organize your projects.</p>
+                <button class="cu-btn" data-variant="accent" data-toast="Create workspace" type="button">Create workspace</button>
+              </div>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Pagination</h3><p class="demo-subtitle">Functional client-side paging over a demonstration dataset.</p>
+              <div data-cu-pagination id="demo-pagination">
+                <div class="cu-page-list" data-cu-page-items aria-label="Example items"></div>
+                <div class="cu-page-footer">
+                  <span class="cu-helper" data-cu-page-status role="status"></span>
+                  <nav class="cu-pages" data-cu-pagination-nav aria-label="Example results pagination"></nav>
+                </div>
+              </div>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Command Palette</h3>
+              <p class="demo-subtitle">Search sections with Ctrl/⌘ K; Arrow keys, Enter and Escape supported.</p>
+              <div class="demo-row">
+                <button class="cu-btn" data-variant="accent" id="open-command-secondary" type="button" aria-keyshortcuts="Control+K Meta+K">Open command palette <kbd>Ctrl K</kbd></button>
+                <span class="cu-helper">Try searching “forms”, “theme”, or “catalog”.</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <section class="section" id="catalog" aria-labelledby="catalog-heading">
           <div class="section-heading"><div><h2 id="catalog-heading">Component inventory</h2><p>Browse the complete planned backlog. These are <strong>not</strong> production components yet.</p></div><span class="section-flag" id="catalog-status">Loading catalog…</span></div>
           <div class="catalog-tools">
@@ -274,6 +355,36 @@
       <button class="cu-btn" value="cancel">Cancel</button>
       <button class="cu-btn" data-variant="accent" value="confirm">Confirm</button>
     </form>
+  </dialog>
+
+  <dialog class="cu-drawer" id="sample-drawer" aria-labelledby="drawer-title" aria-describedby="drawer-description">
+    <div class="cu-drawer-header">
+      <h2 id="drawer-title">Workspace settings</h2>
+      <form method="dialog"><button type="submit" class="cu-btn cu-icon-btn" aria-label="Close drawer">×</button></form>
+    </div>
+    <div class="cu-drawer-body">
+      <p id="drawer-description" class="cu-muted">Native modal side panel styled with Fluent Calm tokens.</p>
+      <label class="cu-field"><span class="cu-label">Workspace title</span><input class="cu-input" value="ComponentUI"></label>
+      <label class="cu-switch"><input type="checkbox" checked> Enable compact header</label>
+      <div class="cu-info">Escape closes the panel; focus returns to the open button.</div>
+    </div>
+    <div class="cu-drawer-footer">
+      <form method="dialog"><button type="submit" class="cu-btn">Close</button></form>
+      <button type="button" class="cu-btn" data-variant="accent" id="drawer-save">Save changes</button>
+    </div>
+  </dialog>
+  <dialog class="cu-command-dialog" id="command-palette" aria-labelledby="command-title">
+    <div class="cu-command-top">
+      <h2 id="command-title">Search ComponentUI</h2>
+      <form method="dialog"><button type="submit" class="cu-btn cu-icon-btn" aria-label="Close command palette">×</button></form>
+    </div>
+    <div class="cu-command-search">
+      <label class="visually-hidden" for="command-input">Search sections and actions</label>
+      <input class="cu-input" id="command-input" data-cu-command-input type="search" autocomplete="off" placeholder="Search sections and actions…" aria-expanded="false">
+    </div>
+    <div class="cu-command-list" id="command-listbox" role="listbox" aria-label="Matching commands"></div>
+    <div class="cu-command-empty" data-cu-command-empty hidden>No matching commands found.</div>
+    <div class="cu-command-footer">Use ↑ ↓ to select · Enter to open · Esc to close</div>
   </dialog>
   <div class="cu-toast-container" id="toast-container" aria-live="polite" aria-relevant="additions"></div>
 </body>

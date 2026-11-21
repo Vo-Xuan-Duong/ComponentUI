@@ -1,0 +1,10 @@
+{
+  "name": "@componentui/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Progressively-enhanced HTML interactions for the ComponentUI Fluent Calm preview",
+  "exports": {
+    ".": "./src/interactions.js"
+  }
+}
