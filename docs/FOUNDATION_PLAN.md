@@ -31,12 +31,12 @@
 - [ ] Establish TypeScript strict config, ESLint, Prettier, path aliases, package exports and browser targets
 - [ ] Choose Lit Custom Elements for web-core; keep React/Vue wrappers independent
 - [ ] Add Storybook or equivalent reference gallery and a no-framework smoke-test consumer
-- [ ] Configure Vitest, Playwright, axe accessibility checks, and multi-browser CI (Chromium, Firefox, WebKit)
-- [x] Add basic CI entrypoint and initial static integrity tests
-- [ ] Run and verify CI is green; include generated-token drift check in pull requests
+- [ ] Configure Vitest, Playwright, axe accessibility checks, and locally executable cross-browser checks (Chromium, Firefox, WebKit)
+- [x] Add initial static integrity tests runnable locally (no GitHub Actions)
+- [ ] Run and verify local checks; ensure generated-token drift is detected by `npm run check`
 - [ ] Add Changesets, release/versioning policy and package license/third-party attribution policy
 
-**Done when:** `pnpm install`, typecheck, lint, unit tests, gallery build and preview all pass in CI.
+**Done when:** `pnpm install`, typecheck, lint, unit tests, gallery build and preview all pass locally.
 
 ### F3 — Component standards
 - [x] Create a prioritized 128-entry catalog (P0/P1/P2)
@@ -49,6 +49,12 @@
 - [ ] Validate the contracts of Button, TextField, Select, Dialog, Tabs and DataTable as reference examples
 
 **Done when:** every future component can be implemented by following one documented contract + acceptance template.
+
+## Local-only validation policy
+
+- **Do not add or run GitHub Actions**. The maintainer will run build/test commands on their own machine.
+- Local commands should include token generation/check, unit tests, lint, typecheck, and (when available) browser/visual/accessibility tests.
+- Never claim checks are passing unless the maintainer or a local execution has actually verified them.
 
 ## First implementation wave (only after foundation gates)
 
