@@ -1,0 +1,66 @@
+{
+  "name": "Button",
+  "version": 1,
+  "status": "planned",
+  "purpose": "Initiate one user action",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "accent",
+        "standard",
+        "subtle",
+        "outline",
+        "danger"
+      ],
+      "default": "standard"
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "default": "md"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "events": {
+    "press": {
+      "description": "Fires after a valid activation; never when disabled or loading"
+    }
+  },
+  "slots": [
+    "default",
+    "leadingIcon",
+    "trailingIcon"
+  ],
+  "states": [
+    "default",
+    "hover",
+    "pressed",
+    "focus-visible",
+    "disabled",
+    "loading"
+  ],
+  "accessibility": {
+    "role": "button",
+    "keyboard": [
+      "Enter",
+      "Space"
+    ],
+    "notes": [
+      "Native buttons preferred where available",
+      "Expose busy and disabled states to assistive technology"
+    ]
+  }
+}

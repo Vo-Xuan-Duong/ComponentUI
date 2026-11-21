@@ -1,0 +1,1204 @@
+{
+  "version": 1,
+  "style": "Fluent Calm",
+  "summary": "Platform-agnostic component inventory; all entries are planned contracts, not production implementations.",
+  "statusLegend": {
+    "planned": "Specified for future implementation",
+    "preview": "Visually demonstrated, not published as a runtime component",
+    "ready": "Production implementation with tests and accessibility review"
+  },
+  "groups": [
+    {
+      "category": "Actions",
+      "components": [
+        {
+          "name": "Button",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "SplitButton",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "IconButton",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ToggleButton",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ToggleButtonGroup",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Hyperlink",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "CommandBar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Toolbar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "MenuButton",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FloatingActionButton",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Inputs",
+      "components": [
+        {
+          "name": "TextField",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "PasswordField",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TextArea",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "SearchBox",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "NumberField",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Select",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Combobox",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "AutoComplete",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Checkbox",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Radio",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "RadioGroup",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Switch",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Slider",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "RangeSlider",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Rating",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DatePicker",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TimePicker",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DateRangePicker",
+          "priority": "P2",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ColorPicker",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FilePicker",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FileUpload",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "OTPInput",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TagInput",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "RichTextEditor",
+          "priority": "P2",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FormField",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Form",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Navigation",
+      "components": [
+        {
+          "name": "NavigationView",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Sidebar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TopNav",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Breadcrumb",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Tabs",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "VerticalTabs",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Pagination",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Stepper",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TreeView",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "CommandPalette",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Menu",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "MenuItem",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ContextMenu",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "BottomNavigation",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "SplitView",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TabView",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Data display",
+      "components": [
+        {
+          "name": "Card",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "List",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ListItem",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DataTable",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DataGrid",
+          "priority": "P2",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TreeTable",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DescriptionList",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Badge",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Chip",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Tag",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Avatar",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "AvatarGroup",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Tooltip",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Calendar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Timeline",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Kbd",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "CodeBlock",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Statistic",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ChartContainer",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "EmptyState",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Skeleton",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Divider",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ScrollArea",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "VirtualList",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Image",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Carousel",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Feedback & overlays",
+      "components": [
+        {
+          "name": "ProgressBar",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ProgressRing",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Spinner",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Toast",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Snackbar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "InfoBar",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Alert",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "NotificationCenter",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Dialog",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ConfirmDialog",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Drawer",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Flyout",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Popover",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TeachingTip",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Callout",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Banner",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "LoadingOverlay",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Layouts",
+      "components": [
+        {
+          "name": "Container",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Stack",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Grid",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Flex",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Splitter",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ResizablePanel",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ScrollView",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Collapsible",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Accordion",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "AppShell",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "PageHeader",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Surface",
+          "priority": "P0",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Masonry",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Desktop patterns",
+      "components": [
+        {
+          "name": "TitleBar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "WindowControls",
+          "priority": "P2",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "StatusBar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FileExplorer",
+          "priority": "P2",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "PropertyGrid",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TaskPanel",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "SettingsPage",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "TreeList",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "CommandSurface",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "WindowPane",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Advanced patterns",
+      "components": [
+        {
+          "name": "FilterBar",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DataFilter",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "KanbanBoard",
+          "priority": "P2",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ChatComposer",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "MessageList",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "SearchResults",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "MediaPlayer",
+          "priority": "P2",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "UploadManager",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "Wizard",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DashboardShell",
+          "priority": "P1",
+          "status": "planned",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        }
+      ]
+    }
+  ]
+}
