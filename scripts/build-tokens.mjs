@@ -13,7 +13,7 @@ function renderCss(data){
    }
    if(v?.colorSpace==="srgb")return v.hex;
    if(v && typeof v==="object" && "unit" in v)return `${v.value}${v.unit}`;
-   if(Array.isArray(v))return v.map(x=>x.includes(" ")||x.includes("-")?`"${x}"`:x).join(", ");
+   if(Array.isArray(v))return v.map(x=>x.includes(" ")?`"${x}"`:x).join(", ");
    if(typeof v==="string" || typeof v==="number")return String(v);
    throw Error("unsupported token");
  }

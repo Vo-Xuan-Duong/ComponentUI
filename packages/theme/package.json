@@ -1,0 +1,13 @@
+{
+  "name": "@componentui/theme",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Fluent Calm theme tokens, visual preview classes and theme controller",
+  "type": "module",
+  "style": "./src/tokens.css",
+  "exports": {
+    "./tokens.css": "./src/tokens.css",
+    "./components.css": "./src/components.css",
+    "./theme.js": "./src/theme.js"
+  }
+}

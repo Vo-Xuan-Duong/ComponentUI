@@ -1,38 +1,43 @@
 # Platform architecture
 
 ```text
-                     Design tokens + component contracts
-                                |        |
-                         generators + validators
-                                |
-                 +--------------+----------------+
-                 |              |                |
-               Web           React Native      Flutter/Native
-           Lit + HTML        native views       native renderers
-                 |
-           React / Vue / Angular / Svelte / HTML
-                 |
-           Electron / Tauri / Browser
+            Design tokens + component contracts
+                         |
+                 Source validators
+                         |
+          +--------------+----------------+
+          |              |                |
+      Web renderer   React Native    Flutter/Native
+     Lit + DOM       native views    native renderers
+          |
+    React / Vue / Angular / Svelte / HTML
+          |
+    Electron / Tauri / Browser
 ```
 
-Design tokens and contracts are the common source. A Web Component does not run directly in Flutter, SwiftUI, WPF, Qt or React Native.
+Design Tokens and Contracts are the cross-platform source of truth. **Web Components cannot run directly in Flutter, SwiftUI, React Native, Qt or native .NET UI.**
 
-## Ports and adapters
+## Current implementation
 
-- **Port:** component contract, semantic state model and accessibility behavior.
-- **Adapter:** rendering framework-specific UI, lifecycle, event bindings and platform idioms.
-- **Shared utilities:** only functions that actually run on compatible runtimes; avoid forcing JavaScript into native stacks.
-- **Web foundation:** possible Lit + standards-based Custom Elements, with optional framework adapters where needed. Choose mature accessible dependencies for complex widgets rather than building from scratch.
+- `design-system/`: initial DTCG token source and component backlog/contracts
+- `packages/theme/`: generated CSS variables, reusable **preview-only** CSS classes and theme preference controller
+- `apps/playground-web/`: responsive HTML/JS design reference with theme/density/accent switching, native modal, toast, tab navigation, forms and dynamic catalog
+- `scripts/serve.mjs`: dependency-free local preview server
+- `tests/`: Node-based consistency, theme preference and static preview integration tests
+- `pnpm-workspace.yaml`: boundary declaration for packages and apps
 
-## Repo plan
+## Future ports and adapters
 
-- `design-system/` tokens and component specs (framework-independent)
-- `packages/theme/` generated tokens and styles
-- `packages/web/` future Web Components
-- `packages/react/` / `packages/vue/` future wrappers
-- `apps/playground-web/` planned visual gallery (not implemented yet)
-- `tests/` static integrity tests now; Playwright, visual and accessibility tests later
+- **Port:** framework-neutral component contract including states, events, semantics and accessibility.
+- **Adapter:** framework-specific rendering, lifecycle, state binding and event transport.
+- **Shared logic:** reuse only logic compatible with platform runtimes, rather than wrapping native toolkits with a web dependency.
 
-## Safe upgrade path
+The Web Renderer will use standards-based Custom Elements (potentially Lit) when Foundation gates are satisfied. React/Vue adapters can follow. A gallery control is not automatically a production `<cu-button>` implementation.
 
-Develop one mature Web renderer and a representative app first. Only start native renderers when a real use case justifies the cost. Pin library versions, maintain contracts and semantic versioning, and include migration scripts for breaking changes.
+## Build and verification
+
+This project intentionally uses **no GitHub Actions**. Local instructions are in [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md). Browser rendering and accessibility/visual regression tests will be added in a future milestone.
+
+## Upgrade path
+
+Build one stable Web Renderer and a reference application before starting native renderers. Share contracts and semantic tokens, maintain Semantic Versioning, and document migrations for breaking API changes.

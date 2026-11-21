@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3F3F3">
+  <title>ComponentUI · Fluent Calm Playground</title>
+  <meta name="description" content="Interactive reference gallery for ComponentUI Fluent Calm — Windows 11-inspired, framework-agnostic UI design tokens.">
+  <link rel="stylesheet" href="../../packages/theme/src/tokens.css">
+  <link rel="stylesheet" href="../../packages/theme/src/components.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="app-layout">
+    <aside class="sidebar" aria-label="ComponentUI navigation">
+      <a class="brand" href="#overview" aria-label="ComponentUI home">
+        <span class="brand-logo" aria-hidden="true">✦</span>
+        <span><strong>ComponentUI</strong><small>Fluent Calm · Foundation</small></span>
+      </a>
+      <nav class="sidebar-nav" aria-label="Sections">
+        <div class="nav-group-label">Design system</div>
+        <a class="side-link is-active" href="#overview" aria-current="location"><span class="side-icon" aria-hidden="true">▦</span> Overview</a>
+        <a class="side-link" href="#controls"><span class="side-icon" aria-hidden="true">▣</span> Actions</a>
+        <a class="side-link" href="#forms"><span class="side-icon" aria-hidden="true">☷</span> Forms &amp; inputs</a>
+        <a class="side-link" href="#navigation"><span class="side-icon" aria-hidden="true">⇥</span> Navigation</a>
+        <a class="side-link" href="#data"><span class="side-icon" aria-hidden="true">▤</span> Data &amp; status</a>
+        <a class="side-link" href="#feedback"><span class="side-icon" aria-hidden="true">◎</span> Feedback</a>
+        <div class="nav-group-label">Documentation</div>
+        <a class="side-link" href="#catalog"><span class="side-icon" aria-hidden="true">▦</span> Component catalog</a>
+      </nav>
+      <div class="sidebar-footer">
+        <span>Visual foundation · No production components yet</span>
+        <a href="https://github.com/Vo-Xuan-Duong/ComponentUI" rel="noopener noreferrer" target="_blank">View GitHub repository ↗</a>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="toolbar">
+        <div class="toolbar-heading">Design system <small>/ Fluent Calm</small></div>
+        <div class="toolbar-options" aria-label="Preview preferences">
+          <label class="cu-helper" for="theme-select">Theme</label>
+          <select class="toolbar-select" id="theme-select" aria-label="Theme">
+            <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
+          </select>
+          <label class="cu-helper" for="density-select">Density</label>
+          <select class="toolbar-select" id="density-select" aria-label="Control density">
+            <option value="comfortable">Comfortable</option><option value="compact">Compact</option><option value="touch">Touch</option>
+          </select>
+          <div class="accent-picker" role="group" aria-label="Accent color">
+            <button class="accent-swatch" type="button" data-accent="blue" aria-label="Blue accent" aria-pressed="true"></button>
+            <button class="accent-swatch" type="button" data-accent="purple" aria-label="Purple accent" aria-pressed="false"></button>
+            <button class="accent-swatch" type="button" data-accent="green" aria-label="Green accent" aria-pressed="false"></button>
+          </div>
+        </div>
+      </header>
+
+      <main id="content" class="content">
+        <section class="hero" id="overview" aria-labelledby="hero-title">
+          <div class="hero-decoration" aria-hidden="true"></div>
+          <span class="eyebrow">The visual foundation · v0.1</span>
+          <h1 id="hero-title">Calm by design.<br>Ready for every project.</h1>
+          <p>A modern, Windows 11-inspired visual language built around clarity, familiar shapes and lightweight surfaces. Preview styles before we build framework components.</p>
+          <div class="hero-footer">
+            <a class="cu-btn" data-variant="accent" href="#controls">Explore components <span aria-hidden="true">↗</span></a>
+            <a class="cu-btn" data-variant="outline" href="#catalog">Browse catalog</a>
+            <span class="cu-badge" data-tone="warning">Foundation preview</span>
+          </div>
+        </section>
+
+        <div class="metrics" aria-label="Project summary">
+          <div class="metric"><strong id="metric-components">128</strong><span>Planned components &amp; patterns</span></div>
+          <div class="metric"><strong id="metric-categories">8</strong><span>Component categories</span></div>
+          <div class="metric"><strong>0</strong><span>Production-ready components</span></div>
+        </div>
+
+        <section class="section" id="controls" aria-labelledby="controls-heading">
+          <div class="section-heading"><div><h2 id="controls-heading">Actions</h2><p>Clear primary actions and restrained secondary controls.</p></div><span class="section-flag">Buttons · Variants · States</span></div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>Button variants</h3><p class="demo-subtitle">Shared geometry, consistent hover and focus feedback.</p>
+              <div class="demo-row">
+                <button class="cu-btn" data-variant="accent" type="button" data-toast="Primary action">Primary</button>
+                <button class="cu-btn" type="button" data-toast="Standard action">Standard</button>
+                <button class="cu-btn" data-variant="outline" type="button" data-toast="Outline action">Outline</button>
+              </div>
+              <div class="demo-row">
+                <button class="cu-btn" data-variant="subtle" type="button" data-toast="Subtle action">Subtle</button>
+                <button class="cu-btn" data-variant="danger" type="button" data-toast="Delete action">Delete</button>
+                <button class="cu-btn" type="button" disabled>Disabled</button>
+              </div>
+              <div class="preview-label">Sizes</div>
+              <div class="demo-row">
+                <button class="cu-btn" data-size="sm" type="button">Small</button>
+                <button class="cu-btn" type="button">Default</button>
+                <button class="cu-btn" data-size="xl" type="button">Large</button>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Quick actions</h3><p class="demo-subtitle">Icon controls, accents and action hierarchy.</p>
+              <div class="demo-row">
+                <button type="button" class="cu-btn cu-icon-btn" aria-label="Add item" data-toast="Add item">＋</button>
+                <button type="button" class="cu-btn cu-icon-btn" aria-label="Edit item" data-toast="Edit item">✎</button>
+                <button type="button" class="cu-btn cu-icon-btn" aria-label="More options" data-toast="More options">⋯</button>
+                <button type="button" class="cu-btn cu-icon-btn" data-variant="accent" aria-label="Confirm" data-toast="Confirmed">✓</button>
+              </div>
+              <div class="cu-info" style="margin-top: 24px"><strong>Design rule:</strong> one prominent action per region. Use labels and accessible names for icon-only controls.</div>
+              <div class="preview-label">Current density</div>
+              <span class="cu-badge" data-tone="accent" id="density-readout">Comfortable · 40px controls</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="forms" aria-labelledby="forms-heading">
+          <div class="section-heading"><div><h2 id="forms-heading">Forms &amp; inputs</h2><p>Readable labels, explicit validation and OS-friendly native semantics.</p></div><span class="section-flag">Fields · Choice · Toggles</span></div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>Form controls</h3><p class="demo-subtitle">Inputs remain clear in every density and theme.</p>
+              <form id="sample-form" class="demo-col">
+                <div class="form-grid">
+                  <label class="cu-field"><span class="cu-label">Display name</span><input class="cu-input" name="display-name" placeholder="e.g. Alex Nguyen" autocomplete="name" required></label>
+                  <label class="cu-field"><span class="cu-label">Email address</span><input class="cu-input" type="email" name="email" placeholder="alex@example.com" autocomplete="email" required></label>
+                </div>
+                <label class="cu-field"><span class="cu-label">Project type</span>
+                  <select class="cu-select" name="project"><option>Web application</option><option>Desktop application</option><option>Mobile application</option></select>
+                  <span class="cu-helper">Used only for this visual demonstration.</span>
+                </label>
+                <label class="cu-field"><span class="cu-label">Description</span><textarea class="cu-textarea" name="description" placeholder="Tell us about the project..."></textarea></label>
+                <div class="demo-row"><button type="submit" class="cu-btn" data-variant="accent">Save details</button><button type="reset" class="cu-btn" data-variant="subtle">Reset</button></div>
+              </form>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Selection &amp; preferences</h3><p class="demo-subtitle">Native checkbox, radio and range inputs keep their semantics.</p>
+              <div class="demo-col">
+                <label class="cu-check"><input type="checkbox" checked> Enable notifications</label>
+                <label class="cu-check"><input type="checkbox"> Show developer hints</label>
+                <fieldset style="border:0;padding:0;margin:0"><legend class="cu-label" style="margin-bottom:10px">Default view</legend>
+                  <div class="demo-row">
+                    <label class="cu-check"><input type="radio" name="view" checked> Grid</label>
+                    <label class="cu-check"><input type="radio" name="view"> List</label>
+                  </div>
+                </fieldset>
+                <label class="cu-switch"><input type="checkbox" checked> Automatic updates</label>
+                <label class="cu-switch"><input type="checkbox"> Use compact navigation</label>
+                <label class="cu-field" for="volume-range"><span class="cu-label">Intensity <output id="volume-value" for="volume-range">60%</output></span>
+                  <input id="volume-range" type="range" min="0" max="100" value="60" style="width:100%;accent-color:var(--cu-accent)">
+                </label>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="navigation" aria-labelledby="navigation-heading">
+          <div class="section-heading"><div><h2 id="navigation-heading">Navigation &amp; surfaces</h2><p>Familiar organization patterns for settings, dashboards and productivity apps.</p></div><span class="section-flag">Tabs · Settings · Layers</span></div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>Tabs</h3><p class="demo-subtitle">Arrow keys, Home and End switch focus and panel selection.</p>
+              <div class="cu-tabs" role="tablist" aria-label="Settings sections" id="demo-tabs">
+                <button class="cu-tab" id="tab-general" role="tab" aria-selected="true" tabindex="0" aria-controls="panel-general" type="button">General</button>
+                <button class="cu-tab" id="tab-appearance" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-appearance" type="button">Appearance</button>
+                <button class="cu-tab" id="tab-privacy" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-privacy" type="button">Privacy</button>
+              </div>
+              <div class="cu-tabpanel" id="panel-general" role="tabpanel" tabindex="0" aria-labelledby="tab-general" style="padding:18px 0">
+                <strong style="font-size:13px">General preferences</strong><p class="cu-muted" style="font-size:12px">Organize content, default views and workspace behavior.</p>
+              </div>
+              <div class="cu-tabpanel" id="panel-appearance" role="tabpanel" tabindex="0" aria-labelledby="tab-appearance" style="padding:18px 0" hidden>
+                <strong style="font-size:13px">Appearance preferences</strong><p class="cu-muted" style="font-size:12px">Try Light/Dark, accent color and density from the toolbar.</p>
+              </div>
+              <div class="cu-tabpanel" id="panel-privacy" role="tabpanel" tabindex="0" aria-labelledby="tab-privacy" style="padding:18px 0" hidden>
+                <strong style="font-size:13px">Privacy preferences</strong><p class="cu-muted" style="font-size:12px">This playground stores only optional local theme preferences.</p>
+              </div>
+              <div class="preview-label">Breadcrumb</div>
+              <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Home</a><span aria-hidden="true">›</span><a href="#navigation">Settings</a><span aria-hidden="true">›</span><strong>Appearance</strong></nav>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Settings surface</h3><p class="demo-subtitle">Small compositional patterns for application settings.</p>
+              <div class="settings-item"><span class="settings-icon" aria-hidden="true">◉</span><div class="settings-text"><strong>Personalization</strong><small>Accent colors and appearance</small></div><span class="cu-badge" data-tone="accent">Active</span></div>
+              <div class="settings-item"><span class="settings-icon" aria-hidden="true">☰</span><div class="settings-text"><strong>Navigation</strong><small>Sidebar and menus</small></div><span aria-hidden="true">›</span></div>
+              <div class="settings-item"><span class="settings-icon" aria-hidden="true">⚙</span><div class="settings-text"><strong>System</strong><small>Application settings</small></div><span aria-hidden="true">›</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="data" aria-labelledby="data-heading">
+          <div class="section-heading"><div><h2 id="data-heading">Data &amp; status</h2><p>Compact, high-information components that stay readable across light and dark backgrounds.</p></div><span class="section-flag">Table · Badges · Progress</span></div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card full-span">
+              <h3>Data table</h3><p class="demo-subtitle">Static reference table. Sorting, pagination and virtualization are future work.</p>
+              <div class="data-table-wrap">
+                <table class="cu-table">
+                  <thead><tr><th scope="col">Component</th><th scope="col">Category</th><th scope="col">Priority</th><th scope="col">Status</th></tr></thead>
+                  <tbody>
+                    <tr><td>Button</td><td>Actions</td><td>P0</td><td><span class="cu-badge" data-tone="warning">Planned</span></td></tr>
+                    <tr><td>TextField</td><td>Inputs</td><td>P0</td><td><span class="cu-badge" data-tone="warning">Planned</span></td></tr>
+                    <tr><td>NavigationView</td><td>Navigation</td><td>P0</td><td><span class="cu-badge" data-tone="warning">Planned</span></td></tr>
+                    <tr><td>DataGrid</td><td>Data display</td><td>P2</td><td><span class="cu-badge" data-tone="warning">Planned</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Status indicators</h3><p class="demo-subtitle">Semantic color and clear labels, not color alone.</p>
+              <div class="demo-row">
+                <span class="cu-badge" data-tone="accent">Info</span><span class="cu-badge" data-tone="success">Success</span>
+                <span class="cu-badge" data-tone="warning">Pending</span><span class="cu-badge" data-tone="danger">Error</span>
+              </div>
+              <div class="preview-label">Build progress (example)</div>
+              <progress class="cu-progress" value="68" max="100" aria-label="Example progress 68 percent">68%</progress>
+              <div class="demo-row"><span class="cu-spinner" aria-label="Loading" role="img"></span><span class="cu-helper">Indeterminate loading</span></div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Loading skeleton</h3><p class="demo-subtitle">Meaningful structure while data is pending.</p>
+              <div class="demo-row">
+                <div class="cu-skeleton" aria-hidden="true" style="width:48px;height:48px;border-radius:12px"></div>
+                <div style="flex:1;min-width:110px;display:grid;gap:10px">
+                  <div class="cu-skeleton" aria-hidden="true" style="height:13px;width:65%"></div>
+                  <div class="cu-skeleton" aria-hidden="true" style="height:11px;width:90%"></div>
+                </div>
+              </div>
+              <div class="cu-helper">Skeletons are decorative placeholders; real apps must announce loading changes appropriately.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="feedback" aria-labelledby="feedback-heading">
+          <div class="section-heading"><div><h2 id="feedback-heading">Feedback &amp; overlays</h2><p>Calm messages and native dialog interactions with accessible feedback.</p></div><span class="section-flag">InfoBar · Dialog · Toast</span></div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>Inline notifications</h3><p class="demo-subtitle">Contextual messages for a task.</p>
+              <div class="demo-col">
+                <div class="cu-info"><strong>Information:</strong> Your preferences are saved on this device only.</div>
+                <div class="cu-info" data-tone="success"><strong>Success:</strong> Example validation completed.</div>
+                <div class="cu-info" data-tone="warning"><strong>Attention:</strong> No published component packages yet.</div>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Overlays</h3><p class="demo-subtitle">Try a real native modal and a dismissible toast message.</p>
+              <div class="demo-row">
+                <button class="cu-btn" data-variant="accent" type="button" id="open-dialog">Open dialog</button>
+                <button class="cu-btn" type="button" id="show-toast">Show toast</button>
+              </div>
+              <div class="preview-label">Visual layer model</div>
+              <div class="cu-subtle-panel" style="padding:15px"><span class="cu-helper">Canvas</span> → <span class="cu-helper">Surface</span> → <span class="cu-helper">Flyout</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="catalog" aria-labelledby="catalog-heading">
+          <div class="section-heading"><div><h2 id="catalog-heading">Component inventory</h2><p>Browse the complete planned backlog. These are <strong>not</strong> production components yet.</p></div><span class="section-flag" id="catalog-status">Loading catalog…</span></div>
+          <div class="catalog-tools">
+            <input class="cu-input" type="search" id="catalog-query" aria-label="Search components" placeholder="Search 128 planned components…">
+            <select class="cu-select" id="catalog-category" aria-label="Filter by category"><option value="">All categories</option></select>
+            <select class="cu-select" id="catalog-priority" aria-label="Filter by priority"><option value="">All priorities</option><option>P0</option><option>P1</option><option>P2</option></select>
+          </div>
+          <div class="catalog-grid" id="catalog-results" aria-live="polite"><p class="catalog-empty">Loading component catalog…</p></div>
+        </section>
+
+        <footer class="site-footer">
+          <strong>ComponentUI · Fluent Calm</strong> — independent Windows 11-inspired design language.
+          This gallery shows reference styles implemented with native HTML/CSS; it is not a production Web Components package.
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="sample-dialog" class="cu-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
+    <div class="cu-dialog-body">
+      <span class="eyebrow">Fluent Calm Dialog</span>
+      <h2 id="dialog-title" style="margin:7px 0 10px;font-size:22px">Confirm action</h2>
+      <p id="dialog-desc" class="cu-muted" style="font-size:14px;margin:0">This is a native HTML dialog styled with shared ComponentUI visual tokens. You can close it with Escape.</p>
+    </div>
+    <form method="dialog" class="cu-dialog-footer">
+      <button class="cu-btn" value="cancel">Cancel</button>
+      <button class="cu-btn" data-variant="accent" value="confirm">Confirm</button>
+    </form>
+  </dialog>
+  <div class="cu-toast-container" id="toast-container" aria-live="polite" aria-relevant="additions"></div>
+</body>
+</html>

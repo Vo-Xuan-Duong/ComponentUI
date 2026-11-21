@@ -49,8 +49,8 @@
   --cu-control-md: 32px;
   --cu-control-lg: 40px;
   --cu-control-xl: 48px;
-  --cu-font-body: "Segoe UI Variable", "Segoe UI", Inter, "system-ui", "sans-serif";
-  --cu-font-mono: "Cascadia Code", "JetBrains Mono", "ui-monospace", monospace;
+  --cu-font-body: "Segoe UI Variable", "Segoe UI", Inter, system-ui, sans-serif;
+  --cu-font-mono: "Cascadia Code", "JetBrains Mono", ui-monospace, monospace;
   --cu-text-xs: 12px;
   --cu-text-sm: 13px;
   --cu-text-md: 14px;

@@ -8,7 +8,7 @@
 - [x] Choose an independent visual language: Fluent Calm; reference Windows 11, avoid copying Microsoft's proprietary assets
 - [x] Identify broad audiences: web apps, dashboards, developer tooling and desktop shells
 - [ ] Approve a reference page in light and dark mode: Buttons, forms, navigation, cards, tables, dialogs, notifications
-- [ ] Specify three density profiles: compact, comfortable and touch
+- [x] Prototype three density profiles in gallery: compact, comfortable and touch (component review pending)
 - [ ] Document typography, icon policy, shape, elevation, motion, responsiveness and material fallbacks
 - [ ] Validate contrast/focus colors and obtain visual approval of keyboard and accessibility states
 
@@ -20,20 +20,20 @@
 - [ ] Audit token structure and reference resolution against DTCG format; introduce schema validation
 - [ ] Add component/state tokens (e.g. Button padding, Input height, focus ring, overlay/elevation, density)
 - [ ] Add high-contrast/reduced-transparency/reduced-motion policies; ensure accessibility variants
-- [ ] Decide theme inheritance and overrides (OS automatic mode, user-selected light/dark, custom accent)
+- [x] Implement system/light/dark preference and blue/purple/green accents for the visual gallery; future production token validation remains
 - [ ] Generate at least CSS + TS exports, and test that generated output is up-to-date
 - [ ] Document how later Flutter, SwiftUI, Compose renderers consume the same source data
 
 **Done when:** tokens can regenerate repeatably, are framework independent, and produce a complete and testable reference theme.
 
 ### F2 — Repository / toolchain
-- [ ] Establish pnpm workspace with clear package boundaries: tokens, theme, web-core, adapters, docs/playground
-- [ ] Establish TypeScript strict config, ESLint, Prettier, path aliases, package exports and browser targets
+- [x] Establish pnpm workspace for theme and playground; web-core/adapters remain planned
+- [ ] Establish TypeScript strict config, ESLint, Prettier, path aliases and browser targets; theme package export map exists
 - [ ] Choose Lit Custom Elements for web-core; keep React/Vue wrappers independent
-- [ ] Add Storybook or equivalent reference gallery and a no-framework smoke-test consumer
-- [ ] Configure Vitest, Playwright, axe accessibility checks, and locally executable cross-browser checks (Chromium, Firefox, WebKit)
+- [x] Add an HTML/JS reference gallery and no-framework visual consumer (Storybook remains optional)
+- [ ] Add Playwright + axe accessibility checks and locally executable cross-browser tests (Chromium, Firefox, WebKit)
 - [x] Add initial static integrity tests runnable locally (no GitHub Actions)
-- [ ] Run and verify local checks; ensure generated-token drift is detected by `npm run check`
+- [ ] Run and verify local checks on maintainer's machine; generated-token drift is included in `npm run check`
 - [ ] Add Changesets, release/versioning policy and package license/third-party attribution policy
 
 **Done when:** `pnpm install`, typecheck, lint, unit tests, gallery build and preview all pass locally.
@@ -55,6 +55,13 @@
 - **Do not add or run GitHub Actions**. The maintainer will run build/test commands on their own machine.
 - Local commands should include token generation/check, unit tests, lint, typecheck, and (when available) browser/visual/accessibility tests.
 - Never claim checks are passing unless the maintainer or a local execution has actually verified them.
+
+## Implemented foundation preview (not production components)
+
+- [x] Reusable Fluent Calm visual CSS classes for common controls and surfaces
+- [x] Responsive HTML reference gallery with local-only static server
+- [x] Theme/density/accent toolbar and native dialog, toast, tabs and catalog interactions
+- [x] Add Node-based theme and preview integration tests (must be verified by maintainer locally)
 
 ## First implementation wave (only after foundation gates)
 

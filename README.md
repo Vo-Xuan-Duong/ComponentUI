@@ -1,44 +1,70 @@
 # ComponentUI
 
-**ComponentUI — Fluent Calm** is a platform-agnostic personal design system inspired by the interaction clarity, geometry, typography and layered surfaces of Windows 11 / Fluent 2, adapted for web, mobile and desktop products.
+**Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current state:** Fluent Calm style specification, DTCG tokens, CSS generator, prioritized component inventory and a first Button contract. **The gallery and production components are not built yet.**
+**Current milestone — Foundation preview (v0.1.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component backlog, the first Button contract, reusable CSS reference styles, a theme preference controller and a responsive interactive gallery. **There are still 0 production-ready Web Components.** The gallery uses native HTML + CSS to validate visual direction; it is not a published component package.
 
-## Quick start
+## Preview locally
 
-Requires Node.js 20+.
+Requires Node.js 20+ (no third-party runtime dependencies in this milestone).
 
 ```bash
-npm run check
-# Gallery / preview command will be introduced in the next foundation milestone.
+git clone https://github.com/Vo-Xuan-Duong/ComponentUI.git
+cd ComponentUI
+npm run check    # static, unit and token consistency checks
+npm run preview  # http://127.0.0.1:4173/apps/playground-web/
 ```
 
-No third-party dependencies are needed for this first foundation milestone. **No GitHub Actions workflows are used; build and test are run locally.**
+Open [local preview](http://127.0.0.1:4173/apps/playground-web/). Use the top toolbar to switch **System / Light / Dark**, **Compact / Comfortable / Touch** and the **Blue / Purple / Green** accent palette. Test native dialog, toasts, keyboard-accessible tabs and the searchable planned-component catalog. Open the gallery through the server, **not** by double-clicking its HTML file (JSON fetch requires HTTP).
 
-## Source of truth
+> **Local-only policy:** GitHub Actions are deliberately not used. The maintainer performs all builds and tests locally. None of the implementation should be described as verified until local checks are actually run.
 
-- `design-system/tokens/fluent-calm.tokens.json` — platform-independent tokens in DTCG format.
-- `design-system/components/catalog.json` — complete component backlog with priorities and implementation status.
-- `design-system/components/button.contract.json` — first canonical behavior/API contract.
-- `packages/theme/src/tokens.css` — **generated**, do not edit manually.
-- `docs/FOUNDATION_PLAN.md` — local-only roadmap; web component gallery and preview are planned, not yet implemented.
-
-## Repository evolution
+## Current structure
 
 ```text
-design-system/  -> tokens, assets, contracts
-packages/theme/ -> CSS & theme output
-packages/web/   -> future Lit/Web Components
-packages/react/ -> future React wrappers
-packages/vue/   -> future Vue integration
-packages/native/-> future native renderers (only when needed)
-apps/           -> gallery, docs and platform playgrounds
+design-system/
+  tokens/fluent-calm.tokens.json       # Source of truth: DTCG tokens
+  components/catalog.json             # 128 planned component/pattern entries
+  components/button.contract.json     # Initial behavior and API contract
+packages/
+  theme/
+    src/tokens.css                    # Generated tokens; do not edit
+    src/components.css                # Reusable preview visual primitives (not Web Components)
+    src/theme.js                      # Framework-neutral theme preference controller
+apps/
+  playground-web/
+    index.html                        # Responsive gallery; no framework dependencies
+    main.js                           # Native demo interactions and catalog browser
+    styles.css                        # Gallery-specific layout
+scripts/build-tokens.mjs              # Generate / check CSS output
+scripts/serve.mjs                     # Local static preview server
+tests/                                # Node built-in test runner
+pnpm-workspace.yaml                   # Future monorepo package boundaries
 ```
 
-One visual specification does not mean one code renderer: Web Components can be reused across browser frameworks; React Native, Flutter, SwiftUI and native UI require implementations matching their rendering/runtime systems.
+## Scripts
 
-## Design and licensing
+| Script | Function |
+| --- | --- |
+| `npm run preview` | Local gallery server |
+| `npm run tokens:build` | Rebuild generated CSS from token JSON |
+| `npm run tokens:check` | Verify generated CSS is current |
+| `npm run syntax:check` | Check JavaScript syntax |
+| `npm test` | Node-based foundation + preview checks |
+| `npm run check` | Token + syntax + unit checks |
 
-Fluent Calm is **inspired by** Windows 11, not an official Microsoft design system or an implementation of Microsoft's proprietary UI assets. Do not copy Windows icons, wallpapers or fonts into the repository. Prefer system font fallbacks and appropriately licensed icon packages.
+The pnpm workspace is prepared for future `web-core`, React/Vue adapters and native renderers. They are **not implemented yet**. Web Components work across DOM-based frameworks; Flutter, React Native and SwiftUI require separate platform renderers.
 
-See [Foundation Plan](docs/FOUNDATION_PLAN.md), [Style Guide](docs/STYLE_GUIDE.md), [Component Catalog](docs/COMPONENTS.md), and [Architecture](docs/ARCHITECTURE.md).
+## Documentation
+
+- [Foundation milestones](docs/FOUNDATION_PLAN.md)
+- [Local development](docs/LOCAL_DEVELOPMENT.md)
+- [Fluent Calm style guide](docs/STYLE_GUIDE.md)
+- [Component inventory](docs/COMPONENTS.md)
+- [Architecture](docs/ARCHITECTURE.md)
+
+## Design references and ownership
+
+Fluent Calm draws inspiration from Windows 11 but is not an official Microsoft Design System, nor a reproduction of proprietary UI assets. Do not bundle Microsoft-owned fonts, icons or wallpapers. See [Microsoft Fluent 2](https://fluent2.microsoft.design/).
+
+No package has been published. Licensing and third-party attribution policy must be finalized before any external release.
