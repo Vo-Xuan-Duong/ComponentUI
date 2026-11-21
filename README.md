@@ -2,7 +2,7 @@
 
 **ComponentUI — Fluent Calm** is a platform-agnostic personal design system inspired by the interaction clarity, geometry, typography and layered surfaces of Windows 11 / Fluent 2, adapted for web, mobile and desktop products.
 
-**Current state:** Style specification, DTCG tokens, generator, complete component inventory and an interactive HTML/CSS gallery. The gallery showcases visual primitives and native HTML interactions; it is **not** a published library of production-ready components.
+**Current state:** Fluent Calm style specification, DTCG tokens, CSS generator, prioritized component inventory and a first Button contract. **The gallery and production components are not built yet.**
 
 ## Quick start
 
@@ -10,8 +10,7 @@ Requires Node.js 20+.
 
 ```bash
 npm run check
-npm run preview
-# Open http://localhost:4173/apps/playground-web/
+# Gallery / preview command will be introduced in the next foundation milestone.
 ```
 
 No third-party dependencies are needed for this first foundation milestone.
@@ -43,4 +42,4 @@ One visual specification does not mean one code renderer: Web Components can be 
 
 Fluent Calm is **inspired by** Windows 11, not an official Microsoft design system or an implementation of Microsoft's proprietary UI assets. Do not copy Windows icons, wallpapers or fonts into the repository. Prefer system font fallbacks and appropriately licensed icon packages.
 
-See [Style Guide](docs/STYLE_GUIDE.md), [Component Catalog](docs/COMPONENTS.md), and [Architecture](docs/ARCHITECTURE.md).
+See [Foundation Plan](docs/FOUNDATION_PLAN.md), [Style Guide](docs/STYLE_GUIDE.md), [Component Catalog](docs/COMPONENTS.md), and [Architecture](docs/ARCHITECTURE.md).
