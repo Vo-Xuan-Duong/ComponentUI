@@ -1,6 +1,6 @@
 # Component inventory
 
-All 128 entries in [catalog.json](../design-system/components/catalog.json) are **planned**. The [Fluent Calm gallery](../apps/playground-web/) demonstrates reference visual styles only, using native HTML and CSS. It is **not** a gallery of published components.
+The catalog currently has **120 planned**, **8 preview**, and **0 production-ready** entries. Preview status means an HTML/CSS/JS reference is available, not a tested/published Web Component. The [Fluent Calm gallery](../apps/playground-web/) demonstrates reference visual styles only, using native HTML and CSS. It is **not** a gallery of published components.
 
 - **P0 — 40:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls

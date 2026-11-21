@@ -11,7 +11,7 @@ test("Component catalog contains unique names and priorities", async () => {
   for (const group of data.groups) for (const item of group.components) {
     assert.match(item.name, /^[A-Z][a-zA-Z0-9]+$/);
     assert.ok(["P0", "P1", "P2"].includes(item.priority));
-    assert.equal(item.status, "planned");
+    assert.ok(["planned", "preview", "ready"].includes(item.status));
   }
 });
 test("Token names and theme roles are consistent", async () => {

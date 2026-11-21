@@ -144,8 +144,9 @@ function createCatalogEntry(component) {
   body.append(name, meta);
   const badge = document.createElement("span");
   badge.className = "cu-badge";
-  badge.dataset.tone = "warning";
-  badge.textContent = component.priority + " · Planned";
+  badge.dataset.tone = component.status === "preview" ? "accent" : component.status === "ready" ? "success" : "warning";
+  const statusLabel = component.status.charAt(0).toUpperCase() + component.status.slice(1);
+  badge.textContent = component.priority + " · " + statusLabel;
   entry.append(body, badge);
   return entry;
 }
@@ -167,7 +168,7 @@ function renderCatalog() {
     fragment.append(empty);
   }
   catalogContainer.replaceChildren(fragment);
-  document.getElementById("catalog-status").textContent = `${matches.length} of ${allComponents.length} planned`;
+  document.getElementById("catalog-status").textContent = `${matches.length} of ${allComponents.length} catalog entries`;
 }
 [searchInput, categorySelect, prioritySelect].forEach(control => control.addEventListener("input", renderCatalog));
 
@@ -187,7 +188,7 @@ async function loadCatalog() {
     });
     document.getElementById("metric-components").textContent = String(allComponents.length);
     document.getElementById("metric-categories").textContent = String(catalog.groups.length);
-    searchInput.placeholder = `Search ${allComponents.length} planned components…`;
+    searchInput.placeholder = `Search ${allComponents.length} catalog entries…`;
     renderCatalog();
   } catch {
     catalogContainer.replaceChildren();
