@@ -30,7 +30,7 @@ Design tokens and contracts are the common source. A Web Component does not run 
 - `packages/theme/` generated tokens and styles
 - `packages/web/` future Web Components
 - `packages/react/` / `packages/vue/` future wrappers
-- `apps/playground-web/` current visual gallery
+- `apps/playground-web/` planned visual gallery (not implemented yet)
 - `tests/` static integrity tests now; Playwright, visual and accessibility tests later
 
 ## Safe upgrade path
