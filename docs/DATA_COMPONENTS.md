@@ -13,7 +13,7 @@ React/Vue integration require local verification before production.
 
 | Tag | Main API | Events | Interaction |
 | --- | --- | --- | --- |
-| `cu-data-table` | `.columns`, `.rows`, `.page`, `page-size`, `selectable`, `row-action` | `cu-sort`, `cu-page-change`, `cu-selection-change`, `cu-row-activate` | Sortable table headers, selection checkboxes, page buttons |
+| `cu-data-table` | `.columns`, `.rows`, `.rowActions`, `.page`, `page-size`, `selectable` | `cu-sort`, `cu-page-change`, `cu-selection-change`, `cu-row-action` (legacy `cu-row-activate`) | Sortable headers, checkboxes, right-click or Shift+F10 row menu, pagination |
 | `cu-tree-view` | `label`, `value` and nested `cu-tree-item` elements | `cu-change`, `cu-toggle` | Arrow navigation, expand/collapse, Home/End, Enter |
 | `cu-listbox` | `name`, `value`, `label`, `required`; child `cu-list-option` | `cu-input`, `cu-change` | Single select, arrow keys, Enter/Space, FormData |
 | `cu-combobox` | `name`, `value`, `label`, `placeholder`; child `cu-combo-option` | `cu-input` (query), `cu-change` (committed value) | Editable filtering, Arrow keys, Enter, Escape |
@@ -47,7 +47,7 @@ published npm packages.
 
 ```html
 <cu-data-table id="projects" caption="Projects" page-size="5"
-  selectable row-action="Open"></cu-data-table>
+  selectable></cu-data-table>
 ```
 
 ```js
@@ -62,14 +62,21 @@ table.rows = [
   { id: "ui", name: "ComponentUI", owner: "Dev", status: "Draft" }
 ];
 
+table.rowActions = [
+  { value: "open", label: "Open" },
+  { value: "rename", label: "Rename" },
+  { value: "archive", label: "Archive", disabled: row => row.status === "Draft" }
+];
+
 table.addEventListener("cu-sort", event => {
   console.log(event.detail.key, event.detail.direction);
 });
 table.addEventListener("cu-selection-change", event => {
   console.log(event.detail.selectedIds);
 });
-table.addEventListener("cu-row-activate", event => {
-  console.log(event.detail.id, event.detail.row);
+table.addEventListener("cu-row-action", event => {
+  // {action, label, id, row}; perform the action in the host application.
+  console.log(event.detail.action, event.detail.id, event.detail.row);
 });
 ```
 
@@ -79,7 +86,19 @@ stable unique `id` values for selection. Table cells use `textContent`,
 not unsanitized HTML. Sorting is stable for equal keys and handles
 numeric values; pagination is client-side and clamps to a valid page.
 `page-size` is capped at 100. `loading` shows a loading row.
-`row-action` creates real buttons for accessible row activation.
+actions are no longer rendered in a dedicated table column. Instead, set
+`.rowActions` to an array of `{value,label,disabled?}` (the optional
+`disabled` can be a boolean or a per-row predicate). Right-click any
+actionable row to open the shared `cu-context-menu`; focused rows support the
+ContextMenu key and Shift+F10, and the flyout supports Up/Down, Home/End,
+Escape, disabled entries and focus return. A row is focusable only when it has
+actions. Opening an action menu highlights its row without changing checkbox
+selection. Use `cu-row-action` with `{action,label,id,row}` to handle actions
+in the application; the table never performs destructive actions itself.
+`row-action="Open"` is retained as a deprecated compatibility alias: it
+creates a single **context-menu item**, not a button or actions column, and
+also emits `cu-row-activate` when chosen. There is no menu on rows without
+configured actions.
 
 This is a **basic client-side DataTable**, not a virtualized DataGrid:
 server-side pagination, 100k-row virtualization, column resizing, drag
@@ -178,11 +197,11 @@ operations itself. Provide a focusable slotted target.
 
 React wrapper factories in `packages/react/` include all five components
 and their declarative child tags. Controlled properties for DataTable
-(`rows`, `columns`, `page`), TreeView (`value`), ListBox (`value`,
+(`rows`, `columns`, `rowActions`, `page`), TreeView (`value`), ListBox (`value`,
 `required`, `disabled`) and Combobox (`value`, `disabled`) are
 assigned as DOM properties, not stringified attributes.
 Events include `onCuSort`, `onCuPageChange`,
-`onCuSelectionChange`, `onCuRowActivate`, `onCuToggle`,
+`onCuSelectionChange`, `onCuRowAction`, `onCuRowActivate`, `onCuToggle`,
 `onCuChange`, `onCuSelect`.
 
 Vue 3 uses the same existing `cu-*` compiler predicate. DataTable
@@ -195,7 +214,10 @@ validate this and SSR behavior locally.
 2. Test Light/Dark and Compact/Comfortable/Touch densities at desktop,
    320px and 200% zoom. Confirm table horizontally scrolls.
 3. Sort numeric and text columns and verify page transitions, stable
-   selections, disabled states and empty/loading rows.
+   selections, disabled states and empty/loading rows. Right-click rows and
+   use Shift+F10/ContextMenu, Arrow keys, Escape and pointer dismissal;
+   verify disabled per-row actions, focus restoration, no Actions column,
+   no automatic checkbox selection and correct `cu-row-action` details.
 4. Navigate nested TreeView using only the keyboard and verify the
    expanded/current/selected screen-reader states.
 5. Check ListBox submission and reset, disabled options and
