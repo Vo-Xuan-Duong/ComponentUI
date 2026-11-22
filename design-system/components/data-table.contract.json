@@ -11,7 +11,10 @@
     "sortKey": "readonly string",
     "sortDirection": "asc|desc",
     "selectedIds": "readonly string[]",
-    "rowActions": "{value,label?,disabled?:boolean|(row)=>boolean}[] via JS property"
+    "rowActions": "{value,label?,disabled?:boolean|(row)=>boolean}[] via JS property",
+    "headerActions": "{value,label?,disabled?:boolean|(column)=>boolean}[] via JS property; appends custom header items",
+    "hiddenColumnKeys": "readonly string[]",
+    "visibleColumnKeys": "readonly string[]"
   },
   "attributes": {
     "caption": "string",
@@ -26,16 +29,22 @@
     "cu-page-change",
     "cu-selection-change",
     "cu-row-activate",
-    "cu-row-action"
+    "cu-row-action",
+    "cu-header-action",
+    "cu-column-visibility-change"
   ],
   "methods": [
-    "clearSelection()"
+    "clearSelection()",
+    "clearSort()",
+    "hideColumn(key)",
+    "showAllColumns()"
   ],
   "accessibility": {
     "base": "native table/caption/headers",
     "sorting": "aria-sort, buttons",
     "selection": "labeled checkbox",
     "action": "right-click context menu, row keyboard target with Shift+F10/ContextMenu, menuitems, disabled handling and focus restoration",
-    "responsive": "horizontal scroll"
+    "responsive": "horizontal scroll",
+    "headerMenu": "right-click/Shift+F10/ContextMenu on column header; sortable headers keep native buttons; non-sortable headers focusable; sorting + column visibility menus"
   }
 }
