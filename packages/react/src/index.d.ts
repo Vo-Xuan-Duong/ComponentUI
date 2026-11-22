@@ -12,6 +12,7 @@ export interface CuEventDetails {
   withoutNavigation?: boolean;
   index?: number;
   label?: string;
+  action?: string;
   type?: string;
   returnValue?: string;
   key?: string;
@@ -56,6 +57,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   iconName?: IconName;
   columns?: {key:string;label?:string;sortable?:boolean}[];
   rows?: Record<string,unknown>[];
+  rowActions?: {value:string;label?:string;
+    disabled?:boolean|((row:Record<string,unknown>)=>boolean)}[];
   page?: number;
   onCuPress?: (event: CuEvent) => void;
   onCuInput?: (event: CuEvent) => void;
@@ -72,6 +75,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuPageChange?: (event: CuEvent) => void;
   onCuSelectionChange?: (event: CuEvent) => void;
   onCuRowActivate?: (event: CuEvent) => void;
+  onCuRowAction?: (event: CuEvent) => void;
   onCuToggle?: (event: CuEvent) => void;
   onCuDismiss?: (event: CuEvent) => void;
 };
