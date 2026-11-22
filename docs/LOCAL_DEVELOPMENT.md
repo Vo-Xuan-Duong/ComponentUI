@@ -83,3 +83,13 @@ for the detailed acceptance matrix.
 
 No GitHub Actions are added or executed. Node source tests are not
 a substitute for browser or screen-reader validation.
+
+## Select consistency audit — v0.8.1
+
+The five remaining native dropdowns in Playground are now
+`cu-select`: Theme, Density, Project type, Catalog Category and
+Catalog Priority. They all use Fluent Calm hover/selected states.
+Choose a dynamic catalog category to verify that appended `option`
+children render. The new `tests/select-consistency.test.mjs`
+guards against native `<select>` returning to Playground.
+See [SELECT_UI.md](SELECT_UI.md) for the complete local checklist.

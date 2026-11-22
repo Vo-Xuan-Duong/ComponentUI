@@ -281,3 +281,15 @@ All remain **preview**, pending browser and accessibility verification.
 
 Read [DATA_COMPONENTS.md](DATA_COMPONENTS.md) for APIs, events, markup and
 limitations. No GitHub Actions are required.
+
+## Playground single-choice dropdown migration — v0.8.1
+
+All interactive single-choice dropdowns in the Playground now use
+`cu-select`. The five previously native OS dropdowns were migrated
+without changing the public HTML value semantics: Theme, Density,
+Project type, Catalog Category, Catalog Priority. Use `cu-change`
+rather than a native `change` listener. The component observes
+dynamic `option` insertions at host level, which the catalog JSON
+population depends on. The selected checkmark uses Lucide SVG.
+
+See [SELECT_UI.md](SELECT_UI.md) for the audit and manual validation.

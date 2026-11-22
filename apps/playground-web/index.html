@@ -46,13 +46,13 @@
         <div class="toolbar-options" aria-label="Preview preferences">
           <button type="button" class="cu-btn" data-size="sm" id="open-command" aria-keyshortcuts="Control+K Meta+K">Search <kbd>Ctrl K</kbd></button>
           <label class="cu-helper" for="theme-select">Theme</label>
-          <select class="toolbar-select" id="theme-select" aria-label="Theme">
+          <cu-select class="toolbar-select" id="theme-select" aria-label="Theme" value="system">
             <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
-          </select>
+          </cu-select>
           <label class="cu-helper" for="density-select">Density</label>
-          <select class="toolbar-select" id="density-select" aria-label="Control density">
+          <cu-select class="toolbar-select" id="density-select" aria-label="Control density" value="comfortable">
             <option value="comfortable">Comfortable</option><option value="compact">Compact</option><option value="touch">Touch</option>
-          </select>
+          </cu-select>
           <div class="accent-picker" role="group" aria-label="Accent color">
             <button class="accent-swatch" type="button" data-accent="blue" aria-label="Blue accent" aria-pressed="true"></button>
             <button class="accent-swatch" type="button" data-accent="purple" aria-label="Purple accent" aria-pressed="false"></button>
@@ -163,10 +163,12 @@
                   <label class="cu-field"><span class="cu-label">Display name</span><input class="cu-input" name="display-name" placeholder="e.g. Alex Nguyen" autocomplete="name" required></label>
                   <label class="cu-field"><span class="cu-label">Email address</span><input class="cu-input" type="email" name="email" placeholder="alex@example.com" autocomplete="email" required></label>
                 </div>
-                <label class="cu-field"><span class="cu-label">Project type</span>
-                  <select class="cu-select" name="project"><option>Web application</option><option>Desktop application</option><option>Mobile application</option></select>
-                  <span class="cu-helper">Used only for this visual demonstration.</span>
-                </label>
+                <cu-select name="project" label="Project type" value="Web application"
+                  hint="Used only for this visual demonstration.">
+                  <option value="Web application">Web application</option>
+                  <option value="Desktop application">Desktop application</option>
+                  <option value="Mobile application">Mobile application</option>
+                </cu-select>
                 <label class="cu-field"><span class="cu-label">Description</span><textarea class="cu-textarea" name="description" placeholder="Tell us about the project..."></textarea></label>
                 <div class="demo-row"><button type="submit" class="cu-btn" data-variant="accent">Save details</button><button type="reset" class="cu-btn" data-variant="subtle">Reset</button></div>
               </form>
@@ -408,9 +410,9 @@
 
             <article class="cu-surface demo-card">
               <h3>Select &amp; RadioGroup</h3>
-              <p class="demo-subtitle">Shadow DOM controls with native option and radio semantics plus FormData integration.</p>
+              <p class="demo-subtitle">Fluent Calm custom Select listbox with keyboard navigation, native RadioGroup semantics and FormData integration.</p>
               <form class="cu-web-form" id="wc-choice-form">
-                <cu-select name="framework" label="Target framework" required hint="Native select keyboard navigation">
+                <cu-select name="framework" label="Target framework" required hint="Arrow keys to navigate, Enter to choose, Escape to close">
                   <option value="">Select a framework…</option>
                   <optgroup label="Web">
                     <option value="react">React / Next.js</option>
@@ -726,8 +728,8 @@ vue({ template: { compilerOptions: {
           <div class="section-heading"><div><h2 id="catalog-heading">Component inventory</h2><p>Browse planned and preview entries. Preview components are <strong>not</strong> production-ready releases.</p></div><span class="section-flag" id="catalog-status">Loading catalog…</span></div>
           <div class="catalog-tools">
             <input class="cu-input" type="search" id="catalog-query" aria-label="Search components" placeholder="Search component catalog…">
-            <select class="cu-select" id="catalog-category" aria-label="Filter by category"><option value="">All categories</option></select>
-            <select class="cu-select" id="catalog-priority" aria-label="Filter by priority"><option value="">All priorities</option><option>P0</option><option>P1</option><option>P2</option></select>
+            <cu-select class="catalog-select" id="catalog-category" aria-label="Filter by category" value=""><option value="">All categories</option></cu-select>
+            <cu-select class="catalog-select" id="catalog-priority" aria-label="Filter by priority" value=""><option value="">All priorities</option><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option></cu-select>
           </div>
           <div class="catalog-grid" id="catalog-results" aria-live="polite"><p class="catalog-empty">Loading component catalog…</p></div>
         </section>

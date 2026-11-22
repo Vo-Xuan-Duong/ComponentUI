@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Data & navigation components (v0.8.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and twenty-seven experimental browser Custom Elements. **There are 27 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — Select consistency across Playground (v0.8.1):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and twenty-seven experimental browser Custom Elements. **There are 27 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -11,6 +11,8 @@
 **New in v0.7.0:** six native browser components—`Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`, and `Breadcrumb`—cover layout, loading, status and navigation. Their interactive previews are in the Real Web Components gallery. All remain experimental and use Fluent Calm tokens and locally bundled Lucide icons.
 
 **New in v0.8.0:** implemented `DataTable`, `TreeView`, `ListBox`, `Combobox` and `ContextMenu` with keyboard/pointer interactions, Fluent Calm tokens, Lucide icons, API contracts and Playground demonstrations. The catalog now contains 129 entries; 32 are preview and none are production-certified. See [Data component API](docs/DATA_COMPONENTS.md).
+
+**Select UI consistency (v0.8.1):** All five browser-native `<select>` controls previously in Playground (Theme, Density, Project type, Catalog Category and Priority) now use the same Fluent Calm `<cu-select>` Web Component. The category filter's dynamically appended options are supported, and selection events use `cu-change`. A regression test prevents native select markup from returning. See [Select UI](docs/SELECT_UI.md).
 
 ## Preview locally
 

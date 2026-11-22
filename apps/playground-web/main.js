@@ -41,8 +41,8 @@ function setPreferences(next) {
 }
 
 setPreferences(loadPreferences());
-themeControl.addEventListener("change", () => setPreferences({ theme: themeControl.value }));
-densityControl.addEventListener("change", () => setPreferences({ density: densityControl.value }));
+themeControl.addEventListener("cu-change", event => setPreferences({ theme: event.detail.value }));
+densityControl.addEventListener("cu-change", event => setPreferences({ density: event.detail.value }));
 swatches.forEach(button => {
   button.addEventListener("click", () => setPreferences({ accent: button.dataset.accent }));
 });
@@ -173,7 +173,9 @@ function renderCatalog() {
   catalogContainer.replaceChildren(fragment);
   document.getElementById("catalog-status").textContent = `${matches.length} of ${allComponents.length} catalog entries`;
 }
-[searchInput, categorySelect, prioritySelect].forEach(control => control.addEventListener("input", renderCatalog));
+searchInput.addEventListener("input", renderCatalog);
+categorySelect.addEventListener("cu-change", renderCatalog);
+prioritySelect.addEventListener("cu-change", renderCatalog);
 
 async function loadCatalog() {
   try {

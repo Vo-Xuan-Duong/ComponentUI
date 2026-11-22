@@ -204,9 +204,13 @@ export class CuSelect extends BrowserElement {
     if (globalThis.MutationObserver) {
       this._observer?.disconnect();
       this._observer = new MutationObserver(records => {
-        const changed = records.some(record => record.target !== this &&
-          (record.type === "childList" || record.type === "characterData" ||
-           ["value","label","selected","disabled"].includes(record.attributeName)));
+        // The host itself receives childList mutations when callers append
+        // options dynamically (e.g. catalog filters). Only skip changes to
+        // the host's own attributes, never its newly inserted children.
+        const changed = records.some(record =>
+          record.type === "childList" || record.type === "characterData" ||
+          (record.type === "attributes" && record.target !== this &&
+            ["value","label","selected","disabled"].includes(record.attributeName)));
         if (changed) this._renderOptions();
       });
       this._observer.observe(this,{
@@ -325,10 +329,12 @@ export class CuSelect extends BrowserElement {
       item.setAttribute("aria-selected","false");
       const text = document.createElement("span");
       text.textContent = option.label;
-      const check = document.createElement("span");
+      // Keep selection icons consistent with the rest of ComponentUI.
+      const check = document.createElement("cu-icon");
       check.className = "check";
+      check.setAttribute("name","check");
+      check.setAttribute("size","16");
       check.setAttribute("aria-hidden","true");
-      check.textContent = "✓";
       item.append(text,check);
       target.append(item);
       this._optionNodes.push(item);
