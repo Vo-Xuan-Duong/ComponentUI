@@ -1,0 +1,18 @@
+{
+  "name": "Divider",
+  "tag": "cu-divider",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Separate sections without accent decoration",
+  "attributes": {
+    "orientation": "horizontal|vertical",
+    "tone": "normal|strong",
+    "decorative": "boolean"
+  },
+  "slots": [],
+  "events": [],
+  "accessibility": {
+    "semantics": "separator by default; presentation and aria-hidden when decorative",
+    "orientation": "aria-orientation follows orientation"
+  }
+}

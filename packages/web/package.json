@@ -1,6 +1,6 @@
 {
   "name": "@componentui/web",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
@@ -78,6 +78,30 @@
     "./components/icon": {
       "types": "./src/components/index.d.ts",
       "default": "./src/components/icon.js"
+    },
+    "./components/card": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/card.js"
+    },
+    "./components/divider": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/divider.js"
+    },
+    "./components/skeleton": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/skeleton.js"
+    },
+    "./components/spinner": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/spinner.js"
+    },
+    "./components/alert": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/alert.js"
+    },
+    "./components/breadcrumb": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/breadcrumb.js"
     }
   }
 }

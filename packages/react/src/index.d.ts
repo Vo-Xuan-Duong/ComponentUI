@@ -58,4 +58,5 @@ export declare function createReactComponents(React: typeof import("react")):
   Record<"Button" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
   "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" |
-  "Avatar" | "Menu" | "MenuItem" | "Icon", ReactCuComponent>;
+  "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
+  "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem", ReactCuComponent>;

@@ -513,6 +513,82 @@
               </div>
               <p id="wc-menu-result" class="cu-helper" role="status">Select a menu command to see the event payload.</p>
             </article>
+
+            <article class="cu-surface demo-card">
+              <h3>Card &amp; Divider</h3>
+              <p class="demo-subtitle">Reusable surface composition: named header/footer slots and a semantic separator.</p>
+              <cu-card variant="elevated">
+                <h4 slot="header" class="cu-card-preview-title">Workspace overview</h4>
+                <p class="cu-card-preview-copy">Use cards to group related content without adding decorative accent bars.</p>
+                <div class="cu-web-stats"><span>Projects <strong>12</strong></span>
+                  <cu-divider orientation="vertical"></cu-divider>
+                  <span>Active <strong>8</strong></span></div>
+                <cu-button slot="footer" size="sm" variant="outline" id="wc-card-action">
+                  <cu-icon name="folder-open" size="16"></cu-icon> View projects
+                </cu-button>
+              </cu-card>
+              <div class="cu-web-variants">
+                <cu-card variant="flat">Flat surface</cu-card>
+                <cu-card variant="outline">Outline surface</cu-card>
+              </div>
+              <cu-divider></cu-divider>
+              <p class="cu-helper">Card uses slots; Divider supports horizontal and vertical orientation.</p>
+            </article>
+
+            <article class="cu-surface demo-card">
+              <h3>Skeleton &amp; Spinner</h3>
+              <p class="demo-subtitle">Loading placeholders and status indicators, with reduced-motion support.</p>
+              <div class="cu-web-form">
+                <div class="cu-web-skeleton" id="wc-loading-preview" aria-busy="true" aria-label="Loading account details">
+                  <cu-skeleton shape="circle" width="44" height="44"></cu-skeleton>
+                  <div class="cu-web-skeleton-lines">
+                    <cu-skeleton width="60%" height="14"></cu-skeleton>
+                    <cu-skeleton width="90%" height="12"></cu-skeleton>
+                    <cu-skeleton width="75%" height="12"></cu-skeleton>
+                  </div>
+                </div>
+                <div class="cu-web-loaded" id="wc-loaded-preview" hidden>
+                  <cu-avatar name="Alex Nguyen" size="lg"></cu-avatar>
+                  <div><strong>Alex Nguyen</strong><p class="cu-helper">Account information loaded</p></div>
+                </div>
+                <div class="demo-row">
+                  <cu-spinner size="sm" label="Working"></cu-spinner>
+                  <cu-spinner size="lg" label="Loading content"></cu-spinner>
+                </div>
+                <cu-button id="wc-toggle-loading" size="sm" variant="outline">Show loaded content</cu-button>
+              </div>
+            </article>
+
+            <article class="cu-surface demo-card">
+              <h3>Alert</h3>
+              <p class="demo-subtitle">Semantic feedback with Lucide icons and no left-edge accent stripe.</p>
+              <div class="cu-web-form">
+                <cu-alert tone="info" title="Information">You can customize each component with Fluent Calm tokens.</cu-alert>
+                <cu-alert tone="success" title="Saved successfully">Your workspace settings are up to date.</cu-alert>
+                <cu-alert tone="warning" title="Action required">Review these settings before publishing.</cu-alert>
+                <cu-alert id="wc-alert-dismissible" tone="danger" title="Connection failed" dismissible>
+                  Try again or dismiss this message.
+                </cu-alert>
+                <cu-button id="wc-alert-restore" variant="outline" size="sm">Restore alert</cu-button>
+              </div>
+            </article>
+
+            <article class="cu-surface demo-card">
+              <h3>Breadcrumb</h3>
+              <p class="demo-subtitle">Accessible path navigation using actual links and Lucide chevrons.</p>
+              <div class="cu-web-form">
+                <cu-breadcrumb label="Project location" id="wc-breadcrumb">
+                  <cu-breadcrumb-item href="#overview">Home</cu-breadcrumb-item>
+                  <cu-breadcrumb-item href="#web-components">Components</cu-breadcrumb-item>
+                  <cu-breadcrumb-item current>Feedback</cu-breadcrumb-item>
+                </cu-breadcrumb>
+                <cu-divider></cu-divider>
+                <div class="demo-row">
+                  <cu-button id="wc-breadcrumb-toggle" size="sm" variant="outline">Switch last page</cu-button>
+                </div>
+                <p class="cu-helper">Try keyboard Tab navigation; the current page is announced using aria-current.</p>
+              </div>
+            </article>
             <article class="cu-surface demo-card full-span">
               <h3>Modal Dialog as a Custom Element</h3>
               <p class="demo-subtitle">Try a real <code>&lt;cu-dialog&gt;</code> with built-in native modal focus and <code>cu-close</code> event.</p>

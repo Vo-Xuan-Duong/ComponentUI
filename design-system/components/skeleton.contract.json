@@ -1,0 +1,20 @@
+{
+  "name": "Skeleton",
+  "tag": "cu-skeleton",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Visual placeholders during content loading",
+  "attributes": {
+    "width": "CSS length or positive px number",
+    "height": "CSS length or positive px number",
+    "shape": "line|pill|rect|circle",
+    "animated": "true|false"
+  },
+  "slots": [],
+  "events": [],
+  "accessibility": {
+    "semantics": "aria-hidden decorative",
+    "note": "Put aria-busy or a status message on the surrounding loading region",
+    "motion": "Animation suppressed for reduced-motion"
+  }
+}

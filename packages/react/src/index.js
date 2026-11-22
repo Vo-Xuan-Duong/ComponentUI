@@ -14,7 +14,9 @@ export const REACT_TAGS = Object.freeze({
   DatePicker:"cu-date-picker", Slider:"cu-slider",
   ProgressBar:"cu-progress-bar", Badge:"cu-badge",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
-  Icon:"cu-icon"
+  Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
+  Skeleton:"cu-skeleton", Spinner:"cu-spinner", Alert:"cu-alert",
+  Breadcrumb:"cu-breadcrumb", BreadcrumbItem:"cu-breadcrumb-item"
 });
 
 export const REACT_EVENT_PROPS = Object.freeze({

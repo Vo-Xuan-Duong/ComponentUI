@@ -1,7 +1,7 @@
 
-# ComponentUI Web Components — Experimental v0.4.0
+# ComponentUI Web Components — Experimental v0.7.0
 
-Sixteen **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
+Twenty-two **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
 
 ## Registration
 
@@ -84,7 +84,7 @@ The browser version must support `ElementInternals` for form participation. In o
 
 ### Release status
 
-All sixteen are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
+All twenty-two are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
 
 ## Run locally (no Actions)
 
@@ -258,3 +258,14 @@ The accent-colored leading bar has been removed from Select option hover and ver
 ## Icon system — v0.5.0
 
 The `<cu-icon>` Custom Element now provides Lucide SVG icons through a local `@componentui/icons` data package. It is not a counted entry in the 128-item catalog (IconButton is a separate planned interactive control). Import `packages/web/src/components/icon.js` or the main index to register it. Use `<cu-icon name="plus" size="18"></cu-icon>` inside labeled buttons, or set `label` when the icon itself must be announced. See [ICON_SYSTEM.md](ICON_SYSTEM.md) for examples and third-party license terms.
+
+## Fourth component batch — v0.7.0
+
+Six new Custom Elements are available: `cu-card`, `cu-divider`,
+`cu-skeleton`, `cu-spinner`, `cu-alert`, and `cu-breadcrumb`. The
+`cu-breadcrumb-item` tag is a declarative child definition rather than a
+separate standalone catalog item. They all reuse Fluent Calm semantic tokens,
+without decorative left-edge accent bars.
+
+See [Display & Feedback API](DISPLAY_FEEDBACK.md) for usage examples, slots,
+ARIA semantics, responsive states and manual acceptance requirements.

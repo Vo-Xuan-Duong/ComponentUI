@@ -1,0 +1,21 @@
+{
+  "name": "Card",
+  "tag": "cu-card",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Group related information with optional header and footer slots",
+  "attributes": {
+    "variant": "default|flat|outline|elevated"
+  },
+  "slots": [
+    "header",
+    "default",
+    "footer"
+  ],
+  "events": [],
+  "accessibility": {
+    "semantics": "article",
+    "keyboard": "No interactive card wrapper; nested buttons/links handle focus",
+    "note": "Never make a whole card clickable when interactive descendants exist"
+  }
+}

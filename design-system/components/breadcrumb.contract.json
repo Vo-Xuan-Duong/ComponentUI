@@ -1,0 +1,20 @@
+{
+  "name": "Breadcrumb",
+  "tag": "cu-breadcrumb",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Expose page hierarchy through safe real navigation links",
+  "attributes": {
+    "label": "string"
+  },
+  "slots": [
+    "declarative cu-breadcrumb-item children"
+  ],
+  "events": [],
+  "accessibility": {
+    "semantics": "nav with ordered list",
+    "current": "explicit current item or last item with aria-current=page",
+    "separators": "Lucide icons are decorative"
+  },
+  "security": "Reject non-http(s), mailto and unsafe protocol hrefs"
+}

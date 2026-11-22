@@ -183,3 +183,20 @@ body { min-width: 320px; }
   background:var(--cu-surface-alt);color:var(--cu-text);
   font:12px/1.65 var(--cu-font-mono,monospace); }
 .adapter-code code { color:inherit;font:inherit; }
+
+
+/* Fourth Web Components wave: only the Playground composition, never duplicated component styling. */
+.cu-card-preview-title { margin:0; font:650 14px var(--cu-font-body,system-ui); }
+.cu-card-preview-copy { margin:0 0 12px; font-size:13px; }
+.cu-web-stats { display:flex;align-items:center;gap:16px;min-height:42px;font-size:12px; }
+.cu-web-stats span { display:grid;gap:5px;color:var(--cu-text-muted); }
+.cu-web-stats strong { font-size:18px;color:var(--cu-text); }
+.cu-web-stats cu-divider { margin:0 4px; }
+.cu-web-variants { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:13px 0; }
+.cu-web-variants cu-card::part(body) { padding:12px;font-size:12px; }
+.cu-web-skeleton,.cu-web-loaded { display:flex;align-items:center;gap:13px;min-height:64px; }
+.cu-web-skeleton-lines { display:grid;flex:1;gap:8px;min-width:0; }
+.cu-web-loaded .cu-helper { margin:4px 0 0; }
+.cu-web-loaded strong { font-size:13px; }
+#web-components cu-alert,#web-components cu-breadcrumb { display:block; }
+@media(max-width:440px){.cu-web-variants{grid-template-columns:1fr;}}

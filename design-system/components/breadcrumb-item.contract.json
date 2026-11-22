@@ -1,0 +1,19 @@
+{
+  "name": "BreadcrumbItem",
+  "tag": "cu-breadcrumb-item",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Declarative data child of cu-breadcrumb",
+  "attributes": {
+    "href": "safe relative or URL",
+    "current": "boolean",
+    "label": "string"
+  },
+  "slots": [
+    "default text content"
+  ],
+  "events": [],
+  "accessibility": {
+    "semantics": "Rendered by parent as anchor or current page label"
+  }
+}

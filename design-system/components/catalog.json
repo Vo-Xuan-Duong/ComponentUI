@@ -1,7 +1,7 @@
 {
   "version": 1,
   "style": "Fluent Calm",
-  "summary": "Sixteen experimental browser-native component implementations plus eight progressive-enhancement demonstration patterns; zero production-ready components.",
+  "summary": "22 experimental native browser components, plus preview reference patterns and reusable icons; none production-certified.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -375,7 +375,7 @@
         {
           "name": "Breadcrumb",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -497,7 +497,7 @@
         {
           "name": "Card",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -677,7 +677,7 @@
         {
           "name": "Skeleton",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -686,7 +686,7 @@
         {
           "name": "Divider",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -754,7 +754,7 @@
         {
           "name": "Spinner",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -790,7 +790,7 @@
         {
           "name": "Alert",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

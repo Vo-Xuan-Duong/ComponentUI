@@ -21,7 +21,7 @@ Design Tokens and Contracts are the cross-platform source of truth. **Web Compon
 
 - `design-system/`: initial DTCG token source and component backlog/contracts
 - `packages/theme/`: generated CSS variables, reusable **preview-only** CSS classes and theme preference controller
-- `packages/web/src/components/`: experimental, native JavaScript Web Components (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu). Form controls use ElementInternals when supported.
+- `packages/web/src/components/`: experimental, native JavaScript Web Components (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu, Card, Divider, Skeleton, Spinner, Alert, Breadcrumb). Form controls use ElementInternals when supported.
 - `apps/playground-web/`: responsive HTML/JS reference with theme/density/accent switching, eight progressive-enhancement patterns, and a live Custom Elements example form
 - `scripts/serve.mjs`: dependency-free local preview server
 - `tests/`: Node-based consistency, theme preference and static preview integration tests
@@ -29,7 +29,7 @@ Design Tokens and Contracts are the cross-platform source of truth. **Web Compon
 
 ## Implemented browser framework adapters (v0.6.0)
 
-- `packages/react/`: factory-created React wrappers for 20 Custom Element tags; standard native `cu-*` events, controlled properties and forwarded refs
+- `packages/react/`: factory-created React wrappers for 27 Custom Element tags; standard native `cu-*` events, controlled properties and forwarded refs
 - `packages/vue/`: Vite/SFC compiler helper (`isCustomElement`) and the `v-cu-model` directive with event subscription cleanup
 - `examples/`: framework-specific TSX/Vue source examples; not configured as standalone build apps
 

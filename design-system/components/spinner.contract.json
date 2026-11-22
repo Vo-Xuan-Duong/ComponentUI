@@ -1,0 +1,18 @@
+{
+  "name": "Spinner",
+  "tag": "cu-spinner",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Indicate loading or background activity",
+  "attributes": {
+    "size": "sm|md|lg|xl",
+    "label": "string"
+  },
+  "slots": [],
+  "events": [],
+  "accessibility": {
+    "semantics": "role=status and accessible label, aria-busy=true",
+    "motion": "Animation suppressed for reduced-motion",
+    "note": "Use a concise label when context is available"
+  }
+}

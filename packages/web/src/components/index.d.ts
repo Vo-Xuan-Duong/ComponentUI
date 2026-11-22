@@ -104,6 +104,19 @@ export declare class CuMenu extends HTMLElement {
 export declare class CuMenuItem extends HTMLElement {}
 export declare function initialsFromName(name: string): string;
 
+
+export declare class CuCard extends HTMLElement {}
+export declare class CuDivider extends HTMLElement {}
+export declare class CuSkeleton extends HTMLElement {}
+export declare class CuSpinner extends HTMLElement {}
+export declare class CuAlert extends HTMLElement {
+  dismiss(): void;
+  show(): void;
+}
+export declare class CuBreadcrumb extends HTMLElement {}
+export declare class CuBreadcrumbItem extends HTMLElement {}
+export declare function safeBreadcrumbHref(value: string | null): string | null;
+
 declare global {
   interface HTMLElementTagNameMap {
     "cu-button": CuButton;
@@ -126,6 +139,13 @@ declare global {
     "cu-menu": CuMenu;
     "cu-menu-item": CuMenuItem;
     "cu-icon": CuIcon;
+    "cu-card": CuCard;
+    "cu-divider": CuDivider;
+    "cu-skeleton": CuSkeleton;
+    "cu-spinner": CuSpinner;
+    "cu-alert": CuAlert;
+    "cu-breadcrumb": CuBreadcrumb;
+    "cu-breadcrumb-item": CuBreadcrumbItem;
   }
 }
 

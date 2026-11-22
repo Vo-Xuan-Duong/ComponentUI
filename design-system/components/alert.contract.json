@@ -1,0 +1,27 @@
+{
+  "name": "Alert",
+  "tag": "cu-alert",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Display contextual feedback with optional dismissal",
+  "attributes": {
+    "tone": "info|success|warning|danger",
+    "title": "string",
+    "dismissible": "boolean"
+  },
+  "methods": [
+    "dismiss()",
+    "show()"
+  ],
+  "slots": [
+    "default"
+  ],
+  "events": [
+    "cu-dismiss"
+  ],
+  "accessibility": {
+    "semantics": "role=alert for danger, role=status otherwise",
+    "button": "Dismiss control has accessible name",
+    "note": "Use tone-specific text and icon, not color alone"
+  }
+}

@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (workspace only) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 20 tags (16 controls, Icon, and 3 declarative child elements); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 27 tags (16 controls, Icon, and 3 declarative child elements); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -44,7 +44,8 @@ export function Settings() {
 
 `createReactComponents(React)` returns wrappers for **Button, TextField,
 Checkbox, Switch, Dialog, Select, Radio, RadioGroup, Tab, Tabs, Tooltip,
-Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu, MenuItem, Icon**.
+Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu, MenuItem, Icon, Card, Divider, Skeleton, Spinner, Alert,
+Breadcrumb, BreadcrumbItem**.
 
 The wrappers expose `onCuPress`, `onCuInput`, `onCuChange`,
 `onCuOpen`, `onCuClose`, `onCuCancel`, and `onCuSelect`. These listen
@@ -166,3 +167,12 @@ milestones.
 
 The Node tests are **not** a substitute for those runtime checks.
 There are no GitHub Actions or remote CI workflows in this project.
+
+## v0.7.0 — display and feedback tags
+
+React factory now exports `Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`,
+`Breadcrumb` and `BreadcrumbItem`. This brings the source-level wrapper
+registry to 27 tags (22 cataloged controls, Icon, plus four declarative child
+tags). Vue's `isComponentUIElement` predicate already recognizes all `cu-*`
+tags and requires no code change. Browser integration and SSR smoke checks
+remain pending.

@@ -34,7 +34,7 @@ The first playground has no runtime npm dependencies. No `npm install` is requir
 
 The local checks validate source consistency and app structure. They **do not yet verify** browser screenshots, layout regressions, keyboard accessibility, screen reader experience, SSR hydration or compatibility in real React/Vue applications. Those are milestones for later releases.
 
-Sixteen experimental native Web Components are now available in the source tree (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu). They are **not** published or production-certified. Try them in the Real Web Components section of the gallery. See `docs/WEB_COMPONENTS.md`.
+Twenty-two experimental native Web Components are now available in the source tree (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu, Card, Divider, Skeleton, Spinner, Alert, Breadcrumb). They are **not** published or production-certified. Try them in the Real Web Components section of the gallery. See `docs/WEB_COMPONENTS.md`.
 
 ## Manual browser smoke checks for v0.4.0
 
@@ -61,3 +61,12 @@ To test actual integration, set up a React 18/19 or Vue 3 app locally inside
 the monorepo, link workspace packages and install the framework toolchain
 yourself. See [FRAMEWORK_ADAPTERS.md](FRAMEWORK_ADAPTERS.md) for the correct
 imports, Vite compiler option and manual test matrix.
+
+## Display and feedback components (v0.7.0)
+
+Run `npm run check` locally for module/test coverage, then `npm run preview` and
+open the Real Web Components area. Inspect Card, Divider, Skeleton, Spinner, Alert
+and Breadcrumb across Light/Dark, compact/touch density, reduced motion,
+forced colors and keyboard-only interaction. Exercise Alert dismiss/restore and
+dynamic Breadcrumb labels. These source-level tests are **not** browser
+accessibility certification.

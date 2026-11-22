@@ -349,3 +349,32 @@ document.getElementById("wc-menu").addEventListener("cu-select",event => {
     "Action: "+event.detail.label+" ("+event.detail.value+")";
   showToast("Menu selection",event.detail.label);
 });
+
+
+// Fourth native Web Component batch: Card, Divider, Skeleton, Spinner,
+// Alert and Breadcrumb. All interactions remain local to the gallery.
+document.getElementById("wc-card-action").addEventListener("cu-press",() => {
+  showToast("Card action","Cards can compose standard ComponentUI controls.");
+});
+const loading = document.getElementById("wc-loading-preview");
+const loaded = document.getElementById("wc-loaded-preview");
+const loadingButton = document.getElementById("wc-toggle-loading");
+loadingButton.addEventListener("cu-press",() => {
+  const showContent = loaded.hidden;
+  loaded.hidden = !showContent;
+  loading.hidden = showContent;
+  loading.setAttribute("aria-busy",String(!showContent));
+  loadingButton.textContent = showContent ? "Show skeleton again" : "Show loaded content";
+});
+const dismissibleAlert = document.getElementById("wc-alert-dismissible");
+dismissibleAlert.addEventListener("cu-dismiss",event => {
+  showToast("Alert dismissed","The "+event.detail.tone+" alert was dismissed.");
+});
+document.getElementById("wc-alert-restore").addEventListener("cu-press",() => {
+  dismissibleAlert.show();
+});
+const breadcrumbs = document.getElementById("wc-breadcrumb");
+document.getElementById("wc-breadcrumb-toggle").addEventListener("cu-press",() => {
+  const last = breadcrumbs.querySelector("cu-breadcrumb-item:last-child");
+  last.textContent = last.textContent.trim() === "Feedback" ? "Navigation" : "Feedback";
+});

@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **107 planned**, **21 preview**, and **0 production-ready** entries. Preview status means an HTML/CSS/JS reference is available, not a tested/published Web Component. The [Fluent Calm gallery](../apps/playground-web/) demonstrates reference visual styles only, using native HTML and CSS. It is **not** a gallery of published components.
+The catalog currently has **101 planned**, **27 preview**, and **0 production-ready** entries. Preview status means an HTML/CSS/JS reference is available, not a tested/published Web Component. The [Fluent Calm gallery](../apps/playground-web/) demonstrates reference visual styles only, using native HTML and CSS. It is **not** a gallery of published components.
 
 - **P0 — 40:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -23,4 +23,4 @@ Do not use the presence of CSS demos as evidence that these release criteria hav
 
 ## First native Custom Elements
 
-Sixteen experimental, reusable `cu-*` elements now exist: `Button`, `TextField`, `Checkbox`, `Switch`, `Dialog`, `Select`, `RadioGroup`, `Tabs`, `Tooltip`, `Popover`, `DatePicker`, `Slider`, `ProgressBar`, `Badge`, `Avatar`, and `Menu`. Their catalog status is **preview** pending cross-browser/accessibility/form-integration tests; see [Web Components API](WEB_COMPONENTS.md).
+Twenty-two experimental, reusable `cu-*` elements now exist: `Button`, `TextField`, `Checkbox`, `Switch`, `Dialog`, `Select`, `RadioGroup`, `Tabs`, `Tooltip`, `Popover`, `DatePicker`, `Slider`, `ProgressBar`, `Badge`, `Avatar`, `Menu`, `Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`, and `Breadcrumb`. Their catalog status is **preview** pending cross-browser/accessibility/form-integration tests; see [Web Components API](WEB_COMPONENTS.md).

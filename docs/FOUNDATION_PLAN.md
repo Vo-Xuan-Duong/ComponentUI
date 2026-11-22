@@ -136,6 +136,21 @@ No GitHub Actions are used. Experimental UI stays at catalog status `preview`.
 
 No GitHub Actions; framework integrations remain experimental.
 
+## Fourth browser component wave — v0.7.0
+
+- [x] Add `cu-card` and `cu-divider` for composable layout and separators
+- [x] Add motion-aware `cu-skeleton` and `cu-spinner` for loading states
+- [x] Add `cu-alert` with semantic roles, Lucide icons, optional dismissal and `cu-dismiss`
+- [x] Add `cu-breadcrumb` and declarative `cu-breadcrumb-item` with safe links and current-page semantics
+- [x] Extend TypeScript registry, ESM package exports, React wrapper tags, local gallery and catalog
+- [x] Add source-level tests and component contracts
+- [ ] Maintainer executes `npm run check`, keyboard tests and screen-reader/browser checks locally
+- [ ] Validate responsive layouts, forced colors and reduced-motion visuals in actual target browsers
+- [ ] Publish only after independent packaging and accessibility release gates are satisfied
+
+**Status:** source implemented; six new entries marked `preview`, not production-ready.
+No GitHub Actions.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip
