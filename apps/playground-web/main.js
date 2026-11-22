@@ -399,6 +399,11 @@ wcTable.rows=[
   {id:"api",name:"API Gateway",owner:"Team",status:"Active",updated:"2026-11-12"},
   {id:"docs",name:"Documentation",owner:"Dương",status:"Draft",updated:"2026-11-19"}
 ];
+wcTable.rowActions=[
+  {value:"open",label:"Open"},
+  {value:"rename",label:"Rename"},
+  {value:"archive",label:"Archive",disabled:row=>row.status==="Planned"}
+];
 const tableResult=document.getElementById("wc-data-table-result");
 wcTable.addEventListener("cu-sort",e=>{
   tableResult.textContent="Sorted "+e.detail.key+" ("+e.detail.direction+")";
@@ -406,9 +411,9 @@ wcTable.addEventListener("cu-sort",e=>{
 wcTable.addEventListener("cu-selection-change",e=>{
   tableResult.textContent=e.detail.selectedIds.length+" selected: "+e.detail.selectedIds.join(", ");
 });
-wcTable.addEventListener("cu-row-activate",e=>{
-  tableResult.textContent="Open project: "+e.detail.row.name;
-  showToast("Table action","Selected "+e.detail.row.name);
+wcTable.addEventListener("cu-row-action",e=>{
+  tableResult.textContent=e.detail.label+" project: "+e.detail.row.name;
+  showToast("Table action",e.detail.label+" "+e.detail.row.name);
 });
 const tree=document.getElementById("wc-tree-view");
 tree.addEventListener("cu-change",e=>{
