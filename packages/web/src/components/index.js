@@ -42,7 +42,7 @@ export { CuSpinner } from "./spinner.js";
 export { CuAlert } from "./alert.js";
 export { CuBreadcrumb, CuBreadcrumbItem, safeBreadcrumbHref } from "./breadcrumb.js";
 
-export { CuDataTable, sortTableRows, paginateRows } from "./data-table.js";
+export { CuDataTable, sortTableRows, paginateRows, filterTableRows, uniqueTableFilterValues, tableFilterValueKey, tableFilterValueLabel } from "./data-table.js";
 export { CuTreeView, CuTreeItem, flattenVisibleTree } from "./tree-view.js";
 export { CuListBox, CuListOption, readListOptions } from "./listbox.js";
 export { CuCombobox, CuComboOption, filterComboOptions } from "./combobox.js";
