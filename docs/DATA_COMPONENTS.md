@@ -13,7 +13,7 @@ React/Vue integration require local verification before production.
 
 | Tag | Main API | Events | Interaction |
 | --- | --- | --- | --- |
-| `cu-data-table` | `.columns`, `.rows`, `.rowActions`, `.headerActions`, `.page` | `cu-sort`, `cu-page-change`, `cu-selection-change`, `cu-row-action`, `cu-header-action`, `cu-column-visibility-change` | Row and header context menus, sorting, column visibility, selection, pagination |
+| `cu-data-table` | `.columns`, `.rows`, `.columnFilters`, `.rowActions`, `.headerActions`, `.page` | `cu-filter-change`, `cu-sort`, `cu-page-change`, `cu-row-action`, `cu-header-action`, `cu-column-visibility-change` | Excel-style checkbox filters, right-click menus, sorting, visibility, selection and pagination |
 | `cu-tree-view` | `label`, `value` and nested `cu-tree-item` elements | `cu-change`, `cu-toggle` | Arrow navigation, expand/collapse, Home/End, Enter |
 | `cu-listbox` | `name`, `value`, `label`, `required`; child `cu-list-option` | `cu-input`, `cu-change` | Single select, arrow keys, Enter/Space, FormData |
 | `cu-combobox` | `name`, `value`, `label`, `placeholder`; child `cu-combo-option` | `cu-input` (query), `cu-change` (committed value) | Editable filtering, Arrow keys, Enter, Escape |
@@ -88,6 +88,13 @@ table.addEventListener("cu-header-action", event => {
 table.addEventListener("cu-column-visibility-change", event => {
   console.log(event.detail.visibleKeys, event.detail.hiddenKeys);
 });
+table.addEventListener("cu-filter-change", event => {
+  console.log(event.detail.filters, event.detail.filteredCount, event.detail.totalCount);
+});
+// Programmatic equivalent of applying a filter through the column header:
+table.setColumnFilter("status", ["Active"]);
+// table.clearColumnFilter("status");
+// table.clearAllFilters();
 ```
 
 Assign arrays to **JavaScript properties**, not HTML string attributes.
@@ -110,11 +117,44 @@ creates a single **context-menu item**, not a button or actions column, and
 also emits `cu-row-activate` when chosen. There is no menu on rows without
 configured actions.
 
+### Excel-style column filtering
+
+Each filterable column gets a small **sliders** button beside its header.
+Select it, or right-click the header and choose **Filter by values...**, to
+open a non-modal filter dialog with distinct values and occurrence counts.
+The dialog provides a case-insensitive **Search values** input, checkboxes,
+**Select all matching** (affects only values matched by the search), and
+**Apply**, **Cancel**, **Clear**. Escape and outside clicks dismiss edits
+without applying. Keyboard focus returns to the originating header when the
+dialog is dismissed. Active filters color the header and filter trigger.
+
+Filters are client-side and evaluated **before** sorting/pagination. Multiple
+column filters are combined using AND; alternative checked values within a
+single column use OR. The checkbox choices for a column are derived from
+records matching all *other* column filters; currently selected values are
+retained even if they temporarily have zero matching records.
+Blank/null/undefined values are grouped as `(Blanks)`, while strings,
+numbers and booleans use distinct keys. A search only narrows the visible
+checkbox choices, not the table until Apply is pressed.
+
+`table.columnFilters = {status:["Active"],owner:["Dev"]}` sets the whole
+filter state; `table.setColumnFilter(key,values)` updates one column.
+`table.clearColumnFilter(key)` and `table.clearAllFilters()` remove
+applied filters. `table.filteredRows` returns all matching records before
+sorting/pagination. An empty values array matches no records, while null
+clears a filter; `filterable:false` disables filtering for that column.
+Filter state survives sort, page changes, and replacement row arrays.
+The `cu-filter-change` event exposes
+`{filters,filteredCount,totalCount}`. Filtered summaries read
+**N of M rows**, and the empty state reads **No matching records**.
+The helpers `filterTableRows`, `uniqueTableFilterValues`, and
+`tableFilterValueKey` are exported for advanced use.
+
 ### Header context menu
 
 Right-click a column heading (or focus it and press Shift+F10 / ContextMenu)
 to open the same `cu-context-menu` used for row actions. The built-in menu
-offers **Sort ascending**, **Sort descending**, **Clear sorting**, **Hide column**
+offers **Sort ascending**, **Sort descending**, **Clear sorting**, **Filter by values...**, **Clear column filter**, **Clear all filters**, **Hide column**
 and **Show all columns**. Sorting entries are disabled when a column declares
 `sortable: false`; the last remaining visible column cannot be hidden.
 The menu highlights the active header, supports keyboard navigation and
@@ -131,7 +171,8 @@ programmatic control. Hiding the sorted column clears sorting and emits
 Developers may append custom `.headerActions` entries shaped as
 `{value,label,disabled?}`, with an optional disabled predicate receiving
 the selected column. Reserved built-in identifiers (`sort-asc`,
-`sort-desc`, `clear-sort`, `hide-column`, `show-all-columns`) cannot
+`sort-desc`, `clear-sort`, `filter-values`, `clear-filter`,
+`clear-all-filters`, `hide-column`, `show-all-columns`) cannot
 be overridden. Selecting any enabled entry emits `cu-header-action`
 with `{action,label,key,column}`; column visibility changes also emit
 `cu-column-visibility-change` with `{hiddenKeys,visibleKeys}`.
@@ -140,7 +181,7 @@ actions are dispatched rather than executed by DataTable.
 
 This is a **basic client-side DataTable**, not a virtualized DataGrid:
 server-side pagination, 100k-row virtualization, column resizing, drag
-and drop, cell editors and filtering are future enhancements.
+and drop, cell editors, server-side filtering and advanced Excel condition/date filters are future enhancements.
 
 ## TreeView
 
