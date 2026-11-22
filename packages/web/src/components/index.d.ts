@@ -208,15 +208,26 @@ export interface CuTableRowAction {
   label?:string;
   disabled?:boolean|((row:CuTableRecord)=>boolean);
 }
+export interface CuTableHeaderAction {
+  value:string;
+  label?:string;
+  disabled?:boolean|((column:CuTableColumn|null)=>boolean);
+}
 export declare class CuDataTable extends HTMLElement {
   rows:CuTableRecord[];
   columns:CuTableColumn[];
   rowActions:CuTableRowAction[];
+  headerActions:CuTableHeaderAction[];
+  readonly hiddenColumnKeys:string[];
+  readonly visibleColumnKeys:string[];
   page:number;
   readonly sortKey:string;
   readonly sortDirection:"asc"|"desc";
   readonly selectedIds:string[];
   clearSelection():void;
+  clearSort():void;
+  hideColumn(key:string):void;
+  showAllColumns():void;
 }
 export declare function sortTableRows<T extends Record<string,unknown>>(
   rows:T[],key:string,direction?:"asc"|"desc"
