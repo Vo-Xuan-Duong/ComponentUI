@@ -424,6 +424,11 @@ wcTable.addEventListener("cu-header-action",e=>{
 wcTable.addEventListener("cu-column-visibility-change",e=>{
   tableResult.textContent="Visible columns: "+e.detail.visibleKeys.join(", ");
 });
+wcTable.addEventListener("cu-filter-change",e=>{
+  const active=Object.keys(e.detail.filters);
+  tableResult.textContent=e.detail.filteredCount+" of "+e.detail.totalCount+
+    " records"+(active.length?" (filtered: "+active.join(", ")+")":"");
+});
 const tree=document.getElementById("wc-tree-view");
 tree.addEventListener("cu-change",e=>{
   document.getElementById("wc-tree-view-result").textContent="Selected "+e.detail.label;
