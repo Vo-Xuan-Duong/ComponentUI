@@ -173,7 +173,7 @@ function renderCatalog() {
   catalogContainer.replaceChildren(fragment);
   document.getElementById("catalog-status").textContent = `${matches.length} of ${allComponents.length} catalog entries`;
 }
-searchInput.addEventListener("input", renderCatalog);
+searchInput.addEventListener("cu-input", renderCatalog);
 categorySelect.addEventListener("cu-change", renderCatalog);
 prioritySelect.addEventListener("cu-change", renderCatalog);
 
@@ -192,7 +192,8 @@ async function loadCatalog() {
       categorySelect.append(option);
     });
     document.getElementById("metric-components").textContent = String(allComponents.length);
-    document.getElementById("metric-categories").textContent = String(catalog.groups.length);
+    document.getElementById("metric-previews").textContent =
+      String(allComponents.filter(item => item.status === "preview").length);
     searchInput.placeholder = `Search ${allComponents.length} catalog entries…`;
     renderCatalog();
   } catch {
@@ -258,7 +259,7 @@ const paletteCommands = [
   { label:"Browse data", description:"Tables, badges and progress", target:"data", keywords:["table"] },
   { label:"Browse feedback", description:"Dialog, alerts and toast", target:"feedback", keywords:["notification"] },
   { label:"Browse more components", description:"Accordion, Menu, Drawer and Pagination", target:"patterns", keywords:["popover", "command"] },
-  { label:"Search component catalog", description:"Filter 128 planned components", target:"catalog", keywords:["inventory"] },
+  { label:"Search component catalog", description:"Filter all catalog entries", target:"catalog", keywords:["inventory"] },
   { label:"Switch to Light Mode", description:"Change the gallery theme", action:"light", keywords:["theme", "appearance"] },
   { label:"Switch to Dark Mode", description:"Change the gallery theme", action:"dark", keywords:["theme", "appearance"] },
   { label:"Follow System Theme", description:"Use operating system theme", action:"system", keywords:["theme", "appearance"] }
@@ -437,3 +438,32 @@ document.getElementById("wc-open-context").addEventListener("cu-press",()=>{
   const rect=target.getBoundingClientRect();
   context.showAt(rect.left,rect.bottom);
 });
+
+
+// v0.10.0 — functional form and search preview controls.
+const compositionForm = document.getElementById("wc-composition-form");
+compositionForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const payload = Object.fromEntries(new FormData(compositionForm).entries());
+  document.getElementById("wc-composition-result").textContent =
+    JSON.stringify(payload, null, 2);
+  showToast("Example saved", "The native Web Component form values were collected.");
+});
+compositionForm.addEventListener("reset", () => {
+  document.getElementById("wc-composition-result").textContent =
+    "Form reset to initial values.";
+});
+const exampleSearch = document.getElementById("wc-search-box");
+const exampleItems = [...document.querySelectorAll("#wc-search-examples > span")];
+const exampleStatus = document.getElementById("wc-search-result");
+function filterExampleComponents() {
+  const query = exampleSearch.value.trim().toLocaleLowerCase();
+  let count = 0;
+  exampleItems.forEach(item => {
+    item.hidden = !item.textContent.toLocaleLowerCase().includes(query);
+    if (!item.hidden) count++;
+  });
+  exampleStatus.textContent = count + " matching component" + (count === 1 ? "" : "s");
+}
+exampleSearch.addEventListener("cu-input", filterExampleComponents);
+exampleSearch.addEventListener("cu-search", filterExampleComponents);

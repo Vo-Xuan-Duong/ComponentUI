@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 35 tags (27 catalog components, Icon and 7 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 38 tags (30 catalog components, Icon and 7 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -215,3 +215,13 @@ Electron/Tauri share the `@componentui/web` renderer; see
 [PACKAGING.md](PACKAGING.md) for secure desktop integration recipes
 and the full tarball installation procedure. The packages remain
 `private:true`, so this milestone does not release them to a registry.
+
+## v0.10.0 — TextArea, NumberField, SearchBox
+
+React 18/19 factory and named wrappers now expose `TextArea`, `NumberField`
+and `SearchBox` (38 tags total). Controlled `value` is assigned as an
+element property. `onCuSearch` bridges the new `cu-search` CustomEvent.
+Vue's compile-time `isComponentUIElement` helper and Svelte's `cuModel`
+action already support the new `cu-*` tags without new renderers.
+See [FORM_CONTROLS.md](FORM_CONTROLS.md) for attributes, event contracts
+and browser validation requirements.

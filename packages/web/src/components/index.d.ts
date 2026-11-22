@@ -26,6 +26,39 @@ export declare class CuTextField extends HTMLElement {
   checkValidity(): boolean;
   reportValidity(): boolean;
 }
+
+export declare class CuTextArea extends HTMLElement {
+  static formAssociated: boolean;
+  value: string;
+  disabled: boolean;
+  required: boolean;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+export declare class CuNumberField extends HTMLElement {
+  static formAssociated: boolean;
+  value: string;
+  readonly valueAsNumber: number;
+  disabled: boolean;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+export declare function stepNumber(
+  value: string | number | null, direction?: number, step?: number | string,
+  min?: number | string | null, max?: number | string | null
+): string;
+export declare class CuSearchBox extends HTMLElement {
+  static formAssociated: boolean;
+  value: string;
+  disabled: boolean;
+  clear(): void;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+
 export declare class CuCheckbox extends HTMLElement {
   static formAssociated: boolean;
   checked: boolean;
@@ -175,6 +208,9 @@ declare global {
   interface HTMLElementTagNameMap {
     "cu-button": CuButton;
     "cu-text-field": CuTextField;
+    "cu-textarea": CuTextArea;
+    "cu-number-field": CuNumberField;
+    "cu-search-box": CuSearchBox;
     "cu-checkbox": CuCheckbox;
     "cu-switch": CuSwitch;
     "cu-dialog": CuDialog;

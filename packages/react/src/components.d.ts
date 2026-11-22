@@ -1,6 +1,9 @@
 import type { ReactCuComponent } from "./index.js";
 export declare const Button: ReactCuComponent;
 export declare const TextField: ReactCuComponent;
+export declare const TextArea: ReactCuComponent;
+export declare const NumberField: ReactCuComponent;
+export declare const SearchBox: ReactCuComponent;
 export declare const Checkbox: ReactCuComponent;
 export declare const Switch: ReactCuComponent;
 export declare const Dialog: ReactCuComponent;

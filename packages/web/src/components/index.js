@@ -6,6 +6,9 @@
  */
 export { CuButton } from "./button.js";
 export { CuTextField } from "./text-field.js";
+export { CuTextArea } from "./text-area.js";
+export { CuNumberField, stepNumber } from "./number-field.js";
+export { CuSearchBox } from "./search-box.js";
 export { CuCheckbox } from "./checkbox.js";
 export { CuSwitch } from "./switch.js";
 export { CuDialog } from "./dialog.js";

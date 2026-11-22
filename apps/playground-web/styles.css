@@ -223,3 +223,181 @@ cu-select.toolbar-select::part(popup) { min-width: 154px; }
   outline:2px solid var(--cu-focus);outline-offset:2px;}
 #web-components cu-tree-view,#web-components cu-listbox,#web-components cu-combobox{
   display:block;min-width:0;}
+
+
+/*
+ * v0.10.0 Fluent Calm refinement: intentional typography, neutral surfaces,
+ * whole-row navigation states and predictable responsive layout.
+ * Playground layout only — component internals remain in their Shadow DOM.
+ */
+:root { --gallery-sidebar: 238px; }
+html { scroll-padding-top: 88px; }
+.sidebar {
+  padding: 22px 12px;
+  background: var(--cu-surface);
+}
+.brand {
+  padding: 2px 10px 19px;
+  border-bottom: 1px solid var(--cu-border);
+}
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--cu-radius-lg);
+  background: color-mix(in srgb,var(--cu-accent) 13%,var(--cu-surface));
+  box-shadow: none;
+  color: var(--cu-accent);
+}
+.brand small { margin-top: 3px; }
+.nav-group-label { padding: 20px 12px 7px; letter-spacing: .065em; }
+.side-link {
+  border-radius: var(--cu-radius-md);
+  min-height: 38px;
+  transition: background var(--cu-motion-fast),color var(--cu-motion-fast);
+}
+.side-link:hover:not(.is-active) {
+  background: color-mix(in srgb,var(--cu-text) 8%,var(--cu-surface));
+}
+.side-link.is-active {
+  background: color-mix(in srgb,var(--cu-accent) 16%,var(--cu-surface));
+  color: var(--cu-text);
+  font-weight: 650;
+}
+.side-link:focus-visible { outline: 2px solid var(--cu-focus); outline-offset: -2px; }
+.sidebar-footer { border-top: 1px solid var(--cu-border); padding-top: 16px; }
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  min-height: 68px;
+  background: var(--cu-surface);
+  border-bottom: 1px solid var(--cu-border);
+  padding-inline: clamp(20px, 3.5vw, 54px);
+}
+.toolbar-heading { font-size: 13px; letter-spacing: -.005em; }
+.toolbar-options { gap: 10px; }
+.content {
+  max-width: 1480px;
+  padding: 28px clamp(20px,3.5vw,54px) 88px;
+}
+.hero {
+  padding: clamp(28px,4vw,52px);
+  background: var(--cu-surface);
+  border: 1px solid var(--cu-border);
+  border-radius: var(--cu-radius-xl);
+}
+.hero h1 {
+  max-width: 780px;
+  font-size: clamp(28px,3vw,43px);
+  line-height: 1.16;
+  letter-spacing: -.035em;
+  margin: 15px 0 13px;
+}
+.hero p { max-width: 720px; font-size: 14px; line-height: 1.75; }
+.hero-footer { margin-top: 26px; }
+.eyebrow {
+  letter-spacing: .07em;
+  color: var(--cu-text-muted);
+}
+.metrics { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin-top: 14px; }
+.metric {
+  min-width: 0;
+  padding: 18px 20px;
+  border-radius: var(--cu-radius-lg);
+}
+.metric strong { font-size: clamp(23px,2.3vw,29px); font-variant-numeric: tabular-nums; }
+.metric span { display:block; margin-top:4px; font-size:12px; }
+.section { margin-top: 42px; scroll-margin-top: 90px; }
+.section-heading { margin-bottom: 15px; }
+.section-heading h2 { font-size: clamp(20px,2vw,25px); letter-spacing: -.025em; }
+.section-heading p { max-width: 760px; line-height: 1.6; }
+.demo-grid { gap: 15px; }
+.demo-card {
+  min-width: 0;
+  padding: clamp(18px,2vw,26px);
+  border-radius: var(--cu-radius-xl);
+}
+.demo-card h3 { font-size: 14px; font-weight: 650; }
+.demo-card .demo-subtitle { font-size: 12px; line-height: 1.65; margin-bottom: 18px; }
+.demo-row { row-gap: 10px; }
+.settings-item { border-radius: var(--cu-radius-lg); }
+.catalog-tools { align-items: stretch; }
+.catalog-tools cu-search-box {
+  display:block;
+  flex: 1 1 260px;
+  min-width: min(100%,220px);
+}
+.catalog-tools cu-search-box::part(control) { min-height: var(--cu-control-height); }
+.catalog-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.catalog-entry { gap: 14px; border-radius: var(--cu-radius-lg); }
+.catalog-entry strong { font-size: 13px; }
+.catalog-entry small { display:block; margin-top:4px; font-size:11px; }
+.catalog-entry .cu-badge { flex:none; }
+.icon-gallery { grid-template-columns: repeat(auto-fill,minmax(114px,1fr)); }
+.icon-gallery-item { background: var(--cu-surface); }
+.cu-search-examples {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.cu-search-examples span {
+  padding: 7px 11px;
+  border:1px solid var(--cu-border);
+  border-radius: var(--cu-radius-md);
+  background: var(--cu-surface-alt);
+  color: var(--cu-text);
+  font-size:12px;
+}
+.cu-search-examples span[hidden] { display:none!important; }
+#web-components cu-textarea,
+#web-components cu-number-field,
+#web-components cu-search-box { display:block; min-width:0; }
+#web-components .cu-web-result { margin-top: 0; }
+
+@media (max-width: 1180px) {
+  .catalog-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 830px) {
+  .sidebar { padding: 12px 16px; }
+  .brand { border-bottom: 0; padding: 0 0 6px; }
+  .sidebar-nav { padding-top: 5px; padding-bottom: 2px; }
+  .toolbar { padding: 12px 20px; }
+  .content { padding: 25px 20px 60px; }
+  .section { scroll-margin-top: 110px; }
+}
+@media (max-width: 650px) {
+  .metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .catalog-grid, .demo-grid, .form-grid { grid-template-columns: 1fr; }
+  .section-heading { display:block; }
+  .section-flag { display:inline-block; margin-top:10px; }
+  .toolbar-options { width:100%; }
+  .content { padding: 18px 14px 48px; }
+  .hero { padding: 26px 22px; }
+  .demo-card { padding:18px; }
+}
+@media (max-width: 450px) {
+  .toolbar-heading { width:100%; }
+  .toolbar-options { gap:8px; }
+  .toolbar-options > .cu-helper { display:none; }
+  cu-select.toolbar-select { flex:1 1 112px; width:auto; }
+  cu-select.toolbar-select::part(popup) { min-width: 112px; }
+  .accent-picker { margin-inline-start:auto; }
+  .catalog-tools cu-select.catalog-select { flex:1 1 145px; min-width:0; }
+  .metrics { gap:9px; }
+  .metric { padding:14px 13px; }
+  .metric span { font-size:11px; }
+  .hero-footer { align-items:stretch; }
+  .hero-footer .cu-btn { flex:1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .side-link,.icon-gallery-item { transition:none!important; }
+  html { scroll-behavior:auto; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .toolbar,.hero { background:var(--cu-surface); }
+}
+@media (forced-colors: active) {
+  .side-link.is-active { outline:1px solid Highlight; }
+  .hero,.metric,.demo-card,.catalog-entry { border:1px solid CanvasText; }
+}

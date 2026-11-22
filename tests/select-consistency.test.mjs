@@ -41,7 +41,7 @@ test("dynamic category options continue to render and filter via cu-change",asyn
   assert.match(app,/categorySelect\.append\(option\)/);
   assert.match(app,/categorySelect\.addEventListener\("cu-change", renderCatalog\)/);
   assert.match(app,/prioritySelect\.addEventListener\("cu-change", renderCatalog\)/);
-  assert.match(app,/searchInput\.addEventListener\("input", renderCatalog\)/);
+  assert.match(app,/searchInput\.addEventListener\("cu-input", renderCatalog\)/);
   assert.match(select,/record\.type === "childList"/);
   // A host childList mutation must NOT be filtered out, because append(option)
   // changes the cu-select light-DOM host itself.

@@ -1,7 +1,7 @@
 {
   "name": "@componentui/theme",
   "private": true,
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Fluent Calm theme tokens, visual preview classes and theme controller",
   "type": "module",
   "style": "./dist/tokens.css",
@@ -17,7 +17,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "node ../../scripts/build-packages.mjs theme"
+    "build": "node ../../scripts/build-packages.mjs theme",
+    "syntax:check": "undefined && node --check packages/web/src/components/text-area.js && node --check packages/web/src/components/number-field.js && node --check packages/web/src/components/search-box.js"
   },
   "engines": {
     "node": ">=20"

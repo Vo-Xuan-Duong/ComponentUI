@@ -7,7 +7,8 @@
  * versions that differ in their custom-event support behave consistently.
  */
 export const REACT_TAGS = Object.freeze({
-  Button:"cu-button", TextField:"cu-text-field", Checkbox:"cu-checkbox",
+  Button:"cu-button", TextField:"cu-text-field", TextArea:"cu-textarea",
+  NumberField:"cu-number-field", SearchBox:"cu-search-box", Checkbox:"cu-checkbox",
   Switch:"cu-switch", Dialog:"cu-dialog", Select:"cu-select",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
@@ -25,6 +26,7 @@ export const REACT_TAGS = Object.freeze({
 
 export const REACT_EVENT_PROPS = Object.freeze({
   onCuPress:"cu-press", onCuInput:"cu-input", onCuChange:"cu-change",
+  onCuSearch:"cu-search",
   onCuOpen:"cu-open", onCuClose:"cu-close", onCuCancel:"cu-cancel",
   onCuSelect:"cu-select", onCuSort:"cu-sort",
   onCuPageChange:"cu-page-change", onCuSelectionChange:"cu-selection-change",
@@ -34,6 +36,9 @@ export const REACT_EVENT_PROPS = Object.freeze({
 const PROPERTY_MAP = Object.freeze({
   "cu-button":["disabled","loading","type"],
   "cu-text-field":["value","required","disabled"],
+  "cu-textarea":["value","required","disabled"],
+  "cu-number-field":["value","required","disabled"],
+  "cu-search-box":["value","required","disabled"],
   "cu-checkbox":["checked","value","disabled","required"],
   "cu-switch":["checked","value","disabled","required"],
   "cu-dialog":["open"],

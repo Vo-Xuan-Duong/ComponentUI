@@ -17,7 +17,7 @@
     <aside class="sidebar" aria-label="ComponentUI navigation">
       <a class="brand" href="#overview" aria-label="ComponentUI home">
         <span class="brand-logo" aria-hidden="true"><cu-icon name="sparkles" size="22"></cu-icon></span>
-        <span><strong>ComponentUI</strong><small>Fluent Calm · Foundation</small></span>
+        <span><strong>ComponentUI</strong><small>Fluent Calm · v0.10 preview</small></span>
       </a>
       <nav class="sidebar-nav" aria-label="Sections">
         <div class="nav-group-label">Design system</div>
@@ -35,7 +35,7 @@
         <a class="side-link" href="#catalog">Component catalog</a>
       </nav>
       <div class="sidebar-footer">
-        <span>Visual foundation · No production components yet</span>
+        <span>Personal UI system · Web Components in preview</span>
         <a href="https://github.com/Vo-Xuan-Duong/ComponentUI" rel="noopener noreferrer" target="_blank">View GitHub repository ↗</a>
       </div>
     </aside>
@@ -63,21 +63,22 @@
 
       <main id="content" class="content">
         <section class="hero" id="overview" aria-labelledby="hero-title">
-          <div class="hero-decoration" aria-hidden="true"></div>
-          <span class="eyebrow">The visual foundation · v0.1</span>
-          <h1 id="hero-title">Calm by design.<br>Ready for every project.</h1>
-          <p>A modern, Windows 11-inspired visual language built around clarity, familiar shapes and lightweight surfaces. Preview styles before we build framework components.</p>
+          
+          <span class="eyebrow">ComponentUI design system · v0.10.0</span>
+          <h1 id="hero-title">Build once. Keep your UI consistent.</h1>
+          <p>A reusable Fluent Calm design system for web apps and desktop webviews. Explore real components, adjust themes and densities, and use the same UI across React, Vue, Svelte, Electron and Tauri.</p>
           <div class="hero-footer">
             <a class="cu-btn" data-variant="accent" href="#controls">Explore components <cu-icon name="arrow-up-right" size="16"></cu-icon></a>
             <a class="cu-btn" data-variant="outline" href="#catalog">Browse catalog</a>
-            <span class="cu-badge" data-tone="warning">Foundation preview</span>
+            <span class="cu-badge" data-tone="accent">Experimental components</span>
           </div>
         </section>
 
-        <div class="metrics" aria-label="Project summary">
-          <div class="metric"><strong id="metric-components">128</strong><span>Component inventory entries</span></div>
-          <div class="metric"><strong id="metric-categories">8</strong><span>Component categories</span></div>
-          <div class="metric"><strong>0</strong><span>Production-ready components</span></div>
+        <div class="metrics" aria-label="ComponentUI project summary">
+          <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
+          <div class="metric"><strong id="metric-previews">35</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">30</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
         <section class="section" id="controls" aria-labelledby="controls-heading">
@@ -120,11 +121,12 @@
 
         <section class="section" id="icons" aria-labelledby="icons-heading">
           <div class="section-heading"><div><h2 id="icons-heading">Iconography</h2>
-            <p>One unified Lucide SVG source, used across the design system. 24 bundled icons with consistent strokes, sizes and colors.</p>
+            <p>One unified Lucide SVG source, used across the design system. 25 bundled icons with consistent strokes, sizes and colors.</p>
             </div><span class="section-flag">Lucide · SVG · ISC/MIT</span></div>
           <article class="cu-surface demo-card">
             <div class="icon-gallery" aria-label="Available Lucide icons">
               <div class="icon-gallery-item"><cu-icon name="plus" size="22"></cu-icon><span>plus</span></div>
+              <div class="icon-gallery-item"><cu-icon name="minus" size="22"></cu-icon><span>minus</span></div>
               <div class="icon-gallery-item"><cu-icon name="pencil" size="22"></cu-icon><span>pencil</span></div>
               <div class="icon-gallery-item"><cu-icon name="ellipsis" size="22"></cu-icon><span>ellipsis</span></div>
               <div class="icon-gallery-item"><cu-icon name="check" size="22"></cu-icon><span>check</span></div>
@@ -592,6 +594,38 @@
               </div>
             </article>
 
+            <article class="cu-surface demo-card">
+              <h3>TextArea &amp; NumberField</h3>
+              <p class="demo-subtitle">Writing and numeric input with validation, accessible labels, keyboard support and native FormData.</p>
+              <form class="cu-web-form" id="wc-composition-form">
+                <cu-textarea name="description" label="Project description"
+                  placeholder="Describe your project…" rows="3" maxlength="280"
+                  hint="Keep it clear and concise" show-count auto-resize required
+                  value="A reusable design system for my projects."></cu-textarea>
+                <cu-number-field name="teamSize" label="Team members" value="4"
+                  min="1" max="25" step="1" hint="Use the plus/minus buttons or Arrow keys" required></cu-number-field>
+                <div class="demo-row">
+                  <cu-button type="submit" variant="accent" size="sm">Save example</cu-button>
+                  <cu-button type="reset" variant="outline" size="sm">Reset</cu-button>
+                </div>
+              </form>
+              <pre class="cu-web-result" id="wc-composition-result" role="status">Submit the form to inspect the values.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>SearchBox</h3>
+              <p class="demo-subtitle">Integrated Lucide search and clear controls. Enter triggers a search; Escape clears the query.</p>
+              <div class="cu-web-form">
+                <cu-search-box id="wc-search-box" label="Search components"
+                  placeholder="Try searching for select, table or card"
+                  hint="Type to filter these examples; press Enter to confirm."></cu-search-box>
+                <div class="cu-search-examples" id="wc-search-examples" aria-label="Matching components">
+                  <span>Button</span><span>Select</span><span>DataTable</span><span>Card</span><span>Dialog</span>
+                  <span>TextArea</span><span>NumberField</span><span>SearchBox</span>
+                </div>
+                <p class="cu-helper" id="wc-search-result" role="status">8 available examples</p>
+              </div>
+            </article>
+
             <article class="cu-surface demo-card full-span">
               <h3>DataTable</h3>
               <p class="demo-subtitle">Sortable, paginated table with multi-row selection and accessible row actions.</p>
@@ -721,13 +755,13 @@ vue({ template: { compilerOptions: {
               <p class="cu-helper">Vue 3 requires build-time configuration when using SFC templates.</p>
             </article>
           </div>
-          <div class="cu-info"><strong>Current scope:</strong> The two packages are experimental and workspace-only. The HTML Playground does not execute React or Vue. See <a href="../../docs/FRAMEWORK_ADAPTERS.md">framework adapter documentation</a> for complete examples and limitations.</div>
+          <div class="cu-info"><strong>Current scope:</strong> The framework adapters remain experimental. The HTML Playground shows integration snippets; it does not execute React, Vue or Svelte. See <a href="../../docs/FRAMEWORK_ADAPTERS.md">framework adapter documentation</a> for complete examples and limitations.</div>
         </section>
 
         <section class="section" id="catalog" aria-labelledby="catalog-heading">
           <div class="section-heading"><div><h2 id="catalog-heading">Component inventory</h2><p>Browse planned and preview entries. Preview components are <strong>not</strong> production-ready releases.</p></div><span class="section-flag" id="catalog-status">Loading catalog…</span></div>
           <div class="catalog-tools">
-            <input class="cu-input" type="search" id="catalog-query" aria-label="Search components" placeholder="Search component catalog…">
+            <cu-search-box id="catalog-query" aria-label="Search components" placeholder="Search component catalog…"></cu-search-box>
             <cu-select class="catalog-select" id="catalog-category" aria-label="Filter by category" value=""><option value="">All categories</option></cu-select>
             <cu-select class="catalog-select" id="catalog-priority" aria-label="Filter by priority" value=""><option value="">All priorities</option><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option></cu-select>
           </div>

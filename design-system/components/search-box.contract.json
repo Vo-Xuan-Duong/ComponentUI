@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "SearchBox",
+  "tag": "cu-search-box",
+  "kind": "form",
+  "description": "Search input with icon, clear button and explicit search event",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "value": "string",
+    "placeholder": "string",
+    "disabled": "boolean",
+    "readonly": "boolean",
+    "required": "boolean",
+    "autocomplete": "string"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-search"
+  ],
+  "methods": [
+    "clear()",
+    "focus()"
+  ],
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  },
+  "accessibility": {
+    "label": "native input aria-label from label",
+    "clear": "labeled clear button",
+    "keyboard": "Enter searches; Escape clears"
+  },
+  "states": [
+    "hover",
+    "focus-visible",
+    "disabled",
+    "readonly",
+    "clear",
+    "forced-colors"
+  ]
+}

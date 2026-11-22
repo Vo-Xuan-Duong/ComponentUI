@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **97 planned**, **32 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **94 planned**, **35 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -28,3 +28,7 @@ Twenty-seven experimental, reusable `cu-*` elements now exist: `Button`, `TextFi
 ## Fifth wave — Data and navigation
 
 Five more experimental Custom Elements are now implemented: DataTable, TreeView, ListBox, Combobox and ContextMenu. ListBox was added to the original backlog, which now holds 129 catalog entries. The five remain preview pending keyboard, screen-reader, framework and browser testing. See [Data component APIs](DATA_COMPONENTS.md).
+
+## Form controls and UI refinement — v0.10.0
+
+The native Web Components set has expanded with TextArea, NumberField and SearchBox. They support FormData/validation/reset using ElementInternals, keyboard interactions, and the existing Fluent Calm tokens. The catalog contains 129 entries: 35 preview, 94 planned and 0 production-certified. The Playground styling has been refreshed for hierarchy, responsive behavior, focus, and neutral surfaces. See [FORM_CONTROLS.md](FORM_CONTROLS.md).

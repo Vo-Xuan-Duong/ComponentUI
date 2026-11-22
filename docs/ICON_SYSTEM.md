@@ -5,7 +5,7 @@ ComponentUI now uses **Lucide** as its single icon source for browser UI. The ic
 ## Source and licensing
 
 - Official source: https://lucide.dev/ and https://github.com/lucide-icons/lucide
-- Current bundle: **24 selected SVG icons**, stored in `packages/icons/src/data/`.
+- Current bundle: **25 selected SVG icons**, stored in `packages/icons/src/data/`.
 - Source data and icon definitions are distributed under Lucide's ISC license. Some icons are derived from Feather and carry additional MIT terms.
 - The complete upstream notices are retained verbatim in [packages/icons/LICENSE](../packages/icons/LICENSE).
 - No external icons CDN, remote font files or browser network calls are required at runtime.
@@ -78,3 +78,7 @@ npm run preview
 ```
 
 Open **Actions → Iconography** to inspect icon sizes, colors and styling. Cross-browser screenshots and visual alignment must still be checked locally; no GitHub Actions are used.
+
+### v0.10.0 — NumberField
+
+The curated Lucide `minus` SVG is added alongside `plus` for `cu-number-field` steppers. Keep original Lucide licensing notices when building tarballs.

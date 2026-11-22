@@ -1,7 +1,7 @@
 
-# ComponentUI Web Components — Experimental v0.8.0
+# ComponentUI Web Components — Experimental v0.10.0
 
-Twenty-seven **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
+Thirty **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
 
 ## Registration
 
@@ -293,3 +293,14 @@ dynamic `option` insertions at host level, which the catalog JSON
 population depends on. The selected checkmark uses Lucide SVG.
 
 See [SELECT_UI.md](SELECT_UI.md) for the audit and manual validation.
+
+## UI and forms — v0.10.0
+
+New browser-native `cu-textarea`, `cu-number-field` and `cu-search-box`
+controls use Shadow DOM, Fluent Calm semantics, native input validity, and
+form-associated `ElementInternals`. They provide character counting,
+numeric stepper buttons, and a search/clear interface respectively.
+The local Playground uses `cu-search-box` for its catalog search.
+These are preview implementations, not production-certified packages.
+
+See [Form controls and UI refinement](FORM_CONTROLS.md).

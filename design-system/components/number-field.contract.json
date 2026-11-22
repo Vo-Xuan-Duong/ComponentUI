@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "NumberField",
+  "tag": "cu-number-field",
+  "kind": "form",
+  "description": "Native numeric input with restrained Lucide stepper controls",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "value": "number string",
+    "min": "number",
+    "max": "number",
+    "step": "positive number | any",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  },
+  "accessibility": {
+    "label": "native input aria-label from label",
+    "buttons": "Increase / decrease with scoped accessible names",
+    "keyboard": "ArrowUp/Down in native number input"
+  },
+  "states": [
+    "hover",
+    "focus-visible",
+    "disabled",
+    "readonly",
+    "invalid",
+    "forced-colors"
+  ]
+}

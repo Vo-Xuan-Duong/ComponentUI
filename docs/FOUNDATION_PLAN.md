@@ -181,6 +181,22 @@ No GitHub Actions.
 
 **Status:** package distribution scripts and examples implemented; not executed/certified.
 
+## Forms and UI completion milestone — v0.10.0
+
+- [x] Implement form-associated `cu-textarea` with maxlength counter and autosize
+- [x] Implement native-validating `cu-number-field` with Lucide plus/minus steppers
+- [x] Implement `cu-search-box` with search, clear and FormData integration
+- [x] Wire browser registry, React named wrappers, TypeScript declarations and package exports
+- [x] Modernize Playground hero/surfaces/navigation/toolbar/responsive layout
+- [x] Integrate real SearchBox into the Playground catalog and update live metrics
+- [x] Add contracts, source-level tests and responsive/accessibility acceptance checklist
+- [ ] Maintainer runs local `npm run check`, package verification and actual browser UI tests
+- [ ] Complete manual keyboard, screen-reader and responsive validation
+- [ ] Continue addressing remaining 94 planned catalog entries according to priority
+
+**Current state:** 30 experimental browser Custom Elements, 35 preview catalog entries,
+94 planned and 0 production-certified. No GitHub Actions.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

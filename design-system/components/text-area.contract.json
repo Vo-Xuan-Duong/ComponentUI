@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "TextArea",
+  "tag": "cu-textarea",
+  "kind": "form",
+  "description": "Multiline accessible text input with counter and optional autosize",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "value": "string",
+    "placeholder": "string",
+    "rows": "2..30",
+    "minlength": "integer",
+    "maxlength": "integer",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean",
+    "show-count": "boolean",
+    "auto-resize": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  },
+  "accessibility": {
+    "label": "aria-labelledby from visible label",
+    "invalid": "aria-invalid, native constraint validation",
+    "focus": "native textarea"
+  },
+  "states": [
+    "hover",
+    "focus-visible",
+    "disabled",
+    "read-only",
+    "invalid",
+    "reduced-motion",
+    "forced-colors"
+  ]
+}

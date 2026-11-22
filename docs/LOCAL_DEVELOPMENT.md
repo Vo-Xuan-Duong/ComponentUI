@@ -117,3 +117,24 @@ Dark/Light modes, tokens and the Lucide icons in the actual consumer.
 These scripts and examples are provided for **your local execution**.
 They have not been run by the assistant and do not certify production
 readiness or browser accessibility.
+
+## Fluent Calm UI & Forms refinement — v0.10.0
+
+The Playground hero, toolbar, sidebar states, responsive cards and catalog
+search have been updated. New real Web Components are TextArea, NumberField
+and SearchBox. The React adapter now has 38 named controls, and 25 local
+Lucide icons ship with the Web package build. Review the
+[FORM_CONTROLS.md](FORM_CONTROLS.md) acceptance checklist at 320px,
+390px, 768px and desktop viewport sizes, in Light/Dark and forced colors.
+
+Run locally:
+
+```bash
+npm run check
+npm run build:packages
+npm run packages:verify
+npm run preview
+```
+
+No GitHub Actions. The assistant has not run browser or local build tests,
+so these components remain preview until local acceptance is completed.

@@ -1,4 +1,4 @@
-# ComponentUI Style Guide — Fluent Calm v0.1
+# ComponentUI Style Guide — Fluent Calm v0.10
 
 ## Direction
 
@@ -62,3 +62,18 @@ Edit `design-system/tokens/fluent-calm.tokens.json` and run `npm run tokens:buil
 - https://fluent2.microsoft.design/typography/
 - https://learn.microsoft.com/en-us/windows/apps/develop/ui/materials
 - https://learn.microsoft.com/windows/apps/design/signature-experiences/geometry
+
+## v0.10.0 — UI consistency acceptance
+
+- Keep application shell surfaces neutral and readable; do not add large
+  decorative hero shapes or gratuitous accent strips.
+- Hover and keyboard-active states tint the **whole option/control**;
+  focus-visible uses a 2px ring.
+- All icon-only actions use `aria-label`; action icons use locally bundled
+  Lucide SVG instead of text or emoji glyphs.
+- Large form controls support required, disabled, readonly, form reset and
+  validation where applicable, with native form-associated semantics.
+- Layout must work at 320px and 200% zoom, including popup controls.
+- User preference changes remain accessible in the sticky preview toolbar.
+- Treat `preview` as a source-implemented state, not proof of WCAG,
+  browser compatibility or production readiness.

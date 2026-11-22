@@ -3,6 +3,7 @@ import type { IconName } from "@componentui/icons";
 
 export interface CuEventDetails {
   value?: string | number;
+  valueAsNumber?: number;
   checked?: boolean;
   index?: number;
   label?: string;
@@ -44,6 +45,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   page?: number;
   onCuPress?: (event: CuEvent) => void;
   onCuInput?: (event: CuEvent) => void;
+  onCuSearch?: (event: CuEvent) => void;
   onCuChange?: (event: CuEvent) => void;
   onCuOpen?: (event: CuEvent) => void;
   onCuClose?: (event: CuEvent) => void;
@@ -72,7 +74,7 @@ export declare function createReactComponent(
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
   Record<"Button" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
-  "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
+  "TextArea" | "NumberField" | "SearchBox" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
   "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |

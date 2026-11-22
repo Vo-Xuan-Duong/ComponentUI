@@ -1,5 +1,6 @@
 /** Lucide icons — bundled subset. See packages/icons/LICENSE. */
 export const ACTION_ICONS = Object.freeze({
+  "minus": [["path",{"d":"M5 12h14"}]],
   "plus": [
     [
       "path",

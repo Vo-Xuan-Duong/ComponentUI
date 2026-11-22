@@ -9,6 +9,7 @@ import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
+const expectedVersion=JSON.parse(await readFile(join(ROOT,"package.json"),"utf8")).version;
 const names=["icons","theme","web","react","vue","svelte"];
 const failures=[];
 async function exists(path) {
@@ -29,7 +30,7 @@ for(const name of names){
   const manifest=JSON.parse(await readFile(join(directory,"package.json"),"utf8"));
   const dist=join(directory,"dist");
   if(manifest.private!==true)failures.push(name+": do not publish experimental packages");
-  if(manifest.version!=="0.9.0")failures.push(name+": version drift");
+  if(manifest.version!==expectedVersion)failures.push(name+": version drift");
   if(JSON.stringify(manifest.files)!==JSON.stringify(["dist"]))
     failures.push(name+": pack files must be limited to dist");
   for(const [subpath,ex] of Object.entries(manifest.exports)){
