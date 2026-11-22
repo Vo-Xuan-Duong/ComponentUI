@@ -183,10 +183,13 @@ The React wrapper now includes DataTable, TreeView, ListBox, Combobox,
 ContextMenu and their three declarative child tags. There are 35 wrappers
 in total. The adapter bridges `cu-sort`, `cu-page-change`,
 `cu-selection-change`, `cu-row-action`, the legacy `cu-row-activate` and
-`cu-toggle` into `onCu*` callback properties. DataTable `rowActions` is
-assigned as a DOM property, so action predicates remain JavaScript functions.
+`cu-toggle` into `onCu*` callback properties. DataTable `rowActions` and
+`headerActions` are assigned as DOM properties, so action predicates remain
+JavaScript functions. The header also emits `cu-header-action` and
+`cu-column-visibility-change` (React: `onCuHeaderAction` and
+`onCuColumnVisibilityChange`).
 
-`rows`, `columns` and `rowActions` are assigned to DataTable through DOM **properties**
+`rows`, `columns`, `rowActions` and `headerActions` are assigned to DataTable through DOM **properties**
 instead of HTML attribute serialization. Keep stable array references in
 React to preserve table sorting and selection across unrelated rerenders.
 Vue's compiler predicate already recognizes all new `cu-*` tags; the full
