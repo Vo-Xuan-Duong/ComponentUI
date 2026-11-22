@@ -203,9 +203,15 @@ export declare function safeBreadcrumbHref(value: string | null): string | null;
 
 export interface CuTableColumn { key:string;label?:string;sortable?:boolean; }
 export type CuTableRecord = {id?:string|number;[key:string]:unknown};
+export interface CuTableRowAction {
+  value:string;
+  label?:string;
+  disabled?:boolean|((row:CuTableRecord)=>boolean);
+}
 export declare class CuDataTable extends HTMLElement {
   rows:CuTableRecord[];
   columns:CuTableColumn[];
+  rowActions:CuTableRowAction[];
   page:number;
   readonly sortKey:string;
   readonly sortDirection:"asc"|"desc";
