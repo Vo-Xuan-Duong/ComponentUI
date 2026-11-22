@@ -185,11 +185,10 @@ in total. The adapter bridges `cu-sort`, `cu-page-change`,
 `cu-selection-change`, `cu-row-action`, the legacy `cu-row-activate` and
 `cu-toggle` into `onCu*` callback properties. DataTable `rowActions` and
 `headerActions` are assigned as DOM properties, so action predicates remain
-JavaScript functions. The header also emits `cu-header-action` and
-`cu-column-visibility-change` (React: `onCuHeaderAction` and
-`onCuColumnVisibilityChange`).
+JavaScript functions. The header also emits `cu-header-action` and `cu-column-visibility-change`.
+Excel-style column filtering emits `cu-filter-change` (`onCuFilterChange` in React) and accepts `columnFilters` as a DOM property.
 
-`rows`, `columns`, `rowActions` and `headerActions` are assigned to DataTable through DOM **properties**
+`rows`, `columns`, `rowActions`, `headerActions` and `columnFilters` are assigned to DataTable through DOM **properties**
 instead of HTML attribute serialization. Keep stable array references in
 React to preserve table sorting and selection across unrelated rerenders.
 Vue's compiler predicate already recognizes all new `cu-*` tags; the full
