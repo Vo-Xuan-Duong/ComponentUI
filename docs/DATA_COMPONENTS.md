@@ -13,7 +13,7 @@ React/Vue integration require local verification before production.
 
 | Tag | Main API | Events | Interaction |
 | --- | --- | --- | --- |
-| `cu-data-table` | `.columns`, `.rows`, `.rowActions`, `.page`, `page-size`, `selectable` | `cu-sort`, `cu-page-change`, `cu-selection-change`, `cu-row-action` (legacy `cu-row-activate`) | Sortable headers, checkboxes, right-click or Shift+F10 row menu, pagination |
+| `cu-data-table` | `.columns`, `.rows`, `.rowActions`, `.headerActions`, `.page` | `cu-sort`, `cu-page-change`, `cu-selection-change`, `cu-row-action`, `cu-header-action`, `cu-column-visibility-change` | Row and header context menus, sorting, column visibility, selection, pagination |
 | `cu-tree-view` | `label`, `value` and nested `cu-tree-item` elements | `cu-change`, `cu-toggle` | Arrow navigation, expand/collapse, Home/End, Enter |
 | `cu-listbox` | `name`, `value`, `label`, `required`; child `cu-list-option` | `cu-input`, `cu-change` | Single select, arrow keys, Enter/Space, FormData |
 | `cu-combobox` | `name`, `value`, `label`, `placeholder`; child `cu-combo-option` | `cu-input` (query), `cu-change` (committed value) | Editable filtering, Arrow keys, Enter, Escape |
@@ -67,6 +67,9 @@ table.rowActions = [
   { value: "rename", label: "Rename" },
   { value: "archive", label: "Archive", disabled: row => row.status === "Draft" }
 ];
+table.headerActions = [
+  { value: "inspect", label: "Inspect column" }
+];
 
 table.addEventListener("cu-sort", event => {
   console.log(event.detail.key, event.detail.direction);
@@ -77,6 +80,13 @@ table.addEventListener("cu-selection-change", event => {
 table.addEventListener("cu-row-action", event => {
   // {action, label, id, row}; perform the action in the host application.
   console.log(event.detail.action, event.detail.id, event.detail.row);
+});
+table.addEventListener("cu-header-action", event => {
+  // {action, label, key, column}: also fired for built-in menu actions
+  console.log(event.detail.action, event.detail.key);
+});
+table.addEventListener("cu-column-visibility-change", event => {
+  console.log(event.detail.visibleKeys, event.detail.hiddenKeys);
 });
 ```
 
@@ -99,6 +109,34 @@ in the application; the table never performs destructive actions itself.
 creates a single **context-menu item**, not a button or actions column, and
 also emits `cu-row-activate` when chosen. There is no menu on rows without
 configured actions.
+
+### Header context menu
+
+Right-click a column heading (or focus it and press Shift+F10 / ContextMenu)
+to open the same `cu-context-menu` used for row actions. The built-in menu
+offers **Sort ascending**, **Sort descending**, **Clear sorting**, **Hide column**
+and **Show all columns**. Sorting entries are disabled when a column declares
+`sortable: false`; the last remaining visible column cannot be hidden.
+The menu highlights the active header, supports keyboard navigation and
+returns focus to a visible header after applying an action.
+
+Header actions work on the client: sorting changes row order and resets the
+current page; hiding a column changes rendered headers and cells, including
+empty/loading colspans. `.columns` retains the full original configuration.
+`.hiddenColumnKeys` and `.visibleColumnKeys` expose the current state;
+`hideColumn(key)`, `showAllColumns()` and `clearSort()` are available for
+programmatic control. Hiding the sorted column clears sorting and emits
+`cu-sort` with `{key:"",direction:"asc"}`.
+
+Developers may append custom `.headerActions` entries shaped as
+`{value,label,disabled?}`, with an optional disabled predicate receiving
+the selected column. Reserved built-in identifiers (`sort-asc`,
+`sort-desc`, `clear-sort`, `hide-column`, `show-all-columns`) cannot
+be overridden. Selecting any enabled entry emits `cu-header-action`
+with `{action,label,key,column}`; column visibility changes also emit
+`cu-column-visibility-change` with `{hiddenKeys,visibleKeys}`.
+All actions use text-only safe rendering and application-specific custom
+actions are dispatched rather than executed by DataTable.
 
 This is a **basic client-side DataTable**, not a virtualized DataGrid:
 server-side pagination, 100k-row virtualization, column resizing, drag
@@ -197,11 +235,12 @@ operations itself. Provide a focusable slotted target.
 
 React wrapper factories in `packages/react/` include all five components
 and their declarative child tags. Controlled properties for DataTable
-(`rows`, `columns`, `rowActions`, `page`), TreeView (`value`), ListBox (`value`,
+(`rows`, `columns`, `rowActions`, `headerActions`, `page`), TreeView (`value`), ListBox (`value`,
 `required`, `disabled`) and Combobox (`value`, `disabled`) are
 assigned as DOM properties, not stringified attributes.
 Events include `onCuSort`, `onCuPageChange`,
-`onCuSelectionChange`, `onCuRowAction`, `onCuRowActivate`, `onCuToggle`,
+`onCuSelectionChange`, `onCuRowAction`, `onCuRowActivate`,
+`onCuHeaderAction`, `onCuColumnVisibilityChange`, `onCuToggle`,
 `onCuChange`, `onCuSelect`.
 
 Vue 3 uses the same existing `cu-*` compiler predicate. DataTable
@@ -218,6 +257,8 @@ validate this and SSR behavior locally.
    use Shift+F10/ContextMenu, Arrow keys, Escape and pointer dismissal;
    verify disabled per-row actions, focus restoration, no Actions column,
    no automatic checkbox selection and correct `cu-row-action` details.
+   Also test header right-click/Shift+F10, sort asc/desc/reset, hide/restore
+   columns, disabled sorting, last-column protection and focus restoration.
 4. Navigate nested TreeView using only the keyboard and verify the
    expanded/current/selected screen-reader states.
 5. Check ListBox submission and reset, disabled options and
