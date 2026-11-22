@@ -39,6 +39,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuRowActivate:"cu-row-activate", onCuRowAction:"cu-row-action",
   onCuHeaderAction:"cu-header-action",
   onCuColumnVisibilityChange:"cu-column-visibility-change",
+  onCuFilterChange:"cu-filter-change",
   onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss"
 });
 
@@ -68,7 +69,7 @@ const PROPERTY_MAP = Object.freeze({
   "cu-menu":["open"],
   "cu-menu-item":["disabled"],
   "cu-icon":["name"],
-  "cu-data-table":["rows","columns","rowActions","headerActions","page"],
+  "cu-data-table":["rows","columns","rowActions","headerActions","columnFilters","page"],
   "cu-tree-view":["value"],
   "cu-listbox":["value","disabled","required"],
   "cu-combobox":["value","disabled"]
