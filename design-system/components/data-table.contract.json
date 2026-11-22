@@ -6,7 +6,7 @@
   "type": "data",
   "properties": {
     "rows": "array of plain objects via JS property",
-    "columns": "{key,label?,sortable?}[] via JS property",
+    "columns": "{key,label?,sortable?,filterable?}[] via JS property",
     "page": "number",
     "sortKey": "readonly string",
     "sortDirection": "asc|desc",
@@ -14,7 +14,9 @@
     "rowActions": "{value,label?,disabled?:boolean|(row)=>boolean}[] via JS property",
     "headerActions": "{value,label?,disabled?:boolean|(column)=>boolean}[] via JS property; appends custom header items",
     "hiddenColumnKeys": "readonly string[]",
-    "visibleColumnKeys": "readonly string[]"
+    "visibleColumnKeys": "readonly string[]",
+    "columnFilters": "Record<string,unknown[]>; applied value filters, assigned as a DOM property",
+    "filteredRows": "readonly matching records after all column filters"
   },
   "attributes": {
     "caption": "string",
@@ -31,13 +33,17 @@
     "cu-row-activate",
     "cu-row-action",
     "cu-header-action",
-    "cu-column-visibility-change"
+    "cu-column-visibility-change",
+    "cu-filter-change"
   ],
   "methods": [
     "clearSelection()",
     "clearSort()",
     "hideColumn(key)",
-    "showAllColumns()"
+    "showAllColumns()",
+    "setColumnFilter(key,values)",
+    "clearColumnFilter(key)",
+    "clearAllFilters()"
   ],
   "accessibility": {
     "base": "native table/caption/headers",
@@ -45,6 +51,7 @@
     "selection": "labeled checkbox",
     "action": "right-click context menu, row keyboard target with Shift+F10/ContextMenu, menuitems, disabled handling and focus restoration",
     "responsive": "horizontal scroll",
-    "headerMenu": "right-click/Shift+F10/ContextMenu on column header; sortable headers keep native buttons; non-sortable headers focusable; sorting + column visibility menus"
+    "headerMenu": "right-click/Shift+F10/ContextMenu on column header; sortable headers keep native buttons; non-sortable headers focusable; sorting + column visibility menus",
+    "filtering": "header filter trigger + context-menu option opens accessible dialog with searchable unique values, select all matching, count, Clear/Cancel/Apply and Escape; independently enabled per column"
   }
 }
