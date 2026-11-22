@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": "0.8.0",
   "style": "Fluent Calm",
-  "summary": "22 experimental native browser components, plus preview reference patterns and reusable icons; none production-certified.",
+  "summary": "27 experimental browser Custom Elements, reusable SVG icon infrastructure and preview design references. No production-ready releases.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -163,7 +163,16 @@
         {
           "name": "Combobox",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ListBox",
+          "priority": "P0",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -420,7 +429,7 @@
         {
           "name": "TreeView",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -456,7 +465,7 @@
         {
           "name": "ContextMenu",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -524,7 +533,7 @@
         {
           "name": "DataTable",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

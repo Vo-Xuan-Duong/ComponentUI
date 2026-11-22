@@ -2,13 +2,15 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Display & feedback components (v0.7.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and twenty-two experimental browser Custom Elements. **There are 22 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — Data & navigation components (v0.8.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and twenty-seven experimental browser Custom Elements. **There are 27 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
 **Framework integration (experimental):** React 18/19 and Vue 3 adapter source packages are now available in `packages/react/` and `packages/vue/`. React wrappers synchronize custom element properties and `cu-*` events; Vue provides an SFC compiler predicate and a `v-cu-model` directive. Packages remain workspace-only and are **not published**. See [Framework adapters](docs/FRAMEWORK_ADAPTERS.md) and [source examples](examples/README.md).
 
 **New in v0.7.0:** six native browser components—`Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`, and `Breadcrumb`—cover layout, loading, status and navigation. Their interactive previews are in the Real Web Components gallery. All remain experimental and use Fluent Calm tokens and locally bundled Lucide icons.
+
+**New in v0.8.0:** implemented `DataTable`, `TreeView`, `ListBox`, `Combobox` and `ContextMenu` with keyboard/pointer interactions, Fluent Calm tokens, Lucide icons, API contracts and Playground demonstrations. The catalog now contains 129 entries; 32 are preview and none are production-certified. See [Data component API](docs/DATA_COMPONENTS.md).
 
 ## Preview locally
 
@@ -30,7 +32,7 @@ Open [local preview](http://127.0.0.1:4173/apps/playground-web/). Use the top to
 ```text
 design-system/
   tokens/fluent-calm.tokens.json       # Source of truth: DTCG tokens
-  components/catalog.json             # 128 planned component/pattern entries
+  components/catalog.json             # 129 catalog entries
   components/*.contract.json          # Per-component API/behavior contracts
 packages/
   theme/
@@ -38,7 +40,7 @@ packages/
     src/components.css                # Reusable preview visual primitives (not Web Components)
     src/theme.js                      # Framework-neutral theme preference controller
   web/src/interactions.js             # Native-first HTML interaction controllers
-  web/src/components/                 # Browser Custom Elements and reusable cu-icon
+  web/src/components/                 # Browser Custom Elements including data/tree/list/menu controls
   icons/src/                           # 24 local Lucide SVG definitions (ISC/MIT)
   react/src/                           # React 18/19 Custom Element adapters
   vue/src/                             # Vue 3 compiler helper + v-cu-model directive
@@ -75,6 +77,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Lucide Icon System](docs/ICON_SYSTEM.md)
 - [React and Vue framework adapters](docs/FRAMEWORK_ADAPTERS.md)
 - [Display and feedback component APIs](docs/DISPLAY_FEEDBACK.md)
+- [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)
 - [Component inventory](docs/COMPONENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)

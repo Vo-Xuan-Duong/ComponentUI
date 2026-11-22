@@ -29,7 +29,7 @@ Design Tokens and Contracts are the cross-platform source of truth. **Web Compon
 
 ## Implemented browser framework adapters (v0.6.0)
 
-- `packages/react/`: factory-created React wrappers for 27 Custom Element tags; standard native `cu-*` events, controlled properties and forwarded refs
+- `packages/react/`: factory-created React wrappers for 35 Custom Element tags; standard native `cu-*` events, controlled properties and forwarded refs
 - `packages/vue/`: Vite/SFC compiler helper (`isCustomElement`) and the `v-cu-model` directive with event subscription cleanup
 - `examples/`: framework-specific TSX/Vue source examples; not configured as standalone build apps
 
@@ -50,3 +50,7 @@ This project intentionally uses **no GitHub Actions**. Local instructions are in
 ## Upgrade path
 
 Build one stable Web Renderer and a reference application before starting native renderers. Share contracts and semantic tokens, maintain Semantic Versioning, and document migrations for breaking API changes.
+
+## v0.8.0 — complex web controls
+
+The core browser renderer now contains client-side DataTable, TreeView, ListBox, Combobox and ContextMenu components. Declarative child tags serve as data definitions while the parent controls their Shadow DOM rendering. DataTable accepts typed JS property arrays; form-associated controls participate in FormData using ElementInternals. Framework adapters reuse these DOM implementations; native/non-DOM targets still need separate renderers.

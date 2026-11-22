@@ -8,6 +8,13 @@ export interface CuEventDetails {
   label?: string;
   type?: string;
   returnValue?: string;
+  key?: string;
+  direction?: "asc" | "desc";
+  page?: number;
+  selectedIds?: string[];
+  row?: Record<string,unknown>;
+  query?: string;
+  expanded?: boolean;
 }
 export type CuEvent = CustomEvent<CuEventDetails>;
 export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children"> & {
@@ -32,6 +39,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   tone?: string;
   type?: string;
   iconName?: IconName;
+  columns?: {key:string;label?:string;sortable?:boolean}[];
+  rows?: Record<string,unknown>[];
+  page?: number;
   onCuPress?: (event: CuEvent) => void;
   onCuInput?: (event: CuEvent) => void;
   onCuChange?: (event: CuEvent) => void;
@@ -39,6 +49,12 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuClose?: (event: CuEvent) => void;
   onCuCancel?: (event: CuEvent) => void;
   onCuSelect?: (event: CuEvent) => void;
+  onCuSort?: (event: CuEvent) => void;
+  onCuPageChange?: (event: CuEvent) => void;
+  onCuSelectionChange?: (event: CuEvent) => void;
+  onCuRowActivate?: (event: CuEvent) => void;
+  onCuToggle?: (event: CuEvent) => void;
+  onCuDismiss?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
@@ -59,4 +75,5 @@ export declare function createReactComponents(React: typeof import("react")):
   "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
   "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
-  "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem", ReactCuComponent>;
+  "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
+  "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

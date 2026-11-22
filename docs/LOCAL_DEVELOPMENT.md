@@ -70,3 +70,16 @@ and Breadcrumb across Light/Dark, compact/touch density, reduced motion,
 forced colors and keyboard-only interaction. Exercise Alert dismiss/restore and
 dynamic Breadcrumb labels. These source-level tests are **not** browser
 accessibility certification.
+
+## Data and navigation components (v0.8.0)
+
+The experimental DataTable, TreeView, ListBox, Combobox and ContextMenu
+previews appear under Real Web Components. After `npm run check`, run
+`npm run preview` and test sorting, page changes, keyboard navigation,
+FormData validation, right-click and Shift+F10. In Dark/Light/High Contrast
+and reduced-motion modes verify hover and focus are recognizable without
+decorative accent stripes. See [DATA_COMPONENTS.md](DATA_COMPONENTS.md)
+for the detailed acceptance matrix.
+
+No GitHub Actions are added or executed. Node source tests are not
+a substitute for browser or screen-reader validation.

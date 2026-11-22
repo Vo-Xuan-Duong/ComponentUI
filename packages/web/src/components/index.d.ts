@@ -117,6 +117,60 @@ export declare class CuBreadcrumb extends HTMLElement {}
 export declare class CuBreadcrumbItem extends HTMLElement {}
 export declare function safeBreadcrumbHref(value: string | null): string | null;
 
+
+export interface CuTableColumn { key:string;label?:string;sortable?:boolean; }
+export type CuTableRecord = {id?:string|number;[key:string]:unknown};
+export declare class CuDataTable extends HTMLElement {
+  rows:CuTableRecord[];
+  columns:CuTableColumn[];
+  page:number;
+  readonly sortKey:string;
+  readonly sortDirection:"asc"|"desc";
+  readonly selectedIds:string[];
+  clearSelection():void;
+}
+export declare function sortTableRows<T extends Record<string,unknown>>(
+  rows:T[],key:string,direction?:"asc"|"desc"
+):T[];
+export declare function paginateRows<T>(
+  rows:T[],page?:number,size?:number
+):{page:number;totalPages:number;total:number;rows:T[]};
+export declare class CuTreeView extends HTMLElement {
+  value:string;
+  focus(options?:FocusOptions):void;
+}
+export declare class CuTreeItem extends HTMLElement {}
+export declare function flattenVisibleTree(items:unknown[],level?:number,parent?:string|null):unknown[];
+export declare class CuListBox extends HTMLElement {
+  static formAssociated:boolean;
+  value:string;disabled:boolean;required:boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;reportValidity():boolean;
+}
+export declare class CuListOption extends HTMLElement {}
+export declare function readListOptions(entries:unknown[]):unknown[];
+export declare class CuCombobox extends HTMLElement {
+  static formAssociated:boolean;
+  value:string;
+  readonly query:string;
+  readonly open:boolean;
+  disabled:boolean;
+  focus(options?:FocusOptions):void;
+  show():void;hide(restore?:boolean):void;
+  checkValidity():boolean;reportValidity():boolean;
+}
+export declare class CuComboOption extends HTMLElement {}
+export declare function filterComboOptions(entries:unknown[],query:string):unknown[];
+export declare class CuContextMenu extends HTMLElement {
+  readonly open:boolean;
+  showAt(x:number,y:number):void;
+  hide(restoreFocus?:boolean):void;
+}
+export declare function clampMenuPosition(
+  x:number,y:number,menuWidth:number,menuHeight:number,
+  viewportWidth:number,viewportHeight:number
+):{x:number;y:number};
+
 declare global {
   interface HTMLElementTagNameMap {
     "cu-button": CuButton;
@@ -146,6 +200,14 @@ declare global {
     "cu-alert": CuAlert;
     "cu-breadcrumb": CuBreadcrumb;
     "cu-breadcrumb-item": CuBreadcrumbItem;
+    "cu-data-table": CuDataTable;
+    "cu-tree-view": CuTreeView;
+    "cu-tree-item": CuTreeItem;
+    "cu-listbox": CuListBox;
+    "cu-list-option": CuListOption;
+    "cu-combobox": CuCombobox;
+    "cu-combo-option": CuComboOption;
+    "cu-context-menu": CuContextMenu;
   }
 }
 

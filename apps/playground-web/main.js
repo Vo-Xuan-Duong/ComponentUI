@@ -378,3 +378,60 @@ document.getElementById("wc-breadcrumb-toggle").addEventListener("cu-press",() =
   const last = breadcrumbs.querySelector("cu-breadcrumb-item:last-child");
   last.textContent = last.textContent.trim() === "Feedback" ? "Navigation" : "Feedback";
 });
+
+
+// Fifth native Web Components wave — data-intensive interactions.
+const wcTable=document.getElementById("wc-data-table");
+wcTable.columns=[
+  {key:"name",label:"Project"},
+  {key:"owner",label:"Owner"},
+  {key:"status",label:"Status"},
+  {key:"updated",label:"Last updated"}
+];
+wcTable.rows=[
+  {id:"nova",name:"NovaBrowser",owner:"Dương",status:"Active",updated:"2026-11-21"},
+  {id:"ui",name:"ComponentUI",owner:"Dương",status:"Active",updated:"2026-11-22"},
+  {id:"sync",name:"Sync Engine",owner:"Team",status:"Review",updated:"2026-11-15"},
+  {id:"store",name:"Object Storage",owner:"Ops",status:"Planned",updated:"2026-11-05"},
+  {id:"api",name:"API Gateway",owner:"Team",status:"Active",updated:"2026-11-12"},
+  {id:"docs",name:"Documentation",owner:"Dương",status:"Draft",updated:"2026-11-19"}
+];
+const tableResult=document.getElementById("wc-data-table-result");
+wcTable.addEventListener("cu-sort",e=>{
+  tableResult.textContent="Sorted "+e.detail.key+" ("+e.detail.direction+")";
+});
+wcTable.addEventListener("cu-selection-change",e=>{
+  tableResult.textContent=e.detail.selectedIds.length+" selected: "+e.detail.selectedIds.join(", ");
+});
+wcTable.addEventListener("cu-row-activate",e=>{
+  tableResult.textContent="Open project: "+e.detail.row.name;
+  showToast("Table action","Selected "+e.detail.row.name);
+});
+const tree=document.getElementById("wc-tree-view");
+tree.addEventListener("cu-change",e=>{
+  document.getElementById("wc-tree-view-result").textContent="Selected "+e.detail.label;
+});
+tree.addEventListener("cu-toggle",e=>{
+  document.getElementById("wc-tree-view-result").textContent=
+    (e.detail.expanded?"Expanded ":"Collapsed ")+e.detail.value;
+});
+document.getElementById("wc-listbox-form").addEventListener("submit",event=>{
+  event.preventDefault();
+  document.getElementById("wc-listbox-result").textContent=
+    JSON.stringify(Object.fromEntries(new FormData(event.currentTarget).entries()));
+});
+document.getElementById("wc-combobox-form").addEventListener("submit",event=>{
+  event.preventDefault();
+  document.getElementById("wc-combobox-result").textContent=
+    JSON.stringify(Object.fromEntries(new FormData(event.currentTarget).entries()));
+});
+const context=document.getElementById("wc-context-menu");
+context.addEventListener("cu-select",event=>{
+  document.getElementById("wc-context-menu-result").textContent=
+    event.detail.label+" ("+event.detail.value+")";
+});
+document.getElementById("wc-open-context").addEventListener("cu-press",()=>{
+  const target=context.querySelector('[slot="target"]');
+  const rect=target.getBoundingClientRect();
+  context.showAt(rect.left,rect.bottom);
+});

@@ -16,13 +16,19 @@ export const REACT_TAGS = Object.freeze({
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
   Skeleton:"cu-skeleton", Spinner:"cu-spinner", Alert:"cu-alert",
-  Breadcrumb:"cu-breadcrumb", BreadcrumbItem:"cu-breadcrumb-item"
+  Breadcrumb:"cu-breadcrumb", BreadcrumbItem:"cu-breadcrumb-item",
+  DataTable:"cu-data-table", TreeView:"cu-tree-view", TreeItem:"cu-tree-item",
+  ListBox:"cu-listbox", ListOption:"cu-list-option",
+  Combobox:"cu-combobox", ComboOption:"cu-combo-option",
+  ContextMenu:"cu-context-menu"
 });
 
 export const REACT_EVENT_PROPS = Object.freeze({
   onCuPress:"cu-press", onCuInput:"cu-input", onCuChange:"cu-change",
   onCuOpen:"cu-open", onCuClose:"cu-close", onCuCancel:"cu-cancel",
-  onCuSelect:"cu-select"
+  onCuSelect:"cu-select", onCuSort:"cu-sort",
+  onCuPageChange:"cu-page-change", onCuSelectionChange:"cu-selection-change",
+  onCuRowActivate:"cu-row-activate", onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss"
 });
 
 const PROPERTY_MAP = Object.freeze({
@@ -42,7 +48,11 @@ const PROPERTY_MAP = Object.freeze({
   "cu-progress-bar":["value","max"],
   "cu-menu":["open"],
   "cu-menu-item":["disabled"],
-  "cu-icon":["name"]
+  "cu-icon":["name"],
+  "cu-data-table":["rows","columns","page"],
+  "cu-tree-view":["value"],
+  "cu-listbox":["value","disabled","required"],
+  "cu-combobox":["value","disabled"]
 });
 
 export function subscribeCuEvents(element, handlers = {}) {

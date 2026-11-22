@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "ContextMenu",
+  "tag": "cu-context-menu",
+  "type": "overlay",
+  "properties": {
+    "open": "readonly boolean"
+  },
+  "attributes": {
+    "aria-label": "string"
+  },
+  "slots": [
+    "target"
+  ],
+  "children": [
+    "cu-menu-item (from existing Menu package)"
+  ],
+  "events": [
+    "cu-open",
+    "cu-close",
+    "cu-select"
+  ],
+  "methods": [
+    "showAt(x,y)",
+    "hide(restoreFocus?)"
+  ],
+  "accessibility": {
+    "base": "role=menu with role=menuitem and disabled items",
+    "keyboard": [
+      "Shift+F10",
+      "ContextMenu",
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
+      "Escape"
+    ],
+    "placement": "fixed, clamped to viewport",
+    "note": "requires focusable target and document/body interaction"
+  }
+}

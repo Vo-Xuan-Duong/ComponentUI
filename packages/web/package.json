@@ -1,6 +1,6 @@
 {
   "name": "@componentui/web",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "type": "module",
   "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
@@ -102,6 +102,26 @@
     "./components/breadcrumb": {
       "types": "./src/components/index.d.ts",
       "default": "./src/components/breadcrumb.js"
+    },
+    "./components/data-table": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/data-table.js"
+    },
+    "./components/tree-view": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/tree-view.js"
+    },
+    "./components/listbox": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/listbox.js"
+    },
+    "./components/combobox": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/combobox.js"
+    },
+    "./components/context-menu": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/context-menu.js"
     }
   }
 }

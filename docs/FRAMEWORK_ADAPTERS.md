@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (workspace only) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 27 tags (16 controls, Icon, and 3 declarative child elements); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 35 tags (27 catalog components, Icon and 7 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -172,7 +172,21 @@ There are no GitHub Actions or remote CI workflows in this project.
 
 React factory now exports `Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`,
 `Breadcrumb` and `BreadcrumbItem`. This brings the source-level wrapper
-registry to 27 tags (22 cataloged controls, Icon, plus four declarative child
+registry to 35 tags (22 cataloged controls, Icon, plus four declarative child
 tags). Vue's `isComponentUIElement` predicate already recognizes all `cu-*`
 tags and requires no code change. Browser integration and SSR smoke checks
 remain pending.
+
+## v0.8.0 — table, tree, list, combobox and context menu
+
+The React wrapper now includes DataTable, TreeView, ListBox, Combobox,
+ContextMenu and their three declarative child tags. There are 35 wrappers
+in total. The adapter bridges `cu-sort`, `cu-page-change`,
+`cu-selection-change`, `cu-row-activate` and `cu-toggle` into the
+`onCu*` callback properties, as well as existing selection and change events.
+
+`rows` and `columns` are assigned to DataTable through DOM **properties**
+instead of HTML attribute serialization. Keep stable array references in
+React to preserve table sorting and selection across unrelated rerenders.
+Vue's compiler predicate already recognizes all new `cu-*` tags; the full
+runtime integration still requires local browser tests.

@@ -1,8 +1,8 @@
 # Component inventory
 
-The catalog currently has **101 planned**, **27 preview**, and **0 production-ready** entries. Preview status means an HTML/CSS/JS reference is available, not a tested/published Web Component. The [Fluent Calm gallery](../apps/playground-web/) demonstrates reference visual styles only, using native HTML and CSS. It is **not** a gallery of published components.
+The catalog currently has **97 planned**, **32 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
-- **P0 — 40:** core primitives required by most personal projects
+- **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
 - **P2 — 7:** advanced or high-maintenance patterns
 
@@ -23,4 +23,8 @@ Do not use the presence of CSS demos as evidence that these release criteria hav
 
 ## First native Custom Elements
 
-Twenty-two experimental, reusable `cu-*` elements now exist: `Button`, `TextField`, `Checkbox`, `Switch`, `Dialog`, `Select`, `RadioGroup`, `Tabs`, `Tooltip`, `Popover`, `DatePicker`, `Slider`, `ProgressBar`, `Badge`, `Avatar`, `Menu`, `Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`, and `Breadcrumb`. Their catalog status is **preview** pending cross-browser/accessibility/form-integration tests; see [Web Components API](WEB_COMPONENTS.md).
+Twenty-seven experimental, reusable `cu-*` elements now exist: `Button`, `TextField`, `Checkbox`, `Switch`, `Dialog`, `Select`, `RadioGroup`, `Tabs`, `Tooltip`, `Popover`, `DatePicker`, `Slider`, `ProgressBar`, `Badge`, `Avatar`, `Menu`, `Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`, `Breadcrumb`, `DataTable`, `TreeView`, `ListBox`, `Combobox`, and `ContextMenu`. Their catalog status is **preview** pending cross-browser/accessibility/form-integration tests; see [Web Components API](WEB_COMPONENTS.md).
+
+## Fifth wave — Data and navigation
+
+Five more experimental Custom Elements are now implemented: DataTable, TreeView, ListBox, Combobox and ContextMenu. ListBox was added to the original backlog, which now holds 129 catalog entries. The five remain preview pending keyboard, screen-reader, framework and browser testing. See [Data component APIs](DATA_COMPONENTS.md).

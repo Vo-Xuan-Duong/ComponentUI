@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "DataTable",
+  "tag": "cu-data-table",
+  "type": "data",
+  "properties": {
+    "rows": "array of plain objects via JS property",
+    "columns": "{key,label?,sortable?}[] via JS property",
+    "page": "number",
+    "sortKey": "readonly string",
+    "sortDirection": "asc|desc",
+    "selectedIds": "readonly string[]"
+  },
+  "attributes": {
+    "caption": "string",
+    "page-size": "1..100",
+    "selectable": "boolean",
+    "row-action": "button text",
+    "loading": "boolean",
+    "empty-text": "string"
+  },
+  "events": [
+    "cu-sort",
+    "cu-page-change",
+    "cu-selection-change",
+    "cu-row-activate"
+  ],
+  "methods": [
+    "clearSelection()"
+  ],
+  "accessibility": {
+    "base": "native table/caption/headers",
+    "sorting": "aria-sort, buttons",
+    "selection": "labeled checkbox",
+    "action": "labeled native button",
+    "responsive": "horizontal scroll"
+  }
+}

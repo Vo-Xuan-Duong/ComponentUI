@@ -39,7 +39,7 @@
 **Done when:** `pnpm install`, typecheck, lint, unit tests, gallery build and preview all pass locally.
 
 ### F3 — Component standards
-- [x] Create a prioritized 128-entry catalog (P0/P1/P2)
+- [x] Create a prioritized 129-entry catalog (P0/P1/P2)
 - [x] Draft a Button contract as a first example
 - [ ] Standardize contract schema: name, variant, size, disabled, busy, readOnly, events, slots, keyboard, roles
 - [ ] Define state matrix: default, hover, active, focus-visible, selected, disabled, error, loading
@@ -150,6 +150,21 @@ No GitHub Actions; framework integrations remain experimental.
 
 **Status:** source implemented; six new entries marked `preview`, not production-ready.
 No GitHub Actions.
+
+## Fifth browser component wave — v0.8.0
+
+- [x] Implement DataTable with safe text rendering, stable sorting, client pagination, row selection and actions
+- [x] Implement TreeView with declarative hierarchy, expansion and keyboard navigation
+- [x] Implement form-associated ListBox and strict-selection editable Combobox
+- [x] Implement ContextMenu for right-click and Shift+F10 with viewport-aware placement
+- [x] Add component contracts, TypeScript exports, React integration and Playground examples
+- [x] Expand the component backlog by one new ListBox entry; total 129
+- [x] Add source-level unit tests and update catalog counts
+- [ ] Maintainer runs local tests and validates real browser interactions and keyboard/screen reader behavior
+- [ ] Add browser-level regression suite and robust large-dataset/virtualization tests
+- [ ] Promote previews only after independent packaging, framework and accessibility gates pass
+
+**Status:** 27 experimental Web Components, 32 catalog previews, 97 planned and 0 production-certified. No GitHub Actions.
 
 ## First implementation wave (only after foundation gates)
 

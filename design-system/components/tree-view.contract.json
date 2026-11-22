@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "TreeView",
+  "tag": "cu-tree-view",
+  "type": "navigation",
+  "properties": {
+    "value": "string"
+  },
+  "attributes": {
+    "label": "string",
+    "value": "string"
+  },
+  "children": [
+    "cu-tree-item (value,label,expanded,disabled)"
+  ],
+  "events": [
+    "cu-change",
+    "cu-toggle"
+  ],
+  "accessibility": {
+    "base": "role=tree/treeitem with aria-level, aria-expanded, aria-selected and aria-activedescendant",
+    "keyboard": [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "Enter",
+      "Space"
+    ],
+    "focus": "single tree focus target"
+  }
+}

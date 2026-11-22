@@ -589,6 +589,82 @@
                 <p class="cu-helper">Try keyboard Tab navigation; the current page is announced using aria-current.</p>
               </div>
             </article>
+
+            <article class="cu-surface demo-card full-span">
+              <h3>DataTable</h3>
+              <p class="demo-subtitle">Sortable, paginated table with multi-row selection and accessible row actions.</p>
+              <cu-data-table id="wc-data-table" caption="Project inventory" page-size="4"
+                selectable row-action="Open" empty-text="No matching projects">
+              </cu-data-table>
+              <p class="cu-helper" id="wc-data-table-result" role="status">Click a column header to sort; check rows to select them.</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>TreeView</h3>
+              <p class="demo-subtitle">Expandable hierarchy with keyboard arrows, Home, End and selectable items.</p>
+              <cu-tree-view id="wc-tree-view" label="Workspace folders">
+                <cu-tree-item value="workspace" label="Workspace" expanded>
+                  <cu-tree-item value="frontend" label="Frontend" expanded>
+                    <cu-tree-item value="components" label="Components"></cu-tree-item>
+                    <cu-tree-item value="assets" label="Assets"></cu-tree-item>
+                  </cu-tree-item>
+                  <cu-tree-item value="backend" label="Backend">
+                    <cu-tree-item value="services" label="Services"></cu-tree-item>
+                    <cu-tree-item value="database" label="Database"></cu-tree-item>
+                  </cu-tree-item>
+                  <cu-tree-item value="archive" label="Archived" disabled></cu-tree-item>
+                </cu-tree-item>
+              </cu-tree-view>
+              <p class="cu-helper" id="wc-tree-view-result" role="status">Select a folder or expand a node.</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ListBox</h3>
+              <p class="demo-subtitle">Single-selection list with a clear active highlight and native form integration.</p>
+              <form id="wc-listbox-form" class="cu-web-form">
+                <cu-listbox label="Workspace view" name="view" value="details" required>
+                  <cu-list-option value="grid">Grid</cu-list-option>
+                  <cu-list-option value="details" selected>Details</cu-list-option>
+                  <cu-list-option value="compact">Compact</cu-list-option>
+                  <cu-list-option value="legacy" disabled>Legacy (unavailable)</cu-list-option>
+                </cu-listbox>
+                <cu-button type="submit" variant="accent" size="sm">Read selection</cu-button>
+              </form>
+              <p class="cu-helper" id="wc-listbox-result" role="status">Use Up/Down and Enter or click a row.</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Combobox</h3>
+              <p class="demo-subtitle">Editable search input with suggestion filtering and explicit value commitment.</p>
+              <form id="wc-combobox-form" class="cu-web-form">
+                <cu-combobox id="wc-combobox" label="Framework" name="framework"
+                  placeholder="Search frameworks…" required>
+                  <cu-combo-option value="react">React</cu-combo-option>
+                  <cu-combo-option value="vue">Vue</cu-combo-option>
+                  <cu-combo-option value="svelte">Svelte</cu-combo-option>
+                  <cu-combo-option value="angular">Angular</cu-combo-option>
+                  <cu-combo-option value="solid">SolidJS</cu-combo-option>
+                  <cu-combo-option value="legacy" disabled>Legacy</cu-combo-option>
+                </cu-combobox>
+                <cu-button type="submit" variant="accent" size="sm">Read framework</cu-button>
+              </form>
+              <p class="cu-helper" id="wc-combobox-result" role="status">Type to filter, then press Enter to select.</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ContextMenu</h3>
+              <p class="demo-subtitle">Right-click or press Shift+F10 on the target. The menu flips to stay inside the viewport.</p>
+              <div class="cu-web-form">
+                <cu-context-menu id="wc-context-menu" aria-label="Project context actions">
+                  <button class="cu-context-target" type="button" slot="target">
+                    <cu-icon name="folder" size="22"></cu-icon>
+                    <span>Workspace folder · Right-click here</span>
+                  </button>
+                  <cu-menu-item value="open">Open folder</cu-menu-item>
+                  <cu-menu-item value="rename">Rename folder</cu-menu-item>
+                  <cu-menu-item value="copy">Copy path</cu-menu-item>
+                  <cu-menu-item value="delete" disabled>Delete (unavailable)</cu-menu-item>
+                </cu-context-menu>
+                <cu-button id="wc-open-context" variant="outline" size="sm">Open actions (touch)</cu-button>
+                <p class="cu-helper" id="wc-context-menu-result" role="status">No action selected.</p>
+              </div>
+            </article>
             <article class="cu-surface demo-card full-span">
               <h3>Modal Dialog as a Custom Element</h3>
               <p class="demo-subtitle">Try a real <code>&lt;cu-dialog&gt;</code> with built-in native modal focus and <code>cu-close</code> event.</p>

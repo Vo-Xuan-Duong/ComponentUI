@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "Combobox",
+  "tag": "cu-combobox",
+  "type": "form-control",
+  "properties": {
+    "value": "string",
+    "query": "readonly string",
+    "open": "readonly boolean"
+  },
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "placeholder": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "value": "string"
+  },
+  "children": [
+    "cu-combo-option (value,label,disabled,selected)"
+  ],
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "base": "input role=combobox with listbox and option semantics",
+    "keyboard": [
+      "ArrowUp",
+      "ArrowDown",
+      "Enter",
+      "Escape",
+      "Tab"
+    ],
+    "form": "ElementInternals, only committed option value submitted",
+    "selection": "strict single selection, no free text"
+  }
+}

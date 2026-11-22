@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "ListBox",
+  "tag": "cu-listbox",
+  "type": "form-control",
+  "properties": {
+    "value": "string",
+    "required": "boolean",
+    "disabled": "boolean"
+  },
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "value": "string"
+  },
+  "children": [
+    "cu-list-option (value,selected,disabled)"
+  ],
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "base": "role=listbox with option children, aria-selected and aria-activedescendant",
+    "keyboard": [
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
+      "Enter",
+      "Space"
+    ],
+    "form": "ElementInternals, reset, required"
+  }
+}

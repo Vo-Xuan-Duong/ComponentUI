@@ -1,7 +1,7 @@
 
-# ComponentUI Web Components — Experimental v0.7.0
+# ComponentUI Web Components — Experimental v0.8.0
 
-Twenty-two **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
+Twenty-seven **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
 
 ## Registration
 
@@ -84,7 +84,7 @@ The browser version must support `ElementInternals` for form participation. In o
 
 ### Release status
 
-All twenty-two are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
+All twenty-seven are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
 
 ## Run locally (no Actions)
 
@@ -257,7 +257,7 @@ The accent-colored leading bar has been removed from Select option hover and ver
 
 ## Icon system — v0.5.0
 
-The `<cu-icon>` Custom Element now provides Lucide SVG icons through a local `@componentui/icons` data package. It is not a counted entry in the 128-item catalog (IconButton is a separate planned interactive control). Import `packages/web/src/components/icon.js` or the main index to register it. Use `<cu-icon name="plus" size="18"></cu-icon>` inside labeled buttons, or set `label` when the icon itself must be announced. See [ICON_SYSTEM.md](ICON_SYSTEM.md) for examples and third-party license terms.
+The `<cu-icon>` Custom Element now provides Lucide SVG icons through a local `@componentui/icons` data package. It is not a counted entry in the 129-item catalog (IconButton is a separate planned interactive control). Import `packages/web/src/components/icon.js` or the main index to register it. Use `<cu-icon name="plus" size="18"></cu-icon>` inside labeled buttons, or set `label` when the icon itself must be announced. See [ICON_SYSTEM.md](ICON_SYSTEM.md) for examples and third-party license terms.
 
 ## Fourth component batch — v0.7.0
 
@@ -269,3 +269,15 @@ without decorative left-edge accent bars.
 
 See [Display & Feedback API](DISPLAY_FEEDBACK.md) for usage examples, slots,
 ARIA semantics, responsive states and manual acceptance requirements.
+
+## Fifth component batch — v0.8.0
+
+The new `cu-data-table`, `cu-tree-view`, `cu-listbox`, `cu-combobox` and
+`cu-context-menu` implementations provide client-side data browsing,
+hierarchical navigation, single-selection forms, editable suggestions and
+contextual actions. Their internal data-only tags are `cu-tree-item`,
+`cu-list-option` and `cu-combo-option`; ContextMenu reuses `cu-menu-item`.
+All remain **preview**, pending browser and accessibility verification.
+
+Read [DATA_COMPONENTS.md](DATA_COMPONENTS.md) for APIs, events, markup and
+limitations. No GitHub Actions are required.
