@@ -404,6 +404,9 @@ wcTable.rowActions=[
   {value:"rename",label:"Rename"},
   {value:"archive",label:"Archive",disabled:row=>row.status==="Planned"}
 ];
+wcTable.headerActions=[
+  {value:"inspect-column",label:"Inspect column"}
+];
 const tableResult=document.getElementById("wc-data-table-result");
 wcTable.addEventListener("cu-sort",e=>{
   tableResult.textContent="Sorted "+e.detail.key+" ("+e.detail.direction+")";
@@ -414,6 +417,12 @@ wcTable.addEventListener("cu-selection-change",e=>{
 wcTable.addEventListener("cu-row-action",e=>{
   tableResult.textContent=e.detail.label+" project: "+e.detail.row.name;
   showToast("Table action",e.detail.label+" "+e.detail.row.name);
+});
+wcTable.addEventListener("cu-header-action",e=>{
+  tableResult.textContent=e.detail.label+" ("+(e.detail.key??"all columns")+")";
+});
+wcTable.addEventListener("cu-column-visibility-change",e=>{
+  tableResult.textContent="Visible columns: "+e.detail.visibleKeys.join(", ");
 });
 const tree=document.getElementById("wc-tree-view");
 tree.addEventListener("cu-change",e=>{
