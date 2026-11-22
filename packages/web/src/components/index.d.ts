@@ -201,7 +201,7 @@ export declare class CuBreadcrumbItem extends HTMLElement {}
 export declare function safeBreadcrumbHref(value: string | null): string | null;
 
 
-export interface CuTableColumn { key:string;label?:string;sortable?:boolean; }
+export interface CuTableColumn { key:string;label?:string;sortable?:boolean;filterable?:boolean; }
 export type CuTableRecord = {id?:string|number;[key:string]:unknown};
 export interface CuTableRowAction {
   value:string;
@@ -218,6 +218,8 @@ export declare class CuDataTable extends HTMLElement {
   columns:CuTableColumn[];
   rowActions:CuTableRowAction[];
   headerActions:CuTableHeaderAction[];
+  columnFilters:Record<string,unknown[]>;
+  readonly filteredRows:CuTableRecord[];
   readonly hiddenColumnKeys:string[];
   readonly visibleColumnKeys:string[];
   page:number;
@@ -225,10 +227,21 @@ export declare class CuDataTable extends HTMLElement {
   readonly sortDirection:"asc"|"desc";
   readonly selectedIds:string[];
   clearSelection():void;
+  setColumnFilter(key:string,values:unknown[]|null):void;
+  clearColumnFilter(key:string):void;
+  clearAllFilters():void;
   clearSort():void;
   hideColumn(key:string):void;
   showAllColumns():void;
 }
+export declare function tableFilterValueKey(value:unknown):string;
+export declare function tableFilterValueLabel(value:unknown):string;
+export declare function filterTableRows<T extends Record<string,unknown>>(
+  rows:T[],filters:Map<string,unknown[]>|Record<string,unknown[]>,omitKey?:string|null
+):T[];
+export declare function uniqueTableFilterValues<T extends Record<string,unknown>>(
+  rows:T[],key:string
+):{key:string;value:unknown;label:string;count:number}[];
 export declare function sortTableRows<T extends Record<string,unknown>>(
   rows:T[],key:string,direction?:"asc"|"desc"
 ):T[];
