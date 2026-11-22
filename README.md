@@ -72,3 +72,5 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 Fluent Calm draws inspiration from Windows 11 but is not an official Microsoft Design System, nor a reproduction of proprietary UI assets. Do not bundle Microsoft-owned fonts, icons or wallpapers. See [Microsoft Fluent 2](https://fluent2.microsoft.design/).
 
 No package has been published. Licensing and third-party attribution policy must be finalized before any external release.
+
+**v0.4.3 UI consistency:** Select and vertical Tabs no longer display left-edge accent bars in hover/active rows. Native-first UI feedback uses full-row backgrounds and clear text instead.

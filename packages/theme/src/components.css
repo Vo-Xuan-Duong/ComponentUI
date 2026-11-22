@@ -105,7 +105,7 @@ a { color: var(--cu-accent); }
 .cu-badge[data-tone="success"] { background: var(--cu-success-surface); color: var(--cu-success); border-color: transparent; }
 .cu-badge[data-tone="warning"] { background: var(--cu-warning-surface); color: var(--cu-warning); border-color: transparent; }
 .cu-badge[data-tone="danger"] { background: var(--cu-danger-surface); color: var(--cu-danger); border-color: transparent; }
-.cu-info { padding: var(--cu-space-3) var(--cu-space-4); border-left: 3px solid var(--cu-accent);
+.cu-info { padding: var(--cu-space-3) var(--cu-space-4); border: 1px solid var(--cu-border);
   border-radius: var(--cu-radius-md); background: color-mix(in srgb, var(--cu-accent) 8%, var(--cu-surface));
   color: var(--cu-text); font-size: var(--cu-text-sm);
 }

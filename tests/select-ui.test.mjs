@@ -62,7 +62,8 @@ test("Playground shows custom Select with framework options and grouped Web cate
 test("hover provides a visible Fluent Calm active row in Light and Dark themes", async () => {
   const src = await read("../packages/web/src/components/select.js");
   assert.match(src, /\.option:hover:not\(\[aria-disabled=true\]\)/);
-  assert.match(src, /box-shadow:inset 3px 0 0 var\(--cu-accent/);
+  assert.doesNotMatch(src, /box-shadow:inset 3px 0 0 var\(--cu-accent/);
+  assert.match(src, /font-weight:600/);
   assert.match(src, /color-mix\(in srgb,var\(--cu-accent,#0067c0\) 20%/);
   assert.match(src, /pointerover/);
   assert.match(src, /this\._active = index/);
@@ -79,4 +80,16 @@ test("highlighted hover option differs from selected option and disabled is excl
   assert.match(src, /option\.getAttribute\("aria-disabled"\) === "true"/);
   assert.match(src, /@media\(forced-colors:active\)/);
   assert.match(src, /@media\(prefers-reduced-motion:reduce\)/);
+});
+
+test("Fluent Calm avoids decorative accent strips on selection and alerts", async () => {
+  const select = await read("../packages/web/src/components/select.js");
+  const tabs = await read("../packages/web/src/components/tabs.js");
+  const css = await read("../packages/theme/src/components.css");
+  assert.doesNotMatch(select, /box-shadow:inset 3px 0 0/);
+  assert.match(select, /\.option:hover:not\(\[aria-disabled=true\]\)/);
+  assert.match(select, /\.option\[data-active=true\]/);
+  assert.doesNotMatch(tabs, /border-left-color:var\(--cu-accent/);
+  assert.doesNotMatch(css, /border-left:\s*3px solid var\(--cu-accent\)/);
+  assert.match(tabs, /:host\(\[orientation=vertical\]\) button\[aria-selected=true\]/);
 });

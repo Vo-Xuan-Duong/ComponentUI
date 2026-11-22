@@ -37,7 +37,7 @@ Spacing follows a 4 px rhythm; small deviations must be documented. Control size
 - Inputs have persistent visible labels, descriptions, and text errors linked to controls.
 - All interactive UI supports `:focus-visible` with a high-contrast ring; keyboard behavior must be specified.
 - Layout must work from 320 px up to wide screens; sidebar becomes compact on narrow screens.
-- Navigation selected states use both shape and contrast; color is not the only indicator.
+- Navigation, menu and option selected/hover states use **full-row background contrast** and text weight, not a decorative left-edge accent strip. Selected values may add a checkmark. Color is not the only state indicator.
 - Support left-to-right initially; add explicit RTL tests before claiming RTL support.
 - Use SVG/stroke iconography via a separate appropriately licensed icon package rather than embedded platform icons.
 - Motion: 100 ms for small feedback, 160 ms normal, 240 ms complex transitions; honor reduced motion.

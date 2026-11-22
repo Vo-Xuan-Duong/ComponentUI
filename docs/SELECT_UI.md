@@ -34,10 +34,14 @@ ARIA guidance: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 ## Hover / active-row visibility — v0.4.2
 
-- Pointer hover on an enabled option uses a 20% accent-tinted background and a clear 3px inset accent stripe at the start of the row, visible in both Light/Dark modes.
+- Pointer hover on an enabled option uses a 20% accent-tinted background and a slightly bolder option label (no decorative leading stripe), visible in both Light/Dark modes.
 - Moving the mouse/pen updates the active option and `aria-activedescendant`. Keyboard ArrowUp/Down use the **same** active styling.
 - The chosen option is indicated separately by a checkmark and `aria-selected=true`; hovering another row does **not** change the submitted value.
 - Disabled options never receive active or hover treatment.
 - The highlight has a forced-colors outline fallback and respects reduced-motion preferences.
 
 Manual verification: open the Select preview, hover React, Vue and Svelte in turn; the accent highlight should follow the pointer without scrolling. Press ArrowUp/Down; the same indicator should move. Verify the checkmark remains on the committed value until a click or Enter.
+
+## Updated selection styling — v0.4.3
+
+Removed the **leading accent stripe** from hovered/keyboard-active Select options. Hover still uses a 20% accent-tinted *full-row background* and slightly stronger text weight. Selected values retain their check mark, and disabled options are excluded. Vertical Tabs also use a full-row active background rather than a left-edge bar. Inline InfoBars use a uniform 1px border instead of an accent left border.

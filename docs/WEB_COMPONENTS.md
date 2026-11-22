@@ -250,3 +250,7 @@ Accessibility reference: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 ## Select hover-state fix — v0.4.2
 
 Dropdown rows now have a noticeable hover/keyboard-active state: a 20% semantic-accent background plus a 3px accent leading stripe. Pointer hover synchronizes the active option without forcing scroll; selected options retain their checkmarks and `aria-selected` even while another row is hovered. Disabled options are excluded. See [SELECT_UI.md](SELECT_UI.md).
+
+## Visual consistency — v0.4.3
+
+The accent-colored leading bar has been removed from Select option hover and vertical Tabs active states. Interactive rows now communicate hover and active states through a full-row accent-tinted background, text weight and (where relevant) a selected checkmark. This is a style rule, not a change to public component APIs.

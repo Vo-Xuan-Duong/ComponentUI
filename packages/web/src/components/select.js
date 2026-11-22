@@ -59,7 +59,7 @@ const css = [
   ".option:hover:not([aria-disabled=true]),",
   ".option[data-active=true]:not([aria-disabled=true]){",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 20%,var(--cu-surface-elevated,#fff));",
-  "box-shadow:inset 3px 0 0 var(--cu-accent,#0067c0);}",
+  "font-weight:600;}",
   ".option[data-selected=true]:not([aria-disabled=true]){font-weight:600;}",
   ".check{width:16px;height:16px;flex:none;opacity:0;color:var(--cu-accent,#0067c0);}",
   ".option[data-selected=true] .check{opacity:1;}",
