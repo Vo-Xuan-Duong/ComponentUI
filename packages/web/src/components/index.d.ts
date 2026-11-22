@@ -252,7 +252,8 @@ export declare class CuComboOption extends HTMLElement {}
 export declare function filterComboOptions(entries:unknown[],query:string):unknown[];
 export declare class CuContextMenu extends HTMLElement {
   readonly open:boolean;
-  showAt(x:number,y:number):void;
+  items:{value:string;label?:string;disabled?:boolean}[]|null;
+  showAt(x:number,y:number,focusTarget?:HTMLElement|null):void;
   hide(restoreFocus?:boolean):void;
 }
 export declare function clampMenuPosition(
