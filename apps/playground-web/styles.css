@@ -175,3 +175,11 @@ body { min-width: 320px; }
 @media (prefers-reduced-motion: reduce) {
   .icon-gallery-item { transition:none; }
 }
+
+/* Source-only framework adapter examples shown in the HTML Playground. */
+.adapter-code { box-sizing:border-box;display:block;white-space:pre-wrap;overflow-wrap:anywhere;
+  overflow-x:auto;min-height:180px;margin:12px 0 15px;padding:15px 16px;
+  border:1px solid var(--cu-border);border-radius:var(--cu-radius-lg);
+  background:var(--cu-surface-alt);color:var(--cu-text);
+  font:12px/1.65 var(--cu-font-mono,monospace); }
+.adapter-code code { color:inherit;font:inherit; }

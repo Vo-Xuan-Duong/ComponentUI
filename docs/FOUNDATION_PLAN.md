@@ -123,6 +123,19 @@ No GitHub Actions are used. Experimental UI stays at catalog status `preview`.
 - [x] Add a dedicated Iconography preview gallery, TypeScript declarations and local source tests
 - [ ] Maintainer validates browser rendering, dimensions, accessibility and Light/Dark contrast locally
 
+## Cross-framework adapters — v0.6.0
+
+- [x] Create React 18/19 wrappers for every browser Custom Element and declarative child tag
+- [x] Bridge native `cu-*` DOM events to `onCu*` callback properties and forward refs
+- [x] Synchronize controlled properties without relying on custom-attribute string serialization
+- [x] Create Vue 3 Custom Element compile-time recognition helper and `v-cu-model` directive
+- [x] Add React TSX/Vue SFC examples, documentation, and dependency-free Node adapter tests
+- [ ] Maintainer verifies React 18/19, Vue 3, Vite and browser interactions locally
+- [ ] Validate SSR/hydration, strict-mode lifecycle and accessibility in real apps
+- [ ] Make each package independently publishable and resolve icon imports without monorepo-only paths
+
+No GitHub Actions; framework integrations remain experimental.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

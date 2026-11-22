@@ -1,0 +1,21 @@
+{
+  "name": "@componentui/react",
+  "version": "0.6.0",
+  "private": true,
+  "type": "module",
+  "description": "React 18/19 adapters for ComponentUI Web Components",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

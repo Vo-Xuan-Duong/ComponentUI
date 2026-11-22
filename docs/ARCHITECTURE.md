@@ -27,6 +27,14 @@ Design Tokens and Contracts are the cross-platform source of truth. **Web Compon
 - `tests/`: Node-based consistency, theme preference and static preview integration tests
 - `pnpm-workspace.yaml`: boundary declaration for packages and apps
 
+## Implemented browser framework adapters (v0.6.0)
+
+- `packages/react/`: factory-created React wrappers for 20 Custom Element tags; standard native `cu-*` events, controlled properties and forwarded refs
+- `packages/vue/`: Vite/SFC compiler helper (`isCustomElement`) and the `v-cu-model` directive with event subscription cleanup
+- `examples/`: framework-specific TSX/Vue source examples; not configured as standalone build apps
+
+These are **experimental integrations**, not independently published or browser/SSR-certified packages. See [Framework adapter guide](FRAMEWORK_ADAPTERS.md).
+
 ## Future ports and adapters
 
 - **Port:** framework-neutral component contract including states, events, semantics and accessibility.

@@ -2,9 +2,11 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Web Components + Unified Lucide Icons (v0.5.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and sixteen experimental browser Custom Elements. **There are 16 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — Cross-framework adapters (v0.6.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and sixteen experimental browser Custom Elements. **There are 16 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
+
+**Framework integration (experimental):** React 18/19 and Vue 3 adapter source packages are now available in `packages/react/` and `packages/vue/`. React wrappers synchronize custom element properties and `cu-*` events; Vue provides an SFC compiler predicate and a `v-cu-model` directive. Packages remain workspace-only and are **not published**. See [Framework adapters](docs/FRAMEWORK_ADAPTERS.md) and [source examples](examples/README.md).
 
 ## Preview locally
 
@@ -36,6 +38,8 @@ packages/
   web/src/interactions.js             # Native-first HTML interaction controllers
   web/src/components/                 # Browser Custom Elements and reusable cu-icon
   icons/src/                           # 24 local Lucide SVG definitions (ISC/MIT)
+  react/src/                           # React 18/19 Custom Element adapters
+  vue/src/                             # Vue 3 compiler helper + v-cu-model directive
 apps/
   playground-web/
     index.html                        # Responsive gallery; no framework dependencies
@@ -67,6 +71,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Component preview interactions](docs/COMPONENT_PREVIEWS.md)
 - [Experimental Web Components API](docs/WEB_COMPONENTS.md)
 - [Lucide Icon System](docs/ICON_SYSTEM.md)
+- [React and Vue framework adapters](docs/FRAMEWORK_ADAPTERS.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)
 - [Component inventory](docs/COMPONENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)

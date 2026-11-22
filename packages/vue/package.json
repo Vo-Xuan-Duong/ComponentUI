@@ -1,0 +1,21 @@
+{
+  "name": "@componentui/vue",
+  "version": "0.6.0",
+  "private": true,
+  "type": "module",
+  "description": "Vue 3 custom-element compiler helper and two-way binding directive for ComponentUI",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "peerDependencies": {
+    "vue": ">=3.3.0"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
+  }
+}

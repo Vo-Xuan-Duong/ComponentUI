@@ -48,3 +48,16 @@ Sixteen experimental native Web Components are now available in the source tree 
 8. Verify screen reader labels, forced-colors mode, focus return, and reduced motion manually. These are **not** certified by Node tests.
 
 No GitHub Actions or remote CI runs are required.
+
+## Framework adapters (v0.6.0)
+
+The React and Vue adapters are **source-only**, not published packages. The root
+`npm run check` includes module import and property/event tests for them, but
+does not install React, Vue, Vite or a TSX/SFC compiler. `npm run preview`
+displays their sample code in the Framework adapters section, without executing
+those frameworks.
+
+To test actual integration, set up a React 18/19 or Vue 3 app locally inside
+the monorepo, link workspace packages and install the framework toolchain
+yourself. See [FRAMEWORK_ADAPTERS.md](FRAMEWORK_ADAPTERS.md) for the correct
+imports, Vite compiler option and manual test matrix.

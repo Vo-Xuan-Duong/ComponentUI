@@ -30,6 +30,7 @@
         <a class="side-link" href="#feedback">Feedback</a>
         <a class="side-link" href="#patterns">More components</a>
         <a class="side-link" href="#web-components">Web Components</a>
+        <a class="side-link" href="#frameworks">Framework adapters</a>
         <div class="nav-group-label">Documentation</div>
         <a class="side-link" href="#catalog">Component catalog</a>
       </nav>
@@ -525,6 +526,48 @@
               </cu-dialog>
             </article>
           </div>
+        </section>
+
+
+        <section class="section" id="frameworks" aria-labelledby="frameworks-heading">
+          <div class="section-heading">
+            <div><h2 id="frameworks-heading">Framework adapters</h2>
+              <p>Reuse the same Web Components in React 18/19 and Vue 3. These are source-level integration examples, not runtime previews.</p>
+            </div><span class="section-flag">Experimental · React / Vue</span>
+          </div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>React integration</h3>
+              <p class="demo-subtitle">Property synchronization, forwarded refs and native CustomEvent callbacks.</p>
+              <pre class="adapter-code"><code>import * as React from "react";
+import { createReactComponents } from
+  "@componentui/react";
+import "@componentui/web/components";
+
+const { Button, Icon, TextField } =
+  createReactComponents(React);
+
+// &lt;TextField value={email}
+//   onCuInput={e =&gt; setEmail(e.detail.value)} /&gt;</code></pre>
+              <p class="cu-helper">React 18/19 supported by the adapter API; browser integration still needs local validation.</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Vue integration</h3>
+              <p class="demo-subtitle">Compile-time Custom Element recognition with a controlled-value directive.</p>
+              <pre class="adapter-code"><code>import { isComponentUIElement } from
+  "@componentui/vue";
+
+// Vite plugin-vue config:
+vue({ template: { compilerOptions: {
+  isCustomElement: isComponentUIElement
+}}})
+
+// Register ComponentUIVuePlugin
+// &lt;cu-text-field v-cu-model="model" /&gt;</code></pre>
+              <p class="cu-helper">Vue 3 requires build-time configuration when using SFC templates.</p>
+            </article>
+          </div>
+          <div class="cu-info"><strong>Current scope:</strong> The two packages are experimental and workspace-only. The HTML Playground does not execute React or Vue. See <a href="../../docs/FRAMEWORK_ADAPTERS.md">framework adapter documentation</a> for complete examples and limitations.</div>
         </section>
 
         <section class="section" id="catalog" aria-labelledby="catalog-heading">
