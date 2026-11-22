@@ -10,13 +10,14 @@
     "page": "number",
     "sortKey": "readonly string",
     "sortDirection": "asc|desc",
-    "selectedIds": "readonly string[]"
+    "selectedIds": "readonly string[]",
+    "rowActions": "{value,label?,disabled?:boolean|(row)=>boolean}[] via JS property"
   },
   "attributes": {
     "caption": "string",
     "page-size": "1..100",
     "selectable": "boolean",
-    "row-action": "button text",
+    "row-action": "deprecated legacy label; provides single action in right-click menu",
     "loading": "boolean",
     "empty-text": "string"
   },
@@ -24,7 +25,8 @@
     "cu-sort",
     "cu-page-change",
     "cu-selection-change",
-    "cu-row-activate"
+    "cu-row-activate",
+    "cu-row-action"
   ],
   "methods": [
     "clearSelection()"
@@ -33,7 +35,7 @@
     "base": "native table/caption/headers",
     "sorting": "aria-sort, buttons",
     "selection": "labeled checkbox",
-    "action": "labeled native button",
+    "action": "right-click context menu, row keyboard target with Shift+F10/ContextMenu, menuitems, disabled handling and focus restoration",
     "responsive": "horizontal scroll"
   }
 }
