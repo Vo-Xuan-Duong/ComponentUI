@@ -246,3 +246,7 @@ Keyboard behavior: Enter/Space open the popup or confirm, ArrowUp/Down navigate 
 This is an **experimental custom combobox**. The browser no longer provides native select's accessibility behavior automatically. Test screen-reader announcements, keyboard behavior, zoom, mobile touch and form validation locally before production use.
 
 Accessibility reference: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+
+## Select hover-state fix — v0.4.2
+
+Dropdown rows now have a noticeable hover/keyboard-active state: a 20% semantic-accent background plus a 3px accent leading stripe. Pointer hover synchronizes the active option without forcing scroll; selected options retain their checkmarks and `aria-selected` even while another row is hovered. Disabled options are excluded. See [SELECT_UI.md](SELECT_UI.md).

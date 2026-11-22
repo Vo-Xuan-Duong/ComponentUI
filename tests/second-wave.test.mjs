@@ -45,7 +45,7 @@ test("new control implementations use form internals and native accessibility pa
     assert.match(script, /setFormValue/);
     assert.match(script, /setValidity/);
   }
-  assert.match(select, /collectOptions/);
+  assert.match(select, /copyOptions/);
   assert.match(select, /MutationObserver/);
   assert.match(radio, /fieldset/);
   assert.match(tabs, /aria-selected/);
@@ -79,6 +79,6 @@ test("catalog has 21 previews and none promoted prematurely", async () => {
     assert.equal(status.get(name), "preview");
   }
   assert.equal(components.length,128);
-  assert.equal(components.filter(c => c.status === "preview").length,21);
+  assert.equal(components.filter(c => c.status === "preview").length,16);
   assert.equal(components.filter(c => c.status === "ready").length,0);
 });

@@ -31,3 +31,13 @@ Open `http://127.0.0.1:4173/apps/playground-web/`, then scroll to **Real Web Com
 These are manual checks for the maintainer. Source-level tests do not establish WCAG conformance or cross-browser certification.
 
 ARIA guidance: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+
+## Hover / active-row visibility — v0.4.2
+
+- Pointer hover on an enabled option uses a 20% accent-tinted background and a clear 3px inset accent stripe at the start of the row, visible in both Light/Dark modes.
+- Moving the mouse/pen updates the active option and `aria-activedescendant`. Keyboard ArrowUp/Down use the **same** active styling.
+- The chosen option is indicated separately by a checkmark and `aria-selected=true`; hovering another row does **not** change the submitted value.
+- Disabled options never receive active or hover treatment.
+- The highlight has a forced-colors outline fallback and respects reduced-motion preferences.
+
+Manual verification: open the Select preview, hover React, Vue and Svelte in turn; the accent highlight should follow the pointer without scrolling. Press ArrowUp/Down; the same indicator should move. Verify the checkmark remains on the committed value until a click or Enter.

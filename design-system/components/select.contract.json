@@ -1,53 +1,27 @@
 {
   "name": "Select",
   "status": "preview",
-  "version": 2,
+  "version": 1,
+  "purpose": "Select a single value from declarative option/optgroup items",
   "tag": "cu-select",
-  "purpose": "Select a single value with a consistent Fluent Calm listbox popup instead of a browser-native select menu",
   "properties": {
     "name": "string",
     "value": "string",
     "label": "string",
     "hint": "string",
-    "error": "string",
-    "placeholder": "string",
     "required": "boolean",
-    "disabled": "boolean",
-    "open": "boolean (readonly)"
+    "disabled": "boolean"
   },
-  "methods": [
-    "show()",
-    "hide()",
-    "toggle()",
-    "focus()",
-    "checkValidity()",
-    "reportValidity()"
-  ],
   "events": [
-    "cu-input",
     "cu-change"
   ],
   "slots": [
-    "Light-DOM option and optgroup children as declarative data; not displayed directly"
+    "default light-DOM option and optgroup children (data only)"
   ],
-  "theme": "Uses semantic Fluent Calm CSS custom properties for Light/Dark/density/accent; popup is drawn inside Shadow DOM",
   "accessibility": {
-    "control": "role=combobox, tabindex=0, aria-expanded, aria-controls, aria-labelledby or aria-label, aria-activedescendant",
-    "popup": "role=listbox, role=option, role=group for optgroup, aria-selected, aria-disabled",
-    "keyboard": [
-      "Enter/Space: open or commit highlighted option",
-      "ArrowUp/Down: navigate",
-      "Home/End: first or last enabled option",
-      "Escape: cancel open popup",
-      "Tab: dismiss",
-      "Printable letters: prefix search"
-    ],
-    "form": "ElementInternals.setFormValue and setValidity; required/disabled/reset supported",
-    "notes": [
-      "Pointer selection emits cu-input and cu-change only when value changes",
-      "Popup may flip above on limited viewport space",
-      "Confirm with real screen readers before production release"
-    ],
-    "reference": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/"
+    "role": "native select",
+    "keyboard": "Native select keyboard interaction",
+    "form": "ElementInternals with setFormValue and native validity",
+    "note": "Requires visible label or aria-label; option values must be stable"
   }
 }

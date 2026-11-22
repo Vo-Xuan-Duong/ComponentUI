@@ -58,3 +58,25 @@ test("Playground shows custom Select with framework options and grouped Web cate
   assert.match(html,/<optgroup label="Web">/);
   assert.match(html,/Fluent Calm listbox/);
 });
+
+test("hover provides a visible Fluent Calm active row in Light and Dark themes", async () => {
+  const src = await read("../packages/web/src/components/select.js");
+  assert.match(src, /\.option:hover:not\(\[aria-disabled=true\]\)/);
+  assert.match(src, /box-shadow:inset 3px 0 0 var\(--cu-accent/);
+  assert.match(src, /color-mix\(in srgb,var\(--cu-accent,#0067c0\) 20%/);
+  assert.match(src, /pointerover/);
+  assert.match(src, /this\._active = index/);
+  assert.match(src, /this\._syncActive\(\{scroll:false\}\)/);
+  assert.match(src, /aria-activedescendant/);
+  assert.match(src, /if \(scroll\) node\.scrollIntoView/);
+});
+
+test("highlighted hover option differs from selected option and disabled is excluded", async () => {
+  const src = await read("../packages/web/src/components/select.js");
+  assert.match(src, /node\.dataset\.selected = String\(selected\)/);
+  assert.match(src, /node\.setAttribute\("aria-selected",String\(selected\)\)/);
+  assert.match(src, /node\.dataset\.active = String\(active\)/);
+  assert.match(src, /option\.getAttribute\("aria-disabled"\) === "true"/);
+  assert.match(src, /@media\(forced-colors:active\)/);
+  assert.match(src, /@media\(prefers-reduced-motion:reduce\)/);
+});

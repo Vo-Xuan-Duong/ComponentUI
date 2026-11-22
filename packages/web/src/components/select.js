@@ -51,10 +51,15 @@ const css = [
   ".option{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;",
   "gap:10px;min-height:35px;padding:8px 10px;",
   "border-radius:var(--cu-radius-md,6px);",
-  "font:400 13px/1.35 var(--cu-font-body,system-ui);cursor:pointer;}",
+  "font:400 13px/1.35 var(--cu-font-body,system-ui);cursor:pointer;",
+  "transition:background var(--cu-motion-fast,100ms),box-shadow var(--cu-motion-fast,100ms);}",
   ".option[aria-disabled=true]{opacity:.42;cursor:not-allowed;}",
+  // Pointer hover and keyboard-active option share a single visual treatment.
+  // 20% accent tint plus a 3px inset accent indicator stays legible in Dark/Light.
+  ".option:hover:not([aria-disabled=true]),",
   ".option[data-active=true]:not([aria-disabled=true]){",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 11%,var(--cu-surface,#fff));}",
+  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 20%,var(--cu-surface-elevated,#fff));",
+  "box-shadow:inset 3px 0 0 var(--cu-accent,#0067c0);}",
   ".option[data-selected=true]:not([aria-disabled=true]){font-weight:600;}",
   ".check{width:16px;height:16px;flex:none;opacity:0;color:var(--cu-accent,#0067c0);}",
   ".option[data-selected=true] .check{opacity:1;}",
@@ -63,10 +68,11 @@ const css = [
   ".error{color:var(--cu-danger,#c42b1c);}",
   "slot{display:none!important;}",
   "@media(max-width:420px){.popup{max-height:220px;}}",
-  "@media(prefers-reduced-motion:reduce){.chevron,.control{transition:none;}}",
+  "@media(prefers-reduced-motion:reduce){.chevron,.control,.option{transition:none;}}",
   "@media(forced-colors:active){",
   ".control:focus-visible{outline:2px solid Highlight;}",
-  ".option[data-active=true]{outline:1px solid Highlight;}",
+  ".option:hover:not([aria-disabled=true]),",
+  ".option[data-active=true]:not([aria-disabled=true]){outline:2px solid Highlight;outline-offset:-2px;}",
   ".option[data-selected=true] .check{color:Highlight;}}",
   focusStyle
 ].join("");
@@ -170,6 +176,18 @@ export class CuSelect extends BrowserElement {
       const option = event.target.closest('[role="option"]');
       if (!option || option.getAttribute("aria-disabled") === "true") return;
       this._commit(Number(option.dataset.index));
+    });
+    // Mouse/pen hover updates the same active option used by Arrow keys.
+    // Keep focus on the combobox and avoid scrollIntoView on pointer hover.
+    this._popup.addEventListener("pointerover",event => {
+      if (!this._open || event.pointerType === "touch") return;
+      const option = event.target.closest('[role="option"]');
+      if (!option || option.getAttribute("aria-disabled") === "true") return;
+      const index = Number(option.dataset.index);
+      if (!Number.isSafeInteger(index) || index < 0 || index >= this._options.length ||
+          index === this._active) return;
+      this._active = index;
+      this._syncActive({scroll:false});
     });
     this._onDocumentPointer = event => {
       if (this._open && !event.composedPath().includes(this)) this.hide();
@@ -362,8 +380,11 @@ export class CuSelect extends BrowserElement {
     this._valueText.textContent = selected?.label || this.getAttribute("placeholder") || "Select an option…";
     this._valueText.classList.toggle("is-placeholder",!this._value);
     this._optionNodes.forEach((node,index) => {
-      node.dataset.selected = String(this._options[index].value === this._value &&
-        !this._options[index].disabled);
+      const selected = this._value !== "" &&
+        this._options[index].value === this._value && !this._options[index].disabled;
+      node.dataset.selected = String(selected);
+      // aria-selected reflects the committed value, not the hovered option.
+      node.setAttribute("aria-selected",String(selected));
     });
     this._syncForm();
   }
@@ -381,16 +402,15 @@ export class CuSelect extends BrowserElement {
     this._control.setAttribute("aria-invalid",
       String(Boolean(this.getAttribute("error")) || !this._valid()));
   }
-  _syncActive() {
+  _syncActive({scroll=true} = {}) {
     this._optionNodes.forEach((node,index) => {
       const active = this._open && index === this._active;
       node.dataset.active = String(active);
-      node.setAttribute("aria-selected",String(active));
     });
     const node = this._optionNodes[this._active];
     if (this._open && node) {
       this._control.setAttribute("aria-activedescendant",node.id);
-      node.scrollIntoView({block:"nearest"});
+      if (scroll) node.scrollIntoView({block:"nearest"});
     } else this._control.removeAttribute("aria-activedescendant");
   }
   _move(direction) {

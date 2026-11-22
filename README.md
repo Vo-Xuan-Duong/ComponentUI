@@ -2,9 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Native Web Components (v0.4.1):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and sixteen experimental browser Custom Elements. **There are 16 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
-
-**Select UI upgrade (v0.4.1):** The `cu-select` dropdown now uses a custom Fluent Calm listbox instead of the browser/OS-native popup. It supports grouped options, adaptive placement, keyboard navigation, typeahead, selection indicators, and form integration. It remains an experimental implementation pending manual cross-browser and screen-reader testing.
+**Current milestone — Native Web Components (v0.4.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and sixteen experimental browser Custom Elements. **There are 16 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 ## Preview locally
 
@@ -65,7 +63,6 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Local development](docs/LOCAL_DEVELOPMENT.md)
 - [Component preview interactions](docs/COMPONENT_PREVIEWS.md)
 - [Experimental Web Components API](docs/WEB_COMPONENTS.md)
-- [Fluent Calm Select UI and local test checklist](docs/SELECT_UI.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)
 - [Component inventory](docs/COMPONENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)
