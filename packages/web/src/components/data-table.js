@@ -234,14 +234,14 @@ export class CuDataTable extends BrowserElement {
         if(this._filterAll.checked)editor.selected.add(option.key);
         else editor.selected.delete(option.key);
       }
-      this._renderFilterOptions();
+      this._syncFilterCheckboxes();
     });
     this._filterOptions.addEventListener("change",event=>{
       const editor=this._filterEditor,input=event.target;
       if(!editor||input?.type!=="checkbox")return;
       if(input.checked)editor.selected.add(input.dataset.valueKey);
       else editor.selected.delete(input.dataset.valueKey);
-      this._renderFilterOptions();
+      this._syncFilterCheckboxes();
     });
     root.querySelector(".filter-apply").addEventListener("click",()=>{
       const editor=this._filterEditor;
@@ -469,6 +469,14 @@ export class CuDataTable extends BrowserElement {
       empty.className="filter-empty";empty.textContent="No matching values";
       this._filterOptions.append(empty);
     }
+    this._syncFilterCheckboxes();
+  }
+  _syncFilterCheckboxes(){
+    const editor=this._filterEditor;
+    if(!editor)return;
+    const matching=this._matchingFilterOptions();
+    for(const input of this._filterOptions.querySelectorAll('input[type="checkbox"]'))
+      input.checked=editor.selected.has(input.dataset.valueKey);
     const selected=matching.filter(option=>editor.selected.has(option.key)).length;
     this._filterAll.checked=matching.length>0&&selected===matching.length;
     this._filterAll.indeterminate=selected>0&&selected<matching.length;
@@ -496,6 +504,8 @@ export class CuDataTable extends BrowserElement {
     this._filterSearch.value="";
     this._renderFilterOptions();
     this._filterPanel.hidden=false;
+    if(this._filterEditor.focusTarget?.setAttribute)
+      this._filterEditor.focusTarget.setAttribute("aria-expanded","true");
     const rect=header.getBoundingClientRect();
     const bounds=this._filterPanel.getBoundingClientRect();
     const pos=clampMenuPosition(rect.left,rect.bottom+4,bounds.width,bounds.height,
@@ -508,6 +518,8 @@ export class CuDataTable extends BrowserElement {
     const editor=this._filterEditor;
     if(!editor)return;
     this._filterEditor=null;this._filterPanel.hidden=true;
+    if(editor.focusTarget?.setAttribute)
+      editor.focusTarget.setAttribute("aria-expanded","false");
     if(restore){
       if(editor.focusTarget?.isConnected)editor.focusTarget.focus();
       else this._focusColumn(editor.column.key);
@@ -645,7 +657,7 @@ export class CuDataTable extends BrowserElement {
     this._body.replaceChildren();
     const busy=this.hasAttribute("loading");
     this._table.setAttribute("aria-busy",String(busy));
-    const sorted=sortTableRows(this._rows,this._sortKey,this._direction);
+    const sorted=sortTableRows(this.filteredRows,this._sortKey,this._direction);
     const page=paginateRows(sorted,this._page,this._pageSize());
     this._page=page.page;
     if(busy || !columns.length || !page.rows.length){
