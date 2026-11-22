@@ -34,4 +34,4 @@ The first playground has no runtime npm dependencies. No `npm install` is requir
 
 The local checks validate source consistency and app structure. They **do not yet verify** browser screenshots, layout regressions, keyboard accessibility, screen reader experience, SSR hydration or compatibility in real React/Vue applications. Those are milestones for later releases.
 
-Five experimental native Web Components are now available in the source tree (Button, TextField, Checkbox, Switch, Dialog). They are **not** published or production-certified. Try them in the Real Web Components section of the gallery. See `docs/WEB_COMPONENTS.md`.
+Ten experimental native Web Components are now available in the source tree (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover). They are **not** published or production-certified. Try them in the Real Web Components section of the gallery. See `docs/WEB_COMPONENTS.md`.

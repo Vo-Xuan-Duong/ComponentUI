@@ -1,0 +1,20 @@
+{
+  "name": "Tooltip",
+  "status": "preview",
+  "version": 1,
+  "purpose": "Display supplemental non-interactive text on hover or focus",
+  "tag": "cu-tooltip",
+  "properties": {
+    "text": "string",
+    "placement": "top|bottom|left|right"
+  },
+  "events": [],
+  "slots": [
+    "anchor (focusable slotted element)"
+  ],
+  "accessibility": {
+    "role": "tooltip",
+    "keyboard": "Focus on the anchor reveals description",
+    "note": "Applies aria-description only when author has not supplied a description"
+  }
+}

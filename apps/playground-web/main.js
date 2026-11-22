@@ -300,3 +300,28 @@ wcDialog.addEventListener("cu-close", event => {
     showToast("Custom Dialog closed", "cu-close reported the confirmed return value.");
   }
 });
+
+
+// Second native Web Component batch: native option/radio FormData,
+// slotted accessible tabs, hover/focus tooltip, non-modal popover.
+const wcChoiceForm = document.getElementById("wc-choice-form");
+const wcChoiceResult = document.getElementById("wc-choice-result");
+wcChoiceForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const formData = new FormData(wcChoiceForm);
+  wcChoiceResult.textContent = JSON.stringify(Object.fromEntries(formData.entries()), null, 2);
+  showToast("Choices captured", "Select and RadioGroup contributed values through ElementInternals.");
+});
+const wcTabs = document.getElementById("wc-tabs");
+wcTabs.addEventListener("cu-change", event => {
+  document.getElementById("wc-tabs-result").textContent =
+    "Selected tab: " + event.detail.label;
+});
+const wcPopover = document.getElementById("wc-popover");
+wcPopover.addEventListener("cu-open", () => {
+  document.getElementById("wc-popover-result").textContent = "Popover opened";
+});
+wcPopover.addEventListener("cu-close", () => {
+  document.getElementById("wc-popover-result").textContent = "Popover closed";
+});
+document.getElementById("wc-popover-close").addEventListener("click", () => wcPopover.hide());

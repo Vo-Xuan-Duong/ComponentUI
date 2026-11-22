@@ -1,0 +1,27 @@
+{
+  "name": "Select",
+  "status": "preview",
+  "version": 1,
+  "purpose": "Select a single value from declarative option/optgroup items",
+  "tag": "cu-select",
+  "properties": {
+    "name": "string",
+    "value": "string",
+    "label": "string",
+    "hint": "string",
+    "required": "boolean",
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "slots": [
+    "default light-DOM option and optgroup children (data only)"
+  ],
+  "accessibility": {
+    "role": "native select",
+    "keyboard": "Native select keyboard interaction",
+    "form": "ElementInternals with setFormValue and native validity",
+    "note": "Requires visible label or aria-label; option values must be stable"
+  }
+}

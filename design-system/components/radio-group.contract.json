@@ -1,0 +1,27 @@
+{
+  "name": "RadioGroup",
+  "status": "preview",
+  "version": 1,
+  "purpose": "Choose exactly one value from a set of cu-radio children",
+  "tag": "cu-radio-group",
+  "properties": {
+    "value": "string",
+    "label": "string",
+    "name": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "orientation": "horizontal|vertical"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "slots": [
+    "cu-radio light DOM option definitions (data only)"
+  ],
+  "accessibility": {
+    "role": "native fieldset and radio inputs",
+    "keyboard": "Native radio arrow navigation and Space activation",
+    "form": "ElementInternals",
+    "note": "Use label or aria-label; each cu-radio has value and text label"
+  }
+}

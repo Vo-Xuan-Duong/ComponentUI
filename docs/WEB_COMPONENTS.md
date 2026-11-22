@@ -1,7 +1,7 @@
 
-# ComponentUI Web Components — Experimental v0.2.0
+# ComponentUI Web Components — Experimental v0.3.0
 
-The first **actual reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
+Ten **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
 
 ## Registration
 
@@ -84,7 +84,7 @@ The browser version must support `ElementInternals` for form participation. In o
 
 ### Release status
 
-All five are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
+All ten are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
 
 ## Run locally (no Actions)
 
@@ -94,3 +94,79 @@ npm run preview
 ```
 
 Open http://127.0.0.1:4173/apps/playground-web/ and find the **Real Web Components** section.
+
+## Second component batch — v0.3.0
+
+Five additional **real experimental Web Components** are available. The `cu-radio` and `cu-tab` tags are *declarative child definitions*, not counted as standalone inventory controls.
+
+| Tag | Main attributes | Form integration | Events |
+| --- | --- | --- | --- |
+| `cu-select` | `name`, `label`, `hint`, `required`, `value`, `disabled` | Single native select mirrored from declarative `option` / `optgroup`; ElementInternals | `cu-change` |
+| `cu-radio-group` | `name`, `label`, `value`, `required`, `orientation`, `disabled` | Native radio inputs generated from `cu-radio` children; ElementInternals | `cu-change` |
+| `cu-tabs` | `active` (zero-based), `orientation`, `aria-label` | Not a form field; `cu-tab` children provide labels and panel content | `cu-change` with index, label |
+| `cu-tooltip` | `text`, `placement` | Not a form field; anchor must be focusable | none |
+| `cu-popover` | `title`, `open`, `placement` | Not a form field; interactive content allowed but not modal | `cu-open`, `cu-close` |
+
+### Select
+
+```html
+<form id="example">
+  <cu-select label="Framework" name="framework" required>
+    <option value="">Choose one…</option>
+    <optgroup label="Web">
+      <option value="react">React</option>
+      <option value="vue">Vue</option>
+    </optgroup>
+  </cu-select>
+</form>
+```
+
+`cu-select` accepts only light-DOM `option` and `optgroup` content and clones these into a native shadow select. Its `value` property is mutable and `cu-change` emits `{value}`. In supported browsers, the value is included in `FormData`.
+
+### RadioGroup
+
+```html
+<cu-radio-group label="Density" name="density" value="comfortable" required>
+  <cu-radio value="compact">Compact</cu-radio>
+  <cu-radio value="comfortable">Comfortable</cu-radio>
+  <cu-radio value="touch">Touch</cu-radio>
+</cu-radio-group>
+```
+
+Child `cu-radio` tags declare each option. The group uses a native fieldset and shadow radio inputs, so arrow-key and Space behavior follow native controls. `orientation="horizontal"` changes the visual layout.
+
+### Tabs
+
+```html
+<cu-tabs active="0" aria-label="Account settings">
+  <cu-tab label="Profile"><p>Your profile content</p></cu-tab>
+  <cu-tab label="Security"><p>Your security content</p></cu-tab>
+  <cu-tab label="Admin" disabled><p>Unavailable content</p></cu-tab>
+</cu-tabs>
+```
+
+Tab buttons and panels live in the same shadow root with `aria-controls` and `aria-labelledby`; panel content is projected using slots. Arrow Left/Right, Home/End select tabs automatically; use `orientation="vertical"` for Up/Down.
+
+### Tooltip and Popover
+
+```html
+<cu-tooltip text="Export your report" placement="top">
+  <button slot="anchor" type="button">Export</button>
+</cu-tooltip>
+
+<cu-popover title="Export options">
+  <button type="button" slot="trigger">Options</button>
+  <div slot="content">
+    <p>Choose a format.</p>
+  </div>
+</cu-popover>
+```
+
+Tooltip is supplemental, non-interactive content shown on hover/focus. It adds `aria-description` to the anchor only when an author-provided description is absent. Popover is a **non-modal** overlay: pressing Escape restores trigger focus, and clicking outside closes it; call `show()`, `hide()`, or `toggle()` programmatically.
+
+### Current caveats
+
+- These components are **experimental previews**, not a published npm package.
+- `ElementInternals` and `MutationObserver` availability must be verified in target browsers.
+- Native control form behavior, slotted content, keyboard navigation and screen reader semantics need browser-level tests. Node tests validate structure and imports, not actual browser rendering.
+- Framework adapters for React/Vue and SSR/hydration integration remain future milestones.

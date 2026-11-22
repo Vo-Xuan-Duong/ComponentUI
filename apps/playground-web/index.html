@@ -331,7 +331,7 @@
 
         <section class="section" id="web-components" aria-labelledby="web-heading">
           <div class="section-heading">
-            <div><h2 id="web-heading">Real Web Components</h2><p>Native Custom Elements with Shadow DOM and form support. This is the first experimental reusable component batch, separate from CSS-only previews.</p></div>
+            <div><h2 id="web-heading">Real Web Components</h2><p>Native Custom Elements with Shadow DOM and form support. Explore reusable browser-native components, separate from CSS-only previews.</p></div>
             <span class="section-flag">Web Components · Experimental</span>
           </div>
           <div class="demo-grid">
@@ -366,6 +366,58 @@
                 </div>
               </form>
               <pre class="cu-web-result" id="wc-result" role="status" aria-live="polite">Submit the example to inspect FormData.</pre>
+            </article>
+
+            <article class="cu-surface demo-card">
+              <h3>Select &amp; RadioGroup</h3>
+              <p class="demo-subtitle">Shadow DOM controls with native option and radio semantics plus FormData integration.</p>
+              <form class="cu-web-form" id="wc-choice-form">
+                <cu-select name="framework" label="Target framework" required hint="Native select keyboard navigation">
+                  <option value="">Select a framework…</option>
+                  <optgroup label="Web">
+                    <option value="react">React / Next.js</option>
+                    <option value="vue">Vue / Nuxt</option>
+                    <option value="svelte">Svelte</option>
+                  </optgroup>
+                  <option value="html">HTML / JavaScript</option>
+                </cu-select>
+                <cu-radio-group name="density" label="Preferred density" value="comfortable" required orientation="horizontal" hint="Native radio grouping">
+                  <cu-radio value="compact">Compact</cu-radio>
+                  <cu-radio value="comfortable">Comfortable</cu-radio>
+                  <cu-radio value="touch">Touch</cu-radio>
+                </cu-radio-group>
+                <cu-button variant="accent" type="submit">Show selected values</cu-button>
+              </form>
+              <pre class="cu-web-result" id="wc-choice-result" role="status" aria-live="polite">Select options and submit to inspect FormData.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Tooltip &amp; Popover</h3>
+              <p class="demo-subtitle">Use a focusable anchor for the tooltip; control a non-modal information overlay with a button.</p>
+              <div class="demo-row">
+                <cu-tooltip text="Save your progress to the workspace" placement="top">
+                  <button slot="anchor" class="cu-btn" type="button">Focus for tooltip</button>
+                </cu-tooltip>
+                <cu-popover id="wc-popover" title="Quick workspace information">
+                  <button slot="trigger" class="cu-btn" type="button">Open popover ▾</button>
+                  <div slot="content" class="cu-web-popover-content">
+                    <strong>Workspace details</strong>
+                    <p>Popover closes on Escape or outside click; it does not trap focus.</p>
+                    <button type="button" class="cu-btn" id="wc-popover-close">Close popover</button>
+                  </div>
+                </cu-popover>
+              </div>
+              <span class="cu-helper" role="status" id="wc-popover-result">Popover closed</span>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Tabs</h3>
+              <p class="demo-subtitle">Fully keyboard-driven tablist and labelled panels; use Left/Right, Home/End and Enter-free automatic activation.</p>
+              <cu-tabs active="0" aria-label="Workspace details" id="wc-tabs">
+                <cu-tab label="Overview"><p>Manage your workspace overview from reusable Custom Elements.</p></cu-tab>
+                <cu-tab label="Appearance"><p>Theme, density and accent colors are inherited from the global design tokens.</p></cu-tab>
+                <cu-tab label="Access"><p>This section is for permission-related content.</p></cu-tab>
+                <cu-tab label="Unavailable" disabled><p>Disabled tab content.</p></cu-tab>
+              </cu-tabs>
+              <p class="cu-helper" id="wc-tabs-result" role="status">Selected tab: Overview</p>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>Modal Dialog as a Custom Element</h3>

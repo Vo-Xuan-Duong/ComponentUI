@@ -1,6 +1,6 @@
 {
   "name": "@componentui/web",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
@@ -30,6 +30,26 @@
     "./components/dialog": {
       "types": "./src/components/index.d.ts",
       "default": "./src/components/dialog.js"
+    },
+    "./components/select": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/select.js"
+    },
+    "./components/radio-group": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/radio-group.js"
+    },
+    "./components/tabs": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/tabs.js"
+    },
+    "./components/tooltip": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/tooltip.js"
+    },
+    "./components/popover": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/popover.js"
     }
   }
 }

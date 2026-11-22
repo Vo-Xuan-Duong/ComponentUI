@@ -1,0 +1,34 @@
+{
+  "name": "Tabs",
+  "status": "preview",
+  "version": 1,
+  "purpose": "Navigate labeled content panels with automatic activation",
+  "tag": "cu-tabs",
+  "properties": {
+    "active": "integer index",
+    "orientation": "horizontal|vertical",
+    "ariaLabel": "string"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "slots": [
+    "cu-tab children with label, optional disabled attribute and default panel content"
+  ],
+  "accessibility": {
+    "roles": [
+      "tablist",
+      "tab",
+      "tabpanel"
+    ],
+    "keyboard": [
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "ArrowUp/ArrowDown (vertical)"
+    ],
+    "focus": "Roving tabindex; focus enters active tab and panel",
+    "note": "Disabled tab is excluded from keyboard selection"
+  }
+}

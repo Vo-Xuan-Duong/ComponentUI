@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Native Web Components (v0.2.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component backlog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and five experimental form-aware browser Custom Elements. **There are 5 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — Native Web Components (v0.3.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and ten experimental browser Custom Elements. **There are 10 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 ## Preview locally
 
@@ -15,7 +15,7 @@ npm run check    # static, unit and token consistency checks
 npm run preview  # http://127.0.0.1:4173/apps/playground-web/
 ```
 
-Open [local preview](http://127.0.0.1:4173/apps/playground-web/). Use the top toolbar to switch **System / Light / Dark**, **Compact / Comfortable / Touch** and the **Blue / Purple / Green** accent palette. Test native dialog, toasts, keyboard-accessible tabs, Accordion, Tooltip, Drawer, Popover/Menu, Pagination and Command Palette (Ctrl/⌘ K), plus the searchable planned-component catalog. Open the gallery through the server, **not** by double-clicking its HTML file (JSON fetch requires HTTP).
+Open [local preview](http://127.0.0.1:4173/apps/playground-web/). Use the top toolbar to switch **System / Light / Dark**, **Compact / Comfortable / Touch** and the **Blue / Purple / Green** accent palette. Test native dialog, toasts, Accordion, Drawer, Pagination and Command Palette (Ctrl/⌘ K); the Real Web Components section now includes Select, RadioGroup, Tabs, Tooltip and Popover. Browse the searchable component catalog. Open the gallery through the server, **not** by double-clicking its HTML file (JSON fetch requires HTTP).
 
 > **Local-only policy:** GitHub Actions are deliberately not used. The maintainer performs all builds and tests locally. None of the implementation should be described as verified until local checks are actually run.
 
@@ -25,14 +25,14 @@ Open [local preview](http://127.0.0.1:4173/apps/playground-web/). Use the top to
 design-system/
   tokens/fluent-calm.tokens.json       # Source of truth: DTCG tokens
   components/catalog.json             # 128 planned component/pattern entries
-  components/button.contract.json     # Initial behavior and API contract
+  components/*.contract.json          # Per-component API/behavior contracts
 packages/
   theme/
     src/tokens.css                    # Generated tokens; do not edit
     src/components.css                # Reusable preview visual primitives (not Web Components)
     src/theme.js                      # Framework-neutral theme preference controller
   web/src/interactions.js             # Native-first HTML interaction controllers
-  web/src/components/                 # Button, TextField, Checkbox, Switch, Dialog Custom Elements
+  web/src/components/                 # 10 native browser Custom Elements + helpers
 apps/
   playground-web/
     index.html                        # Responsive gallery; no framework dependencies

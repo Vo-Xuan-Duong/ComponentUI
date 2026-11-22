@@ -87,6 +87,19 @@ Reference documentation: [Component previews](COMPONENT_PREVIEWS.md).
 
 **Status:** implementation complete in source code; production certification and local validation remain outstanding.
 
+## Second Web Components wave — v0.3.0
+
+- [x] Implement `cu-select` backed by native select and declarative option/optgroup
+- [x] Implement `cu-radio-group` and `cu-radio` child definitions using native radio inputs
+- [x] Implement slotted `cu-tabs` and `cu-tab` with roving focus and ARIA tab panels
+- [x] Implement non-interactive `cu-tooltip` and non-modal `cu-popover`
+- [x] Expand package exports, TypeScript declarations, design contracts, Playground and Node source tests
+- [ ] Run local tests and smoke-test in supported browsers
+- [ ] Audit keyboard, focus return, screen reader descriptions, native form reset and validity, and responsive visuals
+- [ ] Add React/Vue consumer tests before promoting component status to ready
+
+No GitHub Actions are used. Experimental UI stays at catalog status `preview`.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

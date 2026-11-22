@@ -40,6 +40,38 @@ export declare class CuDialog extends HTMLElement {
   close(returnValue?: string): void;
 }
 
+
+export declare class CuSelect extends HTMLElement {
+  static formAssociated: boolean;
+  value: string;
+  disabled: boolean;
+  required: boolean;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+export declare class CuRadio extends HTMLElement {}
+export declare class CuRadioGroup extends HTMLElement {
+  static formAssociated: boolean;
+  value: string;
+  disabled: boolean;
+  required: boolean;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+export declare class CuTab extends HTMLElement {}
+export declare class CuTabs extends HTMLElement {
+  active: number;
+}
+export declare class CuTooltip extends HTMLElement {}
+export declare class CuPopover extends HTMLElement {
+  open: boolean;
+  show(): void;
+  hide(): void;
+  toggle(): void;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "cu-button": CuButton;
@@ -47,5 +79,12 @@ declare global {
     "cu-checkbox": CuCheckbox;
     "cu-switch": CuSwitch;
     "cu-dialog": CuDialog;
+    "cu-select": CuSelect;
+    "cu-radio": CuRadio;
+    "cu-radio-group": CuRadioGroup;
+    "cu-tab": CuTab;
+    "cu-tabs": CuTabs;
+    "cu-tooltip": CuTooltip;
+    "cu-popover": CuPopover;
   }
 }

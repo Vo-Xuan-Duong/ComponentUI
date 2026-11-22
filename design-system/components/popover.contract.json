@@ -1,0 +1,31 @@
+{
+  "name": "Popover",
+  "status": "preview",
+  "version": 1,
+  "purpose": "Show a non-modal information panel anchored to a control",
+  "tag": "cu-popover",
+  "properties": {
+    "open": "boolean",
+    "title": "string",
+    "placement": "start|end"
+  },
+  "methods": [
+    "show()",
+    "hide()",
+    "toggle()"
+  ],
+  "events": [
+    "cu-open",
+    "cu-close"
+  ],
+  "slots": [
+    "trigger (interactive element)",
+    "content (body)"
+  ],
+  "accessibility": {
+    "role": "dialog (nonmodal)",
+    "keyboard": "Escape closes and restores trigger focus",
+    "focus": "Does not trap focus; click outside dismisses",
+    "note": "Use a meaningful title; modal workflows should use cu-dialog"
+  }
+}
