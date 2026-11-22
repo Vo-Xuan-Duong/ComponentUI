@@ -1,10 +1,35 @@
 {
   "name": "@componentui/web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Progressively-enhanced HTML interactions for the ComponentUI Fluent Calm preview",
+  "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
   "exports": {
-    ".": "./src/interactions.js"
+    ".": "./src/interactions.js",
+    "./interactions": "./src/interactions.js",
+    "./components": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/index.js"
+    },
+    "./components/button": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/button.js"
+    },
+    "./components/text-field": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/text-field.js"
+    },
+    "./components/checkbox": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/checkbox.js"
+    },
+    "./components/switch": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/switch.js"
+    },
+    "./components/dialog": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/dialog.js"
+    }
   }
 }

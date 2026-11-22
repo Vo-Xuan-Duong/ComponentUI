@@ -1,13 +1,13 @@
 {
   "name": "componentui",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Fluent Calm Design System — local-first cross-framework foundation",
   "scripts": {
     "tokens:build": "node scripts/build-tokens.mjs",
     "tokens:check": "node scripts/build-tokens.mjs --check",
-    "syntax:check": "node --check scripts/serve.mjs && node --check apps/playground-web/main.js && node --check packages/theme/src/theme.js && node --check packages/web/src/interactions.js",
+    "syntax:check": "node --check scripts/serve.mjs && node --check apps/playground-web/main.js && node --check packages/theme/src/theme.js && node --check packages/web/src/interactions.js && node --check packages/web/src/components/_shared.js && node --check packages/web/src/components/button.js && node --check packages/web/src/components/text-field.js && node --check packages/web/src/components/checkbox.js && node --check packages/web/src/components/switch.js && node --check packages/web/src/components/dialog.js && node --check packages/web/src/components/index.js",
     "test": "node --test",
     "check": "npm run tokens:check && npm run syntax:check && npm test",
     "preview": "node scripts/serve.mjs"

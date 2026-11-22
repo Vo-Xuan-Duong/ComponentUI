@@ -74,6 +74,19 @@
 
 Reference documentation: [Component previews](COMPONENT_PREVIEWS.md).
 
+## First experimental Web Components (v0.2.0)
+
+- [x] Implement form-associated `cu-button`, `cu-text-field`, `cu-checkbox`, and `cu-switch` using native controls + ElementInternals
+- [x] Implement `cu-dialog` on the native modal dialog element
+- [x] Export individual component modules and ESM registry with TypeScript declarations
+- [x] Add real Custom Elements examples to the existing Fluent Calm Playground
+- [x] Add experimental API documentation and component contract drafts
+- [ ] Maintainer runs local tests and validates real forms, focus, keyboard and contrast
+- [ ] Add browser integration tests, React/Vue smoke tests and accessibility review
+- [ ] Promote each component to `ready` only after every quality gate
+
+**Status:** implementation complete in source code; production certification and local validation remain outstanding.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

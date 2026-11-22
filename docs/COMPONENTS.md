@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **120 planned**, **8 preview**, and **0 production-ready** entries. Preview status means an HTML/CSS/JS reference is available, not a tested/published Web Component. The [Fluent Calm gallery](../apps/playground-web/) demonstrates reference visual styles only, using native HTML and CSS. It is **not** a gallery of published components.
+The catalog currently has **115 planned**, **13 preview**, and **0 production-ready** entries. Preview status means an HTML/CSS/JS reference is available, not a tested/published Web Component. The [Fluent Calm gallery](../apps/playground-web/) demonstrates reference visual styles only, using native HTML and CSS. It is **not** a gallery of published components.
 
 - **P0 — 40:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -20,3 +20,7 @@ For the complete inventory, browse the Playground catalog locally or [inspect ca
 6. Versioning and migration guidance are prepared.
 
 Do not use the presence of CSS demos as evidence that these release criteria have been met.
+
+## First native Custom Elements
+
+Five experimental, reusable `cu-*` elements now exist: `Button`, `TextField`, `Checkbox`, `Switch`, and `Dialog`. Their catalog status is **preview** pending cross-browser/accessibility/form-integration tests; see [Web Components API](WEB_COMPONENTS.md).

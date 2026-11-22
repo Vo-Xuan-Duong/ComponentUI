@@ -1,0 +1,25 @@
+{
+  "name": "Switch",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Toggle a setting",
+  "properties": {
+    "checked": "boolean",
+    "name": "string",
+    "value": "string",
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "control": "native checkbox with role=switch",
+    "keyboard": [
+      "Space"
+    ],
+    "validation": "ElementInternals"
+  }
+}

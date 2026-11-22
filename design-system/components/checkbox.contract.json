@@ -1,0 +1,26 @@
+{
+  "name": "Checkbox",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Select a binary option",
+  "properties": {
+    "checked": "boolean",
+    "name": "string",
+    "value": "string",
+    "disabled": "boolean",
+    "required": "boolean"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "control": "native checkbox",
+    "keyboard": [
+      "Space"
+    ],
+    "validation": "ElementInternals"
+  }
+}

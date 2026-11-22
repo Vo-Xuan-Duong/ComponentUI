@@ -21,7 +21,8 @@ Design Tokens and Contracts are the cross-platform source of truth. **Web Compon
 
 - `design-system/`: initial DTCG token source and component backlog/contracts
 - `packages/theme/`: generated CSS variables, reusable **preview-only** CSS classes and theme preference controller
-- `apps/playground-web/`: responsive HTML/JS design reference with theme/density/accent switching, native modal, toast, tab navigation, forms and dynamic catalog
+- `packages/web/src/components/`: experimental, native JavaScript Web Components (Button, TextField, Checkbox, Switch, Dialog). Form controls use ElementInternals when supported.
+- `apps/playground-web/`: responsive HTML/JS reference with theme/density/accent switching, eight progressive-enhancement patterns, and a live Custom Elements example form
 - `scripts/serve.mjs`: dependency-free local preview server
 - `tests/`: Node-based consistency, theme preference and static preview integration tests
 - `pnpm-workspace.yaml`: boundary declaration for packages and apps
@@ -32,7 +33,7 @@ Design Tokens and Contracts are the cross-platform source of truth. **Web Compon
 - **Adapter:** framework-specific rendering, lifecycle, state binding and event transport.
 - **Shared logic:** reuse only logic compatible with platform runtimes, rather than wrapping native toolkits with a web dependency.
 
-The Web Renderer will use standards-based Custom Elements (potentially Lit) when Foundation gates are satisfied. React/Vue adapters can follow. A gallery control is not automatically a production `<cu-button>` implementation.
+The initial browser Web Renderer now uses standards-based Custom Elements with Shadow DOM, without a bundler or runtime dependency. The `cu-*` elements are genuine implementations but **experimental**, not production-certified. A dedicated React/Vue adapter, browser compatibility validation and accessibility review will follow. Lit remains an optional future implementation choice for more complex components.
 
 ## Build and verification
 

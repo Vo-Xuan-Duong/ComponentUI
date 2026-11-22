@@ -1,0 +1,30 @@
+{
+  "name": "Dialog",
+  "version": 1,
+  "status": "preview",
+  "purpose": "Present modal content with native keyboard/focus handling",
+  "properties": {
+    "title": "string",
+    "open": "boolean"
+  },
+  "methods": [
+    "showModal",
+    "close"
+  ],
+  "events": [
+    "cu-open",
+    "cu-close",
+    "cu-cancel"
+  ],
+  "slots": [
+    "default",
+    "actions"
+  ],
+  "accessibility": {
+    "control": "native HTMLDialogElement",
+    "keyboard": [
+      "Escape"
+    ],
+    "label": "internal heading from title attribute"
+  }
+}

@@ -34,4 +34,4 @@ The first playground has no runtime npm dependencies. No `npm install` is requir
 
 The local checks validate source consistency and app structure. They **do not yet verify** browser screenshots, layout regressions, keyboard accessibility, screen reader experience, SSR hydration or compatibility in real React/Vue applications. Those are milestones for later releases.
 
-No published UI components are available yet; preview controls are native HTML plus reusable Fluent Calm CSS classes and a theme controller. Do not treat the preview as the final component API.
+Five experimental native Web Components are now available in the source tree (Button, TextField, Checkbox, Switch, Dialog). They are **not** published or production-certified. Try them in the Real Web Components section of the gallery. See `docs/WEB_COMPONENTS.md`.

@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Foundation preview (v0.1.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component backlog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and a first set of reusable DOM interaction controllers. **There are still 0 production-ready Web Components.** The gallery uses native HTML + CSS to validate visual direction; it is not a published component package.
+**Current milestone — Native Web Components (v0.2.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component backlog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and five experimental form-aware browser Custom Elements. **There are 5 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 ## Preview locally
 
@@ -32,6 +32,7 @@ packages/
     src/components.css                # Reusable preview visual primitives (not Web Components)
     src/theme.js                      # Framework-neutral theme preference controller
   web/src/interactions.js             # Native-first HTML interaction controllers
+  web/src/components/                 # Button, TextField, Checkbox, Switch, Dialog Custom Elements
 apps/
   playground-web/
     index.html                        # Responsive gallery; no framework dependencies
@@ -61,6 +62,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Foundation milestones](docs/FOUNDATION_PLAN.md)
 - [Local development](docs/LOCAL_DEVELOPMENT.md)
 - [Component preview interactions](docs/COMPONENT_PREVIEWS.md)
+- [Experimental Web Components API](docs/WEB_COMPONENTS.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)
 - [Component inventory](docs/COMPONENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)

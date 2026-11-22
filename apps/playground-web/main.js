@@ -1,3 +1,4 @@
+import "../../packages/web/src/components/index.js";
 import {
   enhanceMenu, enhancePopover, enhanceDialogTrigger,
   enhancePagination, enhanceCommandPalette
@@ -273,3 +274,29 @@ const commandPalette = enhanceCommandPalette(document.getElementById("command-pa
   }
 });
 document.getElementById("open-command-secondary").addEventListener("click", commandPalette.open);
+
+
+// First reusable Custom Elements. All form values are collected by native
+// FormData through ElementInternals, not copied from Shadow DOM manually.
+const wcForm = document.getElementById("wc-form");
+const wcResult = document.getElementById("wc-result");
+wcForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(wcForm).entries());
+  wcResult.textContent = JSON.stringify(data, null, 2);
+  showToast("Web Component form submitted", "FormData was collected without a backend request.");
+});
+wcForm.addEventListener("reset", () => {
+  wcResult.textContent = "Form reset to its initial values.";
+});
+document.getElementById("wc-action").addEventListener("cu-press", () => {
+  showToast("Custom Element button", "cu-press was dispatched from <cu-button>.");
+});
+const wcDialog = document.getElementById("wc-dialog");
+document.getElementById("wc-open-dialog").addEventListener("cu-press", () => wcDialog.showModal());
+document.getElementById("wc-close-dialog").addEventListener("cu-press", () => wcDialog.close("confirmed"));
+wcDialog.addEventListener("cu-close", event => {
+  if (event.detail.returnValue === "confirmed") {
+    showToast("Custom Dialog closed", "cu-close reported the confirmed return value.");
+  }
+});

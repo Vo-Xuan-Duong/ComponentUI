@@ -28,6 +28,7 @@
         <a class="side-link" href="#data">Data &amp; status</a>
         <a class="side-link" href="#feedback">Feedback</a>
         <a class="side-link" href="#patterns">More components</a>
+        <a class="side-link" href="#web-components">Web Components</a>
         <div class="nav-group-label">Documentation</div>
         <a class="side-link" href="#catalog">Component catalog</a>
       </nav>
@@ -323,6 +324,60 @@
                 <button class="cu-btn" data-variant="accent" id="open-command-secondary" type="button" aria-keyshortcuts="Control+K Meta+K">Open command palette <kbd>Ctrl K</kbd></button>
                 <span class="cu-helper">Try searching “forms”, “theme”, or “catalog”.</span>
               </div>
+            </article>
+          </div>
+        </section>
+
+
+        <section class="section" id="web-components" aria-labelledby="web-heading">
+          <div class="section-heading">
+            <div><h2 id="web-heading">Real Web Components</h2><p>Native Custom Elements with Shadow DOM and form support. This is the first experimental reusable component batch, separate from CSS-only previews.</p></div>
+            <span class="section-flag">Web Components · Experimental</span>
+          </div>
+          <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>Button variations</h3>
+              <p class="demo-subtitle">Reusable <code>&lt;cu-button&gt;</code> elements using semantic theme tokens.</p>
+              <div class="demo-row">
+                <cu-button variant="accent" id="wc-action">Primary</cu-button>
+                <cu-button variant="outline">Outline</cu-button>
+                <cu-button variant="subtle">Subtle</cu-button>
+                <cu-button variant="danger">Danger</cu-button>
+              </div>
+              <div class="demo-row">
+                <cu-button disabled>Disabled</cu-button>
+                <cu-button loading>Loading</cu-button>
+                <cu-button size="sm">Small</cu-button>
+                <cu-button size="xl">Large</cu-button>
+              </div>
+              <div class="cu-info">Component API: <code>variant</code>, <code>size</code>, <code>disabled</code>, <code>loading</code>, and <code>cu-press</code> event.</div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Form-associated controls</h3>
+              <p class="demo-subtitle">TextField, Checkbox and Switch use native inputs, Shadow DOM, and ElementInternals.</p>
+              <form id="wc-form" class="cu-web-form">
+                <cu-text-field label="Email" name="email" type="email" placeholder="name@example.com" hint="An address for demo validation" required></cu-text-field>
+                <cu-text-field label="Workspace" name="workspace" value="My project"></cu-text-field>
+                <cu-checkbox name="updates" value="yes" checked>Receive release updates</cu-checkbox>
+                <cu-switch name="preview" value="enabled" checked>Enable early previews</cu-switch>
+                <div class="demo-row">
+                  <cu-button variant="accent" type="submit">Submit form</cu-button>
+                  <cu-button type="reset">Reset</cu-button>
+                </div>
+              </form>
+              <pre class="cu-web-result" id="wc-result" role="status" aria-live="polite">Submit the example to inspect FormData.</pre>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Modal Dialog as a Custom Element</h3>
+              <p class="demo-subtitle">Try a real <code>&lt;cu-dialog&gt;</code> with built-in native modal focus and <code>cu-close</code> event.</p>
+              <div class="demo-row">
+                <cu-button id="wc-open-dialog" variant="accent">Open component dialog</cu-button>
+                <span class="cu-helper">Escape closes the dialog; the focus returns to the trigger.</span>
+              </div>
+              <cu-dialog id="wc-dialog" title="ComponentUI Web Dialog">
+                <p>This dialog belongs to the reusable web components package, not to the gallery's old CSS preview.</p>
+                <cu-button id="wc-close-dialog" variant="accent" slot="actions">Close dialog</cu-button>
+              </cu-dialog>
             </article>
           </div>
         </section>

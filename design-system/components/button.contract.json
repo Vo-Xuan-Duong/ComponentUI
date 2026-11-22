@@ -1,7 +1,7 @@
 {
   "name": "Button",
   "version": 1,
-  "status": "planned",
+  "status": "preview",
   "purpose": "Initiate one user action",
   "props": {
     "variant": {
