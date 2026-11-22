@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "SettingsItem",
+  "tag": "cu-settings-item",
+  "status": "preview auxiliary element",
+  "type": "composition",
+  "description": "Settings row with label, description, and consumer control slot",
+  "attributes": {
+    "label": "string",
+    "description": "string",
+    "keywords": "string"
+  },
+  "slots": [
+    "control"
+  ],
+  "events": []
+}

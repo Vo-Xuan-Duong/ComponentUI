@@ -1,6 +1,6 @@
 {
   "name": "@componentui/web",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "private": true,
   "type": "module",
   "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
@@ -152,6 +152,22 @@
     "./components/app-shell": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/app-shell.js"
+    },
+    "./components/navigation-view": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/navigation-view.js"
+    },
+    "./components/settings-page": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/settings-page.js"
+    },
+    "./components/settings-group": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/settings-group.js"
+    },
+    "./components/settings-item": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/settings-item.js"
     }
   },
   "files": [

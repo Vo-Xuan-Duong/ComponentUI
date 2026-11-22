@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "name": "NavigationView",
+  "tag": "cu-navigation-view",
+  "status": "preview",
+  "type": "navigation",
+  "description": "Native link/button navigation with selection and keyboard traversal",
+  "attributes": {
+    "value": "string",
+    "label": "string"
+  },
+  "properties": {
+    "value": "string"
+  },
+  "methods": [
+    "select(value,emit?)"
+  ],
+  "events": [
+    "cu-change"
+  ],
+  "slots": [
+    "default: direct anchors/buttons",
+    "footer"
+  ],
+  "keyboard": [
+    "ArrowUp/Down",
+    "ArrowLeft/Right",
+    "Home",
+    "End"
+  ],
+  "accessibility": [
+    "nav landmark and aria-label",
+    "aria-current on selected item",
+    "focus-visible, disabled navigation prevention"
+  ],
+  "limitations": [
+    "No built-in router integration",
+    "Nested menus require composition"
+  ]
+}

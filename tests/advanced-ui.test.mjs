@@ -83,18 +83,18 @@ test("new components and icons are exported by the distribution manifests",async
   assert.equal(REACT_TAGS.AppShell,"cu-app-shell");
   assert.equal(REACT_EVENT_PROPS.onCuVisibilityChange,"cu-visibility-change");
   assert.equal(REACT_EVENT_PROPS.onCuNavigationToggle,"cu-navigation-toggle");
-  assert.equal(Object.keys(REACT_TAGS).length,41);
+  assert.equal(Object.keys(REACT_TAGS).length,45);
 });
 
 test("all package versions remain aligned and privately packable",async()=>{
   for(const name of ["theme","icons","web","react","vue","svelte"]){
     const m=JSON.parse(await read("../packages/"+name+"/package.json"));
-    assert.equal(m.version,"0.11.0");
+    assert.equal(m.version,"0.12.0");
     assert.equal(m.private,true);
     assert.deepEqual(m.files,["dist"]);
   }
   const root=JSON.parse(await read("../package.json"));
-  assert.equal(root.version,"0.11.0");
+  assert.equal(root.version,"0.12.0");
   for(const name of ["password-field","file-picker","app-shell"])
     assert.ok(root.scripts["syntax:check"].includes(name+".js"));
 });
@@ -121,7 +121,7 @@ test("new catalog entries are previews but none are certified production-ready",
   for(const name of ["PasswordField","FilePicker","AppShell"])
     assert.equal(lookup.get(name),"preview");
   assert.equal(components.length,129);
-  assert.equal(components.filter(c=>c.status==="preview").length,38);
-  assert.equal(components.filter(c=>c.status==="planned").length,91);
+  assert.equal(components.filter(c=>c.status==="preview").length,40);
+  assert.equal(components.filter(c=>c.status==="planned").length,89);
   assert.equal(components.filter(c=>c.status==="ready").length,0);
 });

@@ -17,7 +17,7 @@
     <aside class="sidebar" aria-label="ComponentUI navigation">
       <a class="brand" href="#overview" aria-label="ComponentUI home">
         <span class="brand-logo" aria-hidden="true"><cu-icon name="sparkles" size="22"></cu-icon></span>
-        <span><strong>ComponentUI</strong><small>Fluent Calm · v0.11 preview</small></span>
+        <span><strong>ComponentUI</strong><small>Fluent Calm · v0.12 preview</small></span>
       </a>
       <nav class="sidebar-nav" aria-label="Sections">
         <div class="nav-group-label">Design system</div>
@@ -64,7 +64,7 @@
       <main id="content" class="content">
         <section class="hero" id="overview" aria-labelledby="hero-title">
           
-          <span class="eyebrow">ComponentUI design system · v0.11.0</span>
+          <span class="eyebrow">ComponentUI design system · v0.12.0</span>
           <h1 id="hero-title">Build once. Keep your UI consistent.</h1>
           <p>A reusable Fluent Calm design system for web apps and desktop webviews. Explore real components, adjust themes and densities, and use the same UI across React, Vue, Svelte, Electron and Tauri.</p>
           <div class="hero-footer">
@@ -76,8 +76,8 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">38</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">33</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-previews">40</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">35</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -723,20 +723,60 @@
               <p class="demo-subtitle">Composable application layout with header, navigation, content, optional aside and footer slots. Narrow the viewport to see navigation collapse.</p>
               <cu-app-shell id="wc-app-shell" style="--cu-appshell-min-height:310px;--cu-appshell-nav-width:150px;--cu-appshell-aside-width:128px;--cu-appshell-content-padding:14px">
                 <strong slot="header" class="cu-app-header-title">Projects · ComponentUI</strong>
-                <div slot="navigation" class="cu-app-nav">
-                  <button type="button" data-workspace-view="Overview" aria-pressed="true">Overview</button>
-                  <button type="button" data-workspace-view="Components" aria-pressed="false">Components</button>
-                  <button type="button" data-workspace-view="Settings" aria-pressed="false">Settings</button>
-                </div>
+                <cu-navigation-view slot="navigation" id="wc-navigation-view"
+                  label="Workspace" value="overview">
+                  <button type="button" data-value="overview">Overview</button>
+                  <button type="button" data-value="components">Components</button>
+                  <button type="button" data-value="settings">Settings</button>
+                  <button type="button" data-value="archived" disabled>Archived</button>
+                </cu-navigation-view>
                 <div class="cu-app-body">
                   <strong id="wc-app-view">Overview</strong>
                   <p>Compose a full application shell without rebuilding navigation and layout in every repository.</p>
-                  <div class="cu-app-mock-stat"><span>Web Components</span><strong>33</strong></div>
+                  <div class="cu-app-mock-stat"><span>Web Components</span><strong>35</strong></div>
                 </div>
                 <div slot="aside" class="cu-app-aside"><strong>Activity</strong><p>Ready for local preview.</p></div>
                 <span slot="footer" class="cu-app-footer">Local preview · No server connection</span>
               </cu-app-shell>
               <p id="wc-app-shell-result" class="cu-helper" role="status">Navigation panel is closed on narrow screens.</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>SettingsPage</h3>
+              <p class="demo-subtitle">Reusable settings groups and rows. Search labels or descriptions; controls remain native Web Components and keep their own state.</p>
+              <cu-settings-page id="wc-settings-page" label="Workspace settings"
+                description="Manage the appearance, workspace and privacy preferences used in this preview."
+                searchable placeholder="Find a setting…">
+                <cu-settings-group label="Appearance" description="Adjust how your workspace looks." keywords="theme color density">
+                  <cu-settings-item label="Theme" description="Choose a preferred color theme." keywords="light dark">
+                    <cu-select id="wc-settings-theme" slot="control" aria-label="Workspace theme" value="system">
+                      <option value="system">System</option>
+                      <option value="light">Light</option>
+                      <option value="dark">Dark</option>
+                    </cu-select>
+                  </cu-settings-item>
+                  <cu-settings-item label="Density" description="Adjust spacing in controls." keywords="compact touch">
+                    <cu-select id="wc-settings-density" slot="control" aria-label="Workspace density" value="comfortable">
+                      <option value="comfortable">Comfortable</option>
+                      <option value="compact">Compact</option>
+                      <option value="touch">Touch</option>
+                    </cu-select>
+                  </cu-settings-item>
+                </cu-settings-group>
+                <cu-settings-group label="Workspace" description="General project options.">
+                  <cu-settings-item label="Notifications" description="Receive updates for your workspace." keywords="alerts">
+                    <cu-switch slot="control" id="wc-settings-notify" aria-label="Workspace notifications" checked></cu-switch>
+                  </cu-settings-item>
+                  <cu-settings-item label="Project name" description="Give your workspace a recognizable name." keywords="name">
+                    <cu-text-field slot="control" id="wc-settings-name" aria-label="Workspace name" value="My project"></cu-text-field>
+                  </cu-settings-item>
+                </cu-settings-group>
+                <cu-settings-group label="Privacy" description="Control local preferences." keywords="security">
+                  <cu-settings-item label="Remember preferences" description="Keep preview preferences between page reloads.">
+                    <cu-checkbox slot="control" id="wc-settings-remember" aria-label="Remember preferences" checked></cu-checkbox>
+                  </cu-settings-item>
+                </cu-settings-group>
+              </cu-settings-page>
+              <p id="wc-settings-result" class="cu-helper" role="status" aria-live="polite">Search settings or change a value to see its state.</p>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>Modal Dialog as a Custom Element</h3>

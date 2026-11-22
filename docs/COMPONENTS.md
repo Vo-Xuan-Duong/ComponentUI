@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **91 planned**, **38 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **89 planned**, **40 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -39,3 +39,11 @@ PasswordField, FilePicker and AppShell have moved from planned to preview.
 The total catalog remains 129: **38 preview, 91 planned and 0 production-certified**.
 See [ADVANCED_UI.md](ADVANCED_UI.md) for API contracts, data handling,
 keyboard behavior and local validation.
+
+## Navigation and settings composition — v0.12.0
+
+Two catalog entries have moved to preview: NavigationView and
+SettingsPage. SettingsGroup/SettingsItem are auxiliary custom elements.
+The 129-entry catalog contains **40 preview, 89 planned and 0 ready**
+records. Keyboard/browser accessibility and installed-package testing
+remain required. See [SETTINGS_NAVIGATION.md](SETTINGS_NAVIGATION.md).

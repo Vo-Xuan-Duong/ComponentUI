@@ -492,12 +492,25 @@ appShell.addEventListener("cu-navigation-toggle",event=>{
   document.getElementById("wc-app-shell-result").textContent=
     "Navigation panel "+(event.detail.open?"opened":"closed")+".";
 });
-appShell.querySelectorAll("[data-workspace-view]").forEach(button=>{
-  button.addEventListener("click",()=>{
-    appShell.querySelectorAll("[data-workspace-view]").forEach(item=>{
-      item.setAttribute("aria-pressed",String(item===button));
-    });
-    document.getElementById("wc-app-view").textContent=button.dataset.workspaceView;
-    appShell.closeNavigation(false);
-  });
+const workspaceNavigation=document.getElementById("wc-navigation-view");
+workspaceNavigation.addEventListener("cu-change",event=>{
+  const label=event.detail.label;
+  document.getElementById("wc-app-view").textContent=label;
+  appShell.closeNavigation(false);
 });
+
+// SettingsPage filters metadata only; no control values are read by search.
+const settingsPage=document.getElementById("wc-settings-page");
+const settingsResult=document.getElementById("wc-settings-result");
+settingsPage.addEventListener("cu-filter",event=>{
+  settingsResult.textContent=event.detail.visible+" of "+event.detail.total+
+    " settings match "+(event.detail.query||"your query")+".";
+});
+for(const id of ["wc-settings-theme","wc-settings-density","wc-settings-notify",
+  "wc-settings-name","wc-settings-remember"]){
+  const control=document.getElementById(id);
+  control.addEventListener("cu-change",event=>{
+    // Never read or log unrelated input fields.
+    settingsResult.textContent=(control.getAttribute("aria-label")||id)+" updated.";
+  });
+}

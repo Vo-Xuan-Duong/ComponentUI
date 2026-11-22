@@ -155,3 +155,16 @@ including invalid files, FormData reset, narrow-panel navigation,
 Escape/focus return, Light/Dark, density variants and 200% zoom.
 Refer to [ADVANCED_UI.md](ADVANCED_UI.md) for detailed acceptance
 criteria. No GitHub Actions is created or executed.
+
+## Navigation / settings manual verification — v0.12.0
+
+Update your local checkout and run `npm run check`,
+`npm run build:packages`, `npm run packages:verify` and
+`npm run preview`. In **Real Web Components**, test the slotted
+NavigationView within AppShell and the searchable SettingsPage.
+Verify focus, Home/End/arrow keys, disabled items, group filtering,
+control state retention and keyboard behavior at 320px width,
+200% zoom, Light/Dark, forced colors and reduced-motion modes.
+
+See [SETTINGS_NAVIGATION.md](SETTINGS_NAVIGATION.md) for all checks.
+No GitHub Actions is created or run; browser testing remains local.

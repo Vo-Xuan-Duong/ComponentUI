@@ -72,3 +72,12 @@ Electron and Tauri use the Web renderer in their frontend/webview;
 they are not separate component renderers.
 
 See [Package distribution](PACKAGING.md) and [framework adapters](FRAMEWORK_ADAPTERS.md).
+
+## v0.12.0 — application composition
+
+NavigationView selects accessible native links/buttons without owning
+routing; SettingsPage organizes groups and settings rows without owning
+persistence. Both extend the shared browser Custom Elements package,
+work in AppShell's slots and are reusable through the existing
+React/Vue/Svelte adapters. The two catalog entries remain preview;
+SettingsGroup and SettingsItem are auxiliary compositional elements.

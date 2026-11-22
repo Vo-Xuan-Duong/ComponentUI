@@ -20,11 +20,15 @@ export interface CuEventDetails {
   selectedIds?: string[];
   row?: Record<string,unknown>;
   query?: string;
+  keywords?: string;
+  searchable?: boolean;
   expanded?: boolean;
   visible?: boolean;
   open?: boolean;
   files?: File[];
   count?: number;
+  total?: number;
+  groups?: number;
   valid?: boolean;
 }
 export type CuEvent = CustomEvent<CuEventDetails>;
@@ -58,6 +62,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuSearch?: (event: CuEvent) => void;
   onCuVisibilityChange?: (event: CuEvent) => void;
   onCuNavigationToggle?: (event: CuEvent) => void;
+  onCuFilter?: (event: CuEvent) => void;
   onCuChange?: (event: CuEvent) => void;
   onCuOpen?: (event: CuEvent) => void;
   onCuClose?: (event: CuEvent) => void;
@@ -87,7 +92,8 @@ export declare function createReactComponent(
 export declare function createReactComponents(React: typeof import("react")):
   Record<"Button" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
-  "PasswordField" | "FilePicker" | "AppShell" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
+  "PasswordField" | "FilePicker" | "AppShell" |
+  "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
   "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |

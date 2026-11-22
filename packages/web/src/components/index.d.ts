@@ -85,6 +85,23 @@ export declare function validateFileSelection(
     accept?:string;multiple?:boolean;required?:boolean;maxSize?:number
   }
 ): string;
+export declare class CuNavigationView extends HTMLElement {
+  value: string;
+  select(value: string, emit?: boolean): boolean;
+}
+export declare function nextNavigationIndex(
+  length: number, index: number, key: string
+): number;
+export declare class CuSettingsPage extends HTMLElement {
+  query: string;
+  searchable: boolean;
+  clearSearch(): void;
+}
+export declare function matchesSettingsQuery(record: {
+  label?:string|null;description?:string|null;keywords?:string|null
+},query?:string):boolean;
+export declare class CuSettingsGroup extends HTMLElement {}
+export declare class CuSettingsItem extends HTMLElement {}
 export declare class CuAppShell extends HTMLElement {
   navigationOpen: boolean;
   withoutNavigation: boolean;
@@ -244,6 +261,10 @@ declare global {
     "cu-password-field": CuPasswordField;
     "cu-file-picker": CuFilePicker;
     "cu-app-shell": CuAppShell;
+    "cu-navigation-view": CuNavigationView;
+    "cu-settings-page": CuSettingsPage;
+    "cu-settings-group": CuSettingsGroup;
+    "cu-settings-item": CuSettingsItem;
     "cu-textarea": CuTextArea;
     "cu-number-field": CuNumberField;
     "cu-search-box": CuSearchBox;

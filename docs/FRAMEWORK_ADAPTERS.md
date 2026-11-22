@@ -1,11 +1,11 @@
-# ComponentUI framework adapters — experimental v0.11.0
+# ComponentUI framework adapters — experimental v0.12.0
 
 The ComponentUI browser layer remains native **Custom Elements**. This milestone
 adds two optional, framework-specific adapters to reduce integration boilerplate:
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 41 tags (33 catalog components, Icon and 7 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 45 tags (35 catalog components, Icon and 9 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -236,3 +236,12 @@ FilePicker emits its selected Files via `onCuChange`, and its
 `files` property is read-only. The password value is a JS-only
 property, not an attribute. The Vue 3 and Svelte 5 DOM adapters continue
 to use the same Web Components. See [ADVANCED_UI.md](ADVANCED_UI.md).
+
+## v0.12.0 — NavigationView and SettingsPage
+
+The React factory/named exports now expose 45 tags, adding
+`NavigationView`, `SettingsPage`, `SettingsGroup`, and
+`SettingsItem`. The `value`, `query`, and `searchable` DOM
+properties are bridged; `onCuFilter` subscribes to `cu-filter`.
+Vue/Svelte continue using the shared browser Custom Elements, with
+no separate renderer. [Navigation and settings docs](SETTINGS_NAVIGATION.md).

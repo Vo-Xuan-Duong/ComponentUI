@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "SettingsGroup",
+  "tag": "cu-settings-group",
+  "status": "preview auxiliary element",
+  "type": "composition",
+  "description": "Settings section that renders a heading and slotted settings rows",
+  "attributes": {
+    "label": "string",
+    "description": "string",
+    "keywords": "string"
+  },
+  "slots": [
+    "default: direct cu-settings-item"
+  ],
+  "events": []
+}

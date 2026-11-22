@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "name": "SettingsPage",
+  "tag": "cu-settings-page",
+  "status": "preview",
+  "type": "composition",
+  "description": "Searchable settings layout and declarative groups/rows",
+  "attributes": {
+    "label": "string",
+    "description": "string",
+    "placeholder": "string",
+    "searchable": "boolean"
+  },
+  "properties": {
+    "query": "string",
+    "searchable": "boolean"
+  },
+  "methods": [
+    "clearSearch()"
+  ],
+  "events": [
+    "cu-filter"
+  ],
+  "children": [
+    "cu-settings-group",
+    "cu-settings-item"
+  ],
+  "accessibility": [
+    "native search input with label",
+    "status message for no results",
+    "control accessible names are supplied by application"
+  ],
+  "limitations": [
+    "Searches label/description/keywords metadata only",
+    "Does not persist values or control routing"
+  ]
+}

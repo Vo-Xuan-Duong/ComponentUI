@@ -211,6 +211,20 @@ No GitHub Actions.
 **v0.11.0 status:** 33 experimental Web Components, 38 previews,
 91 planned, 0 production-certified. No GitHub Actions.
 
+## Navigation and settings composition — v0.12.0
+
+- [x] Add `cu-navigation-view` using real native links/buttons and keyboard navigation
+- [x] Add searchable `cu-settings-page` plus group/item compositional tags
+- [x] Integrate NavigationView inside AppShell and add SettingsPage Playground preview
+- [x] Update independent package exports, TypeScript, React adapter and catalog
+- [x] Add source tests, contract JSON and local accessibility checklist
+- [ ] Execute local Node tests and browser/assistive technology validation
+- [ ] Test installed tarballs in React, Vue, Svelte, Electron and Tauri consumer apps
+- [ ] Complete and promote the remaining 89 planned catalog entries as needed
+
+**Status:** 35 implemented browser Custom Elements (plus auxiliary tags),
+40 preview catalog entries, 89 planned, zero production-certified. No GitHub Actions.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

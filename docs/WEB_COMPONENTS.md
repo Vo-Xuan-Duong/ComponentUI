@@ -1,7 +1,7 @@
 
-# ComponentUI Web Components — Experimental v0.11.0
+# ComponentUI Web Components — Experimental v0.12.0
 
-Thirty-three **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
+Thirty-five **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
 
 ## Registration
 
@@ -312,3 +312,12 @@ Three additional browser-native Custom Elements are implemented:
 `cu-file-picker` (file selection, drop and FormData, no upload), and
 `cu-app-shell` (responsive slotted layout). They remain experimental;
 see [ADVANCED_UI.md](ADVANCED_UI.md) for API details and limitations.
+
+## Navigation and settings — v0.12.0
+
+`cu-navigation-view` provides slotted native link/button navigation
+with keyboard movement, selected state and a `cu-change` event.
+`cu-settings-page` organizes searchable groups and rows using
+`cu-settings-group` and `cu-settings-item` auxiliary tags. Search
+does not access user input values. This remains experimental: review
+[SETTINGS_NAVIGATION.md](SETTINGS_NAVIGATION.md).
