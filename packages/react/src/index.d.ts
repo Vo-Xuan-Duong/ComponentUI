@@ -20,6 +20,9 @@ export interface CuEventDetails {
   page?: number;
   selectedIds?: string[];
   row?: Record<string,unknown>;
+  column?: {key:string;label?:string;sortable?:boolean}|null;
+  hiddenKeys?: string[];
+  visibleKeys?: string[];
   query?: string;
   keywords?: string;
   searchable?: boolean;
@@ -59,6 +62,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   rows?: Record<string,unknown>[];
   rowActions?: {value:string;label?:string;
     disabled?:boolean|((row:Record<string,unknown>)=>boolean)}[];
+  headerActions?: {value:string;label?:string;
+    disabled?:boolean|((column:{key:string;label?:string;sortable?:boolean}|null)=>boolean)}[];
   page?: number;
   onCuPress?: (event: CuEvent) => void;
   onCuInput?: (event: CuEvent) => void;
@@ -76,6 +81,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuSelectionChange?: (event: CuEvent) => void;
   onCuRowActivate?: (event: CuEvent) => void;
   onCuRowAction?: (event: CuEvent) => void;
+  onCuHeaderAction?: (event: CuEvent) => void;
+  onCuColumnVisibilityChange?: (event: CuEvent) => void;
   onCuToggle?: (event: CuEvent) => void;
   onCuDismiss?: (event: CuEvent) => void;
 };
