@@ -1,6 +1,7 @@
 
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
+import "./context-menu.js";
 
 export function sortTableRows(rows, key, direction = "asc") {
   if (!key || !["asc","desc"].includes(direction)) return [...rows];
@@ -39,6 +40,10 @@ const css=[
   "tbody tr:last-child td{border-bottom:0;}",
   "tbody tr:hover{background:color-mix(in srgb,var(--cu-accent,#0067c0) 7%,var(--cu-surface,#fff));}",
   "tbody tr[data-selected=true]{background:color-mix(in srgb,var(--cu-accent,#0067c0) 12%,var(--cu-surface,#fff));}",
+  "tbody tr[data-context=true]{background:color-mix(in srgb,var(--cu-accent,#0067c0) 17%,var(--cu-surface,#fff));}",
+  "tbody tr[data-actionable=true]{cursor:context-menu;}",
+  "tbody tr:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
+  ".row-menu{position:fixed;width:0;height:0;}",
   "button{display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:4px 7px;",
   "border:0;background:transparent;border-radius:var(--cu-radius-md,6px);",
   "color:inherit;font:inherit;cursor:pointer;}",
@@ -70,7 +75,7 @@ export class CuDataTable extends BrowserElement {
       '</table></div><div class="footer" part="footer"><span class="summary"></span>' +
       '<div class="pages"><button type="button" class="prev" aria-label="Previous page"><cu-icon name="chevron-right" size="16"></cu-icon></button>' +
       '<span class="current"></span><button type="button" class="next" aria-label="Next page"><cu-icon name="chevron-right" size="16"></cu-icon></button>' +
-      '</div></div></div>');
+      '</div></div></div><cu-context-menu class="row-menu" aria-label="Row actions"></cu-context-menu>');
     this._table=root.querySelector("table");
     this._caption=root.querySelector("caption");
     this._head=root.querySelector("thead");
@@ -80,12 +85,29 @@ export class CuDataTable extends BrowserElement {
     this._current=root.querySelector(".current");
     this._prev=root.querySelector(".prev");
     this._next=root.querySelector(".next");
+    this._menu=root.querySelector(".row-menu");
     this._rows=[];
     this._columns=[];
     this._page=1;
     this._sortKey="";
     this._direction="asc";
     this._selected=new Set();
+    this._rowActions=[];
+    this._contextRow=null;
+    this._menu.addEventListener("cu-select",event=>{
+      event.stopPropagation();
+      const context=this._contextRow;
+      if(!context)return;
+      const action=this._actionsFor(context.row)
+        .find(item=>item.value===event.detail.value&&!item.disabled);
+      if(!action)return;
+      notify(this,"cu-row-action",{
+        action:action.value,label:action.label,id:context.id,row:context.row
+      });
+      if(action.value==="activate" && !this._rowActions.length)
+        notify(this,"cu-row-activate",{row:context.row,id:context.id});
+    });
+    this._menu.addEventListener("cu-close",()=>this._clearContextRow());
     this._prev.addEventListener("click",()=>this._setPage(this._page-1));
     this._next.addEventListener("click",()=>this._setPage(this._page+1));
   }
@@ -104,6 +126,14 @@ export class CuDataTable extends BrowserElement {
     this._columns=Array.isArray(value)?value.filter(c=>c && typeof c.key==="string"
       && /^[a-zA-Z_$][\w$-]*$/.test(c.key)).map(c=>({...c})):[];
     this._sortKey="";this._page=1;this._render();
+  }
+  get rowActions(){return this._rowActions;}
+  set rowActions(value){
+    if(value===this._rowActions)return;
+    this._rowActions=Array.isArray(value)?value:[];
+    this._menu.hide();
+    this._clearContextRow();
+    this._render();
   }
   get page(){return this._page;}
   set page(value){this._setPage(value);}
@@ -127,6 +157,32 @@ export class CuDataTable extends BrowserElement {
     notify(this,"cu-sort",{key,direction:this._direction});
   }
   _notifySelection(){notify(this,"cu-selection-change",{selectedIds:this.selectedIds});}
+  _actionsFor(row){
+    const fallback=this.getAttribute("row-action");
+    const source=this._rowActions.length?this._rowActions:
+      fallback?[{value:"activate",label:fallback}]:[];
+    return source.filter(item=>item&&typeof item.value==="string"&&item.value.length>0)
+      .map(item=>({
+        value:item.value,
+        label:String(item.label??item.value),
+        disabled:typeof item.disabled==="function"
+          ?Boolean(item.disabled(row)):Boolean(item.disabled)
+      }));
+  }
+  _clearContextRow(){
+    if(this._contextRow?.element)this._contextRow.element.dataset.context="false";
+    this._contextRow=null;
+  }
+  _showRowMenu(row,id,element,x,y){
+    const actions=this._actionsFor(row);
+    if(!actions.length)return;
+    this._clearContextRow();
+    this._contextRow={row,id,element};
+    element.dataset.context="true";
+    this._menu.setAttribute("aria-label","Actions for row "+id);
+    this._menu.items=actions;
+    this._menu.showAt(x,y,element);
+  }
   _makeCell(text,tag="td"){
     const cell=document.createElement(tag);
     cell.textContent=String(text??"");
@@ -134,6 +190,8 @@ export class CuDataTable extends BrowserElement {
   }
   _render(){
     if(!this._table)return;
+    this._menu.hide();
+    this._clearContextRow();
     this._caption.textContent=this.getAttribute("caption")||"";
     this._table.setAttribute("aria-label",this.getAttribute("aria-label")||
       this._caption.textContent||"Data table");
@@ -162,8 +220,6 @@ export class CuDataTable extends BrowserElement {
       }else h.textContent=String(column.label??column.key);
       header.append(h);
     }
-    const actionLabel=this.getAttribute("row-action");
-    if(actionLabel){const h=this._makeCell("Actions","th");h.scope="col";header.append(h);}
     this._head.append(header);
     this._body.replaceChildren();
     const busy=this.hasAttribute("loading");
@@ -174,7 +230,7 @@ export class CuDataTable extends BrowserElement {
     if(busy || !columns.length || !page.rows.length){
       const tr=document.createElement("tr"),td=this._makeCell(
         busy?"Loading…":this.getAttribute("empty-text")||"No records","td");
-      td.className="empty";td.colSpan=columns.length+(this.hasAttribute("selectable")?1:0)+(actionLabel?1:0)||1;
+      td.className="empty";td.colSpan=columns.length+(this.hasAttribute("selectable")?1:0)||1;
       tr.append(td);this._body.append(tr);
     }else{
       page.rows.forEach((row,localIndex)=>{
@@ -182,6 +238,22 @@ export class CuDataTable extends BrowserElement {
         const id=this._rowId(row,absolute);
         const tr=document.createElement("tr");
         tr.dataset.selected=String(this._selected.has(id));
+        if(this._actionsFor(row).length){
+          tr.tabIndex=0;
+          tr.dataset.actionable="true";
+          tr.setAttribute("aria-haspopup","menu");
+          tr.setAttribute("aria-keyshortcuts","Shift+F10");
+          tr.addEventListener("contextmenu",event=>{
+            event.preventDefault();
+            this._showRowMenu(row,id,tr,event.clientX,event.clientY);
+          });
+          tr.addEventListener("keydown",event=>{
+            if(event.key!=="ContextMenu"&&!(event.shiftKey&&event.key==="F10"))return;
+            event.preventDefault();
+            const rect=tr.getBoundingClientRect();
+            this._showRowMenu(row,id,tr,rect.left+16,rect.bottom);
+          });
+        }
         if(this.hasAttribute("selectable")){
           const td=document.createElement("td");
           const checkbox=document.createElement("input");
@@ -194,14 +266,6 @@ export class CuDataTable extends BrowserElement {
           td.append(checkbox);tr.append(td);
         }
         for(const col of columns)tr.append(this._makeCell(row?.[col.key]));
-        if(actionLabel){
-          const td=document.createElement("td");
-          const button=document.createElement("button");button.type="button";
-          button.textContent=actionLabel;
-          button.setAttribute("aria-label",actionLabel+" "+id);
-          button.addEventListener("click",()=>notify(this,"cu-row-activate",{row,id}));
-          td.append(button);tr.append(td);
-        }
         this._body.append(tr);
       });
     }
