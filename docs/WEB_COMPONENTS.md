@@ -101,7 +101,7 @@ Five additional **real experimental Web Components** are available. The `cu-radi
 
 | Tag | Main attributes | Form integration | Events |
 | --- | --- | --- | --- |
-| `cu-select` | `name`, `label`, `hint`, `required`, `value`, `disabled` | Single native select mirrored from declarative `option` / `optgroup`; ElementInternals | `cu-change` |
+| `cu-select` | `name`, `label`, `hint`, `required`, `value`, `disabled` | Fluent Calm custom select-only combobox/listbox rendered from declarative `option` / `optgroup`; ElementInternals | `cu-change` |
 | `cu-radio-group` | `name`, `label`, `value`, `required`, `orientation`, `disabled` | Native radio inputs generated from `cu-radio` children; ElementInternals | `cu-change` |
 | `cu-tabs` | `active` (zero-based), `orientation`, `aria-label` | Not a form field; `cu-tab` children provide labels and panel content | `cu-change` with index, label |
 | `cu-tooltip` | `text`, `placement` | Not a form field; anchor must be focusable | none |
@@ -121,7 +121,7 @@ Five additional **real experimental Web Components** are available. The `cu-radi
 </form>
 ```
 
-`cu-select` accepts only light-DOM `option` and `optgroup` content and clones these into a native shadow select. Its `value` property is mutable and `cu-change` emits `{value}`. In supported browsers, the value is included in `FormData`.
+`cu-select` accepts light-DOM `option` and `optgroup` declarations and renders a **custom, fully themeable Fluent Calm listbox** in Shadow DOM (no OS-native dropdown menu). Its mutable `value` property and `cu-input`/`cu-change` events report selections. In supported browsers the selected value participates in `FormData` through `ElementInternals`.
 
 ### RadioGroup
 
@@ -233,3 +233,16 @@ Keyboard navigation supports ArrowUp/Down, Home/End, Escape and Tab. The trigger
 - These implementations are still **preview**, not a published package nor fully accessible components. Perform keyboard and screen reader verification before production use.
 - Node tests cover module imports and contracts, not real browser behavior; manually test `ElementInternals`, form reset, focus, theme contrast, and pointer interaction in your targeted browsers.
 - React/Vue adapters, full a11y automation and visual regression remain planned.
+
+
+### Select visual refresh — v0.4.1
+
+The popup in the previous version was a browser-native select menu, whose colors, option rows and group styling differed across Chrome and Windows. Version 0.4.1 replaces the menu with a **select-only combobox + listbox** implementation.
+
+The trigger uses the same Fluent Calm field border, spacing, 6px corner radius and accent focus ring as the rest of the library. The flyout has its own elevated surface, subtle shadow, 8px corners, muted optgroup labels, low-contrast hover highlight and a check mark for the selected option. It inherits semantic tokens from Light/Dark and accent themes.
+
+Keyboard behavior: Enter/Space open the popup or confirm, ArrowUp/Down navigate the enabled options, Home/End jump to bounds, Escape cancels, Tab dismisses, and printable characters perform prefix search. The popup may flip upwards near the viewport bottom. Disabled options are skipped and cannot be committed. Programmatic `value` changes, form reset, required validation, and dynamic option/optgroup children are supported. The public HTML declaration remains unchanged.
+
+This is an **experimental custom combobox**. The browser no longer provides native select's accessibility behavior automatically. Test screen-reader announcements, keyboard behavior, zoom, mobile touch and form validation locally before production use.
+
+Accessibility reference: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
