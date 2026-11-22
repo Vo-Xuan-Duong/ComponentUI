@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "Badge",
+  "tag": "cu-badge",
+  "status": "preview",
+  "kind": "display",
+  "description": "Compact non-interactive semantic state label.",
+  "attributes": {
+    "tone": "neutral|accent|success|warning|danger",
+    "size": "sm|md|lg",
+    "dot": "boolean"
+  },
+  "events": [],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "nativeElement": "span",
+    "formAssociated": false,
+    "notes": "Use text as well as color to convey state; no live role by default"
+  }
+}

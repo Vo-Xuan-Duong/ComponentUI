@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "Slider",
+  "tag": "cu-slider",
+  "status": "preview",
+  "kind": "form-input",
+  "description": "Native range input with current-value output, min/max/step, and form association.",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "value": "number",
+    "min": "number",
+    "max": "number",
+    "step": "number",
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "nativeElement": "input[type=range]",
+    "formAssociated": true,
+    "keyboard": "Native arrow/page key interaction",
+    "validation": "Native range semantics"
+  }
+}

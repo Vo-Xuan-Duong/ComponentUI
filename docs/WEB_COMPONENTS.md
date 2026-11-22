@@ -1,7 +1,7 @@
 
-# ComponentUI Web Components — Experimental v0.3.0
+# ComponentUI Web Components — Experimental v0.4.0
 
-Ten **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
+Sixteen **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
 
 ## Registration
 
@@ -84,7 +84,7 @@ The browser version must support `ElementInternals` for form participation. In o
 
 ### Release status
 
-All ten are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
+All sixteen are currently **preview implementations**, not certified or published production components. Cross-browser testing (Chromium/Firefox/WebKit), axe accessibility automation, responsive visual regression, validation behaviors, and React/Vue integration tests remain work to do. Do not change their catalog status to `ready` until these gates pass.
 
 ## Run locally (no Actions)
 
@@ -95,7 +95,7 @@ npm run preview
 
 Open http://127.0.0.1:4173/apps/playground-web/ and find the **Real Web Components** section.
 
-## Second component batch — v0.3.0
+## Second component batch — v0.4.0
 
 Five additional **real experimental Web Components** are available. The `cu-radio` and `cu-tab` tags are *declarative child definitions*, not counted as standalone inventory controls.
 
@@ -170,3 +170,66 @@ Tooltip is supplemental, non-interactive content shown on hover/focus. It adds `
 - `ElementInternals` and `MutationObserver` availability must be verified in target browsers.
 - Native control form behavior, slotted content, keyboard navigation and screen reader semantics need browser-level tests. Node tests validate structure and imports, not actual browser rendering.
 - Framework adapters for React/Vue and SSR/hydration integration remain future milestones.
+
+## Third component batch — v0.4.0
+
+Six more **experimental, reusable browser Custom Elements** have been added, bringing the total to 16. The `cu-menu-item` tag is a declarative child definition and is not counted separately.
+
+| Tag | Main attributes | Behavior |
+| --- | --- | --- |
+| `cu-date-picker` | `name`, `label`, `value`, `min`, `max`, `required`, `disabled` | Native `input[type=date]`, form-associated, validation and `cu-input`/`cu-change` events |
+| `cu-slider` | `name`, `label`, `value`, `min`, `max`, `step`, `disabled` | Native range input, output display, form-associated, `cu-input`/`cu-change` |
+| `cu-progress-bar` | `value`, `max`, `label`, `tone` | Native `progress` with determinate or indeterminate behavior |
+| `cu-badge` | `tone`, `size`, `dot` | Styled status label, inline content slot; no unsolicited live-region announcements |
+| `cu-avatar` | `name`, `src`, `alt`, `size`, `shape` | Optional image, fallback initials, accessible host label |
+| `cu-menu` | `open`, `aria-label` | Trigger slot, declarative menu items, arrow-key navigation, outside/Escape dismissal, `cu-select` event |
+
+### DatePicker and Slider
+
+```html
+<form id="filter">
+  <cu-date-picker name="start" label="Start date" required
+    min="2020-01-01" max="2035-12-31"></cu-date-picker>
+  <cu-slider name="volume" label="Volume" min="0" max="100" step="5" value="35"></cu-slider>
+  <cu-button type="submit" variant="accent">Save</cu-button>
+</form>
+```
+
+Both are form-associated via `ElementInternals`, with `value` accessors and form reset callbacks. DatePicker delegates locale, calendar appearance and keyboard interactions to the **browser's native date input**. It is not a custom calendar grid.
+
+### Progress, Badge and Avatar
+
+```html
+<cu-progress-bar label="Uploading" max="100" value="68"></cu-progress-bar>
+<cu-progress-bar label="Fetching updates"></cu-progress-bar>
+<cu-badge tone="success" dot>Active</cu-badge>
+<cu-avatar name="Alex Nguyen" size="lg"></cu-avatar>
+```
+
+ProgressBar is indeterminate when `value` is omitted; numeric values are capped at `max`. Avatar renders initials when no image is supplied or when loading fails. Provide a descriptive `name` or `alt` attribute.
+
+### Menu
+
+```html
+<cu-menu id="actions" aria-label="Workspace actions">
+  <button slot="trigger" type="button">Actions</button>
+  <cu-menu-item value="create">Create</cu-menu-item>
+  <cu-menu-item value="rename">Rename</cu-menu-item>
+  <cu-menu-item value="delete" disabled>Delete</cu-menu-item>
+</cu-menu>
+```
+
+```js
+document.querySelector("#actions").addEventListener("cu-select", event => {
+  console.log(event.detail.value, event.detail.label);
+});
+```
+
+Keyboard navigation supports ArrowUp/Down, Home/End, Escape and Tab. The trigger uses `aria-haspopup`/`aria-expanded`. Items are rendered as native menu buttons and a disabled item cannot be selected. Non-modal menu closes on pointerdown outside. No application-side action is taken automatically.
+
+### Validation and limitations
+
+- Import `packages/web/src/components/index.js` to register all tags; individual ESM entry points are available via `packages/web/package.json`.
+- These implementations are still **preview**, not a published package nor fully accessible components. Perform keyboard and screen reader verification before production use.
+- Node tests cover module imports and contracts, not real browser behavior; manually test `ElementInternals`, form reset, focus, theme contrast, and pointer interaction in your targeted browsers.
+- React/Vue adapters, full a11y automation and visual regression remain planned.

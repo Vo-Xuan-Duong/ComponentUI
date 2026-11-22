@@ -8,7 +8,7 @@
           +--------------+----------------+
           |              |                |
       Web renderer   React Native    Flutter/Native
-     Lit + DOM       native views    native renderers
+     Native Custom Elements       native views    native renderers
           |
     React / Vue / Angular / Svelte / HTML
           |
@@ -21,7 +21,7 @@ Design Tokens and Contracts are the cross-platform source of truth. **Web Compon
 
 - `design-system/`: initial DTCG token source and component backlog/contracts
 - `packages/theme/`: generated CSS variables, reusable **preview-only** CSS classes and theme preference controller
-- `packages/web/src/components/`: experimental, native JavaScript Web Components (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover). Form controls use ElementInternals when supported.
+- `packages/web/src/components/`: experimental, native JavaScript Web Components (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu). Form controls use ElementInternals when supported.
 - `apps/playground-web/`: responsive HTML/JS reference with theme/density/accent switching, eight progressive-enhancement patterns, and a live Custom Elements example form
 - `scripts/serve.mjs`: dependency-free local preview server
 - `tests/`: Node-based consistency, theme preference and static preview integration tests

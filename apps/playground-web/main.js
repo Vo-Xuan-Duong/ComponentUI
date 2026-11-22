@@ -325,3 +325,25 @@ wcPopover.addEventListener("cu-close", () => {
   document.getElementById("wc-popover-result").textContent = "Popover closed";
 });
 document.getElementById("wc-popover-close").addEventListener("click", () => wcPopover.hide());
+
+
+// Third Web Components wave: DatePicker, Slider, ProgressBar, Badge, Avatar, Menu.
+const wcUtilityForm = document.getElementById("wc-utility-form");
+wcUtilityForm.addEventListener("submit",event => {
+  event.preventDefault();
+  document.getElementById("wc-utility-result").textContent =
+    JSON.stringify(Object.fromEntries(new FormData(wcUtilityForm).entries()),null,2);
+  showToast("Form values collected","DatePicker and Slider participated in native FormData.");
+});
+const wcProgress = document.getElementById("wc-progress");
+document.getElementById("wc-progress-step").addEventListener("cu-press",() => {
+  wcProgress.value = Math.min(100,(wcProgress.value ?? 0)+15);
+});
+document.getElementById("wc-progress-reset").addEventListener("cu-press",() => {
+  wcProgress.value = 0;
+});
+document.getElementById("wc-menu").addEventListener("cu-select",event => {
+  document.getElementById("wc-menu-result").textContent =
+    "Action: "+event.detail.label+" ("+event.detail.value+")";
+  showToast("Menu selection",event.detail.label);
+});

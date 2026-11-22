@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "name": "ProgressBar",
+  "tag": "cu-progress-bar",
+  "status": "preview",
+  "kind": "display",
+  "description": "Determinate progress and indeterminate when value is omitted.",
+  "attributes": {
+    "value": "number|null",
+    "max": "positive number",
+    "label": "string",
+    "tone": "default|success|danger"
+  },
+  "events": [],
+  "accessibility": {
+    "nativeElement": "progress",
+    "formAssociated": false,
+    "keyboard": "Not interactive",
+    "notes": "Always provide a descriptive label"
+  }
+}

@@ -419,6 +419,62 @@
               </cu-tabs>
               <p class="cu-helper" id="wc-tabs-result" role="status">Selected tab: Overview</p>
             </article>
+
+            <article class="cu-surface demo-card">
+              <h3>DatePicker &amp; Slider</h3>
+              <p class="demo-subtitle">Two real, form-associated Custom Elements built on accessible native inputs.</p>
+              <form id="wc-utility-form" class="cu-web-form">
+                <cu-date-picker label="Project start date" name="startDate" required
+                  min="2020-01-01" max="2035-12-31" hint="Uses the browser's localized date picker"></cu-date-picker>
+                <cu-slider label="Volume" name="volume" min="0" max="100" step="5"
+                  value="35" hint="Use arrow keys to change the value"></cu-slider>
+                <cu-button type="submit" variant="accent">Read form values</cu-button>
+              </form>
+              <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ProgressBar</h3>
+              <p class="demo-subtitle">Determinate and indeterminate progress, with native semantics.</p>
+              <div class="cu-web-form">
+                <cu-progress-bar id="wc-progress" label="Uploading files" value="35" max="100"></cu-progress-bar>
+                <cu-progress-bar label="Checking for updates" aria-label="Checking for updates"></cu-progress-bar>
+                <div class="demo-row">
+                  <cu-button id="wc-progress-step" variant="outline">Advance 15%</cu-button>
+                  <cu-button id="wc-progress-reset">Reset progress</cu-button>
+                </div>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Badge &amp; Avatar</h3>
+              <p class="demo-subtitle">Lightweight display components that share semantic colors and typography.</p>
+              <div class="demo-row">
+                <cu-badge dot tone="accent">Information</cu-badge>
+                <cu-badge dot tone="success">Active</cu-badge>
+                <cu-badge tone="warning">Pending</cu-badge>
+                <cu-badge tone="danger">Error</cu-badge>
+              </div>
+              <div class="demo-row">
+                <cu-avatar name="Alex Nguyen" size="sm"></cu-avatar>
+                <cu-avatar name="Mai Tran"></cu-avatar>
+                <cu-avatar name="Component UI" size="lg"></cu-avatar>
+                <cu-avatar name="Workspace" shape="square" size="xl"></cu-avatar>
+              </div>
+              <div class="cu-info">Avatar initials are computed locally; no image service or external asset is required.</div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Menu</h3>
+              <p class="demo-subtitle">Reusable custom menu with arrow-key navigation, Escape and disabled actions.</p>
+              <div class="demo-row">
+                <cu-menu id="wc-menu" aria-label="Workspace actions">
+                  <button type="button" slot="trigger" class="cu-btn">Workspace actions ▾</button>
+                  <cu-menu-item value="new" label="New workspace"></cu-menu-item>
+                  <cu-menu-item value="rename">Rename workspace</cu-menu-item>
+                  <cu-menu-item value="share">Share workspace</cu-menu-item>
+                  <cu-menu-item value="delete" disabled>Delete (unavailable)</cu-menu-item>
+                </cu-menu>
+              </div>
+              <p id="wc-menu-result" class="cu-helper" role="status">Select a menu command to see the event payload.</p>
+            </article>
             <article class="cu-surface demo-card full-span">
               <h3>Modal Dialog as a Custom Element</h3>
               <p class="demo-subtitle">Try a real <code>&lt;cu-dialog&gt;</code> with built-in native modal focus and <code>cu-close</code> event.</p>

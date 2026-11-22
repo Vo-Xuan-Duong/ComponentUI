@@ -71,7 +71,7 @@ test("playground demonstrates live Select/RadioGroup, Tabs, Tooltip and Popover"
   assert.match(js, /wcPopover\.addEventListener\("cu-close"/);
 });
 
-test("catalog has 16 previews and none promoted prematurely", async () => {
+test("catalog has 21 previews and none promoted prematurely", async () => {
   const catalog = JSON.parse(await file("../design-system/components/catalog.json"));
   const components = catalog.groups.flatMap(group => group.components);
   const status = new Map(components.map(c => [c.name,c.status]));

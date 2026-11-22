@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "DatePicker",
+  "tag": "cu-date-picker",
+  "status": "preview",
+  "kind": "form-input",
+  "description": "Native date picker with ISO date value and browser-localized date selection.",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "value": "YYYY-MM-DD",
+    "min": "YYYY-MM-DD",
+    "max": "YYYY-MM-DD",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "nativeElement": "input[type=date]",
+    "formAssociated": true,
+    "keyboard": "Native browser date-picker behavior",
+    "validation": "ElementInternals; native input validity"
+  }
+}

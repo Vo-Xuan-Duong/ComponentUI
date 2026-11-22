@@ -100,6 +100,20 @@ Reference documentation: [Component previews](COMPONENT_PREVIEWS.md).
 
 No GitHub Actions are used. Experimental UI stays at catalog status `preview`.
 
+
+## Third Web Components wave — v0.4.0
+
+- [x] Implement native form-associated `cu-date-picker` and `cu-slider`
+- [x] Implement `cu-progress-bar`, `cu-badge`, and `cu-avatar` with Fluent Calm tokens
+- [x] Implement custom `cu-menu` using data-only `cu-menu-item` declarations
+- [x] Add custom elements registry entries, package subpath exports, TypeScript declarations, docs and contracts
+- [x] Extend Playground with interactive FormData, progress and menu examples
+- [x] Add static/Node tests and update catalog previews
+- [ ] Maintainer executes `npm run check` and tests keyboard, focus, browser rendering and accessible semantics locally
+- [ ] Create automated browser tests and framework integration tests before moving from preview to ready
+
+**Status:** source implementation staged; browser accessibility and compatibility not yet verified.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

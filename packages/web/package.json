@@ -1,6 +1,6 @@
 {
   "name": "@componentui/web",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
@@ -50,6 +50,30 @@
     "./components/popover": {
       "types": "./src/components/index.d.ts",
       "default": "./src/components/popover.js"
+    },
+    "./components/date-picker": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/date-picker.js"
+    },
+    "./components/slider": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/slider.js"
+    },
+    "./components/progress-bar": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/progress-bar.js"
+    },
+    "./components/badge": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/badge.js"
+    },
+    "./components/avatar": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/avatar.js"
+    },
+    "./components/menu": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/menu.js"
     }
   }
 }

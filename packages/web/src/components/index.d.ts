@@ -72,6 +72,37 @@ export declare class CuPopover extends HTMLElement {
   toggle(): void;
 }
 
+
+export declare class CuDatePicker extends HTMLElement {
+  static formAssociated: boolean;
+  value: string;
+  disabled: boolean;
+  required: boolean;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+export declare class CuSlider extends HTMLElement {
+  static formAssociated: boolean;
+  value: number;
+  disabled: boolean;
+  focus(options?: FocusOptions): void;
+}
+export declare class CuProgressBar extends HTMLElement {
+  value: number | null;
+  max: number;
+}
+export declare class CuBadge extends HTMLElement {}
+export declare class CuAvatar extends HTMLElement {}
+export declare class CuMenu extends HTMLElement {
+  open: boolean;
+  show(focus?: "first" | "last"): void;
+  hide(restoreFocus?: boolean): void;
+  toggle(): void;
+}
+export declare class CuMenuItem extends HTMLElement {}
+export declare function initialsFromName(name: string): string;
+
 declare global {
   interface HTMLElementTagNameMap {
     "cu-button": CuButton;
@@ -86,5 +117,12 @@ declare global {
     "cu-tabs": CuTabs;
     "cu-tooltip": CuTooltip;
     "cu-popover": CuPopover;
+    "cu-date-picker": CuDatePicker;
+    "cu-slider": CuSlider;
+    "cu-progress-bar": CuProgressBar;
+    "cu-badge": CuBadge;
+    "cu-avatar": CuAvatar;
+    "cu-menu": CuMenu;
+    "cu-menu-item": CuMenuItem;
   }
 }

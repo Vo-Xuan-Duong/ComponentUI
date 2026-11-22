@@ -34,4 +34,17 @@ The first playground has no runtime npm dependencies. No `npm install` is requir
 
 The local checks validate source consistency and app structure. They **do not yet verify** browser screenshots, layout regressions, keyboard accessibility, screen reader experience, SSR hydration or compatibility in real React/Vue applications. Those are milestones for later releases.
 
-Ten experimental native Web Components are now available in the source tree (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover). They are **not** published or production-certified. Try them in the Real Web Components section of the gallery. See `docs/WEB_COMPONENTS.md`.
+Sixteen experimental native Web Components are now available in the source tree (Button, TextField, Checkbox, Switch, Dialog, Select, RadioGroup, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, Badge, Avatar, Menu). They are **not** published or production-certified. Try them in the Real Web Components section of the gallery. See `docs/WEB_COMPONENTS.md`.
+
+## Manual browser smoke checks for v0.4.0
+
+1. Open Light, Dark and System modes; try compact and touch density at desktop and 375px width.
+2. In the Real Web Components area, submit the DatePicker + Slider form and confirm `FormData` shows the expected date and numeric string.
+3. Reset the native form and verify DatePicker/Slider return to initial values.
+4. Press arrow keys on Slider; check the displayed number and `cu-input`/`cu-change` events.
+5. Advance/Reset ProgressBar; confirm its percentage and indeterminate second example.
+6. Check Badge contrast and Avatar initials in both themes; no external images are required.
+7. Open Menu with ArrowDown, navigate with Arrow keys/Home/End, select with Enter, dismiss with Escape or outside click; check disabled actions cannot be selected.
+8. Verify screen reader labels, forced-colors mode, focus return, and reduced motion manually. These are **not** certified by Node tests.
+
+No GitHub Actions or remote CI runs are required.

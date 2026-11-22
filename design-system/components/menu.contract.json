@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "name": "Menu",
+  "tag": "cu-menu",
+  "status": "preview",
+  "kind": "overlay",
+  "description": "Action menu with declarative cu-menu-item children and one slotted trigger.",
+  "attributes": {
+    "open": "boolean",
+    "ariaLabel": "string"
+  },
+  "events": [
+    "cu-open",
+    "cu-close",
+    "cu-select"
+  ],
+  "slots": [
+    "trigger",
+    "cu-menu-item light DOM definitions"
+  ],
+  "accessibility": {
+    "role": "menu/menuitem",
+    "keyboard": [
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
+      "Escape",
+      "Tab"
+    ],
+    "focus": "Menuitem focus via arrow keys; restores trigger focus when selected",
+    "notes": "Non-modal and dismissible on outside click"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "name": "Avatar",
+  "tag": "cu-avatar",
+  "status": "preview",
+  "kind": "display",
+  "description": "User/project avatar with fallback initials, optional image and accessible name.",
+  "attributes": {
+    "name": "string",
+    "src": "url",
+    "alt": "string",
+    "size": "sm|md|lg|xl",
+    "shape": "circle|square"
+  },
+  "events": [],
+  "accessibility": {
+    "role": "img",
+    "formAssociated": false,
+    "notes": "Textual accessible label; image itself decorative inside the host"
+  }
+}
