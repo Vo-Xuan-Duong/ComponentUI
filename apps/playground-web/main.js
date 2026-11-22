@@ -467,3 +467,37 @@ function filterExampleComponents() {
 }
 exampleSearch.addEventListener("cu-input", filterExampleComponents);
 exampleSearch.addEventListener("cu-search", filterExampleComponents);
+
+
+// v0.11.0 — advanced forms & application shell demos.
+const advancedForm=document.getElementById("wc-advanced-form");
+const advancedResult=document.getElementById("wc-advanced-result");
+advancedForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  // Deliberately omit password value and file bytes from the visible preview.
+  const form=new FormData(advancedForm);
+  const selected=form.getAll("attachments").filter(value=>value instanceof File && value.name);
+  advancedResult.textContent=JSON.stringify({
+    passwordProvided:Boolean(form.get("password")),
+    fileCount:selected.length,
+    filenames:selected.map(file=>file.name)
+  },null,2);
+  showToast("Form validated","No password or files were sent to a server.");
+});
+advancedForm.addEventListener("reset",()=>{
+  advancedResult.textContent="Form reset. No data was sent.";
+});
+const appShell=document.getElementById("wc-app-shell");
+appShell.addEventListener("cu-navigation-toggle",event=>{
+  document.getElementById("wc-app-shell-result").textContent=
+    "Navigation panel "+(event.detail.open?"opened":"closed")+".";
+});
+appShell.querySelectorAll("[data-workspace-view]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    appShell.querySelectorAll("[data-workspace-view]").forEach(item=>{
+      item.setAttribute("aria-pressed",String(item===button));
+    });
+    document.getElementById("wc-app-view").textContent=button.dataset.workspaceView;
+    appShell.closeNavigation(false);
+  });
+});

@@ -5,6 +5,11 @@ export interface CuEventDetails {
   value?: string | number;
   valueAsNumber?: number;
   checked?: boolean;
+  accept?: string;
+  multiple?: boolean;
+  maxSize?: number;
+  navigationOpen?: boolean;
+  withoutNavigation?: boolean;
   index?: number;
   label?: string;
   type?: string;
@@ -16,6 +21,11 @@ export interface CuEventDetails {
   row?: Record<string,unknown>;
   query?: string;
   expanded?: boolean;
+  visible?: boolean;
+  open?: boolean;
+  files?: File[];
+  count?: number;
+  valid?: boolean;
 }
 export type CuEvent = CustomEvent<CuEventDetails>;
 export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children"> & {
@@ -46,6 +56,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuPress?: (event: CuEvent) => void;
   onCuInput?: (event: CuEvent) => void;
   onCuSearch?: (event: CuEvent) => void;
+  onCuVisibilityChange?: (event: CuEvent) => void;
+  onCuNavigationToggle?: (event: CuEvent) => void;
   onCuChange?: (event: CuEvent) => void;
   onCuOpen?: (event: CuEvent) => void;
   onCuClose?: (event: CuEvent) => void;
@@ -74,7 +86,8 @@ export declare function createReactComponent(
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
   Record<"Button" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
-  "TextArea" | "NumberField" | "SearchBox" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
+  "TextArea" | "NumberField" | "SearchBox" |
+  "PasswordField" | "FilePicker" | "AppShell" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
   "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |

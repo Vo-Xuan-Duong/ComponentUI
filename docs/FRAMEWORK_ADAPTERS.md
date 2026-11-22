@@ -1,11 +1,11 @@
-# ComponentUI framework adapters — experimental v0.9.0
+# ComponentUI framework adapters — experimental v0.11.0
 
 The ComponentUI browser layer remains native **Custom Elements**. This milestone
 adds two optional, framework-specific adapters to reduce integration boilerplate:
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 38 tags (30 catalog components, Icon and 7 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 41 tags (33 catalog components, Icon and 7 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -225,3 +225,14 @@ Vue's compile-time `isComponentUIElement` helper and Svelte's `cuModel`
 action already support the new `cu-*` tags without new renderers.
 See [FORM_CONTROLS.md](FORM_CONTROLS.md) for attributes, event contracts
 and browser validation requirements.
+
+## v0.11.0 — PasswordField, FilePicker, AppShell
+
+The React wrapper factory and named component export now include 41 tags
+and expose `PasswordField`, `FilePicker` and `AppShell`.
+Custom events `cu-visibility-change` and `cu-navigation-toggle` are
+available as `onCuVisibilityChange` and `onCuNavigationToggle`.
+FilePicker emits its selected Files via `onCuChange`, and its
+`files` property is read-only. The password value is a JS-only
+property, not an attribute. The Vue 3 and Svelte 5 DOM adapters continue
+to use the same Web Components. See [ADVANCED_UI.md](ADVANCED_UI.md).

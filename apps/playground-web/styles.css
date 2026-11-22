@@ -401,3 +401,30 @@ html { scroll-padding-top: 88px; }
   .side-link.is-active { outline:1px solid Highlight; }
   .hero,.metric,.demo-card,.catalog-entry { border:1px solid CanvasText; }
 }
+
+
+/* v0.11.0 embedded AppShell preview — compositional styles only. */
+#web-components cu-app-shell { display:block; width:100%; }
+.cu-app-header-title { font-size:13px; }
+.cu-app-nav { display:grid;gap:5px; }
+.cu-app-nav button {
+  width:100%;padding:9px 11px;border:0;text-align:left;
+  background:transparent;color:var(--cu-text);border-radius:var(--cu-radius-md);
+  font:600 12px var(--cu-font-body);cursor:pointer;
+}
+.cu-app-nav button:hover,
+.cu-app-nav button:focus-visible,
+.cu-app-nav button[aria-pressed=true] {
+  background:color-mix(in srgb,var(--cu-accent) 13%,var(--cu-surface));
+}
+.cu-app-nav button:focus-visible { outline:2px solid var(--cu-focus); }
+.cu-app-body { display:grid;gap:12px;min-width:0;font-size:12px; }
+.cu-app-body > strong { font-size:16px; }
+.cu-app-body p { margin:0;color:var(--cu-text-muted);line-height:1.6; }
+.cu-app-mock-stat { display:grid;gap:6px;padding:12px;background:var(--cu-surface);
+  border:1px solid var(--cu-border);border-radius:var(--cu-radius-lg); }
+.cu-app-mock-stat strong { font-size:24px;font-variant-numeric:tabular-nums; }
+.cu-app-aside { display:grid;align-content:start;gap:8px;font-size:12px; }
+.cu-app-aside p { margin:0;color:var(--cu-text-muted);line-height:1.55; }
+.cu-app-footer { color:var(--cu-text-muted);font-size:11px; }
+@media (max-width:430px) { #web-components cu-app-shell{--cu-appshell-content-padding:12px;} }

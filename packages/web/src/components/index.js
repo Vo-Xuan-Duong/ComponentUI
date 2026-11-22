@@ -6,6 +6,9 @@
  */
 export { CuButton } from "./button.js";
 export { CuTextField } from "./text-field.js";
+export { CuPasswordField } from "./password-field.js";
+export { CuFilePicker, formatFileSize, matchesFileAccept, validateFileSelection } from "./file-picker.js";
+export { CuAppShell } from "./app-shell.js";
 export { CuTextArea } from "./text-area.js";
 export { CuNumberField, stepNumber } from "./number-field.js";
 export { CuSearchBox } from "./search-box.js";

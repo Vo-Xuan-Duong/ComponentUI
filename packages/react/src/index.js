@@ -7,7 +7,8 @@
  * versions that differ in their custom-event support behave consistently.
  */
 export const REACT_TAGS = Object.freeze({
-  Button:"cu-button", TextField:"cu-text-field", TextArea:"cu-textarea",
+  Button:"cu-button", TextField:"cu-text-field",
+  PasswordField:"cu-password-field", FilePicker:"cu-file-picker", AppShell:"cu-app-shell", TextArea:"cu-textarea",
   NumberField:"cu-number-field", SearchBox:"cu-search-box", Checkbox:"cu-checkbox",
   Switch:"cu-switch", Dialog:"cu-dialog", Select:"cu-select",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
@@ -26,6 +27,8 @@ export const REACT_TAGS = Object.freeze({
 
 export const REACT_EVENT_PROPS = Object.freeze({
   onCuPress:"cu-press", onCuInput:"cu-input", onCuChange:"cu-change",
+  onCuVisibilityChange:"cu-visibility-change",
+  onCuNavigationToggle:"cu-navigation-toggle",
   onCuSearch:"cu-search",
   onCuOpen:"cu-open", onCuClose:"cu-close", onCuCancel:"cu-cancel",
   onCuSelect:"cu-select", onCuSort:"cu-sort",
@@ -36,6 +39,9 @@ export const REACT_EVENT_PROPS = Object.freeze({
 const PROPERTY_MAP = Object.freeze({
   "cu-button":["disabled","loading","type"],
   "cu-text-field":["value","required","disabled"],
+  "cu-password-field":["value","required","disabled"],
+  "cu-file-picker":["disabled","required","multiple","maxSize"],
+  "cu-app-shell":["navigationOpen","withoutNavigation"],
   "cu-textarea":["value","required","disabled"],
   "cu-number-field":["value","required","disabled"],
   "cu-search-box":["value","required","disabled"],

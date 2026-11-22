@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "FilePicker",
+  "tag": "cu-file-picker",
+  "type": "form",
+  "features": [
+    "native browser file chooser",
+    "drag and drop",
+    "file type validation",
+    "max size validation",
+    "multiple form files"
+  ],
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "accept": "comma-separated MIME / extensions",
+    "multiple": "boolean",
+    "max-size": "positive bytes",
+    "disabled": "boolean",
+    "required": "boolean"
+  },
+  "properties": {
+    "files": "readonly File[]",
+    "maxSize": "number",
+    "multiple": "boolean"
+  },
+  "methods": [
+    "clear",
+    "focus",
+    "checkValidity",
+    "reportValidity"
+  ],
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "label": "browse button includes label",
+    "keyboard": "native button opens file chooser",
+    "error": "aria-invalid and text error"
+  },
+  "security": "Selection only; no network upload. Validate file type and bytes again on server."
+}

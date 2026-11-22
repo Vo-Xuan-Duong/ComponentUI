@@ -138,3 +138,20 @@ npm run preview
 
 No GitHub Actions. The assistant has not run browser or local build tests,
 so these components remain preview until local acceptance is completed.
+
+## Advanced UI local checks — v0.11.0
+
+```bash
+git pull origin main
+npm run check
+npm run build:packages
+npm run packages:verify
+npm run preview
+```
+
+Open **Real Web Components** to test PasswordField, FilePicker and
+AppShell. Check password reveal and validation, file chooser/drag/drop
+including invalid files, FormData reset, narrow-panel navigation,
+Escape/focus return, Light/Dark, density variants and 200% zoom.
+Refer to [ADVANCED_UI.md](ADVANCED_UI.md) for detailed acceptance
+criteria. No GitHub Actions is created or executed.

@@ -197,6 +197,20 @@ No GitHub Actions.
 **Current state:** 30 experimental browser Custom Elements, 35 preview catalog entries,
 94 planned and 0 production-certified. No GitHub Actions.
 
+## Advanced UI & AppShell — v0.11.0
+
+- [x] Implement accessible form-associated `cu-password-field` with Lucide reveal toggle
+- [x] Implement `cu-file-picker` with native selection, drag/drop, constraints and FormData
+- [x] Implement `cu-app-shell` with five slots and responsive mobile navigation
+- [x] Export independent web modules, React wrappers and TypeScript declarations
+- [x] Add contracts, Playground samples, source tests and a local acceptance checklist
+- [ ] Run local package, browser, keyboard and assistive technology validation
+- [ ] Validate installed packages in separate React/Vue/Svelte and desktop projects
+- [ ] Revisit remaining 91 planned catalog entries after stability testing
+
+**v0.11.0 status:** 33 experimental Web Components, 38 previews,
+91 planned, 0 production-certified. No GitHub Actions.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

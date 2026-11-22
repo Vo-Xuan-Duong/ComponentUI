@@ -1,6 +1,6 @@
 {
   "name": "@componentui/web",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "type": "module",
   "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
@@ -140,6 +140,18 @@
     "./components/search-box": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/search-box.js"
+    },
+    "./components/password-field": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/password-field.js"
+    },
+    "./components/file-picker": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/file-picker.js"
+    },
+    "./components/app-shell": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/app-shell.js"
     }
   },
   "files": [

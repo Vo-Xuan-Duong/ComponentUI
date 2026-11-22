@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "status": "preview",
+  "name": "AppShell",
+  "tag": "cu-app-shell",
+  "type": "layout",
+  "features": [
+    "header slot",
+    "navigation slot",
+    "main slot",
+    "optional aside slot",
+    "optional footer slot",
+    "responsive navigation overlay"
+  ],
+  "slots": [
+    "header",
+    "navigation",
+    "default",
+    "aside",
+    "footer"
+  ],
+  "attributes": {
+    "navigation-open": "boolean",
+    "without-navigation": "boolean"
+  },
+  "properties": {
+    "navigationOpen": "boolean",
+    "withoutNavigation": "boolean"
+  },
+  "methods": [
+    "openNavigation",
+    "closeNavigation",
+    "toggleNavigation"
+  ],
+  "events": [
+    "cu-navigation-toggle"
+  ],
+  "accessibility": {
+    "keyboard": "Escape closes navigation",
+    "navigation": "role navigation and toggle aria-expanded/aria-controls",
+    "focus": "focus navigation on open and restore to toggle on close"
+  }
+}

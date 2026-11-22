@@ -1,7 +1,7 @@
 
-# ComponentUI Web Components — Experimental v0.10.0
+# ComponentUI Web Components — Experimental v0.11.0
 
-Thirty **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
+Thirty-three **reusable browser Custom Elements** are implemented in `packages/web/src/components/`. These use the Custom Elements API, Shadow DOM, native HTML controls and Fluent Calm CSS tokens. No build step or runtime dependency is required for the browser gallery.
 
 ## Registration
 
@@ -304,3 +304,11 @@ The local Playground uses `cu-search-box` for its catalog search.
 These are preview implementations, not production-certified packages.
 
 See [Form controls and UI refinement](FORM_CONTROLS.md).
+
+## Advanced controls & AppShell — v0.11.0
+
+Three additional browser-native Custom Elements are implemented:
+`cu-password-field` (native password input with safe reveal toggle),
+`cu-file-picker` (file selection, drop and FormData, no upload), and
+`cu-app-shell` (responsive slotted layout). They remain experimental;
+see [ADVANCED_UI.md](ADVANCED_UI.md) for API details and limitations.

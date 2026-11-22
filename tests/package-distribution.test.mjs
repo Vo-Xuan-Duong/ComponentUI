@@ -10,7 +10,7 @@ test("six packages expose private, locally packable 0.9.0 ESM entrypoints",async
   for(const name of packages){
     const manifest=JSON.parse(await load("../packages/"+name+"/package.json"));
     assert.equal(manifest.name,"@componentui/"+name);
-    assert.equal(manifest.version,"0.10.0");
+    assert.equal(manifest.version,"0.11.0");
     assert.equal(manifest.private,true);
     assert.equal(manifest.type,"module");
     assert.deepEqual(manifest.files,["dist"]);

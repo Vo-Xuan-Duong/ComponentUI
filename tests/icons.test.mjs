@@ -10,7 +10,7 @@ const allowedAttributes = new Set(["d","cx","cy","r","rx","ry","x","y","width","
   "x1","x2","y1","y2","points","transform"]);
 
 test("curated Lucide library is importable without a browser and has stable icon names", () => {
-  assert.equal(ICON_NAMES.length,25);
+  assert.equal(ICON_NAMES.length,29);
   assert.equal(new Set(ICON_NAMES).size,ICON_NAMES.length);
   for (const name of ["plus","minus","pencil","ellipsis","check","sparkles","palette","settings","search","x"]) {
     assert.ok(ICON_NAMES.includes(name), "missing icon " + name);

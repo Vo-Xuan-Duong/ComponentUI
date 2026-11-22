@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Fluent Calm UI & Forms refinement (v0.10.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and thirty experimental browser Custom Elements. **There are 30 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — Advanced Controls & AppShell (v0.11.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and thirty-three experimental browser Custom Elements. **There are 33 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -24,6 +24,8 @@ npm run pack:local
 ```
 
 **New in v0.10.0 — UI refinement:** TextArea, NumberField and SearchBox are reusable form-associated Web Components with keyboard/validation/FormData support. The Playground now uses a consistent neutral Fluent Calm layout, accessible control focus states, better small-screen behavior, and a live Web Component SearchBox for the catalog. **129 catalog entries: 35 previews, 94 planned, 0 production-certified.** See [Form Controls & UI Refinement](docs/FORM_CONTROLS.md).
+
+**New in v0.11.0 — Advanced UI:** `PasswordField` has a native secure input and labeled reveal control; `FilePicker` supports selecting or dropping files without uploading; and `AppShell` provides responsive header/navigation/content/aside/footer slots. The registry contains **33 experimental Web Components**; the 129-entry catalog now has **38 previews and 91 planned**. The React adapter exposes **41 wrappers**, and the Lucide subset includes **29 icons**. See [Advanced UI & AppShell](docs/ADVANCED_UI.md).
 
 ## Preview locally
 
@@ -54,7 +56,7 @@ packages/
     src/theme.js                      # Framework-neutral theme preference controller
   web/src/interactions.js             # Native-first HTML interaction controllers
   web/src/components/                 # Browser Custom Elements including data/tree/list/menu controls
-  icons/src/                           # 25 local Lucide SVG definitions (ISC/MIT)
+  icons/src/                           # 29 local Lucide SVG definitions (ISC/MIT)
   react/src/                           # React 18/19 Custom Element adapters
   vue/src/                             # Vue 3 compiler helper + v-cu-model directive
   svelte/src/                          # Svelte 5 DOM binding actions
@@ -97,6 +99,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Display and feedback component APIs](docs/DISPLAY_FEEDBACK.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
+- [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)
 - [Component inventory](docs/COMPONENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)

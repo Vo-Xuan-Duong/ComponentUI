@@ -1,4 +1,4 @@
-# Local package distribution — ComponentUI v0.10.0
+# Local package distribution — ComponentUI v0.11.0
 
 ComponentUI's packages now have **self-contained ESM `dist/` outputs** that
 can be installed from tarballs in other repositories. This is an offline,
@@ -13,7 +13,7 @@ quality until browser, visual, screen-reader and framework tests are executed.
 | `@componentui/theme` | `/tokens.css`, `/components.css`, `/theme.js` | Fluent Calm CSS tokens, optional reference CSS and theme controller |
 | `@componentui/icons` | package root | Curated Lucide SVG paths and TypeScript types (ISC/MIT) |
 | `@componentui/web` | `/components`, `/components/select`, other explicitly exported component subpaths, `/interactions` | Browser-native Custom Elements and helper controllers |
-| `@componentui/react` | package root or `/components` | React 18/19 wrapper factory or 38 named wrappers (experimental) |
+| `@componentui/react` | package root or `/components` | React 18/19 wrapper factory or 41 named wrappers (experimental) |
 | `@componentui/vue` | package root | Vue 3 compiler helper and `v-cu-model` directive |
 | `@componentui/svelte` | package root | Svelte 5 `cuModel` and `cuEvents` DOM actions |
 
@@ -60,16 +60,16 @@ Replace the local path with the actual absolute path to ComponentUI.
 
 ```bash
 # In your consumer project, after creating a normal Vite project:
-npm install /path/to/ComponentUI/artifacts/componentui-theme-0.10.0.tgz
-npm install /path/to/ComponentUI/artifacts/componentui-web-0.10.0.tgz
+npm install /path/to/ComponentUI/artifacts/componentui-theme-0.11.0.tgz
+npm install /path/to/ComponentUI/artifacts/componentui-web-0.11.0.tgz
 # Optional: use ONE framework adapter below, after installing its framework:
-npm install /path/to/ComponentUI/artifacts/componentui-react-0.10.0.tgz
-# OR: npm install /path/to/ComponentUI/artifacts/componentui-vue-0.10.0.tgz
-# OR: npm install /path/to/ComponentUI/artifacts/componentui-svelte-0.10.0.tgz
+npm install /path/to/ComponentUI/artifacts/componentui-react-0.11.0.tgz
+# OR: npm install /path/to/ComponentUI/artifacts/componentui-vue-0.11.0.tgz
+# OR: npm install /path/to/ComponentUI/artifacts/componentui-svelte-0.11.0.tgz
 ```
 
 On Windows, use e.g.
-`npm install "D:\\WorkSpace\\ComponentUI\\artifacts\\componentui-web-0.10.0.tgz"`.
+`npm install "D:\\WorkSpace\\ComponentUI\\artifacts\\componentui-web-0.11.0.tgz"`.
 When repacking a version, reinstall the resulting tarball in the consumer
 project so the new contents replace the old cached copy.
 
@@ -198,7 +198,7 @@ Component import and CSS import in the renderer entry; examples are in
   npm scope ownership, publishing credentials or license grants have been
   assumed. First-party code is explicitly `UNLICENSED` until the owner
   chooses an appropriate license. Third-party Lucide licenses are retained.
-- One unified 0.10.0 package version is used for this milestone. Only change
+- One unified 0.11.0 package version is used for this milestone. Only change
   public exports and events with documented semver-compatible migrations.
 - Build output under `dist/` and `artifacts/` is intentionally ignored by
   Git. **No GitHub Actions or remote CI jobs are created or run.**
@@ -219,3 +219,18 @@ each self-contained distribution, and `@componentui/react/components`
 exports matching wrappers. The bundled Lucide set now includes 25 icon
 definitions, including the new `minus` glyph. All packages remain
 private and intended for local tarball trials.
+
+## v0.11.0 independent consumer imports
+
+```js
+import "@componentui/web/components/password-field";
+import "@componentui/web/components/file-picker";
+import "@componentui/web/components/app-shell";
+```
+
+All three are included when importing `@componentui/web/components`.
+`@componentui/react/components` also exports the matching wrappers.
+Vue and Svelte use the same browser tags and existing integrations.
+No file uploads or password persistence are implemented in the UI
+package. Local tarballs and their browser behavior must be verified
+in a real consumer application before use in production.

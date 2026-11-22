@@ -59,6 +59,39 @@ export declare class CuSearchBox extends HTMLElement {
   reportValidity(): boolean;
 }
 
+
+export declare class CuPasswordField extends HTMLElement {
+  static formAssociated: boolean;
+  value: string; disabled: boolean; required: boolean;
+  readonly visible: boolean;
+  toggleVisibility(): void;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+export declare class CuFilePicker extends HTMLElement {
+  static formAssociated: boolean;
+  readonly files: File[];
+  disabled: boolean; multiple: boolean; maxSize: number;
+  clear(emit?: boolean): void;
+  focus(options?: FocusOptions): void;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+}
+export declare function formatFileSize(bytes: number): string;
+export declare function matchesFileAccept(file: Pick<File, "name"|"type">, accept?: string): boolean;
+export declare function validateFileSelection(
+  files: Iterable<File>, options?: {
+    accept?:string;multiple?:boolean;required?:boolean;maxSize?:number
+  }
+): string;
+export declare class CuAppShell extends HTMLElement {
+  navigationOpen: boolean;
+  withoutNavigation: boolean;
+  openNavigation(): void;
+  closeNavigation(restoreFocus?: boolean): void;
+  toggleNavigation(): void;
+}
 export declare class CuCheckbox extends HTMLElement {
   static formAssociated: boolean;
   checked: boolean;
@@ -208,6 +241,9 @@ declare global {
   interface HTMLElementTagNameMap {
     "cu-button": CuButton;
     "cu-text-field": CuTextField;
+    "cu-password-field": CuPasswordField;
+    "cu-file-picker": CuFilePicker;
+    "cu-app-shell": CuAppShell;
     "cu-textarea": CuTextArea;
     "cu-number-field": CuNumberField;
     "cu-search-box": CuSearchBox;

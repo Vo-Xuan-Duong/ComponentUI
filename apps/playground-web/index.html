@@ -17,7 +17,7 @@
     <aside class="sidebar" aria-label="ComponentUI navigation">
       <a class="brand" href="#overview" aria-label="ComponentUI home">
         <span class="brand-logo" aria-hidden="true"><cu-icon name="sparkles" size="22"></cu-icon></span>
-        <span><strong>ComponentUI</strong><small>Fluent Calm · v0.10 preview</small></span>
+        <span><strong>ComponentUI</strong><small>Fluent Calm · v0.11 preview</small></span>
       </a>
       <nav class="sidebar-nav" aria-label="Sections">
         <div class="nav-group-label">Design system</div>
@@ -64,7 +64,7 @@
       <main id="content" class="content">
         <section class="hero" id="overview" aria-labelledby="hero-title">
           
-          <span class="eyebrow">ComponentUI design system · v0.10.0</span>
+          <span class="eyebrow">ComponentUI design system · v0.11.0</span>
           <h1 id="hero-title">Build once. Keep your UI consistent.</h1>
           <p>A reusable Fluent Calm design system for web apps and desktop webviews. Explore real components, adjust themes and densities, and use the same UI across React, Vue, Svelte, Electron and Tauri.</p>
           <div class="hero-footer">
@@ -76,8 +76,8 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">35</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">30</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-previews">38</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">33</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -700,6 +700,43 @@
                 <cu-button id="wc-open-context" variant="outline" size="sm">Open actions (touch)</cu-button>
                 <p class="cu-helper" id="wc-context-menu-result" role="status">No action selected.</p>
               </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>PasswordField &amp; FilePicker</h3>
+              <p class="demo-subtitle">Form-associated secure input and local file selection. No password or file contents are transmitted by this preview.</p>
+              <form id="wc-advanced-form" class="cu-web-form">
+                <cu-password-field name="password" label="Workspace password"
+                  placeholder="At least eight characters" autocomplete="new-password"
+                  minlength="8" required hint="Use the eye button to show or hide the value."></cu-password-field>
+                <cu-file-picker name="attachments" label="Attachments" multiple
+                  accept="image/*,.pdf" max-size="5242880"
+                  hint="Choose PDF or images up to 5 MB per file; drag &amp; drop is also supported."></cu-file-picker>
+                <div class="demo-row">
+                  <cu-button type="submit" variant="accent" size="sm">Validate form</cu-button>
+                  <cu-button type="reset" variant="outline" size="sm">Reset form</cu-button>
+                </div>
+              </form>
+              <pre id="wc-advanced-result" role="status" class="cu-web-result">No password or files have been sent.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>AppShell</h3>
+              <p class="demo-subtitle">Composable application layout with header, navigation, content, optional aside and footer slots. Narrow the viewport to see navigation collapse.</p>
+              <cu-app-shell id="wc-app-shell" style="--cu-appshell-min-height:310px;--cu-appshell-nav-width:150px;--cu-appshell-aside-width:128px;--cu-appshell-content-padding:14px">
+                <strong slot="header" class="cu-app-header-title">Projects · ComponentUI</strong>
+                <div slot="navigation" class="cu-app-nav">
+                  <button type="button" data-workspace-view="Overview" aria-pressed="true">Overview</button>
+                  <button type="button" data-workspace-view="Components" aria-pressed="false">Components</button>
+                  <button type="button" data-workspace-view="Settings" aria-pressed="false">Settings</button>
+                </div>
+                <div class="cu-app-body">
+                  <strong id="wc-app-view">Overview</strong>
+                  <p>Compose a full application shell without rebuilding navigation and layout in every repository.</p>
+                  <div class="cu-app-mock-stat"><span>Web Components</span><strong>33</strong></div>
+                </div>
+                <div slot="aside" class="cu-app-aside"><strong>Activity</strong><p>Ready for local preview.</p></div>
+                <span slot="footer" class="cu-app-footer">Local preview · No server connection</span>
+              </cu-app-shell>
+              <p id="wc-app-shell-result" class="cu-helper" role="status">Navigation panel is closed on narrow screens.</p>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>Modal Dialog as a Custom Element</h3>
