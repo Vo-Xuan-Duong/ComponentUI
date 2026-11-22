@@ -20,7 +20,10 @@ export interface CuEventDetails {
   page?: number;
   selectedIds?: string[];
   row?: Record<string,unknown>;
-  column?: {key:string;label?:string;sortable?:boolean}|null;
+  column?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}|null;
+  filters?: Record<string,unknown[]>;
+  filteredCount?: number;
+  totalCount?: number;
   hiddenKeys?: string[];
   visibleKeys?: string[];
   query?: string;
@@ -58,12 +61,13 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   tone?: string;
   type?: string;
   iconName?: IconName;
-  columns?: {key:string;label?:string;sortable?:boolean}[];
+  columns?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}[];
   rows?: Record<string,unknown>[];
   rowActions?: {value:string;label?:string;
     disabled?:boolean|((row:Record<string,unknown>)=>boolean)}[];
   headerActions?: {value:string;label?:string;
     disabled?:boolean|((column:{key:string;label?:string;sortable?:boolean}|null)=>boolean)}[];
+  columnFilters?: Record<string,unknown[]>;
   page?: number;
   onCuPress?: (event: CuEvent) => void;
   onCuInput?: (event: CuEvent) => void;
@@ -83,6 +87,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuRowAction?: (event: CuEvent) => void;
   onCuHeaderAction?: (event: CuEvent) => void;
   onCuColumnVisibilityChange?: (event: CuEvent) => void;
+  onCuFilterChange?: (event: CuEvent) => void;
   onCuToggle?: (event: CuEvent) => void;
   onCuDismiss?: (event: CuEvent) => void;
 };
