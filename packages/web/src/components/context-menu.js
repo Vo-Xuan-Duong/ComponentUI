@@ -38,6 +38,7 @@ export class CuContextMenu extends BrowserElement {
     this._observer=null;
     this._open=false;
     this._restoreFocus=null;
+    this._items=null;
     this._target.addEventListener("slotchange",()=>this._syncTargets());
     this._target.addEventListener("contextmenu",event=>{
       if(event.defaultPrevented)return;
@@ -108,6 +109,11 @@ export class CuContextMenu extends BrowserElement {
     if(this._menu)this._menu.setAttribute("aria-label",this.getAttribute("aria-label")||"Context actions");
   }
   get open(){return this._open;}
+  get items(){return this._items;}
+  set items(value){
+    this._items=Array.isArray(value)?value:null;
+    this._render();
+  }
   _enabled(){return [...this._menu.querySelectorAll('[role="menuitem"]:not(:disabled)')];}
   _syncTargets(){
     for(const element of this._target.assignedElements({flatten:true})){
@@ -119,19 +125,26 @@ export class CuContextMenu extends BrowserElement {
     if(!this._menu)return;
     this._menu.setAttribute("aria-label",this.getAttribute("aria-label")||"Context actions");
     this._menu.replaceChildren();
-    for(const item of this.children){
-      if(item.localName!=="cu-menu-item")continue;
+    const items=this._items??[...this.children].filter(item=>item.localName==="cu-menu-item")
+      .map(item=>({
+        value:item.getAttribute("value")??item.textContent.trim(),
+        label:item.getAttribute("label")??item.textContent.trim(),
+        disabled:item.hasAttribute("disabled")
+      }));
+    for(const item of items){
+      if(!item)continue;
       const button=document.createElement("button");
       button.type="button";button.setAttribute("role","menuitem");button.tabIndex=-1;
-      button.disabled=item.hasAttribute("disabled");
-      button.dataset.value=item.getAttribute("value")??item.textContent.trim();
-      button.textContent=item.getAttribute("label")??item.textContent.trim();
+      button.disabled=Boolean(item.disabled);
+      button.dataset.value=String(item.value??"");
+      button.textContent=String(item.label??item.value??"");
       this._menu.append(button);
     }
   }
-  showAt(x,y){
+  showAt(x,y,focusTarget=null){
     if(!this.isConnected)return;
-    this._restoreFocus=this._target.assignedElements({flatten:true})[0]??null;
+    this._render();
+    this._restoreFocus=focusTarget??this._target.assignedElements({flatten:true})[0]??null;
     this._menu.hidden=false;this._open=true;this._syncTargets();
     const bounds=this._menu.getBoundingClientRect();
     const pos=clampMenuPosition(x,y,bounds.width,bounds.height,window.innerWidth,window.innerHeight);
