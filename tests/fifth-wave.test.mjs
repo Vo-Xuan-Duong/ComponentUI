@@ -39,6 +39,33 @@ test("DataTable pagination clamps range and supports the last page",()=>{
   assert.equal(paginateRows([],1,5).totalPages,1);
 });
 
+test("DataTable row actions use the shared context menu rather than an Actions column",async()=>{
+  const [table,menu,types,docs,markup,script]=await Promise.all([
+    read("../packages/web/src/components/data-table.js"),
+    read("../packages/web/src/components/context-menu.js"),
+    read("../packages/web/src/components/index.d.ts"),
+    read("../docs/DATA_COMPONENTS.md"),
+    read("../apps/playground-web/index.html"),
+    read("../apps/playground-web/main.js")
+  ]);
+  assert.match(table,/import "\.\/context-menu\.js"/);
+  assert.match(table,/<cu-context-menu class="row-menu"/);
+  assert.match(table,/addEventListener\("contextmenu"/);
+  assert.match(table,/event\.shiftKey&&event\.key==="F10"/);
+  assert.match(table,/this\._menu\.showAt\(x,y,element\)/);
+  assert.match(table,/notify\(this,"cu-row-action"/);
+  assert.match(table,/notify\(this,"cu-row-activate"/);
+  assert.doesNotMatch(table,/this\._makeCell\("Actions","th"\)/);
+  assert.doesNotMatch(table,/button\.textContent=actionLabel/);
+  assert.match(menu,/set items\(value\)/);
+  assert.match(menu,/showAt\(x,y,focusTarget=null\)/);
+  assert.match(types,/rowActions:CuTableRowAction\[\]/);
+  assert.match(docs,/Shift\+F10/);
+  assert.doesNotMatch(markup,/selectable row-action="Open"/);
+  assert.match(script,/wcTable\.rowActions=/);
+  assert.equal(REACT_EVENT_PROPS.onCuRowAction,"cu-row-action");
+});
+
 test("TreeView flatten helper respects collapsed descendants and levels",()=>{
   const nodes=[{value:"root",expanded:true,children:[
     {value:"open",expanded:true,children:[{value:"file"}]},
