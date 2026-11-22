@@ -153,3 +153,25 @@ body { min-width: 320px; }
 #web-components cu-date-picker,#web-components cu-slider,#web-components cu-progress-bar { display:block; }
 #web-components cu-avatar { margin-right:6px; }
 #web-components cu-badge { max-width:100%; }
+
+/* Unified Lucide icon showcase: reference-page styling only. */
+.brand-logo cu-icon { color: inherit; }
+.hero-footer cu-icon { vertical-align: middle; }
+.settings-icon cu-icon { color: inherit; }
+.crumbs cu-icon { color: var(--cu-text-muted); }
+.icon-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(122px,1fr));
+  gap:11px; }
+.icon-gallery-item { display:grid; justify-items:center; align-content:center;
+  gap:12px; min-height:96px; min-width:0;
+  border:1px solid var(--cu-border); border-radius:var(--cu-radius-lg);
+  background:var(--cu-surface-alt); color:var(--cu-text);
+  transition:background var(--cu-motion-fast), border-color var(--cu-motion-fast); }
+.icon-gallery-item:hover { background:color-mix(in srgb,var(--cu-accent) 8%,var(--cu-surface));
+  border-color:var(--cu-border-strong); }
+.icon-gallery-item span { font:500 11px/1.4 var(--cu-font-mono); color:var(--cu-text-muted);
+  text-align:center; overflow-wrap:anywhere; padding:0 6px; }
+.cu-toast > cu-icon { color:var(--cu-accent); margin-top:1px; }
+.cu-toast button cu-icon { display:block; }
+@media (prefers-reduced-motion: reduce) {
+  .icon-gallery-item { transition:none; }
+}

@@ -1,5 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import "./icon.js";
 
 /**
  * Fluent Calm select-only combobox.
@@ -134,9 +135,7 @@ export class CuSelect extends BrowserElement {
       '<div class="field"><div class="label" part="label"></div><div class="anchor">' +
       '<div class="control" part="control" role="combobox" tabindex="0"' +
       ' aria-haspopup="listbox" aria-expanded="false"><span class="value" part="value"></span>' +
-      '<svg class="chevron" part="chevron" viewBox="0 0 20 20" aria-hidden="true">' +
-      '<path d="m5 7 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7"' +
-      ' stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+      '<cu-icon name="chevron-down" size="16" class="chevron" part="chevron"></cu-icon></div>' +
       '<div class="popup" part="popup" role="listbox" hidden></div></div>' +
       '<div class="hint" part="hint"></div><div class="error" part="error"></div></div><slot></slot>');
     this._control = root.querySelector(".control");

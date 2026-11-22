@@ -1,5 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import "./icon.js";
 
 const css = [
   ":host{display:contents;font-family:var(--cu-font-body,system-ui);}",
@@ -29,7 +30,7 @@ export class CuDialog extends BrowserElement {
     const root = mount(this, css,
       '<dialog part="dialog" aria-labelledby="title">' +
       '<header><h2 id="title" part="title"></h2>' +
-      '<button type="button" part="close" aria-label="Close dialog">×</button></header>' +
+      '<button type="button" part="close" aria-label="Close dialog"><cu-icon name="x" size="18"></cu-icon></button></header>' +
       '<main part="content"><slot></slot></main><footer part="footer"><slot name="actions"></slot></footer></dialog>');
     this._dialog = root.querySelector("dialog");
     this._title = root.querySelector("h2");

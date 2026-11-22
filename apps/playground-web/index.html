@@ -16,13 +16,14 @@
   <div class="app-layout">
     <aside class="sidebar" aria-label="ComponentUI navigation">
       <a class="brand" href="#overview" aria-label="ComponentUI home">
-        <span class="brand-logo" aria-hidden="true">✦</span>
+        <span class="brand-logo" aria-hidden="true"><cu-icon name="sparkles" size="22"></cu-icon></span>
         <span><strong>ComponentUI</strong><small>Fluent Calm · Foundation</small></span>
       </a>
       <nav class="sidebar-nav" aria-label="Sections">
         <div class="nav-group-label">Design system</div>
         <a class="side-link is-active" href="#overview" aria-current="location">Overview</a>
         <a class="side-link" href="#controls">Actions</a>
+        <a class="side-link" href="#icons">Iconography</a>
         <a class="side-link" href="#forms">Forms &amp; inputs</a>
         <a class="side-link" href="#navigation">Navigation</a>
         <a class="side-link" href="#data">Data &amp; status</a>
@@ -66,7 +67,7 @@
           <h1 id="hero-title">Calm by design.<br>Ready for every project.</h1>
           <p>A modern, Windows 11-inspired visual language built around clarity, familiar shapes and lightweight surfaces. Preview styles before we build framework components.</p>
           <div class="hero-footer">
-            <a class="cu-btn" data-variant="accent" href="#controls">Explore components <span aria-hidden="true">↗</span></a>
+            <a class="cu-btn" data-variant="accent" href="#controls">Explore components <cu-icon name="arrow-up-right" size="16"></cu-icon></a>
             <a class="cu-btn" data-variant="outline" href="#catalog">Browse catalog</a>
             <span class="cu-badge" data-tone="warning">Foundation preview</span>
           </div>
@@ -103,16 +104,52 @@
             <article class="cu-surface demo-card">
               <h3>Quick actions</h3><p class="demo-subtitle">Icon controls, accents and action hierarchy.</p>
               <div class="demo-row">
-                <button type="button" class="cu-btn cu-icon-btn" aria-label="Add item" data-toast="Add item">＋</button>
-                <button type="button" class="cu-btn cu-icon-btn" aria-label="Edit item" data-toast="Edit item">✎</button>
-                <button type="button" class="cu-btn cu-icon-btn" aria-label="More options" data-toast="More options">⋯</button>
-                <button type="button" class="cu-btn cu-icon-btn" data-variant="accent" aria-label="Confirm" data-toast="Confirmed">✓</button>
+                <button type="button" class="cu-btn cu-icon-btn" aria-label="Add item" data-toast="Add item"><cu-icon name="plus" size="18"></cu-icon></button>
+                <button type="button" class="cu-btn cu-icon-btn" aria-label="Edit item" data-toast="Edit item"><cu-icon name="pencil" size="18"></cu-icon></button>
+                <button type="button" class="cu-btn cu-icon-btn" aria-label="More options" data-toast="More options"><cu-icon name="ellipsis" size="18"></cu-icon></button>
+                <button type="button" class="cu-btn cu-icon-btn" data-variant="accent" aria-label="Confirm" data-toast="Confirmed"><cu-icon name="check" size="18"></cu-icon></button>
               </div>
               <div class="cu-info" style="margin-top: 24px"><strong>Design rule:</strong> one prominent action per region. Use labels and accessible names for icon-only controls.</div>
               <div class="preview-label">Current density</div>
               <span class="cu-badge" data-tone="accent" id="density-readout">Comfortable · 40px controls</span>
             </article>
           </div>
+        </section>
+
+
+        <section class="section" id="icons" aria-labelledby="icons-heading">
+          <div class="section-heading"><div><h2 id="icons-heading">Iconography</h2>
+            <p>One unified Lucide SVG source, used across the design system. 24 bundled icons with consistent strokes, sizes and colors.</p>
+            </div><span class="section-flag">Lucide · SVG · ISC/MIT</span></div>
+          <article class="cu-surface demo-card">
+            <div class="icon-gallery" aria-label="Available Lucide icons">
+              <div class="icon-gallery-item"><cu-icon name="plus" size="22"></cu-icon><span>plus</span></div>
+              <div class="icon-gallery-item"><cu-icon name="pencil" size="22"></cu-icon><span>pencil</span></div>
+              <div class="icon-gallery-item"><cu-icon name="ellipsis" size="22"></cu-icon><span>ellipsis</span></div>
+              <div class="icon-gallery-item"><cu-icon name="check" size="22"></cu-icon><span>check</span></div>
+              <div class="icon-gallery-item"><cu-icon name="search" size="22"></cu-icon><span>search</span></div>
+              <div class="icon-gallery-item"><cu-icon name="settings" size="22"></cu-icon><span>settings</span></div>
+              <div class="icon-gallery-item"><cu-icon name="bell" size="22"></cu-icon><span>bell</span></div>
+              <div class="icon-gallery-item"><cu-icon name="folder" size="22"></cu-icon><span>folder</span></div>
+              <div class="icon-gallery-item"><cu-icon name="save" size="22"></cu-icon><span>save</span></div>
+              <div class="icon-gallery-item"><cu-icon name="copy" size="22"></cu-icon><span>copy</span></div>
+              <div class="icon-gallery-item"><cu-icon name="trash" size="22"></cu-icon><span>trash</span></div>
+              <div class="icon-gallery-item"><cu-icon name="shield-check" size="22"></cu-icon><span>shield-check</span></div>
+              <div class="icon-gallery-item"><cu-icon name="palette" size="22"></cu-icon><span>palette</span></div>
+              <div class="icon-gallery-item"><cu-icon name="panel-left" size="22"></cu-icon><span>panel-left</span></div>
+              <div class="icon-gallery-item"><cu-icon name="info" size="22"></cu-icon><span>info</span></div>
+              <div class="icon-gallery-item"><cu-icon name="sparkles" size="22"></cu-icon><span>sparkles</span></div>
+              <div class="icon-gallery-item"><cu-icon name="chevron-down" size="22"></cu-icon><span>chevron-down</span></div>
+              <div class="icon-gallery-item"><cu-icon name="chevron-right" size="22"></cu-icon><span>chevron-right</span></div>
+              <div class="icon-gallery-item"><cu-icon name="circle-check" size="22"></cu-icon><span>circle-check</span></div>
+              <div class="icon-gallery-item"><cu-icon name="folder-open" size="22"></cu-icon><span>folder-open</span></div>
+              <div class="icon-gallery-item"><cu-icon name="sliders-horizontal" size="22"></cu-icon><span>sliders-horizontal</span></div>
+              <div class="icon-gallery-item"><cu-icon name="arrow-up-right" size="22"></cu-icon><span>arrow-up-right</span></div>
+              <div class="icon-gallery-item"><cu-icon name="menu" size="22"></cu-icon><span>menu</span></div>
+              <div class="icon-gallery-item"><cu-icon name="x" size="22"></cu-icon><span>x</span></div>
+            </div>
+            <div class="cu-info" style="margin-top:18px"><strong>Reusable API:</strong> <code>&lt;cu-icon name="pencil" size="20"&gt;&lt;/cu-icon&gt;</code> · Icon-only buttons must keep an accessible button label.</div>
+          </article>
         </section>
 
         <section class="section" id="forms" aria-labelledby="forms-heading">
@@ -174,13 +211,13 @@
                 <strong style="font-size:13px">Privacy preferences</strong><p class="cu-muted" style="font-size:12px">This playground stores only optional local theme preferences.</p>
               </div>
               <div class="preview-label">Breadcrumb</div>
-              <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Home</a><span aria-hidden="true">›</span><a href="#navigation">Settings</a><span aria-hidden="true">›</span><strong>Appearance</strong></nav>
+              <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Home</a><cu-icon name="chevron-right" size="16"></cu-icon><a href="#navigation">Settings</a><cu-icon name="chevron-right" size="16"></cu-icon><strong>Appearance</strong></nav>
             </article>
             <article class="cu-surface demo-card">
               <h3>Settings surface</h3><p class="demo-subtitle">Small compositional patterns for application settings.</p>
-              <div class="settings-item"><span class="settings-icon" aria-hidden="true">◉</span><div class="settings-text"><strong>Personalization</strong><small>Accent colors and appearance</small></div><span class="cu-badge" data-tone="accent">Active</span></div>
-              <div class="settings-item"><span class="settings-icon" aria-hidden="true">☰</span><div class="settings-text"><strong>Navigation</strong><small>Sidebar and menus</small></div><span aria-hidden="true">›</span></div>
-              <div class="settings-item"><span class="settings-icon" aria-hidden="true">⚙</span><div class="settings-text"><strong>System</strong><small>Application settings</small></div><span aria-hidden="true">›</span></div>
+              <div class="settings-item"><span class="settings-icon" aria-hidden="true"><cu-icon name="palette" size="19"></cu-icon></span><div class="settings-text"><strong>Personalization</strong><small>Accent colors and appearance</small></div><span class="cu-badge" data-tone="accent">Active</span></div>
+              <div class="settings-item"><span class="settings-icon" aria-hidden="true"><cu-icon name="panel-left" size="19"></cu-icon></span><div class="settings-text"><strong>Navigation</strong><small>Sidebar and menus</small></div><cu-icon name="chevron-right" size="16"></cu-icon></div>
+              <div class="settings-item"><span class="settings-icon" aria-hidden="true"><cu-icon name="settings" size="19"></cu-icon></span><div class="settings-text"><strong>System</strong><small>Application settings</small></div><cu-icon name="chevron-right" size="16"></cu-icon></div>
             </article>
           </div>
         </section>
@@ -259,9 +296,9 @@
             <article class="cu-surface demo-card">
               <h3>Accordion</h3><p class="demo-subtitle">Native disclosure panels with keyboard support.</p>
               <div class="cu-accordion">
-                <details class="cu-accordion-item" open><summary>Appearance settings</summary><div class="cu-accordion-content">Choose Light/Dark, accent and density in the toolbar.</div></details>
-                <details class="cu-accordion-item"><summary>Notifications</summary><div class="cu-accordion-content">Control application alerts and messages.</div></details>
-                <details class="cu-accordion-item"><summary>Privacy</summary><div class="cu-accordion-content">Theme preferences remain in local browser storage.</div></details>
+                <details class="cu-accordion-item" open><summary>Appearance settings<cu-icon name="chevron-down" size="18"></cu-icon></summary><div class="cu-accordion-content">Choose Light/Dark, accent and density in the toolbar.</div></details>
+                <details class="cu-accordion-item"><summary>Notifications<cu-icon name="chevron-down" size="18"></cu-icon></summary><div class="cu-accordion-content">Control application alerts and messages.</div></details>
+                <details class="cu-accordion-item"><summary>Privacy<cu-icon name="chevron-down" size="18"></cu-icon></summary><div class="cu-accordion-content">Theme preferences remain in local browser storage.</div></details>
               </div>
             </article>
             <article class="cu-surface demo-card">
@@ -272,7 +309,7 @@
                   <span class="cu-tooltip" id="save-tooltip" role="tooltip">Save changes (preview)</span>
                 </span>
                 <div class="cu-popup-anchor" data-cu-popover>
-                  <button class="cu-btn" type="button" aria-expanded="false" aria-controls="info-popover" data-cu-popover-trigger>Popover ▾</button>
+                  <button class="cu-btn" type="button" aria-expanded="false" aria-controls="info-popover" data-cu-popover-trigger>Popover <cu-icon name="chevron-down" size="16"></cu-icon></button>
                   <div class="cu-popover-panel" id="info-popover" data-cu-popover-panel hidden>
                     <strong>Quick info</strong>
                     <p>Closes on Escape or an outside click; non-modal by design.</p>
@@ -286,7 +323,7 @@
               <h3>Menu &amp; Drawer</h3><p class="demo-subtitle">Menu arrow-key navigation and native modal drawer.</p>
               <div class="demo-row">
                 <div class="cu-popup-anchor" data-cu-menu>
-                  <button class="cu-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menu" data-cu-menu-trigger>Actions ▾</button>
+                  <button class="cu-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menu" data-cu-menu-trigger>Actions <cu-icon name="chevron-down" size="16"></cu-icon></button>
                   <div class="cu-menu-popup" role="menu" id="demo-menu" aria-label="Example actions" hidden>
                     <button type="button" role="menuitem" data-action="Duplicate">Duplicate item</button>
                     <button type="button" role="menuitem" data-action="Rename">Rename item</button>
@@ -301,7 +338,7 @@
             <article class="cu-surface demo-card">
               <h3>Empty State</h3><p class="demo-subtitle">A useful starting point for an empty workspace.</p>
               <div class="cu-empty-state">
-                <div class="cu-empty-illustration" aria-hidden="true">◇</div>
+                <div class="cu-empty-illustration" aria-hidden="true"><cu-icon name="folder-open" size="28"></cu-icon></div>
                 <strong>Nothing here yet</strong>
                 <p>Create a workspace to organize your projects.</p>
                 <button class="cu-btn" data-variant="accent" data-toast="Create workspace" type="button">Create workspace</button>
@@ -398,7 +435,7 @@
                   <button slot="anchor" class="cu-btn" type="button">Focus for tooltip</button>
                 </cu-tooltip>
                 <cu-popover id="wc-popover" title="Quick workspace information">
-                  <button slot="trigger" class="cu-btn" type="button">Open popover ▾</button>
+                  <button slot="trigger" class="cu-btn" type="button">Open popover <cu-icon name="chevron-down" size="16"></cu-icon></button>
                   <div slot="content" class="cu-web-popover-content">
                     <strong>Workspace details</strong>
                     <p>Popover closes on Escape or outside click; it does not trap focus.</p>
@@ -466,7 +503,7 @@
               <p class="demo-subtitle">Reusable custom menu with arrow-key navigation, Escape and disabled actions.</p>
               <div class="demo-row">
                 <cu-menu id="wc-menu" aria-label="Workspace actions">
-                  <button type="button" slot="trigger" class="cu-btn">Workspace actions ▾</button>
+                  <button type="button" slot="trigger" class="cu-btn">Workspace actions <cu-icon name="chevron-down" size="16"></cu-icon></button>
                   <cu-menu-item value="new" label="New workspace"></cu-menu-item>
                   <cu-menu-item value="rename">Rename workspace</cu-menu-item>
                   <cu-menu-item value="share">Share workspace</cu-menu-item>
@@ -523,7 +560,7 @@
   <dialog class="cu-drawer" id="sample-drawer" aria-labelledby="drawer-title" aria-describedby="drawer-description">
     <div class="cu-drawer-header">
       <h2 id="drawer-title">Workspace settings</h2>
-      <form method="dialog"><button type="submit" class="cu-btn cu-icon-btn" aria-label="Close drawer">×</button></form>
+      <form method="dialog"><button type="submit" class="cu-btn cu-icon-btn" aria-label="Close drawer"><cu-icon name="x" size="18"></cu-icon></button></form>
     </div>
     <div class="cu-drawer-body">
       <p id="drawer-description" class="cu-muted">Native modal side panel styled with Fluent Calm tokens.</p>
@@ -539,7 +576,7 @@
   <dialog class="cu-command-dialog" id="command-palette" aria-labelledby="command-title">
     <div class="cu-command-top">
       <h2 id="command-title">Search ComponentUI</h2>
-      <form method="dialog"><button type="submit" class="cu-btn cu-icon-btn" aria-label="Close command palette">×</button></form>
+      <form method="dialog"><button type="submit" class="cu-btn cu-icon-btn" aria-label="Close command palette"><cu-icon name="x" size="18"></cu-icon></button></form>
     </div>
     <div class="cu-command-search">
       <label class="visually-hidden" for="command-input">Search sections and actions</label>

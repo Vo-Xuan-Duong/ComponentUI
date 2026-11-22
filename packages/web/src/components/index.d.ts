@@ -1,3 +1,4 @@
+import type { IconName } from "../../../icons/src/icons.js";
 
 /** ComponentUI experimental browser-native Custom Elements. */
 export type ButtonVariant = "standard" | "accent" | "subtle" | "outline" | "danger";
@@ -124,5 +125,10 @@ declare global {
     "cu-avatar": CuAvatar;
     "cu-menu": CuMenu;
     "cu-menu-item": CuMenuItem;
+    "cu-icon": CuIcon;
   }
+}
+
+export declare class CuIcon extends HTMLElement {
+  name: IconName;
 }

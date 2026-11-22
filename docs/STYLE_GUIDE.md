@@ -39,7 +39,7 @@ Spacing follows a 4 px rhythm; small deviations must be documented. Control size
 - Layout must work from 320 px up to wide screens; sidebar becomes compact on narrow screens.
 - Navigation, menu and option selected/hover states use **full-row background contrast** and text weight, not a decorative left-edge accent strip. Selected values may add a checkmark. Color is not the only state indicator.
 - Support left-to-right initially; add explicit RTL tests before claiming RTL support.
-- Use SVG/stroke iconography via a separate appropriately licensed icon package rather than embedded platform icons.
+- **Icon source: Lucide.** Use the local `@componentui/icons` data and `<cu-icon>` for a consistent 24×24 SVG grid, 2px base stroke, `currentColor` and 16/18/20/24px display sizes. Do not mix emoji/Unicode glyphs with UI action icons. Retain upstream ISC and Feather-derived MIT licenses in `packages/icons/LICENSE`. See [Icon System](ICON_SYSTEM.md).
 - Motion: 100 ms for small feedback, 160 ms normal, 240 ms complex transitions; honor reduced motion.
 - Aim for WCAG 2.2 AA, verify contrast and focus paths on implemented components rather than treating tokens as certification.
 

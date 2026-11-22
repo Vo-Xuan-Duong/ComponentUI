@@ -71,10 +71,9 @@ function showToast(title, message = "ComponentUI interaction preview.") {
   const toast = document.createElement("div");
   toast.className = "cu-toast";
   toast.setAttribute("role", "status");
-  const mark = document.createElement("span");
-  mark.textContent = "●";
-  mark.setAttribute("aria-hidden", "true");
-  mark.style.color = "var(--cu-accent)";
+  const mark = document.createElement("cu-icon");
+  mark.setAttribute("name", "info");
+  mark.setAttribute("size", "18");
   const text = document.createElement("div");
   const strong = document.createElement("strong");
   strong.textContent = title;
@@ -83,7 +82,10 @@ function showToast(title, message = "ComponentUI interaction preview.") {
   text.append(strong, desc);
   const close = document.createElement("button");
   close.type = "button";
-  close.textContent = "×";
+  const closeIcon = document.createElement("cu-icon");
+  closeIcon.setAttribute("name", "x");
+  closeIcon.setAttribute("size", "16");
+  close.append(closeIcon);
   close.setAttribute("aria-label", "Dismiss notification");
   close.addEventListener("click", () => toast.remove());
   toast.append(mark, text, close);

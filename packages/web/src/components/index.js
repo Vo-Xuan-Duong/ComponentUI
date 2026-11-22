@@ -22,3 +22,5 @@ export { CuProgressBar } from "./progress-bar.js";
 export { CuBadge } from "./badge.js";
 export { CuAvatar, initialsFromName } from "./avatar.js";
 export { CuMenu, CuMenuItem } from "./menu.js";
+
+export { CuIcon } from "./icon.js";

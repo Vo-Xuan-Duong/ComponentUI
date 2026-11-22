@@ -27,7 +27,7 @@ test("playground imports shared tokens and exposes core preview sections", async
   const html = await source("../apps/playground-web/index.html");
   const css = await source("../packages/theme/src/components.css");
   const app = await source("../apps/playground-web/main.js");
-  for (const section of ["overview","controls","forms","navigation","data","feedback","catalog"])
+  for (const section of ["overview","controls","icons","forms","navigation","data","feedback","catalog"])
     assert.match(html, new RegExp(`id="${section}"`));
   for (const feature of ["theme-select","density-select","sample-dialog","catalog-results"])
     assert.ok(html.includes(`id="${feature}"`));

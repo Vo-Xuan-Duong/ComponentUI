@@ -114,6 +114,15 @@ No GitHub Actions are used. Experimental UI stays at catalog status `preview`.
 
 **Status:** source implementation staged; browser accessibility and compatibility not yet verified.
 
+## Unified Iconography — v0.5.0
+
+- [x] Select Lucide SVG as the single modern icon source
+- [x] Bundle 24 curated icons locally with the official ISC/MIT attribution notices
+- [x] Implement reusable `cu-icon` with size/stroke/color and decorative/accessibility modes
+- [x] Update Quick actions, Settings, breadcrumbs, buttons and overlay close icons
+- [x] Add a dedicated Iconography preview gallery, TypeScript declarations and local source tests
+- [ ] Maintainer validates browser rendering, dimensions, accessibility and Light/Dark contrast locally
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

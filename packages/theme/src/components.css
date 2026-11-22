@@ -58,7 +58,9 @@ a { color: var(--cu-accent); }
 .cu-btn[data-variant="danger"]:hover:not(:disabled) { filter: brightness(.94); }
 .cu-btn[data-size="sm"] { min-height: var(--cu-control-sm); padding: 0 var(--cu-space-3); }
 .cu-btn[data-size="xl"] { min-height: var(--cu-control-xl); padding: 0 var(--cu-space-5); }
-.cu-icon-btn { width: var(--cu-control-height); padding: 0; font-size: 1.05rem; }
+.cu-icon-btn { width: var(--cu-control-height); padding: 0; line-height: 0; }
+.cu-icon-btn cu-icon { --cu-icon-size: 18px; }
+.cu-btn cu-icon { flex-shrink: 0; }
 .cu-field { display: grid; gap: var(--cu-space-2); min-width: 0; }
 .cu-label { font-size: var(--cu-text-sm); font-weight: 600; color: var(--cu-text); }
 .cu-helper { font-size: var(--cu-text-xs); color: var(--cu-text-muted); }
@@ -177,9 +179,9 @@ kbd { display:inline-block; font: 600 11px var(--cu-font-mono);
   padding: var(--cu-space-3) var(--cu-space-4); font-size: var(--cu-text-sm);
   font-weight: 600; color: var(--cu-text); }
 .cu-accordion-item summary::-webkit-details-marker { display: none; }
-.cu-accordion-item summary::after { content:"⌄"; font-size: 20px; color: var(--cu-text-muted);
+.cu-accordion-item summary cu-icon { color: var(--cu-text-muted);
   transition: transform var(--cu-motion-normal); }
-.cu-accordion-item[open] summary::after { transform: rotate(180deg); }
+.cu-accordion-item[open] summary cu-icon { transform: rotate(180deg); }
 .cu-accordion-item summary:hover { background: var(--cu-surface-alt); }
 .cu-accordion-content { padding: var(--cu-space-3) var(--cu-space-4);
   border-top: 1px solid var(--cu-border); font-size: var(--cu-text-sm);
@@ -264,7 +266,7 @@ kbd { display:inline-block; font: 600 11px var(--cu-font-mono);
 .cu-command-footer { border-top:1px solid var(--cu-border); padding:11px 18px;
   font-size:var(--cu-text-xs); color:var(--cu-text-muted); }
 @media (prefers-reduced-motion: reduce) {
-  .cu-tooltip, .cu-accordion-item summary::after { transition:none; }
+  .cu-tooltip, .cu-accordion-item summary cu-icon { transition:none; }
 }
 @media (forced-colors: active) {
   .cu-page-button[aria-current="page"], .cu-command-option[aria-selected="true"] {

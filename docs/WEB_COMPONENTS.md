@@ -254,3 +254,7 @@ Dropdown rows now have a noticeable hover/keyboard-active state: a 20% semantic-
 ## Visual consistency — v0.4.3
 
 The accent-colored leading bar has been removed from Select option hover and vertical Tabs active states. Interactive rows now communicate hover and active states through a full-row accent-tinted background, text weight and (where relevant) a selected checkmark. This is a style rule, not a change to public component APIs.
+
+## Icon system — v0.5.0
+
+The `<cu-icon>` Custom Element now provides Lucide SVG icons through a local `@componentui/icons` data package. It is not a counted entry in the 128-item catalog (IconButton is a separate planned interactive control). Import `packages/web/src/components/icon.js` or the main index to register it. Use `<cu-icon name="plus" size="18"></cu-icon>` inside labeled buttons, or set `label` when the icon itself must be announced. See [ICON_SYSTEM.md](ICON_SYSTEM.md) for examples and third-party license terms.

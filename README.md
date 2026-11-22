@@ -2,7 +2,9 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Native Web Components (v0.4.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and sixteen experimental browser Custom Elements. **There are 16 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — Web Components + Unified Lucide Icons (v0.5.0):** The repository contains platform-independent Design Tokens, a prioritized **128-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and sixteen experimental browser Custom Elements. **There are 16 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+
+**Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
 ## Preview locally
 
@@ -32,7 +34,8 @@ packages/
     src/components.css                # Reusable preview visual primitives (not Web Components)
     src/theme.js                      # Framework-neutral theme preference controller
   web/src/interactions.js             # Native-first HTML interaction controllers
-  web/src/components/                 # 16 browser Custom Elements + declarative option tags
+  web/src/components/                 # Browser Custom Elements and reusable cu-icon
+  icons/src/                           # 24 local Lucide SVG definitions (ISC/MIT)
 apps/
   playground-web/
     index.html                        # Responsive gallery; no framework dependencies
@@ -63,6 +66,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Local development](docs/LOCAL_DEVELOPMENT.md)
 - [Component preview interactions](docs/COMPONENT_PREVIEWS.md)
 - [Experimental Web Components API](docs/WEB_COMPONENTS.md)
+- [Lucide Icon System](docs/ICON_SYSTEM.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)
 - [Component inventory](docs/COMPONENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)

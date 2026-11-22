@@ -1,6 +1,6 @@
 {
   "name": "@componentui/web",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "description": "ComponentUI framework-neutral Web Components and DOM interaction controllers",
@@ -74,6 +74,10 @@
     "./components/menu": {
       "types": "./src/components/index.d.ts",
       "default": "./src/components/menu.js"
+    },
+    "./components/icon": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/icon.js"
     }
   }
 }
