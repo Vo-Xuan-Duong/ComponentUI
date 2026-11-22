@@ -1,7 +1,7 @@
 
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
-import "./context-menu.js";
+import { clampMenuPosition } from "./context-menu.js";
 
 export function sortTableRows(rows, key, direction = "asc") {
   if (!key || !["asc","desc"].includes(direction)) return [...rows];
@@ -25,6 +25,36 @@ export function paginateRows(rows, page = 1, size = 5) {
   return {page:current,totalPages,total:length,
     rows:rows.slice((current-1)*safeSize,current*safeSize)};
 }
+
+// Canonical identity keeps numbers, booleans and text distinct; blank cells share one entry.
+export function tableFilterValueKey(value) {
+  if(value==null||value==="")return "blank";
+  if(value instanceof Date)return "date:"+value.getTime();
+  return typeof value+":"+String(value);
+}
+export function tableFilterValueLabel(value) {
+  if(value==null||value==="")return "(Blanks)";
+  if(value instanceof Date)return Number.isNaN(value.getTime())?"Invalid date":value.toISOString();
+  return String(value);
+}
+export function filterTableRows(rows,filters,omitKey=null) {
+  const entries=filters instanceof Map?[...filters]:Object.entries(filters??{});
+  const active=entries.filter(([key,values])=>key!==omitKey&&Array.isArray(values));
+  if(!active.length)return [...rows];
+  const sets=active.map(([key,values])=>[key,new Set(values.map(tableFilterValueKey))]);
+  return rows.filter(row=>sets.every(([key,allowed])=>allowed.has(tableFilterValueKey(row?.[key]))));
+}
+export function uniqueTableFilterValues(rows,key) {
+  const values=new Map();
+  for(const row of rows) {
+    const value=row?.[key],id=tableFilterValueKey(value);
+    if(values.has(id)){values.get(id).count++;continue;}
+    values.set(id,{key:id,value,label:tableFilterValueLabel(value),count:1});
+  }
+  return [...values.values()].sort((a,b)=>
+    a.label.localeCompare(b.label,undefined,{numeric:true,sensitivity:"base"}));
+}
+
 const css=[
   ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
   ":host([hidden]){display:none!important;}",
@@ -44,6 +74,41 @@ const css=[
   "tbody tr[data-actionable=true]{cursor:context-menu;}",
   "tbody tr:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
   ".row-menu,.header-menu{position:fixed;width:0;height:0;}",
+  "thead th[data-filtered=true]{color:var(--cu-accent,#0067c0);}",
+  ".filter-trigger{margin-left:5px;min-width:27px;min-height:27px;padding:5px;vertical-align:middle;}",
+  ".filter-trigger cu-icon{width:14px;height:14px;}",
+  "thead th[data-filtered=true] .filter-trigger{color:var(--cu-accent,#0067c0);",
+  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 13%,transparent);}",
+  ".filter-panel{position:fixed;z-index:10001;box-sizing:border-box;width:290px;",
+  "max-width:calc(100vw - 16px);max-height:min(520px,calc(100vh - 16px));",
+  "padding:12px;border:1px solid var(--cu-border-strong,#d1d1d1);",
+  "border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface-elevated,#fff);",
+  "box-shadow:var(--cu-shadow-flyout,0 12px 28px rgb(0 0 0/.16));",
+  "display:flex;flex-direction:column;gap:9px;}",
+  ".filter-panel[hidden]{display:none!important;}",
+  ".filter-title{font-size:13px;font-weight:650;}",
+  ".filter-search{box-sizing:border-box;width:100%;min-height:34px;padding:7px 9px;",
+  "border:1px solid var(--cu-border-strong,#d1d1d1);",
+  "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);",
+  "color:var(--cu-text,#242424);font:inherit;}",
+  ".filter-select-all{display:flex;align-items:center;gap:9px;padding:6px 8px;",
+  "border-bottom:1px solid var(--cu-border,#e5e5e5);cursor:pointer;}",
+  ".filter-options{max-height:min(230px,35vh);overflow:auto;min-height:40px;}",
+  ".filter-options label{display:flex;align-items:center;gap:9px;padding:7px 8px;",
+  "border-radius:var(--cu-radius-md,6px);cursor:pointer;}",
+  ".filter-options label:hover,.filter-options label:focus-within{",
+  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 12%,var(--cu-surface,#fff));}",
+  ".filter-options .filter-value{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}",
+  ".filter-options .filter-count,.filter-summary{color:var(--cu-text-muted,#616161);font-size:12px;}",
+  ".filter-empty{padding:12px;color:var(--cu-text-muted,#616161);}",
+  ".filter-footer{display:flex;gap:7px;justify-content:flex-end;align-items:center;",
+  "border-top:1px solid var(--cu-border,#e5e5e5);padding-top:9px;}",
+  ".filter-footer button{border:1px solid var(--cu-border,#e5e5e5);}",
+  ".filter-footer .filter-apply{color:var(--cu-on-accent,#fff);",
+  "background:var(--cu-accent,#0067c0);border-color:var(--cu-accent,#0067c0);}",
+  ".filter-footer .filter-apply:hover{background:var(--cu-accent-hover,#005ba1);}",
+  ".filter-footer .filter-clear{margin-right:auto;}",
+  "@media(forced-colors:active){.filter-panel{border-color:CanvasText;}}",
   "thead th[data-column-key]{cursor:context-menu;}",
   "thead th[data-context=true]{background:color-mix(in srgb,var(--cu-accent,#0067c0) 13%,var(--cu-surface-alt,#fafafa));}",
   "thead th:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
@@ -79,7 +144,16 @@ export class CuDataTable extends BrowserElement {
       '<div class="pages"><button type="button" class="prev" aria-label="Previous page"><cu-icon name="chevron-right" size="16"></cu-icon></button>' +
       '<span class="current"></span><button type="button" class="next" aria-label="Next page"><cu-icon name="chevron-right" size="16"></cu-icon></button>' +
       '</div></div></div><cu-context-menu class="row-menu" aria-label="Row actions"></cu-context-menu>' +
-      '<cu-context-menu class="header-menu" aria-label="Column actions"></cu-context-menu>');
+      '<cu-context-menu class="header-menu" aria-label="Column actions"></cu-context-menu>' +
+      '<section class="filter-panel" part="filter-panel" role="dialog" aria-label="Column filter" hidden>' +
+      '<div class="filter-title"></div>' +
+      '<input class="filter-search" type="search" placeholder="Search values..." aria-label="Search filter values">' +
+      '<label class="filter-select-all"><input type="checkbox" class="filter-all"><span>Select all matching</span></label>' +
+      '<div class="filter-options" role="group" aria-label="Available filter values"></div>' +
+      '<div class="filter-summary" role="status"></div>' +
+      '<div class="filter-footer"><button type="button" class="filter-clear">Clear</button>' +
+      '<button type="button" class="filter-cancel">Cancel</button>' +
+      '<button type="button" class="filter-apply">Apply</button></div></section>');
     this._table=root.querySelector("table");
     this._caption=root.querySelector("caption");
     this._head=root.querySelector("thead");
@@ -91,6 +165,12 @@ export class CuDataTable extends BrowserElement {
     this._next=root.querySelector(".next");
     this._menu=root.querySelector(".row-menu");
     this._headerMenu=root.querySelector(".header-menu");
+    this._filterPanel=root.querySelector(".filter-panel");
+    this._filterTitle=root.querySelector(".filter-title");
+    this._filterSearch=root.querySelector(".filter-search");
+    this._filterAll=root.querySelector(".filter-all");
+    this._filterOptions=root.querySelector(".filter-options");
+    this._filterSummary=root.querySelector(".filter-summary");
     this._rows=[];
     this._columns=[];
     this._page=1;
@@ -98,6 +178,8 @@ export class CuDataTable extends BrowserElement {
     this._direction="asc";
     this._selected=new Set();
     this._hiddenColumns=new Set();
+    this._columnFilters=new Map();
+    this._filterEditor=null;
     this._rowActions=[];
     this._headerActions=[];
     this._contextRow=null;
@@ -132,17 +214,81 @@ export class CuDataTable extends BrowserElement {
         case "clear-sort": this.clearSort();break;
         case "hide-column": this.hideColumn(key);break;
         case "show-all-columns": this.showAllColumns();break;
+        case "filter-values":
+          this._showFilterPanel(context.column,context.element);
+          break;
+        case "clear-filter": this.clearColumnFilter(key);break;
+        case "clear-all-filters": this.clearAllFilters();break;
       }
       notify(this,"cu-header-action",{
         action:selected.value,label:selected.label,key,column:context.column
       });
-      this._focusColumn(key);
+      if(selected.value!=="filter-values")this._focusColumn(key);
     });
     this._headerMenu.addEventListener("cu-close",()=>this._clearContextHeader());
+    this._filterSearch.addEventListener("input",()=>this._renderFilterOptions());
+    this._filterAll.addEventListener("change",()=>{
+      const editor=this._filterEditor;
+      if(!editor)return;
+      for(const option of this._matchingFilterOptions()){
+        if(this._filterAll.checked)editor.selected.add(option.key);
+        else editor.selected.delete(option.key);
+      }
+      this._renderFilterOptions();
+    });
+    this._filterOptions.addEventListener("change",event=>{
+      const editor=this._filterEditor,input=event.target;
+      if(!editor||input?.type!=="checkbox")return;
+      if(input.checked)editor.selected.add(input.dataset.valueKey);
+      else editor.selected.delete(input.dataset.valueKey);
+      this._renderFilterOptions();
+    });
+    root.querySelector(".filter-apply").addEventListener("click",()=>{
+      const editor=this._filterEditor;
+      if(!editor)return;
+      const key=editor.column.key;
+      const all=editor.options.every(option=>editor.selected.has(option.key));
+      const values=all?null:editor.options.filter(option=>
+        editor.selected.has(option.key)).map(option=>option.value);
+      this._hideFilterPanel(false);
+      this.setColumnFilter(key,values);
+      this._focusColumn(key);
+    });
+    root.querySelector(".filter-clear").addEventListener("click",()=>{
+      const key=this._filterEditor?.column.key;
+      if(!key)return;
+      this._hideFilterPanel(false);
+      this.clearColumnFilter(key);
+      this._focusColumn(key);
+    });
+    root.querySelector(".filter-cancel").addEventListener("click",()=>
+      this._hideFilterPanel(true));
+    this._filterPanel.addEventListener("keydown",event=>{
+      if(event.key==="Escape"){event.preventDefault();this._hideFilterPanel(true);}
+    });
+    this._filterOutside=event=>{
+      if(this._filterEditor&&!event.composedPath().includes(this._filterPanel))
+        this._hideFilterPanel(false);
+    };
+    this._filterViewport=event=>{
+      if(this._filterEditor&&!event.composedPath().includes(this._filterPanel))
+        this._hideFilterPanel(false);
+    };
     this._prev.addEventListener("click",()=>this._setPage(this._page-1));
     this._next.addEventListener("click",()=>this._setPage(this._page+1));
   }
-  connectedCallback(){this._render();}
+  connectedCallback(){
+    this._render();
+    document.addEventListener("pointerdown",this._filterOutside);
+    window.addEventListener("resize",this._filterViewport);
+    window.addEventListener("scroll",this._filterViewport,true);
+  }
+  disconnectedCallback(){
+    this._hideFilterPanel(false);
+    document.removeEventListener("pointerdown",this._filterOutside);
+    window.removeEventListener("resize",this._filterViewport);
+    window.removeEventListener("scroll",this._filterViewport,true);
+  }
   attributeChangedCallback(){this._render();}
   get rows(){return this._rows;}
   set rows(value){
@@ -160,6 +306,8 @@ export class CuDataTable extends BrowserElement {
       this._columns.some(column=>column.key===key)));
     if(this._columns.length && this._hiddenColumns.size>=this._columns.length)
       this._hiddenColumns.clear();
+    this._columnFilters=new Map([...this._columnFilters].filter(([key])=>
+      this._columns.some(column=>column.key===key&&column.filterable!==false)));
     this._sortKey="";this._page=1;this._render();
   }
   get rowActions(){return this._rowActions;}
@@ -177,6 +325,40 @@ export class CuDataTable extends BrowserElement {
     this._headerMenu.hide();
     this._render();
   }
+  get columnFilters(){
+    return Object.fromEntries([...this._columnFilters].map(([key,values])=>[key,[...values]]));
+  }
+  set columnFilters(value){
+    const next=new Map();
+    if(value && typeof value==="object")for(const [key,values] of Object.entries(value)){
+      if(!Array.isArray(values)||!this._columns.some(col=>
+        col.key===key&&col.filterable!==false))continue;
+      const unique=new Map(values.map(item=>[tableFilterValueKey(item),item]));
+      next.set(key,[...unique.values()]);
+    }
+    this._columnFilters=next;this._page=1;this._render();this._notifyFilterChange();
+  }
+  get filteredRows(){return filterTableRows(this._rows,this._columnFilters);}
+  setColumnFilter(key,values){
+    if(!this._columns.some(col=>col.key===key&&col.filterable!==false))return;
+    if(values==null){this.clearColumnFilter(key);return;}
+    if(!Array.isArray(values))throw new TypeError("Column filter values must be an array");
+    const unique=new Map(values.map(value=>[tableFilterValueKey(value),value]));
+    this._columnFilters.set(key,[...unique.values()]);
+    this._page=1;this._render();this._notifyFilterChange();
+  }
+  clearColumnFilter(key){
+    if(!this._columnFilters.delete(key))return;
+    this._page=1;this._render();this._notifyFilterChange();
+  }
+  clearAllFilters(){
+    if(!this._columnFilters.size)return;
+    this._columnFilters.clear();this._page=1;this._render();this._notifyFilterChange();
+  }
+  _notifyFilterChange(){
+    notify(this,"cu-filter-change",{filters:this.columnFilters,
+      filteredCount:this.filteredRows.length,totalCount:this._rows.length});
+  }
   get hiddenColumnKeys(){return [...this._hiddenColumns];}
   get visibleColumnKeys(){return this._columns.filter(column=>
     !this._hiddenColumns.has(column.key)).map(column=>column.key);}
@@ -189,7 +371,7 @@ export class CuDataTable extends BrowserElement {
   _rowId(row,index){return String(row?.id ?? this._rows.indexOf(row) ?? index);}
   _pageSize(){return Math.max(1,Math.min(100,Math.floor(Number(this.getAttribute("page-size"))||5)));}
   _setPage(value){
-    const sorted=sortTableRows(this._rows,this._sortKey,this._direction);
+    const sorted=sortTableRows(this.filteredRows,this._sortKey,this._direction);
     const next=paginateRows(sorted,value,this._pageSize()).page;
     if(next===this._page)return;
     this._page=next;this._render();
@@ -250,12 +432,86 @@ export class CuDataTable extends BrowserElement {
     const actions=this._actionsFor(row);
     if(!actions.length)return;
     this._headerMenu.hide();
+    this._hideFilterPanel(false);
     this._clearContextRow();
     this._contextRow={row,id,element};
     element.dataset.context="true";
     this._menu.setAttribute("aria-label","Actions for row "+id);
     this._menu.items=actions;
     this._menu.showAt(x,y,element);
+  }
+  _matchingFilterOptions(){
+    const editor=this._filterEditor;
+    if(!editor)return [];
+    const query=this._filterSearch.value.trim().toLocaleLowerCase();
+    return editor.options.filter(option=>
+      option.label.toLocaleLowerCase().includes(query));
+  }
+  _renderFilterOptions(){
+    const editor=this._filterEditor;
+    if(!editor)return;
+    const matching=this._matchingFilterOptions();
+    this._filterOptions.replaceChildren();
+    for(const option of matching){
+      const label=document.createElement("label");
+      const input=document.createElement("input");
+      input.type="checkbox";input.dataset.valueKey=option.key;
+      input.checked=editor.selected.has(option.key);
+      input.setAttribute("aria-label",option.label);
+      const name=document.createElement("span");name.className="filter-value";
+      name.textContent=option.label;name.title=option.label;
+      const count=document.createElement("span");count.className="filter-count";
+      count.textContent=String(option.count);
+      label.append(input,name,count);this._filterOptions.append(label);
+    }
+    if(!matching.length){
+      const empty=document.createElement("div");
+      empty.className="filter-empty";empty.textContent="No matching values";
+      this._filterOptions.append(empty);
+    }
+    const selected=matching.filter(option=>editor.selected.has(option.key)).length;
+    this._filterAll.checked=matching.length>0&&selected===matching.length;
+    this._filterAll.indeterminate=selected>0&&selected<matching.length;
+    this._filterAll.disabled=!matching.length;
+    this._filterSummary.textContent=editor.selected.size+" of "+
+      editor.options.length+" selected";
+  }
+  _showFilterPanel(column,header,focusTarget=null){
+    if(!column||column.filterable===false)return;
+    this._menu.hide();this._headerMenu.hide();this._hideFilterPanel(false);
+    const source=filterTableRows(this._rows,this._columnFilters,column.key);
+    const options=uniqueTableFilterValues(source,column.key);
+    const existing=this._columnFilters.get(column.key);
+    const byKey=new Map(options.map(item=>[item.key,item]));
+    for(const value of existing??[]){
+      const key=tableFilterValueKey(value);
+      if(!byKey.has(key))byKey.set(key,{key,value,label:tableFilterValueLabel(value),count:0});
+    }
+    const all=[...byKey.values()].sort((a,b)=>
+      a.label.localeCompare(b.label,undefined,{numeric:true,sensitivity:"base"}));
+    this._filterEditor={column,header,focusTarget:focusTarget??header.querySelector("button")??header,
+      options:all,selected:new Set((existing??all.map(item=>item.value)).map(tableFilterValueKey))};
+    this._filterTitle.textContent="Filter: "+String(column.label??column.key);
+    this._filterPanel.setAttribute("aria-label",this._filterTitle.textContent);
+    this._filterSearch.value="";
+    this._renderFilterOptions();
+    this._filterPanel.hidden=false;
+    const rect=header.getBoundingClientRect();
+    const bounds=this._filterPanel.getBoundingClientRect();
+    const pos=clampMenuPosition(rect.left,rect.bottom+4,bounds.width,bounds.height,
+      window.innerWidth,window.innerHeight);
+    this._filterPanel.style.left=pos.x+"px";
+    this._filterPanel.style.top=pos.y+"px";
+    this._filterSearch.focus();
+  }
+  _hideFilterPanel(restore=false){
+    const editor=this._filterEditor;
+    if(!editor)return;
+    this._filterEditor=null;this._filterPanel.hidden=true;
+    if(restore){
+      if(editor.focusTarget?.isConnected)editor.focusTarget.focus();
+      else this._focusColumn(editor.column.key);
+    }
   }
   _headerActionsFor(column){
     const key=column?.key;
@@ -264,6 +520,12 @@ export class CuDataTable extends BrowserElement {
       {value:"sort-asc",label:"Sort ascending",disabled:!sortable},
       {value:"sort-desc",label:"Sort descending",disabled:!sortable},
       {value:"clear-sort",label:"Clear sorting",disabled:!this._sortKey},
+      {value:"filter-values",label:"Filter by values...",
+        disabled:!key||column?.filterable===false},
+      {value:"clear-filter",label:"Clear column filter",
+        disabled:!key||!this._columnFilters.has(key)},
+      {value:"clear-all-filters",label:"Clear all filters",
+        disabled:!this._columnFilters.size},
       {value:"hide-column",label:"Hide column",
         disabled:!key||this.visibleColumnKeys.length<=1},
       {value:"show-all-columns",label:"Show all columns",
@@ -285,6 +547,7 @@ export class CuDataTable extends BrowserElement {
     this._contextHeader=null;
   }
   _showHeaderMenu(column,element,x,y){
+    this._hideFilterPanel(false);
     this._menu.hide();
     this._headerMenu.hide();
     this._clearContextHeader();
@@ -326,6 +589,7 @@ export class CuDataTable extends BrowserElement {
     if(!this._table)return;
     this._menu.hide();
     this._headerMenu.hide();
+    this._hideFilterPanel(false);
     this._clearContextRow();
     this._clearContextHeader();
     this._caption.textContent=this.getAttribute("caption")||"";
@@ -341,6 +605,7 @@ export class CuDataTable extends BrowserElement {
     for(const column of columns){
       const h=document.createElement("th");h.scope="col";
       this._bindHeaderMenu(h,column);
+      h.dataset.filtered=String(this._columnFilters.has(column.key));
       if(column.sortable!==false){
         const b=document.createElement("button");b.type="button";
         b.textContent=String(column.label??column.key);
@@ -358,6 +623,22 @@ export class CuDataTable extends BrowserElement {
         }
         h.append(b);
       }else h.textContent=String(column.label??column.key);
+      if(column.filterable!==false){
+        const trigger=document.createElement("button");
+        trigger.type="button";trigger.className="filter-trigger";
+        trigger.title="Filter "+String(column.label??column.key);
+        trigger.setAttribute("aria-label",trigger.title);
+        trigger.setAttribute("aria-haspopup","dialog");
+        trigger.setAttribute("aria-expanded","false");
+        const icon=document.createElement("cu-icon");
+        icon.name="sliders-horizontal";icon.setAttribute("size","14");
+        trigger.append(icon);
+        trigger.addEventListener("click",event=>{
+          event.stopPropagation();
+          this._showFilterPanel(column,h,trigger);
+        });
+        h.append(trigger);
+      }
       header.append(h);
     }
     this._head.append(header);
@@ -369,7 +650,8 @@ export class CuDataTable extends BrowserElement {
     this._page=page.page;
     if(busy || !columns.length || !page.rows.length){
       const tr=document.createElement("tr"),td=this._makeCell(
-        busy?"Loading…":this.getAttribute("empty-text")||"No records","td");
+        busy?"Loading…":this._columnFilters.size?"No matching records":
+        this.getAttribute("empty-text")||"No records","td");
       td.className="empty";td.colSpan=columns.length+(this.hasAttribute("selectable")?1:0)||1;
       tr.append(td);this._body.append(tr);
     }else{
@@ -409,7 +691,8 @@ export class CuDataTable extends BrowserElement {
         this._body.append(tr);
       });
     }
-    this._summary.textContent=busy?"Loading rows":page.total+" row"+(page.total===1?"":"s");
+    this._summary.textContent=busy?"Loading rows":this._columnFilters.size?
+      page.total+" of "+this._rows.length+" rows":page.total+" row"+(page.total===1?"":"s");
     this._current.textContent=page.page+" / "+page.totalPages;
     this._prev.disabled=busy||page.page<=1;
     this._next.disabled=busy||page.page>=page.totalPages;
