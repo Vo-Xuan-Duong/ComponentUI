@@ -140,7 +140,7 @@ export class CuDataTable extends BrowserElement {
     const root=mount(this,css,
       '<div class="frame" part="frame"><div class="scroll" part="scroll">' +
       '<table part="table"><caption part="caption"></caption><thead></thead><tbody></tbody>' +
-      '</table></div><div class="footer" part="footer"><span class="summary"></span>' +
+      '</table></div><div class="footer" part="footer"><span class="summary" role="status" aria-live="polite"></span>' +
       '<div class="pages"><button type="button" class="prev" aria-label="Previous page"><cu-icon name="chevron-right" size="16"></cu-icon></button>' +
       '<span class="current"></span><button type="button" class="next" aria-label="Next page"><cu-icon name="chevron-right" size="16"></cu-icon></button>' +
       '</div></div></div><cu-context-menu class="row-menu" aria-label="Row actions"></cu-context-menu>' +
@@ -497,7 +497,7 @@ export class CuDataTable extends BrowserElement {
     }
     const all=[...byKey.values()].sort((a,b)=>
       a.label.localeCompare(b.label,undefined,{numeric:true,sensitivity:"base"}));
-    this._filterEditor={column,header,focusTarget:focusTarget??header.querySelector("button")??header,
+    this._filterEditor={column,header,focusTarget:focusTarget??header.querySelector(".filter-trigger")??header.querySelector("button")??header,
       options:all,selected:new Set((existing??all.map(item=>item.value)).map(tableFilterValueKey))};
     this._filterTitle.textContent="Filter: "+String(column.label??column.key);
     this._filterPanel.setAttribute("aria-label",this._filterTitle.textContent);
