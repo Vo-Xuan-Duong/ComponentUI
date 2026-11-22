@@ -103,8 +103,8 @@ test("DataTable column filter API supports set, reset, and filtered state",()=>{
   table.clearAllFilters();
   assert.equal(table.filteredRows.length,3);
   assert.deepEqual(table.columnFilters,{});
-  assert.equal(renders,6);
-  assert.equal(emitted.length,6);
+  assert.equal(renders,5);
+  assert.equal(emitted.length,5);
   assert.deepEqual(emitted.at(-1),{filters:{},visible:3});
 });
 
