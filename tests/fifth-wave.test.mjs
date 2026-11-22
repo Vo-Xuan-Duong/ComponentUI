@@ -66,6 +66,57 @@ test("DataTable row actions use the shared context menu rather than an Actions c
   assert.equal(REACT_EVENT_PROPS.onCuRowAction,"cu-row-action");
 });
 
+test("DataTable header menu provides accessible sorting and column visibility",async()=>{
+  const [table,types,docs,script]=await Promise.all([
+    read("../packages/web/src/components/data-table.js"),
+    read("../packages/web/src/components/index.d.ts"),
+    read("../docs/DATA_COMPONENTS.md"),
+    read("../apps/playground-web/main.js")
+  ]);
+  assert.match(table,/<cu-context-menu class="header-menu"/);
+  assert.match(table,/this\._bindHeaderMenu\(h,column\)/);
+  assert.match(table,/header\.addEventListener\("contextmenu"/);
+  assert.match(table,/event\.shiftKey&&event\.key==="F10"/);
+  assert.match(table,/notify\(this,"cu-header-action"/);
+  assert.match(table,/notify\(this,"cu-column-visibility-change"/);
+  for(const key of ["sort-asc","sort-desc","clear-sort","hide-column","show-all-columns"])
+    assert.ok(table.includes('value:"'+key+'"'));
+  assert.match(types,/readonly hiddenColumnKeys:string\[\]/);
+  assert.match(types,/showAllColumns\(\):void/);
+  assert.match(docs,/Header context menu/);
+  assert.match(script,/wcTable\.headerActions=/);
+  assert.equal(REACT_EVENT_PROPS.onCuHeaderAction,"cu-header-action");
+  assert.equal(REACT_EVENT_PROPS.onCuColumnVisibilityChange,"cu-column-visibility-change");
+
+  const instance=Object.create(CuDataTable.prototype);
+  instance._columns=[
+    {key:"name",label:"Name"},{key:"status",label:"Status",sortable:false}
+  ];
+  instance._hiddenColumns=new Set();
+  instance._headerActions=[];
+  instance._sortKey="";
+  let renderCount=0;
+  let visibilityCount=0;
+  instance._render=()=>{renderCount++;};
+  instance._notifyColumnVisibility=()=>{visibilityCount++;};
+
+  const statusMenu=instance._headerActionsFor(instance._columns[1]);
+  assert.equal(statusMenu.find(a=>a.value==="sort-asc").disabled,true);
+  assert.equal(statusMenu.find(a=>a.value==="hide-column").disabled,false);
+  instance.hideColumn("status");
+  assert.deepEqual(instance.hiddenColumnKeys,["status"]);
+  assert.deepEqual(instance.visibleColumnKeys,["name"]);
+  const nameMenu=instance._headerActionsFor(instance._columns[0]);
+  assert.equal(nameMenu.find(a=>a.value==="hide-column").disabled,true);
+  assert.equal(nameMenu.find(a=>a.value==="show-all-columns").disabled,false);
+  instance.hideColumn("name");
+  assert.deepEqual(instance.visibleColumnKeys,["name"]);
+  instance.showAllColumns();
+  assert.deepEqual(instance.hiddenColumnKeys,[]);
+  assert.equal(renderCount,2);
+  assert.equal(visibilityCount,2);
+});
+
 test("TreeView flatten helper respects collapsed descendants and levels",()=>{
   const nodes=[{value:"root",expanded:true,children:[
     {value:"open",expanded:true,children:[{value:"file"}]},
