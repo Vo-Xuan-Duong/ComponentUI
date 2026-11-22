@@ -344,7 +344,10 @@ export class CuDataTable extends BrowserElement {
       if(column.sortable!==false){
         const b=document.createElement("button");b.type="button";
         b.textContent=String(column.label??column.key);
-        b.addEventListener("click",()=>this._sort(column.key));
+        b.addEventListener("click",()=>{
+          this._sort(column.key);
+          this._focusColumn(column.key);
+        });
         if(this._sortKey===column.key){
           h.setAttribute("aria-sort",this._direction==="asc"?"ascending":"descending");
           const sort=document.createElement("span");sort.className="sort";
