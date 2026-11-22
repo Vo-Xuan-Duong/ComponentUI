@@ -100,7 +100,7 @@ test("package entry points, React event handlers and Playground match new elemen
   const manifest=JSON.parse(await read("../packages/web/package.json"));
   for(const name of ["data-table","tree-view","listbox","combobox","context-menu"]){
     assert.equal(manifest.exports["./components/"+name].default,
-      "./src/components/"+name+".js");
+      "./dist/components/"+name+".js");
   }
   assert.equal(Object.keys(REACT_TAGS).length,35);
   assert.equal(REACT_TAGS.ContextMenu,"cu-context-menu");

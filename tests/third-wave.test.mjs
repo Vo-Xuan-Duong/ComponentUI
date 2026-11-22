@@ -32,9 +32,9 @@ test("new components expose individual package entry points", async () => {
   const manifest = JSON.parse(await read("../packages/web/package.json"));
   for (const name of ["date-picker","slider","progress-bar","badge","avatar","menu"]) {
     assert.equal(manifest.exports["./components/" + name].default,
-      "./src/components/" + name + ".js");
+      "./dist/components/" + name + ".js");
     assert.equal(manifest.exports["./components/" + name].types,
-      "./src/components/index.d.ts");
+      "./dist/components/index.d.ts");
   }
   assert.equal(manifest.private,true);
 });

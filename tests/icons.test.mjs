@@ -45,7 +45,7 @@ test("cu-icon exports a decorative-by-default, currentColor SVG custom element",
   assert.match(source, /getIconNodes/);
   assert.doesNotMatch(source, /fetch\(/);
   const pkg = JSON.parse(await load("../packages/web/package.json"));
-  assert.equal(pkg.exports["./components/icon"].default,"./src/components/icon.js");
+  assert.equal(pkg.exports["./components/icon"].default,"./dist/components/icon.js");
 });
 
 test("Quick actions and other Playground glyphs now use one SVG component", async () => {

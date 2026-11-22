@@ -54,3 +54,21 @@ Build one stable Web Renderer and a reference application before starting native
 ## v0.8.0 — complex web controls
 
 The core browser renderer now contains client-side DataTable, TreeView, ListBox, Combobox and ContextMenu components. Declarative child tags serve as data definitions while the parent controls their Shadow DOM rendering. DataTable accepts typed JS property arrays; form-associated controls participate in FormData using ElementInternals. Framework adapters reuse these DOM implementations; native/non-DOM targets still need separate renderers.
+
+## v0.9.0 — standalone installable package artifacts
+
+`scripts/build-packages.mjs` creates independent ESM distribution trees
+for `theme`, `icons`, `web`, `react`, `vue` and `svelte`. Public
+package exports now target `dist/`, not source-only monorepo paths.
+The Web renderer vendors its curated, licensed Lucide node definitions
+under `dist/internal/`, removing its source-level cross-package
+dependency in installable artifacts. React's type-only icon dependency
+is similarly internalized in the distributed declarations.
+
+The HTML Playground continues using the original source files.
+All packages remain private and experimental; the documented local
+packaging process produces tarballs without publishing to npm.
+Electron and Tauri use the Web renderer in their frontend/webview;
+they are not separate component renderers.
+
+See [Package distribution](PACKAGING.md) and [framework adapters](FRAMEWORK_ADAPTERS.md).

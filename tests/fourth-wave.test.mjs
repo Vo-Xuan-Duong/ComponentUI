@@ -60,8 +60,8 @@ test("component source handles reduced motion and semantic feedback",async()=>{
 test("Web Component package and React adapter expose new tags",async()=>{
   const pkg=JSON.parse(await read("../packages/web/package.json"));
   for(const id of ["card","divider","skeleton","spinner","alert","breadcrumb"]){
-    assert.equal(pkg.exports["./components/"+id].default,"./src/components/"+id+".js");
-    assert.equal(pkg.exports["./components/"+id].types,"./src/components/index.d.ts");
+    assert.equal(pkg.exports["./components/"+id].default,"./dist/components/"+id+".js");
+    assert.equal(pkg.exports["./components/"+id].types,"./dist/components/index.d.ts");
   }
   assert.equal(REACT_TAGS.Card,"cu-card");
   assert.equal(REACT_TAGS.Breadcrumb,"cu-breadcrumb");

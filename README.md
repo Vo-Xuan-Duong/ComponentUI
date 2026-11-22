@@ -2,17 +2,26 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — Select consistency across Playground (v0.8.1):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and twenty-seven experimental browser Custom Elements. **There are 27 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — Independent package distribution (v0.9.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and twenty-seven experimental browser Custom Elements. **There are 27 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
-**Framework integration (experimental):** React 18/19 and Vue 3 adapter source packages are now available in `packages/react/` and `packages/vue/`. React wrappers synchronize custom element properties and `cu-*` events; Vue provides an SFC compiler predicate and a `v-cu-model` directive. Packages remain workspace-only and are **not published**. See [Framework adapters](docs/FRAMEWORK_ADAPTERS.md) and [source examples](examples/README.md).
+**Framework integration (experimental):** React 18/19, Vue 3 and Svelte 5 adapter packages are now available in `packages/react/`, `packages/vue/` and `packages/svelte/`. React wrappers synchronize custom element properties and `cu-*` events; Vue provides an SFC compiler predicate and a `v-cu-model` directive. Packages can be built and packed locally for use in other repositories; they remain **private and unpublished**. See [Framework adapters](docs/FRAMEWORK_ADAPTERS.md) and [source examples](examples/README.md).
 
 **New in v0.7.0:** six native browser components—`Card`, `Divider`, `Skeleton`, `Spinner`, `Alert`, and `Breadcrumb`—cover layout, loading, status and navigation. Their interactive previews are in the Real Web Components gallery. All remain experimental and use Fluent Calm tokens and locally bundled Lucide icons.
 
 **New in v0.8.0:** implemented `DataTable`, `TreeView`, `ListBox`, `Combobox` and `ContextMenu` with keyboard/pointer interactions, Fluent Calm tokens, Lucide icons, API contracts and Playground demonstrations. The catalog now contains 129 entries; 32 are preview and none are production-certified. See [Data component API](docs/DATA_COMPONENTS.md).
 
 **Select UI consistency (v0.8.1):** All five browser-native `<select>` controls previously in Playground (Theme, Density, Project type, Catalog Category and Priority) now use the same Fluent Calm `<cu-select>` Web Component. The category filter's dynamically appended options are supported, and selection events use `cu-change`. A regression test prevents native select markup from returning. See [Select UI](docs/SELECT_UI.md).
+
+**New in v0.9.0:** build self-contained ES-module `dist/` artifacts for six packages, expose typed package exports, add factory-free React wrappers and Svelte 5 actions, and support local `npm pack` tarballs for installing ComponentUI in other repositories. No public release or online dependencies are required by the build scripts. See [Package distribution](docs/PACKAGING.md).
+
+```bash
+npm run check
+npm run build:packages
+npm run packages:verify
+npm run pack:local
+```
 
 ## Preview locally
 
@@ -46,6 +55,7 @@ packages/
   icons/src/                           # 24 local Lucide SVG definitions (ISC/MIT)
   react/src/                           # React 18/19 Custom Element adapters
   vue/src/                             # Vue 3 compiler helper + v-cu-model directive
+  svelte/src/                          # Svelte 5 DOM binding actions
 apps/
   playground-web/
     index.html                        # Responsive gallery; no framework dependencies
@@ -67,6 +77,9 @@ pnpm-workspace.yaml                   # Future monorepo package boundaries
 | `npm run syntax:check` | Check JavaScript syntax |
 | `npm test` | Node-based foundation + preview checks |
 | `npm run check` | Token + syntax + unit checks |
+| `npm run build:packages` | Generate self-contained package distributions (no bundler) |
+| `npm run packages:verify` | Verify public exports, imports and Node ESM evaluation |
+| `npm run pack:local` | Build, verify and create local tarballs in `artifacts/` |
 
 The pnpm workspace now also contains `packages/web` with reusable progressive-enhancement controllers. Future production Web Components, React/Vue adapters and native renderers remain planned. They are **not implemented yet**. Web Components work across DOM-based frameworks; Flutter, React Native and SwiftUI require separate platform renderers.
 
@@ -77,7 +90,8 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Component preview interactions](docs/COMPONENT_PREVIEWS.md)
 - [Experimental Web Components API](docs/WEB_COMPONENTS.md)
 - [Lucide Icon System](docs/ICON_SYSTEM.md)
-- [React and Vue framework adapters](docs/FRAMEWORK_ADAPTERS.md)
+- [React, Vue and Svelte adapters](docs/FRAMEWORK_ADAPTERS.md)
+- [Independent package distribution and local tarballs](docs/PACKAGING.md)
 - [Display and feedback component APIs](docs/DISPLAY_FEEDBACK.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Fluent Calm style guide](docs/STYLE_GUIDE.md)

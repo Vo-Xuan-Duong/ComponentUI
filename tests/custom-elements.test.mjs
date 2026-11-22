@@ -26,8 +26,8 @@ test("Web Components modules import in non-DOM build tools", () => {
 test("ESM exports contain five concrete browser components", async () => {
   const pkg = JSON.parse(await read("../packages/web/package.json"));
   const components = pkg.exports["./components"];
-  assert.equal(components.default, "./src/components/index.js");
-  assert.equal(components.types, "./src/components/index.d.ts");
+  assert.equal(components.default, "./dist/components/index.js");
+  assert.equal(components.types, "./dist/components/index.d.ts");
   for (const name of ["button", "text-field", "checkbox", "switch", "dialog"]) {
     assert.ok(pkg.exports["./components/" + name]);
   }

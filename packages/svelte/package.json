@@ -1,0 +1,27 @@
+{
+  "name": "@componentui/svelte",
+  "version": "0.9.0",
+  "private": true,
+  "type": "module",
+  "description": "Svelte 5 actions for ComponentUI browser Custom Elements",
+  "license": "UNLICENSED",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-packages.mjs svelte"
+  },
+  "peerDependencies": {
+    "svelte": ">=5.0.0 <7"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

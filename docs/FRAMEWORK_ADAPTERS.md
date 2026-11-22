@@ -1,18 +1,18 @@
-# ComponentUI framework adapters — experimental v0.6.0
+# ComponentUI framework adapters — experimental v0.9.0
 
 The ComponentUI browser layer remains native **Custom Elements**. This milestone
 adds two optional, framework-specific adapters to reduce integration boilerplate:
 
-| Framework | Package (workspace only) | Capability |
+| Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
 | React 18/19 | `packages/react/` | Factory for 35 tags (27 catalog components, Icon and 7 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
 **Status:** These are source-level integration helpers and unit-tested contracts,
-not published npm releases or cross-browser/SSR-tested production adapters.
+not publicly published npm releases or cross-browser/SSR-tested production adapters.
 The dependencies on React/Vue are optional for the root's local Playground.
-React/Vue runtime browser integration is intentionally left to the maintainer.
+React/Vue/Svelte runtime browser integration is intentionally left to the maintainer.
 
 ## React 18/19
 
@@ -190,3 +190,28 @@ instead of HTML attribute serialization. Keep stable array references in
 React to preserve table sorting and selection across unrelated rerenders.
 Vue's compiler predicate already recognizes all new `cu-*` tags; the full
 runtime integration still requires local browser tests.
+
+## v0.9.0 — independent package outputs and Svelte 5
+
+Run `npm run build:packages` and `npm run packages:verify`, then
+`npm run pack:local` to install distributable `.tgz` files in a different
+repository. React can now import named wrappers from
+`@componentui/react/components` without calling the factory:
+
+```tsx
+import { Button, Icon } from "@componentui/react/components";
+import "@componentui/web/components";
+import "@componentui/theme/tokens.css";
+```
+
+The original `createReactComponents(React)` API remains available.
+Vue uses its existing `isComponentUIElement` and `v-cu-model` APIs
+from the package root. Svelte 5 can use `cuModel` and `cuEvents`
+actions from `@componentui/svelte` to bind Custom Element properties
+and native `cu-*` events. Each adapter is a separate package; none
+duplicates the Web Components renderer.
+
+Electron/Tauri share the `@componentui/web` renderer; see
+[PACKAGING.md](PACKAGING.md) for secure desktop integration recipes
+and the full tarball installation procedure. The packages remain
+`private:true`, so this milestone does not release them to a registry.

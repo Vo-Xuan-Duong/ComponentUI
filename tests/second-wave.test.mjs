@@ -24,8 +24,8 @@ test("package exposes independently importable ESM entry points", async () => {
   const pkg = JSON.parse(await file("../packages/web/package.json"));
   for (const component of ["select","radio-group","tabs","tooltip","popover"]) {
     const entry = pkg.exports["./components/" + component];
-    assert.equal(entry.default, "./src/components/" + component + ".js");
-    assert.equal(entry.types, "./src/components/index.d.ts");
+    assert.equal(entry.default, "./dist/components/" + component + ".js");
+    assert.equal(entry.types, "./dist/components/index.d.ts");
   }
   const index = await file("../packages/web/src/components/index.js");
   for (const name of ["CuSelect","CuRadioGroup","CuTabs","CuTooltip","CuPopover"]) {

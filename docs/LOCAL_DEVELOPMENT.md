@@ -51,7 +51,7 @@ No GitHub Actions or remote CI runs are required.
 
 ## Framework adapters (v0.6.0)
 
-The React and Vue adapters are **source-only**, not published packages. The root
+The React, Vue and Svelte adapters are **locally packable**, not published packages. The root
 `npm run check` includes module import and property/event tests for them, but
 does not install React, Vue, Vite or a TSX/SFC compiler. `npm run preview`
 displays their sample code in the Framework adapters section, without executing
@@ -93,3 +93,27 @@ Choose a dynamic catalog category to verify that appended `option`
 children render. The new `tests/select-consistency.test.mjs`
 guards against native `<select>` returning to Playground.
 See [SELECT_UI.md](SELECT_UI.md) for the complete local checklist.
+
+## Package build and external-repository smoke test — v0.9.0
+
+```bash
+npm run check
+npm run build:packages
+npm run packages:verify
+npm run pack:local
+```
+
+`build:packages` creates `dist/` in six packages. `packages:verify`
+checks export paths and relative imports, then imports the built Web,
+React factory, Vue and Svelte helper ESM modules in Node.
+`pack:local` builds and verifies first, then creates Git-ignored
+`artifacts/*.tgz` packages (no publishing or GitHub Actions).
+
+Install the tarballs into independent Vite + React/Vue/Svelte
+repositories using [PACKAGING.md](PACKAGING.md). Check keyboard
+and pointer interaction, FormData, SSR/hydration where relevant,
+Dark/Light modes, tokens and the Lucide icons in the actual consumer.
+
+These scripts and examples are provided for **your local execution**.
+They have not been run by the assistant and do not certify production
+readiness or browser accessibility.

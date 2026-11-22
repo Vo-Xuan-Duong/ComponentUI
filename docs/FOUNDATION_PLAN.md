@@ -166,6 +166,21 @@ No GitHub Actions.
 
 **Status:** 27 experimental Web Components, 32 catalog previews, 97 planned and 0 production-certified. No GitHub Actions.
 
+## Local independent package distribution — v0.9.0
+
+- [x] Create `dist/` ESM outputs for theme, icons, Web Components, React and Vue
+- [x] Add Svelte 5 Custom Element actions, ESM export and type declarations
+- [x] Give React a named component export in addition to the existing factory API
+- [x] Remove monorepo-only icon imports from built Web/React distributions; preserve third-party license notices
+- [x] Add local offline build, export graph verification, SSR import smoke checks and tarball packaging scripts
+- [x] Document importing local tarballs in React, Vue, Svelte, Electron and Tauri
+- [x] Keep all package manifests private and avoid GitHub Actions
+- [ ] Maintainer performs local build/tests, checks installed tarballs and signs off on real browser/framework behavior
+- [ ] Decide first-party license and registry ownership before publishing
+- [ ] Add strict TS compilation and cross-browser integration verification before marking packages ready
+
+**Status:** package distribution scripts and examples implemented; not executed/certified.
+
 ## First implementation wave (only after foundation gates)
 
 1. **Core primitives:** Button, IconButton, TextField, Checkbox, Radio, Switch, Select, Tabs, Dialog, Tooltip

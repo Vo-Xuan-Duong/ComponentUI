@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import "../../packages/web/src/components/index.js";
-import "../../packages/theme/src/tokens.css";
+import "@componentui/web/components";
+import "@componentui/theme/tokens.css";
 
 const email = ref("");
 const updates = ref(true);

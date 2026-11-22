@@ -1,20 +1,21 @@
-# React / Vue consumer examples
+# Consumer examples
 
-These are source-level integration examples, **not** standalone, configured
-applications. The example imports resolve relative to the monorepo root,
-and the React/Vue toolchains and dependencies are intentionally not installed
-or executed by the root's dependency-free preview scripts.
+These are focused **integration recipes**, not complete independent starter applications.
+They assume a React, Vue 3, Svelte 5, Electron or Tauri frontend project with
+its normal tooling installed and the ComponentUI package tarballs installed.
 
-- `react-example.tsx` shows controlled TextField, Checkbox and Select state
-  through `onCuInput`/`onCuChange`, an SVG `Icon` and native form submission.
-- `vue/App.vue` uses the `v-cu-model` directive for controlled form fields.
-- `vue/main.ts` registers the Vue directive.
-- `vue/vite.config.ts` shows Vite's required **compile-time**
-  `isCustomElement` setting (runtime app config alone is insufficient).
+- `react/App.tsx` — React factory-free named wrappers from `@componentui/react/components`
+- `react-example.tsx` — the original factory-based React API
+- `vue/App.vue`, `vue/main.ts`, `vue/vite.config.ts` — Vue 3 with
+  `isCustomElement` compiler setting and `v-cu-model`
+- `svelte/App.svelte` — Svelte 5 + `use:cuModel`
+- `electron/renderer.js` — Electron renderer entry (bundle via Vite)
+- `tauri/renderer.js` + example Vite/Tauri configuration — frontend integration
 
-Both examples must run in a browser-enabled React 18/19 or Vue 3 application.
-React, Vue, Vite and their types are optional peer development tools, not
-dependencies of `npm run preview`.
+Electron and Tauri are **webview runtimes** for the Web Components package,
+not separate renderers. Do not import ComponentUI into the Electron main
+process or the Tauri Rust backend.
 
-See [Framework adapters](../docs/FRAMEWORK_ADAPTERS.md) for API,
-integration constraints and manual testing.
+For local tarball installation and exact commands, use
+[docs/PACKAGING.md](../docs/PACKAGING.md). Configure secure Electron
+context isolation and Tauri permissions independently of the UI library.

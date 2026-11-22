@@ -1,11 +1,11 @@
 /**
- * React 18/19 example for a consumer within the ComponentUI workspace.
+ * React 18/19 factory example for a package consumer.
  * Not part of the dependency-free Playground; requires a React bundler.
  */
 import * as React from "react";
-import { createReactComponents } from "../packages/react/src/index.js";
-import "../packages/web/src/components/index.js";
-import "../packages/theme/src/tokens.css";
+import { createReactComponents } from "@componentui/react";
+import "@componentui/web/components";
+import "@componentui/theme/tokens.css";
 
 const { Button, TextField, Checkbox, Select, Icon } = createReactComponents(React);
 
