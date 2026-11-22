@@ -5,7 +5,9 @@ import { readFile } from "node:fs/promises";
 import {
   CuDataTable, CuTreeView, CuTreeItem, CuListBox, CuListOption,
   CuCombobox, CuComboOption, CuContextMenu,
-  sortTableRows, paginateRows, flattenVisibleTree, readListOptions,
+  sortTableRows, paginateRows, filterTableRows, uniqueTableFilterValues,
+  tableFilterValueKey, tableFilterValueLabel,
+  flattenVisibleTree, readListOptions,
   filterComboOptions, clampMenuPosition
 } from "../packages/web/src/components/index.js";
 import { REACT_TAGS, REACT_EVENT_PROPS } from "../packages/react/src/index.js";
@@ -37,6 +39,103 @@ test("DataTable pagination clamps range and supports the last page",()=>{
   assert.equal(page.totalPages,3);
   assert.equal(paginateRows(rows,999,5).page,3);
   assert.equal(paginateRows([],1,5).totalPages,1);
+});
+
+test("Excel-style DataTable filters combine multi-value OR and multi-column AND",()=>{
+  const rows=[
+    {id:1,status:"Active",owner:"Ada",amount:2},
+    {id:2,status:"Active",owner:"Lin",amount:10},
+    {id:3,status:"Review",owner:"Ada",amount:2},
+    {id:4,status:"Draft",owner:"Lin",amount:0},
+    {id:5,status:null,owner:"Ada",amount:0},
+    {id:6,status:"",owner:"Lin",amount:2}
+  ];
+  assert.equal(tableFilterValueKey(null),tableFilterValueKey(""));
+  assert.equal(tableFilterValueKey(undefined),tableFilterValueKey(""));
+  assert.notEqual(tableFilterValueKey("2"),tableFilterValueKey(2));
+  assert.notEqual(tableFilterValueKey(false),tableFilterValueKey("false"));
+  assert.equal(tableFilterValueLabel(null),"(Blanks)");
+  const distinct=uniqueTableFilterValues(rows,"status");
+  assert.equal(distinct.find(option=>option.label==="(Blanks)").count,2);
+  assert.equal(distinct.find(option=>option.label==="Active").count,2);
+  const filters={status:["Active","Review"],owner:["Ada"]};
+  assert.deepEqual(filterTableRows(rows,filters).map(row=>row.id),[1,3]);
+  assert.deepEqual(filterTableRows(rows,filters,"status").map(row=>row.id),[1,3,5]);
+  assert.deepEqual(filterTableRows(rows,{amount:[0]}).map(row=>row.id),[4,5]);
+  assert.deepEqual(filterTableRows(rows,{status:[null]}).map(row=>row.id),[5,6]);
+  assert.deepEqual(filterTableRows(rows,{status:[]}),[]);
+  assert.equal(paginateRows(sortTableRows(filterTableRows(rows,filters),"amount"),1,2).total,2);
+  assert.equal(rows.length,6);
+});
+
+test("DataTable column filter API supports set, reset, and filtered state",()=>{
+  const table=Object.create(CuDataTable.prototype);
+  table._columns=[
+    {key:"status",filterable:true},{key:"owner"},{key:"private",filterable:false}
+  ];
+  table._rows=[
+    {status:"Active",owner:"Ada",private:"a"},
+    {status:"Draft",owner:"Ada",private:"b"},
+    {status:"Active",owner:"Lin",private:"c"}
+  ];
+  table._columnFilters=new Map();
+  table._page=3;
+  let renders=0;
+  const emitted=[];
+  table._render=()=>{renders++;};
+  table._notifyFilterChange=()=>emitted.push({
+    filters:table.columnFilters,visible:table.filteredRows.length
+  });
+
+  table.setColumnFilter("status",["Active","Active"]);
+  assert.deepEqual(table.columnFilters,{status:["Active"]});
+  assert.equal(table.filteredRows.length,2);
+  assert.equal(table.page,1);
+  table.setColumnFilter("owner",["Ada"]);
+  assert.equal(table.filteredRows.length,1);
+  table.setColumnFilter("private",["a"]);
+  assert.equal(Object.hasOwn(table.columnFilters,"private"),false);
+  table.clearColumnFilter("status");
+  assert.equal(table.filteredRows.length,2);
+  table.columnFilters={status:["Draft"],owner:["Lin"],unknown:["x"]};
+  assert.deepEqual(table.columnFilters,{status:["Draft"],owner:["Lin"]});
+  assert.equal(table.filteredRows.length,0);
+  table.clearAllFilters();
+  assert.equal(table.filteredRows.length,3);
+  assert.deepEqual(table.columnFilters,{});
+  assert.equal(renders,6);
+  assert.equal(emitted.length,6);
+  assert.deepEqual(emitted.at(-1),{filters:{},visible:3});
+});
+
+test("DataTable offers Excel-like header filtering with discoverable controls",async()=>{
+  const [source,types,react,docs,demo]=await Promise.all([
+    read("../packages/web/src/components/data-table.js"),
+    read("../packages/web/src/components/index.d.ts"),
+    read("../packages/react/src/index.js"),
+    read("../docs/DATA_COMPONENTS.md"),
+    read("../apps/playground-web/index.html")
+  ]);
+  assert.match(source,/class="filter-panel"/);
+  assert.match(source,/class="filter-search"/);
+  assert.match(source,/class="filter-all"/);
+  assert.match(source,/class="filter-options"/);
+  for(const name of ["filter-clear","filter-cancel","filter-apply","filter-trigger"])
+    assert.ok(source.includes(name));
+  assert.match(source,/this\.filteredRows,this\._sortKey/);
+  assert.match(source,/h\.dataset\.filtered=/);
+  assert.match(source,/column\.filterable!==false/);
+  assert.match(source,/event\.key==="Escape"/);
+  assert.match(source,/notify\(this,"cu-filter-change"/);
+  assert.match(source,/value:"filter-values"/);
+  assert.match(source,/value:"clear-filter"/);
+  assert.match(source,/value:"clear-all-filters"/);
+  assert.match(types,/columnFilters:Record<string,unknown\[\]>/);
+  assert.match(react,/onCuFilterChange:"cu-filter-change"/);
+  assert.match(react,/"headerActions","columnFilters","page"/);
+  assert.match(docs,/Excel-style column filtering/);
+  assert.match(demo,/Click the sliders icon/);
+  assert.equal(REACT_EVENT_PROPS.onCuFilterChange,"cu-filter-change");
 });
 
 test("DataTable row actions use the shared context menu rather than an Actions column",async()=>{
