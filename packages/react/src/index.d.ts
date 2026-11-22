@@ -66,7 +66,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   rowActions?: {value:string;label?:string;
     disabled?:boolean|((row:Record<string,unknown>)=>boolean)}[];
   headerActions?: {value:string;label?:string;
-    disabled?:boolean|((column:{key:string;label?:string;sortable?:boolean}|null)=>boolean)}[];
+    disabled?:boolean|((column:{key:string;label?:string;sortable?:boolean;filterable?:boolean}|null)=>boolean)}[];
   columnFilters?: Record<string,unknown[]>;
   page?: number;
   onCuPress?: (event: CuEvent) => void;
