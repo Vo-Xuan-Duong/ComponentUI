@@ -90,6 +90,10 @@ export function subscribeCuEvents(element, handlers = {}) {
   };
 }
 
+// DataTable exposes a defensive snapshot from columnFilters; compare incoming
+// React object references instead of comparing that snapshot to props.
+const lastControlledFilters=new WeakMap();
+
 export function assignCuProperties(element, tagName, props = {}) {
   if (!element) return;
   for (const name of PROPERTY_MAP[tagName] ?? []) {
@@ -103,6 +107,10 @@ export function assignCuProperties(element, tagName, props = {}) {
       continue;
     }
     if (name in element) {
+      if (tagName === "cu-data-table" && name === "columnFilters") {
+        if (lastControlledFilters.get(element) === value) continue;
+        lastControlledFilters.set(element,value);
+      }
       if (element[name] !== value) element[name] = value;
     } else if (typeof value === "boolean") {
       element.toggleAttribute(name, value);
