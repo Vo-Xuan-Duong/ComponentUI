@@ -347,6 +347,33 @@ document.getElementById("wc-progress-step").addEventListener("cu-press",() => {
 document.getElementById("wc-progress-reset").addEventListener("cu-press",() => {
   wcProgress.value = 0;
 });
+
+const wcRing=document.getElementById("wc-ring");
+const ringResult=document.getElementById("wc-ring-result");
+function updateRing(value){
+  wcRing.value=value;
+  ringResult.textContent="Ring progress: "+Math.round(value)+"%";
+}
+document.getElementById("wc-ring-step").addEventListener("cu-press",()=>{
+  updateRing(Math.min(100,(wcRing.value??0)+15));
+});
+document.getElementById("wc-ring-reset").addEventListener("cu-press",()=>updateRing(0));
+
+const chipSelect=document.getElementById("wc-chip-select");
+const chipRemovable=document.getElementById("wc-chip-removable");
+const chipResult=document.getElementById("wc-chip-result");
+chipSelect.addEventListener("cu-change",event=>{
+  chipResult.textContent=event.detail.value+" selected: "+event.detail.selected;
+});
+chipRemovable.addEventListener("cu-remove",event=>{
+  chipResult.textContent="Removed chip: "+event.detail.value;
+  showToast("Chip removed",event.detail.value);
+});
+document.getElementById("wc-chip-restore").addEventListener("cu-press",()=>{
+  chipRemovable.hidden=false;
+  chipResult.textContent="Removable chip restored";
+});
+
 document.getElementById("wc-menu").addEventListener("cu-select",event => {
   document.getElementById("wc-menu-result").textContent =
     "Action: "+event.detail.label+" ("+event.detail.value+")";
