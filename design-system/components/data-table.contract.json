@@ -49,7 +49,7 @@
   "accessibility": {
     "base": "native table/caption/headers",
     "sorting": "aria-sort, buttons",
-    "selection": "labeled checkbox",
+    "selection": "labeled row checkboxes plus page-scoped Select All with checked/indeterminate/disabled states; selectedIds and cu-selection-change retained",
     "action": "right-click context menu, row keyboard target with Shift+F10/ContextMenu, menuitems, disabled handling and focus restoration",
     "responsive": "horizontal scroll",
     "headerMenu": "right-click/Shift+F10/ContextMenu on column header; sortable headers keep native buttons; non-sortable headers focusable; sorting + column visibility menus",
