@@ -7,6 +7,8 @@ import {
   CuCombobox, CuComboOption, CuContextMenu,
   sortTableRows, paginateRows, filterTableRows, uniqueTableFilterValues,
   tableFilterValueKey, tableFilterValueLabel,
+  TABLE_FILTER_OPERATORS, isTableFilterCondition,
+  matchTableFilterCondition, normalizeTableFilterSpec,
   flattenVisibleTree, readListOptions,
   filterComboOptions, clampMenuPosition
 } from "../packages/web/src/components/index.js";
@@ -130,12 +132,98 @@ test("DataTable offers Excel-like header filtering with discoverable controls",a
   assert.match(source,/value:"filter-values"/);
   assert.match(source,/value:"clear-filter"/);
   assert.match(source,/value:"clear-all-filters"/);
-  assert.match(types,/columnFilters:Record<string,unknown\[\]>/);
+  assert.match(types,/columnFilters:Record<string,CuTableFilterSpec>/);
   assert.match(react,/onCuFilterChange:"cu-filter-change"/);
   assert.match(react,/"headerActions","columnFilters","page"/);
   assert.match(docs,/Excel-style column filtering/);
   assert.match(demo,/Click the sliders icon/);
   assert.equal(REACT_EVENT_PROPS.onCuFilterChange,"cu-filter-change");
+});
+
+test("DataTable condition filters support text, number ranges, and blanks",()=>{
+  assert.ok(TABLE_FILTER_OPERATORS.includes("between"));
+  assert.ok(TABLE_FILTER_OPERATORS.includes("is-blank"));
+  const check=(value,operator,expected,value2)=>{
+    assert.equal(matchTableFilterCondition(value,{operator,value:expected,value2}),true);
+  };
+  check("NovaBrowser","contains","BROWSER");
+  check("NovaBrowser","not-contains","GITHUB");
+  check("NovaBrowser","starts-with","NOVA");
+  check("NovaBrowser","ends-with","BROWSER");
+  check("ACTIVE","equals","active");
+  check("ACTIVE","not-equals","inactive");
+  check(15,"greater-than",10);
+  check(15,"greater-or-equal",15);
+  check(15,"less-than",20);
+  check(15,"less-or-equal",15);
+  check(15,"between",10,20);
+  check(null,"is-blank");
+  check("","is-blank");
+  check(0,"is-not-blank");
+  assert.equal(matchTableFilterCondition("hello",{operator:"contains",value:"absent"}),false);
+  assert.equal(matchTableFilterCondition(5,{operator:"between",value:10,value2:30}),false);
+  assert.equal(matchTableFilterCondition("abc",{operator:"greater-than",value:2}),false);
+  assert.equal(matchTableFilterCondition("",{operator:"greater-or-equal",value:0}),false);
+  assert.equal(matchTableFilterCondition(null,{operator:"not-contains",value:"x"}),false);
+  assert.equal(isTableFilterCondition({operator:"unknown"}),false);
+  assert.throws(()=>normalizeTableFilterSpec({operator:"unknown"}),TypeError);
+  assert.deepEqual(normalizeTableFilterSpec(["Active","Active"]),["Active"]);
+  assert.deepEqual(normalizeTableFilterSpec({operator:"between",value:1,value2:3}),
+    {operator:"between",value:1,value2:3});
+
+  const rows=[
+    {status:"Active",owner:"Anna",amount:100},
+    {status:"Active",owner:"Bob",amount:250},
+    {status:"Draft",owner:"Andi",amount:500},
+    {status:null,owner:"Andy",amount:null}
+  ];
+  assert.deepEqual(filterTableRows(rows,{
+    owner:{operator:"starts-with",value:"an"},
+    amount:{operator:"between",value:50,value2:300}
+  }).map(row=>row.owner),["Anna"]);
+  assert.equal(filterTableRows(rows,{status:{operator:"is-blank"}}).length,1);
+  assert.equal(filterTableRows(rows,{status:["Active"],amount:{operator:"greater-than",value:200}}).length,1);
+});
+
+test("DataTable condition filter state preserves value arrays and exposes copies",()=>{
+  const table=Object.create(CuDataTable.prototype);
+  table._columns=[{key:"status"},{key:"amount"},{key:"hidden",filterable:false}];
+  table._rows=[{status:"Active",amount:50},{status:"Draft",amount:150},
+    {status:"Review",amount:250}];
+  table._columnFilters=new Map();
+  table._page=3;
+  let renders=0,changes=0;
+  table._render=()=>renders++;
+  table._notifyFilterChange=()=>changes++;
+  table.setColumnCondition("amount","greater-or-equal",150);
+  assert.deepEqual(table.filteredRows.map(row=>row.amount),[150,250]);
+  assert.equal(table.page,1);
+  table.columnFilters={status:["Draft","Review"],amount:{operator:"less-than",value:220},
+    hidden:{operator:"equals",value:"x"}};
+  assert.deepEqual(table.filteredRows.map(row=>row.amount),[150]);
+  assert.deepEqual(Object.keys(table.columnFilters),["status","amount"]);
+  const snapshot=table.columnFilters;
+  snapshot.status.push("Active");
+  snapshot.amount.value=300;
+  assert.deepEqual(table.columnFilters.status,["Draft","Review"]);
+  assert.equal(table.columnFilters.amount.value,220);
+  assert.equal(renders,2);
+  assert.equal(changes,2);
+});
+
+test("DataTable Conditions flyout uses shared CuSelect and keyboard-accessible tabs",async()=>{
+  const source=await read("../packages/web/src/components/data-table.js");
+  const declaration=await read("../packages/web/src/components/index.d.ts");
+  assert.match(source,/import "\.\/select\.js"/);
+  assert.match(source,/<cu-select class="filter-operator"/);
+  assert.match(source,/role="tablist"/);
+  assert.match(source,/role="tabpanel"/);
+  assert.match(source,/ArrowLeft/);
+  assert.match(source,/ArrowRight/);
+  assert.match(source,/filter-condition-error/);
+  assert.match(source,/setColumnCondition\(key,operator/);
+  assert.match(declaration,/type CuTableFilterOperator/);
+  assert.match(declaration,/setColumnCondition\(key:string/);
 });
 
 test("DataTable row actions use the shared context menu rather than an Actions column",async()=>{
@@ -147,7 +235,7 @@ test("DataTable row actions use the shared context menu rather than an Actions c
     read("../apps/playground-web/index.html"),
     read("../apps/playground-web/main.js")
   ]);
-  assert.match(table,/import "\.\/context-menu\.js"/);
+  assert.match(table,/from "\.\/context-menu\.js"/);
   assert.match(table,/<cu-context-menu class="row-menu"/);
   assert.match(table,/addEventListener\("contextmenu"/);
   assert.match(table,/event\.shiftKey&&event\.key==="F10"/);
