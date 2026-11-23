@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "ProgressRing",
+  "tag": "cu-progress-ring",
+  "status": "preview",
+  "kind": "feedback",
+  "description": "Accessible circular determinate or indeterminate progress, using SVG stroke geometry.",
+  "attributes": {
+    "value": "number|null; missing or invalid = indeterminate",
+    "max": "positive number; default 100",
+    "label": "string",
+    "aria-label": "string",
+    "size": "sm|md|lg|xl",
+    "tone": "accent|success|warning|danger",
+    "show-value": "boolean"
+  },
+  "properties": {
+    "value": "number|null",
+    "max": "number"
+  },
+  "events": [],
+  "accessibility": {
+    "role": "progressbar",
+    "determinate": "aria-valuemin=0, aria-valuemax, aria-valuenow",
+    "indeterminate": "no aria-valuenow",
+    "label": "label or aria-label always provided",
+    "motion": "prefers-reduced-motion disables spinner animation",
+    "decorative": "SVG aria-hidden",
+    "styling": "forced-colors uses Highlight and GrayText"
+  }
+}
