@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 45 tags (35 catalog components, Icon and 9 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 48 tags (38 catalog components, Icon and 9 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -193,6 +193,20 @@ instead of HTML attribute serialization. Keep stable array references in
 React to preserve table sorting and selection across unrelated rerenders.
 Vue's compiler predicate already recognizes all new `cu-*` tags; the full
 runtime integration still requires local browser tests.
+
+## Additional previews — Chip, Tag, ProgressRing
+
+The browser package registers `<cu-chip>`, `<cu-tag>`, and
+`<cu-progress-ring>`. React now has **48 wrappers**, including these
+three controls. `Chip` emits `cu-change` and the cancelable
+`cu-remove` event (React: `onCuChange`, `onCuRemove`); controlled
+`selected`, `selectable`, `removable`, `value`, and `disabled`
+are applied as element properties. `ProgressRing` supports `value`
+and `max` as element properties. Vue and Svelte use the same custom
+element registrations and their native event binding conventions.
+
+See [Compact components](COMPACT_COMPONENTS.md). Browser-level adapter
+validation remains a release requirement.
 
 ## v0.9.0 — independent package outputs and Svelte 5
 
