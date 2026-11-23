@@ -131,7 +131,7 @@ with `{selectedIds}`; it never mutates source rows.
 ### Excel-style column filtering
 
 Each filterable column gets a small **sliders** button beside its header.
-Select it, or right-click the header and choose **Filter by values...**, to
+Select it, or right-click the header and choose **Filter...**, to
 open a non-modal filter dialog with distinct values and occurrence counts.
 The dialog provides a case-insensitive **Search values** input, checkboxes,
 **Select all matching** (affects only values matched by the search), and
@@ -204,7 +204,7 @@ APIs remain supported. `matchTableFilterCondition`,
 
 Right-click a column heading (or focus it and press Shift+F10 / ContextMenu)
 to open the same `cu-context-menu` used for row actions. The built-in menu
-offers **Sort ascending**, **Sort descending**, **Clear sorting**, **Filter by values...**, **Clear column filter**, **Clear all filters**, **Hide column**
+offers **Sort ascending**, **Sort descending**, **Clear sorting**, **Filter...**, **Clear column filter**, **Clear all filters**, **Hide column**
 and **Show all columns**. Sorting entries are disabled when a column declares
 `sortable: false`; the last remaining visible column cannot be hidden.
 The menu highlights the active header, supports keyboard navigation and
