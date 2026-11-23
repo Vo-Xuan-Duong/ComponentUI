@@ -215,14 +215,14 @@ export class CuDataTable extends BrowserElement {
       '<section class="filter-panel" part="filter-panel" role="dialog" aria-label="Column filter" hidden>' +
       '<div class="filter-title"></div>' +
       '<div class="filter-modes" role="tablist" aria-label="Filter type">' +
-      '<button type="button" class="filter-mode-values" role="tab" aria-selected="true">Values</button>' +
-      '<button type="button" class="filter-mode-conditions" role="tab" aria-selected="false">Conditions</button></div>' +
-      '<div class="filter-values-view" role="tabpanel">' +
+      '<button type="button" class="filter-mode-values" role="tab" aria-controls="cu-filter-values" aria-selected="true">Values</button>' +
+      '<button type="button" class="filter-mode-conditions" role="tab" aria-controls="cu-filter-conditions" aria-selected="false" tabindex="-1">Conditions</button></div>' +
+      '<div class="filter-values-view" id="cu-filter-values" role="tabpanel">' +
       '<input class="filter-search" type="search" placeholder="Search values..." aria-label="Search filter values">' +
       '<label class="filter-select-all"><input type="checkbox" class="filter-all"><span>Select all matching</span></label>' +
       '<div class="filter-options" role="group" aria-label="Available filter values"></div>' +
       '<div class="filter-summary" role="status"></div></div>' +
-      '<div class="filter-conditions-view" role="tabpanel" hidden>' +
+      '<div class="filter-conditions-view" id="cu-filter-conditions" role="tabpanel" hidden>' +
       '<cu-select class="filter-operator" aria-label="Filter condition">' +
       '<option value="contains">Contains</option><option value="not-contains">Does not contain</option>' +
       '<option value="starts-with">Starts with</option><option value="ends-with">Ends with</option>' +
@@ -381,7 +381,14 @@ export class CuDataTable extends BrowserElement {
     root.querySelector(".filter-cancel").addEventListener("click",()=>
       this._hideFilterPanel(true));
     this._filterPanel.addEventListener("keydown",event=>{
-      if(event.key==="Escape"){event.preventDefault();this._hideFilterPanel(true);}
+      if(event.key==="Escape"){event.preventDefault();this._hideFilterPanel(true);return;}
+      if((event.key==="ArrowLeft"||event.key==="ArrowRight")&&
+        (event.target===this._filterModeValues||event.target===this._filterModeConditions)){
+        event.preventDefault();
+        const mode=event.target===this._filterModeValues?"conditions":"values";
+        this._setFilterMode(mode);
+        (mode==="values"?this._filterModeValues:this._filterModeConditions).focus();
+      }
     });
     this._filterOutside=event=>{
       if(this._filterEditor&&!event.composedPath().includes(this._filterPanel))
@@ -566,6 +573,8 @@ export class CuDataTable extends BrowserElement {
     this._filterConditionsView.hidden=mode!=="conditions";
     this._filterModeValues.setAttribute("aria-selected",String(mode==="values"));
     this._filterModeConditions.setAttribute("aria-selected",String(mode==="conditions"));
+    this._filterModeValues.tabIndex=mode==="values"?0:-1;
+    this._filterModeConditions.tabIndex=mode==="conditions"?0:-1;
     if(focus){
       if(mode==="values")this._filterSearch.focus();
       else this._filterOperator.focus();
@@ -659,7 +668,7 @@ export class CuDataTable extends BrowserElement {
       window.innerWidth,window.innerHeight);
     this._filterPanel.style.left=pos.x+"px";
     this._filterPanel.style.top=pos.y+"px";
-    this._filterSearch.focus();
+    (condition?this._filterOperator:this._filterSearch).focus();
   }
   _hideFilterPanel(restore=false){
     const editor=this._filterEditor;
