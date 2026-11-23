@@ -117,6 +117,17 @@ creates a single **context-menu item**, not a button or actions column, and
 also emits `cu-row-activate` when chosen. There is no menu on rows without
 configured actions.
 
+### Multi-row selection
+
+When `selectable` is present, the first header cell now displays a
+**Select all rows on this page** checkbox. It selects or deselects only
+the current client-side page, respecting active column filters and sorting.
+Selection on other pages is preserved. The checkbox displays an
+**indeterminate** state when only some of the visible rows are selected,
+and is disabled for loading/empty pages. Row checkboxes keep its state
+synchronized. Every change emits the existing `cu-selection-change`
+with `{selectedIds}`; it never mutates source rows.
+
 ### Excel-style column filtering
 
 Each filterable column gets a small **sliders** button beside its header.
