@@ -494,6 +494,17 @@ export class CuDataTable extends BrowserElement {
   get sortDirection(){return this._direction;}
   get selectedIds(){return [...this._selected];}
   clearSelection(){this._selected.clear();this._render();this._notifySelection();}
+  _syncSelectAll(){
+    const input=this._head?.querySelector(".select-all");
+    if(!input)return;
+    const rows=this._visiblePageRows??[];
+    const offset=(this._page-1)*this._pageSize();
+    const ids=rows.map((row,index)=>this._rowId(row,offset+index));
+    const selected=ids.filter(id=>this._selected.has(id)).length;
+    input.checked=ids.length>0&&selected===ids.length;
+    input.indeterminate=selected>0&&selected<ids.length;
+    input.disabled=this.hasAttribute("loading")||!ids.length;
+  }
   _rowId(row,index){return String(row?.id ?? this._rows.indexOf(row) ?? index);}
   _pageSize(){return Math.max(1,Math.min(100,Math.floor(Number(this.getAttribute("page-size"))||5)));}
   _setPage(value){
@@ -764,11 +775,30 @@ export class CuDataTable extends BrowserElement {
     this._table.setAttribute("aria-label",this.getAttribute("aria-label")||
       this._caption.textContent||"Data table");
     const columns=this._columns.filter(column=>!this._hiddenColumns.has(column.key));
+    const busy=this.hasAttribute("loading");
+    const sorted=sortTableRows(this.filteredRows,this._sortKey,this._direction);
+    const page=paginateRows(sorted,this._page,this._pageSize());
+    this._page=page.page;
+    this._visiblePageRows=busy?[]:page.rows;
     this._head.replaceChildren();
     const header=document.createElement("tr");
     if(this.hasAttribute("selectable")){
-      const h=this._makeCell("","th");h.scope="col";
-      h.textContent="Select";header.append(h);
+      const h=document.createElement("th");h.scope="col";
+      const checkbox=document.createElement("input");
+      checkbox.className="select-all";checkbox.type="checkbox";
+      checkbox.setAttribute("aria-label","Select all rows on this page");
+      checkbox.addEventListener("change",()=>{
+        const offset=(this._page-1)*this._pageSize();
+        for(const [index,row] of this._visiblePageRows.entries()){
+          const id=this._rowId(row,offset+index);
+          if(checkbox.checked)this._selected.add(id);
+          else this._selected.delete(id);
+        }
+        this._render();
+        this._head.querySelector(".select-all")?.focus();
+        this._notifySelection();
+      });
+      h.append(checkbox);header.append(h);
     }
     for(const column of columns){
       const h=document.createElement("th");h.scope="col";
@@ -810,12 +840,9 @@ export class CuDataTable extends BrowserElement {
       header.append(h);
     }
     this._head.append(header);
+    this._syncSelectAll();
     this._body.replaceChildren();
-    const busy=this.hasAttribute("loading");
     this._table.setAttribute("aria-busy",String(busy));
-    const sorted=sortTableRows(this.filteredRows,this._sortKey,this._direction);
-    const page=paginateRows(sorted,this._page,this._pageSize());
-    this._page=page.page;
     if(busy || !columns.length || !page.rows.length){
       const tr=document.createElement("tr"),td=this._makeCell(
         busy?"Loading…":this._columnFilters.size?"No matching records":
@@ -851,7 +878,9 @@ export class CuDataTable extends BrowserElement {
           checkbox.setAttribute("aria-label","Select row "+id);
           checkbox.addEventListener("change",()=>{
             if(checkbox.checked)this._selected.add(id);else this._selected.delete(id);
-            tr.dataset.selected=String(checkbox.checked);this._notifySelection();
+            tr.dataset.selected=String(checkbox.checked);
+            this._syncSelectAll();
+            this._notifySelection();
           });
           td.append(checkbox);tr.append(td);
         }
