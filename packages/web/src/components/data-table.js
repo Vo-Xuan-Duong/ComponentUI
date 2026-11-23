@@ -699,7 +699,7 @@ export class CuDataTable extends BrowserElement {
       {value:"sort-asc",label:"Sort ascending",disabled:!sortable},
       {value:"sort-desc",label:"Sort descending",disabled:!sortable},
       {value:"clear-sort",label:"Clear sorting",disabled:!this._sortKey},
-      {value:"filter-values",label:"Filter by values...",
+      {value:"filter-values",label:"Filter...",
         disabled:!key||column?.filterable===false},
       {value:"clear-filter",label:"Clear column filter",
         disabled:!key||!this._columnFilters.has(key)},
