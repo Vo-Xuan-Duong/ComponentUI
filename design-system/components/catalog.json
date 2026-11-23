@@ -578,7 +578,7 @@
         {
           "name": "Chip",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -587,7 +587,7 @@
         {
           "name": "Tag",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -754,7 +754,7 @@
         {
           "name": "ProgressRing",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
