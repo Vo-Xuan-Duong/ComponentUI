@@ -63,6 +63,28 @@ test("React controlled properties use setters and safe boolean attributes", () =
   assert.equal(dialog.open,false);
 });
 
+test("React DataTable preserves referentially stable condition filter props",()=>{
+  const element={};
+  let assigned=0;
+  let applied={};
+  Object.defineProperty(element,"columnFilters",{
+    configurable:true,
+    get(){return {...applied};},
+    set(value){assigned++;applied={...value};}
+  });
+  const filters={status:["Active"],amount:{operator:"between",value:10,value2:100}};
+  assignCuProperties(element,"cu-data-table",{columnFilters:filters});
+  assignCuProperties(element,"cu-data-table",{columnFilters:filters});
+  assert.equal(assigned,1);
+  assert.deepEqual(applied,filters);
+  assignCuProperties(element,"cu-data-table",{
+    columnFilters:{status:{operator:"contains",value:"Act"}}
+  });
+  assert.equal(assigned,2);
+  assert.deepEqual(applied.status,{operator:"contains",value:"Act"});
+  assert.equal(REACT_EVENT_PROPS.onCuFilterChange,"cu-filter-change");
+});
+
 test("React factory uses dependency injection and strips custom event props", () => {
   const hooks = {
     forwardRef: render => ({render}),
