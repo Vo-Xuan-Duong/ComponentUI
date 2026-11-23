@@ -19,8 +19,10 @@ const css=[
   "max-width:100%;min-height:25px;padding:3px 9px;border:1px solid transparent;",
   "border-radius:var(--cu-radius-md,6px);background:var(--tag-bg);color:var(--tag-fg);}",
   ":host([variant=outline]) .tag{border-color:var(--tag-border);background:transparent;}",
-  ":host([variant=solid]) .tag{border-color:var(--tag-border);}",
-  ":host([tone=neutral][variant=solid]) .tag{border-color:var(--cu-border-strong,#d1d1d1);}",
+  ":host([variant=solid]) .tag{border-color:transparent;background:var(--tag-fg);color:#fff;}",
+  ":host([variant=solid][tone=neutral]) .tag{background:var(--cu-text-muted,#616161);}",
+  ":host([variant=solid][tone=accent]) .tag{color:var(--cu-accent-text,#fff);}",
+
   ":host([size=sm]) .tag{min-height:21px;padding:2px 7px;font-size:11px;}",
   ":host([size=lg]) .tag{min-height:30px;padding:5px 11px;font-size:13px;}",
   ".dot{display:none;flex:none;width:7px;height:7px;border-radius:50%;background:currentColor;}",
