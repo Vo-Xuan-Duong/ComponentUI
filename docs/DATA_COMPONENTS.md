@@ -142,13 +142,52 @@ filter state; `table.setColumnFilter(key,values)` updates one column.
 `table.clearColumnFilter(key)` and `table.clearAllFilters()` remove
 applied filters. `table.filteredRows` returns all matching records before
 sorting/pagination. An empty values array matches no records, while null
-clears a filter; `filterable:false` disables filtering for that column.
+clears a filter; condition objects use supported operators; `filterable:false` disables filtering for that column.
 Filter state survives sort, page changes, and replacement row arrays.
 The `cu-filter-change` event exposes
 `{filters,filteredCount,totalCount}`. Filtered summaries read
 **N of M rows**, and the empty state reads **No matching records**.
 The helpers `filterTableRows`, `uniqueTableFilterValues`, and
 `tableFilterValueKey` are exported for advanced use.
+
+### Conditional filters (text and numeric)
+
+The filter flyout has two modes: **Values** (checkboxes) and **Conditions**.
+The Conditions mode uses the shared `cu-select` styling (no native OS select
+dropdown), a primary operand, and a second operand for inclusive **Between**.
+The available operators are:
+
+| Kind | Operators |
+| --- | --- |
+| Text | `contains`, `not-contains`, `starts-with`, `ends-with`, `equals`, `not-equals` |
+| Numeric | `greater-than`, `greater-or-equal`, `less-than`, `less-or-equal`, `between` |
+| Blank | `is-blank`, `is-not-blank` |
+
+Text operations compare case-insensitively. Numeric operations coerce finite
+numbers and reject non-numeric cells (including blank cells); Between is
+inclusive. Blank operators require no operand. The operator field reuses
+`<cu-select>` for consistent hover and keyboard behavior, and invalid or
+missing operands are rejected before Apply. Switching modes edits a draft
+until Apply; Cancel and Escape discard draft changes.
+
+Filters now accept either the existing **array of allowed values** or a
+condition object with `{operator,value?,value2?}`:
+
+```js
+table.setColumnCondition("owner", "contains", "duong");
+table.setColumnCondition("amount", "between", 100, 500);
+table.columnFilters = {
+  owner: { operator: "starts-with", value: "D" },
+  status: ["Active", "Review"]
+};
+table.clearAllFilters();
+```
+
+Both kinds compose with AND across columns. Existing value filters,
+`setColumnFilter()`, `cu-filter-change`, `filteredRows` and all pagination
+APIs remain supported. `matchTableFilterCondition`,
+`isTableFilterCondition`, `normalizeTableFilterSpec`, and
+`TABLE_FILTER_OPERATORS` are exported for non-DOM data consumers.
 
 ### Header context menu
 
@@ -181,7 +220,7 @@ actions are dispatched rather than executed by DataTable.
 
 This is a **basic client-side DataTable**, not a virtualized DataGrid:
 server-side pagination, 100k-row virtualization, column resizing, drag
-and drop, cell editors, server-side filtering and advanced Excel condition/date filters are future enhancements.
+and drop, cell editors, server-side filtering and date-grouping/pivot features are future enhancements.
 
 ## TreeView
 
