@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "name": "Chip",
+  "tag": "cu-chip",
+  "status": "preview",
+  "kind": "interactive",
+  "description": "Selectable and optionally removable compact content token.",
+  "attributes": {
+    "value": "string",
+    "label": "string fallback",
+    "selectable": "boolean",
+    "selected": "boolean",
+    "removable": "boolean",
+    "disabled": "boolean",
+    "tone": "neutral|success|warning|danger",
+    "size": "sm|md|lg"
+  },
+  "methods": [
+    "toggle()",
+    "removeChip()"
+  ],
+  "events": [
+    "cu-change {selected,value}",
+    "cu-remove {value} (cancelable)"
+  ],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "interaction": "Selectable body has role=button, aria-pressed and Enter/Space keyboard behavior; remove action is a named native button.",
+    "disabled": "No keyboard or pointer actions",
+    "removal": "Cancel cu-remove to prevent automatic hiding",
+    "styling": "hover, focus-visible, forced-colors and Fluent Calm theme tokens"
+  }
+}
