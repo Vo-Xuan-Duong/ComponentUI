@@ -15,7 +15,7 @@
     "headerActions": "{value,label?,disabled?:boolean|(column)=>boolean}[] via JS property; appends custom header items",
     "hiddenColumnKeys": "readonly string[]",
     "visibleColumnKeys": "readonly string[]",
-    "columnFilters": "Record<string,unknown[]>; applied value filters, assigned as a DOM property",
+    "columnFilters": "Record<string, unknown[] | {operator:CuTableFilterOperator,value?:string|number,value2?:string|number}>; value or condition filters",
     "filteredRows": "readonly matching records after all column filters"
   },
   "attributes": {
@@ -43,7 +43,8 @@
     "showAllColumns()",
     "setColumnFilter(key,values)",
     "clearColumnFilter(key)",
-    "clearAllFilters()"
+    "clearAllFilters()",
+    "setColumnCondition(key,operator,value,value2)"
   ],
   "accessibility": {
     "base": "native table/caption/headers",
@@ -52,6 +53,6 @@
     "action": "right-click context menu, row keyboard target with Shift+F10/ContextMenu, menuitems, disabled handling and focus restoration",
     "responsive": "horizontal scroll",
     "headerMenu": "right-click/Shift+F10/ContextMenu on column header; sortable headers keep native buttons; non-sortable headers focusable; sorting + column visibility menus",
-    "filtering": "header filter trigger + context-menu option opens accessible dialog with searchable unique values, select all matching, count, Clear/Cancel/Apply and Escape; independently enabled per column"
+    "filtering": "header filter trigger opens dialog with Values/Conditions tabs, CuSelect operator, text or number input, multi-value checkboxes, select all matching, count, Clear/Cancel/Apply and Escape; independent column state"
   }
 }
