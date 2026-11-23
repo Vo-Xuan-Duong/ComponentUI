@@ -312,6 +312,7 @@ test("DataTable header menu provides accessible sorting and column visibility",a
     {key:"name",label:"Name"},{key:"status",label:"Status",sortable:false}
   ];
   instance._hiddenColumns=new Set();
+  instance._columnFilters=new Map();
   instance._headerActions=[];
   instance._sortKey="";
   let renderCount=0;
