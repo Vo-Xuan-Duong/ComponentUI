@@ -1,6 +1,7 @@
 
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
+import "./select.js";
 import { clampMenuPosition } from "./context-menu.js";
 
 export function sortTableRows(rows, key, direction = "asc") {
@@ -37,12 +38,63 @@ export function tableFilterValueLabel(value) {
   if(value instanceof Date)return Number.isNaN(value.getTime())?"Invalid date":value.toISOString();
   return String(value);
 }
+export const TABLE_FILTER_OPERATORS=Object.freeze([
+  "contains","not-contains","starts-with","ends-with","equals","not-equals",
+  "greater-than","greater-or-equal","less-than","less-or-equal","between",
+  "is-blank","is-not-blank"
+]);
+const NUMERIC_FILTER_OPERATORS=new Set([
+  "greater-than","greater-or-equal","less-than","less-or-equal","between"
+]);
+export function isTableFilterCondition(spec) {
+  return Boolean(spec && typeof spec==="object" && !Array.isArray(spec) &&
+    TABLE_FILTER_OPERATORS.includes(spec.operator));
+}
+export function matchTableFilterCondition(value,condition) {
+  if(!isTableFilterCondition(condition))return false;
+  const {operator}=condition;
+  const blank=value==null||value==="";
+  if(operator==="is-blank")return blank;
+  if(operator==="is-not-blank")return !blank;
+  if(blank)return false;
+  if(NUMERIC_FILTER_OPERATORS.has(operator)){
+    const parse=x=>x==null||String(x).trim()===""?NaN:Number(x);
+    const actual=parse(value),expected=parse(condition.value),limit=parse(condition.value2);
+    if(!Number.isFinite(actual)||!Number.isFinite(expected))return false;
+    if(operator==="greater-than")return actual>expected;
+    if(operator==="greater-or-equal")return actual>=expected;
+    if(operator==="less-than")return actual<expected;
+    if(operator==="less-or-equal")return actual<=expected;
+    return Number.isFinite(limit)&&actual>=expected&&actual<=limit;
+  }
+  const actual=String(value).toLocaleLowerCase();
+  const expected=String(condition.value??"").toLocaleLowerCase();
+  if(operator==="contains")return actual.includes(expected);
+  if(operator==="not-contains")return !actual.includes(expected);
+  if(operator==="starts-with")return actual.startsWith(expected);
+  if(operator==="ends-with")return actual.endsWith(expected);
+  if(operator==="equals")return actual===expected;
+  if(operator==="not-equals")return actual!==expected;
+  return false;
+}
+export function normalizeTableFilterSpec(spec) {
+  if(Array.isArray(spec))
+    return [...new Map(spec.map(item=>[tableFilterValueKey(item),item])).values()];
+  if(isTableFilterCondition(spec))
+    return {operator:spec.operator,value:spec.value??"",value2:spec.value2??""};
+  throw new TypeError("Column filter must be an array or valid condition object");
+}
 export function filterTableRows(rows,filters,omitKey=null) {
   const entries=filters instanceof Map?[...filters]:Object.entries(filters??{});
-  const active=entries.filter(([key,values])=>key!==omitKey&&Array.isArray(values));
+  const active=entries.filter(([key,spec])=>
+    key!==omitKey&&(Array.isArray(spec)||isTableFilterCondition(spec)));
   if(!active.length)return [...rows];
-  const sets=active.map(([key,values])=>[key,new Set(values.map(tableFilterValueKey))]);
-  return rows.filter(row=>sets.every(([key,allowed])=>allowed.has(tableFilterValueKey(row?.[key]))));
+  const prepared=active.map(([key,spec])=>[
+    key,Array.isArray(spec)?new Set(spec.map(tableFilterValueKey)):spec
+  ]);
+  return rows.filter(row=>prepared.every(([key,spec])=>
+    spec instanceof Set?spec.has(tableFilterValueKey(row?.[key])):
+      matchTableFilterCondition(row?.[key],spec)));
 }
 export function uniqueTableFilterValues(rows,key) {
   const values=new Map();
@@ -87,6 +139,21 @@ const css=[
   "display:flex;flex-direction:column;gap:9px;}",
   ".filter-panel[hidden]{display:none!important;}",
   ".filter-title{font-size:13px;font-weight:650;}",
+  ".filter-modes{display:flex;gap:4px;padding:3px;border-radius:var(--cu-radius-md,6px);",
+  "background:var(--cu-surface-alt,#fafafa);}",
+  ".filter-modes button{flex:1;justify-content:center;min-height:32px;}",
+  ".filter-modes button[aria-selected=true]{font-weight:650;background:var(--cu-surface-elevated,#fff);",
+  "box-shadow:0 1px 3px rgb(0 0 0/.12);}",
+  ".filter-values-view[hidden],.filter-conditions-view[hidden]{display:none!important;}",
+  ".filter-values-view{display:flex;flex-direction:column;gap:7px;min-height:0;}",
+  ".filter-conditions-view{display:flex;flex-direction:column;gap:9px;}",
+  ".filter-conditions-view cu-select{width:100%;}",
+  ".filter-conditions-view input{box-sizing:border-box;min-height:34px;width:100%;",
+  "padding:7px 9px;background:var(--cu-surface,#fff);color:inherit;font:inherit;",
+  "border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);}",
+  ".filter-conditions-view input[hidden]{display:none!important;}",
+  ".filter-condition-error{color:var(--cu-danger,#c42b1c);font-size:12px;min-height:0;}",
+  ".filter-condition-error:empty{display:none;}",
   ".filter-search{box-sizing:border-box;width:100%;min-height:34px;padding:7px 9px;",
   "border:1px solid var(--cu-border-strong,#d1d1d1);",
   "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);",
@@ -147,10 +214,29 @@ export class CuDataTable extends BrowserElement {
       '<cu-context-menu class="header-menu" aria-label="Column actions"></cu-context-menu>' +
       '<section class="filter-panel" part="filter-panel" role="dialog" aria-label="Column filter" hidden>' +
       '<div class="filter-title"></div>' +
+      '<div class="filter-modes" role="tablist" aria-label="Filter type">' +
+      '<button type="button" class="filter-mode-values" role="tab" aria-selected="true">Values</button>' +
+      '<button type="button" class="filter-mode-conditions" role="tab" aria-selected="false">Conditions</button></div>' +
+      '<div class="filter-values-view" role="tabpanel">' +
       '<input class="filter-search" type="search" placeholder="Search values..." aria-label="Search filter values">' +
       '<label class="filter-select-all"><input type="checkbox" class="filter-all"><span>Select all matching</span></label>' +
       '<div class="filter-options" role="group" aria-label="Available filter values"></div>' +
-      '<div class="filter-summary" role="status"></div>' +
+      '<div class="filter-summary" role="status"></div></div>' +
+      '<div class="filter-conditions-view" role="tabpanel" hidden>' +
+      '<cu-select class="filter-operator" aria-label="Filter condition">' +
+      '<option value="contains">Contains</option><option value="not-contains">Does not contain</option>' +
+      '<option value="starts-with">Starts with</option><option value="ends-with">Ends with</option>' +
+      '<option value="equals">Equals</option><option value="not-equals">Does not equal</option>' +
+      '<option value="greater-than">Greater than</option>' +
+      '<option value="greater-or-equal">Greater than or equal</option>' +
+      '<option value="less-than">Less than</option>' +
+      '<option value="less-or-equal">Less than or equal</option>' +
+      '<option value="between">Between (inclusive)</option>' +
+      '<option value="is-blank">Is blank</option>' +
+      '<option value="is-not-blank">Is not blank</option></cu-select>' +
+      '<input class="filter-condition-value" aria-label="Condition value" placeholder="Enter a value">' +
+      '<input class="filter-condition-value2" aria-label="Second condition value" placeholder="Upper bound" hidden>' +
+      '<div class="filter-condition-error" role="alert"></div></div>' +
       '<div class="filter-footer"><button type="button" class="filter-clear">Clear</button>' +
       '<button type="button" class="filter-cancel">Cancel</button>' +
       '<button type="button" class="filter-apply">Apply</button></div></section>');
@@ -171,6 +257,14 @@ export class CuDataTable extends BrowserElement {
     this._filterAll=root.querySelector(".filter-all");
     this._filterOptions=root.querySelector(".filter-options");
     this._filterSummary=root.querySelector(".filter-summary");
+    this._filterValuesView=root.querySelector(".filter-values-view");
+    this._filterConditionsView=root.querySelector(".filter-conditions-view");
+    this._filterModeValues=root.querySelector(".filter-mode-values");
+    this._filterModeConditions=root.querySelector(".filter-mode-conditions");
+    this._filterOperator=root.querySelector(".filter-operator");
+    this._filterConditionValue=root.querySelector(".filter-condition-value");
+    this._filterConditionValue2=root.querySelector(".filter-condition-value2");
+    this._filterConditionError=root.querySelector(".filter-condition-error");
     this._rows=[];
     this._columns=[];
     this._page=1;
@@ -227,6 +321,9 @@ export class CuDataTable extends BrowserElement {
     });
     this._headerMenu.addEventListener("cu-close",()=>this._clearContextHeader());
     this._filterSearch.addEventListener("input",()=>this._renderFilterOptions());
+    this._filterModeValues.addEventListener("click",()=>this._setFilterMode("values",true));
+    this._filterModeConditions.addEventListener("click",()=>this._setFilterMode("conditions",true));
+    this._filterOperator.addEventListener("cu-change",()=>this._syncFilterConditionInputs());
     this._filterAll.addEventListener("change",()=>{
       const editor=this._filterEditor;
       if(!editor)return;
@@ -247,11 +344,31 @@ export class CuDataTable extends BrowserElement {
       const editor=this._filterEditor;
       if(!editor)return;
       const key=editor.column.key;
-      const all=editor.options.every(option=>editor.selected.has(option.key));
-      const values=all?null:editor.options.filter(option=>
-        editor.selected.has(option.key)).map(option=>option.value);
+      let spec;
+      if(editor.mode==="conditions"){
+        const operator=this._filterOperator.value;
+        const first=this._filterConditionValue.value.trim();
+        const second=this._filterConditionValue2.value.trim();
+        const noValue=operator==="is-blank"||operator==="is-not-blank";
+        if(!noValue&&(!first||(operator==="between"&&!second))){
+          this._filterConditionError.textContent="Enter the required value.";
+          (first?this._filterConditionValue2:this._filterConditionValue).focus();
+          return;
+        }
+        if(NUMERIC_FILTER_OPERATORS.has(operator) &&
+          (!Number.isFinite(Number(first))||
+            (operator==="between"&&!Number.isFinite(Number(second))))){
+          this._filterConditionError.textContent="Enter valid numeric values.";
+          this._filterConditionValue.focus();return;
+        }
+        spec={operator,value:noValue?"":first,value2:operator==="between"?second:""};
+      }else{
+        const all=editor.options.every(option=>editor.selected.has(option.key));
+        spec=all?null:editor.options.filter(option=>
+          editor.selected.has(option.key)).map(option=>option.value);
+      }
       this._hideFilterPanel(false);
-      this.setColumnFilter(key,values);
+      this.setColumnFilter(key,spec);
       this._focusColumn(key);
     });
     root.querySelector(".filter-clear").addEventListener("click",()=>{
@@ -326,26 +443,28 @@ export class CuDataTable extends BrowserElement {
     this._render();
   }
   get columnFilters(){
-    return Object.fromEntries([...this._columnFilters].map(([key,values])=>[key,[...values]]));
+    return Object.fromEntries([...this._columnFilters].map(([key,spec])=>[
+      key,Array.isArray(spec)?[...spec]:{...spec}
+    ]));
   }
   set columnFilters(value){
     const next=new Map();
-    if(value && typeof value==="object")for(const [key,values] of Object.entries(value)){
-      if(!Array.isArray(values)||!this._columns.some(col=>
-        col.key===key&&col.filterable!==false))continue;
-      const unique=new Map(values.map(item=>[tableFilterValueKey(item),item]));
-      next.set(key,[...unique.values()]);
+    if(value && typeof value==="object")for(const [key,spec] of Object.entries(value)){
+      if(!this._columns.some(col=>col.key===key&&col.filterable!==false))continue;
+      if(Array.isArray(spec)||isTableFilterCondition(spec))
+        next.set(key,normalizeTableFilterSpec(spec));
     }
     this._columnFilters=next;this._page=1;this._render();this._notifyFilterChange();
   }
   get filteredRows(){return filterTableRows(this._rows,this._columnFilters);}
-  setColumnFilter(key,values){
+  setColumnFilter(key,spec){
     if(!this._columns.some(col=>col.key===key&&col.filterable!==false))return;
-    if(values==null){this.clearColumnFilter(key);return;}
-    if(!Array.isArray(values))throw new TypeError("Column filter values must be an array");
-    const unique=new Map(values.map(value=>[tableFilterValueKey(value),value]));
-    this._columnFilters.set(key,[...unique.values()]);
+    if(spec==null){this.clearColumnFilter(key);return;}
+    this._columnFilters.set(key,normalizeTableFilterSpec(spec));
     this._page=1;this._render();this._notifyFilterChange();
+  }
+  setColumnCondition(key,operator,value="",value2=""){
+    this.setColumnFilter(key,{operator,value,value2});
   }
   clearColumnFilter(key){
     if(!this._columnFilters.delete(key))return;
@@ -440,6 +559,27 @@ export class CuDataTable extends BrowserElement {
     this._menu.items=actions;
     this._menu.showAt(x,y,element);
   }
+  _setFilterMode(mode,focus=false){
+    if(!this._filterEditor)return;
+    this._filterEditor.mode=mode;
+    this._filterValuesView.hidden=mode!=="values";
+    this._filterConditionsView.hidden=mode!=="conditions";
+    this._filterModeValues.setAttribute("aria-selected",String(mode==="values"));
+    this._filterModeConditions.setAttribute("aria-selected",String(mode==="conditions"));
+    if(focus){
+      if(mode==="values")this._filterSearch.focus();
+      else this._filterOperator.focus();
+    }
+  }
+  _syncFilterConditionInputs(){
+    const op=this._filterOperator.value;
+    const blank=op==="is-blank"||op==="is-not-blank";
+    this._filterConditionValue.hidden=blank;
+    this._filterConditionValue2.hidden=op!=="between";
+    this._filterConditionValue.placeholder=NUMERIC_FILTER_OPERATORS.has(op)?
+      "Enter a number":"Enter text";
+    this._filterConditionError.textContent="";
+  }
   _matchingFilterOptions(){
     const editor=this._filterEditor;
     if(!editor)return [];
@@ -491,14 +631,21 @@ export class CuDataTable extends BrowserElement {
     const options=uniqueTableFilterValues(source,column.key);
     const existing=this._columnFilters.get(column.key);
     const byKey=new Map(options.map(item=>[item.key,item]));
-    for(const value of existing??[]){
+    for(const value of Array.isArray(existing)?existing:[]){
       const key=tableFilterValueKey(value);
       if(!byKey.has(key))byKey.set(key,{key,value,label:tableFilterValueLabel(value),count:0});
     }
     const all=[...byKey.values()].sort((a,b)=>
       a.label.localeCompare(b.label,undefined,{numeric:true,sensitivity:"base"}));
+    const condition=isTableFilterCondition(existing)?existing:null;
     this._filterEditor={column,header,focusTarget:focusTarget??header.querySelector(".filter-trigger")??header.querySelector("button")??header,
-      options:all,selected:new Set((existing??all.map(item=>item.value)).map(tableFilterValueKey))};
+      options:all,selected:new Set((Array.isArray(existing)?existing:
+        all.map(item=>item.value)).map(tableFilterValueKey)),mode:"values"};
+    this._filterOperator.value=condition?.operator??"contains";
+    this._filterConditionValue.value=String(condition?.value??"");
+    this._filterConditionValue2.value=String(condition?.value2??"");
+    this._syncFilterConditionInputs();
+    this._setFilterMode(condition?"conditions":"values");
     this._filterTitle.textContent="Filter: "+String(column.label??column.key);
     this._filterPanel.setAttribute("aria-label",this._filterTitle.textContent);
     this._filterSearch.value="";
