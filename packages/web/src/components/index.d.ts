@@ -176,6 +176,17 @@ export declare class CuProgressBar extends HTMLElement {
   value: number | null;
   max: number;
 }
+export declare class CuProgressRing extends HTMLElement {
+  value:number|null;
+  max:number;
+}
+export declare function normalizeRingProgress(value:string|number|null|undefined,max?:string|number):
+  {value:number|null;max:number;percent:number|null};
+export declare class CuChip extends HTMLElement {
+  value:string;selected:boolean;selectable:boolean;removable:boolean;disabled:boolean;
+  toggle():void;removeChip():void;
+}
+export declare class CuTag extends HTMLElement {}
 export declare class CuBadge extends HTMLElement {}
 export declare class CuAvatar extends HTMLElement {}
 export declare class CuMenu extends HTMLElement {
