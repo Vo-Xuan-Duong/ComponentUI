@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and thirty-five experimental browser Custom Elements. **There are 35 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 38 experimental browser Custom Elements. **There are 38 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -36,6 +36,15 @@ avoids redundant updates for referentially stable `columnFilters` inputs.
 Source-level regression tests and API declarations have been extended, but
 manual browser, keyboard/screen-reader and cross-framework acceptance checks
 are still required. See [Data component API](docs/DATA_COMPONENTS.md).
+
+**Additional component previews:** `Chip`, `Tag` and `ProgressRing`
+are now implemented and connected to the React adapter, Playground,
+type declarations and contract catalog. Chip supports selection, disabled
+states and cancelable removal; Tag renders passive semantic labels;
+ProgressRing provides determinate and indeterminate progress with
+reduced-motion fallback. The catalog contains **43 previews, 86 planned
+components and 0 production-certified releases**; the React adapter
+exposes **48 wrappers**. See [Compact components](docs/COMPACT_COMPONENTS.md).
 
 ## Preview locally
 
@@ -107,6 +116,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [React, Vue and Svelte adapters](docs/FRAMEWORK_ADAPTERS.md)
 - [Independent package distribution and local tarballs](docs/PACKAGING.md)
 - [Display and feedback component APIs](docs/DISPLAY_FEEDBACK.md)
+- [Chip, Tag and ProgressRing component APIs](docs/COMPACT_COMPONENTS.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
