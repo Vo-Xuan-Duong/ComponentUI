@@ -779,7 +779,7 @@ export class CuDataTable extends BrowserElement {
     const sorted=sortTableRows(this.filteredRows,this._sortKey,this._direction);
     const page=paginateRows(sorted,this._page,this._pageSize());
     this._page=page.page;
-    this._visiblePageRows=busy?[]:page.rows;
+    this._visiblePageRows=busy||!columns.length?[]:page.rows;
     this._head.replaceChildren();
     const header=document.createElement("tr");
     if(this.hasAttribute("selectable")){
