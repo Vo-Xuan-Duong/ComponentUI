@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "name": "Tag",
+  "tag": "cu-tag",
+  "status": "preview",
+  "kind": "display",
+  "description": "Non-interactive metadata classification token distinct from Badge and Chip.",
+  "attributes": {
+    "tone": "neutral|accent|success|warning|danger",
+    "variant": "subtle|solid|outline",
+    "size": "sm|md|lg",
+    "dot": "boolean"
+  },
+  "events": [],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "interaction": "Non-interactive semantic span, no tab stop",
+    "guidance": "Use text rather than color or decorative dot alone",
+    "styling": "Fluent Calm tokens, high contrast fallback"
+  }
+}
