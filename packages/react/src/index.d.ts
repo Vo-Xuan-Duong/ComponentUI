@@ -5,6 +5,7 @@ export interface CuEventDetails {
   value?: string | number;
   valueAsNumber?: number;
   checked?: boolean;
+  selected?: boolean;
   accept?: string;
   multiple?: boolean;
   maxSize?: number;
@@ -61,6 +62,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   tone?: string;
   type?: string;
   iconName?: IconName;
+  selected?: boolean;
+  selectable?: boolean;
+  removable?: boolean;
   columns?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}[];
   rows?: Record<string,unknown>[];
   rowActions?: {value:string;label?:string;
@@ -90,6 +94,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuFilterChange?: (event: CuEvent) => void;
   onCuToggle?: (event: CuEvent) => void;
   onCuDismiss?: (event: CuEvent) => void;
+  onCuRemove?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
@@ -110,7 +115,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" |
+  "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;
