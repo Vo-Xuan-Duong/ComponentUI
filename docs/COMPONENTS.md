@@ -47,3 +47,13 @@ SettingsPage. SettingsGroup/SettingsItem are auxiliary custom elements.
 The 129-entry catalog contains **40 preview, 89 planned and 0 ready**
 records. Keyboard/browser accessibility and installed-package testing
 remain required. See [SETTINGS_NAVIGATION.md](SETTINGS_NAVIGATION.md).
+
+
+## Newly implemented display and selection previews
+
+- **Chip** — selectable and removable compact token (`cu-chip`).
+- **Tag** — non-interactive semantic classification (`cu-tag`).
+- **ProgressRing** — accessible circular progress (`cu-progress-ring`).
+
+These are registered in the web package and React adapter and are still marked
+`preview`, not production-certified. See [Compact components](COMPACT_COMPONENTS.md).
