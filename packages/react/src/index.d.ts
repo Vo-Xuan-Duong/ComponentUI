@@ -21,7 +21,7 @@ export interface CuEventDetails {
   selectedIds?: string[];
   row?: Record<string,unknown>;
   column?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}|null;
-  filters?: Record<string,unknown[]>;
+  filters?: Record<string,unknown[]|{operator:string;value?:string|number;value2?:string|number}>;
   filteredCount?: number;
   totalCount?: number;
   hiddenKeys?: string[];
@@ -67,7 +67,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
     disabled?:boolean|((row:Record<string,unknown>)=>boolean)}[];
   headerActions?: {value:string;label?:string;
     disabled?:boolean|((column:{key:string;label?:string;sortable?:boolean;filterable?:boolean}|null)=>boolean)}[];
-  columnFilters?: Record<string,unknown[]>;
+  columnFilters?: Record<string,unknown[]|{operator:"contains"|"not-contains"|"starts-with"|"ends-with"|"equals"|"not-equals"|"greater-than"|"greater-or-equal"|"less-than"|"less-or-equal"|"between"|"is-blank"|"is-not-blank";value?:string|number;value2?:string|number}>;
   page?: number;
   onCuPress?: (event: CuEvent) => void;
   onCuInput?: (event: CuEvent) => void;
