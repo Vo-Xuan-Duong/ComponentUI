@@ -119,6 +119,9 @@ test("DataTable offers Excel-like header filtering with discoverable controls",a
     read("../apps/playground-web/index.html")
   ]);
   assert.match(source,/class="filter-panel"/);
+  assert.match(source,/className="select-all"/);
+  assert.match(source,/this\._syncSelectAll\(\)/);
+  assert.match(source,/input\.indeterminate=selected>0/);
   assert.match(source,/class="filter-search"/);
   assert.match(source,/class="filter-all"/);
   assert.match(source,/class="filter-options"/);
@@ -138,6 +141,35 @@ test("DataTable offers Excel-like header filtering with discoverable controls",a
   assert.match(docs,/Excel-style column filtering/);
   assert.match(demo,/Click the sliders icon/);
   assert.equal(REACT_EVENT_PROPS.onCuFilterChange,"cu-filter-change");
+});
+
+test("DataTable Select All reflects current page and partial selection",()=>{
+  const table=Object.create(CuDataTable.prototype);
+  table._visiblePageRows=[{id:"alpha"},{id:"beta"}];
+  table._page=2;
+  table._selected=new Set(["alpha"]);
+  table._pageSize=()=>2;
+  table.hasAttribute=()=>false;
+  const checkbox={checked:false,indeterminate:false,disabled:false};
+  table._head={querySelector:()=>checkbox};
+  table._syncSelectAll();
+  assert.equal(checkbox.checked,false);
+  assert.equal(checkbox.indeterminate,true);
+  table._selected.add("beta");
+  table._syncSelectAll();
+  assert.equal(checkbox.checked,true);
+  assert.equal(checkbox.indeterminate,false);
+  table._selected.clear();
+  table._syncSelectAll();
+  assert.equal(checkbox.checked,false);
+  assert.equal(checkbox.indeterminate,false);
+  table._visiblePageRows=[];
+  table._syncSelectAll();
+  assert.equal(checkbox.disabled,true);
+  table._visiblePageRows=[{id:"alpha"}];
+  table.hasAttribute=attribute=>attribute==="loading";
+  table._syncSelectAll();
+  assert.equal(checkbox.disabled,true);
 });
 
 test("DataTable condition filters support text, number ranges, and blanks",()=>{
