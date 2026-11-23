@@ -186,7 +186,7 @@ in total. The adapter bridges `cu-sort`, `cu-page-change`,
 `cu-toggle` into `onCu*` callback properties. DataTable `rowActions` and
 `headerActions` are assigned as DOM properties, so action predicates remain
 JavaScript functions. The header also emits `cu-header-action` and `cu-column-visibility-change`.
-Excel-style column filtering emits `cu-filter-change` (`onCuFilterChange` in React) and accepts `columnFilters` as a DOM property.
+Excel-style column filtering emits `cu-filter-change` (`onCuFilterChange` in React) and accepts `columnFilters` as a DOM property. It accepts either arrays of allowed values or conditional operator objects (e.g. `{operator:"contains",value:"Project"}`).
 
 `rows`, `columns`, `rowActions`, `headerActions` and `columnFilters` are assigned to DataTable through DOM **properties**
 instead of HTML attribute serialization. Keep stable array references in
