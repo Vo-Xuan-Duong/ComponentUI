@@ -76,8 +76,8 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">40</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">35</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-previews">43</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">38</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -484,6 +484,40 @@
                   <cu-button id="wc-progress-step" variant="outline">Advance 15%</cu-button>
                   <cu-button id="wc-progress-reset">Reset progress</cu-button>
                 </div>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ProgressRing</h3>
+              <p class="demo-subtitle">Accessible circular progress, determinate or indeterminate, with reduced-motion support.</p>
+              <div class="demo-row">
+                <cu-progress-ring id="wc-ring" label="Upload progress" value="35" max="100" size="lg" show-value></cu-progress-ring>
+                <cu-progress-ring label="Syncing changes" size="lg"></cu-progress-ring>
+                <cu-progress-ring tone="success" label="Completed" value="100" size="lg" show-value></cu-progress-ring>
+              </div>
+              <div class="demo-row">
+                <cu-button id="wc-ring-step" variant="outline">Advance ring 15%</cu-button>
+                <cu-button id="wc-ring-reset">Reset ring</cu-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-ring-result">Ring progress: 35%</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Chip &amp; Tag</h3>
+              <p class="demo-subtitle">Selectable/removable chips and non-interactive semantic labels.</p>
+              <div class="demo-row">
+                <cu-chip id="wc-chip-select" selectable selected value="frontend">Frontend</cu-chip>
+                <cu-chip id="wc-chip-removable" removable value="ux-review">UX review</cu-chip>
+                <cu-chip selectable tone="success" value="approved">Approved</cu-chip>
+                <cu-chip selectable disabled>Disabled</cu-chip>
+              </div>
+              <div class="demo-row">
+                <cu-tag tone="accent" dot>Enhancement</cu-tag>
+                <cu-tag tone="success" dot>Ready</cu-tag>
+                <cu-tag tone="warning" variant="outline">In review</cu-tag>
+                <cu-tag tone="danger" variant="outline">Blocked</cu-tag>
+              </div>
+              <div class="demo-row">
+                <cu-button id="wc-chip-restore" variant="outline">Restore chip</cu-button>
+                <span class="cu-helper" role="status" id="wc-chip-result">Select or remove a chip to test its events.</span>
               </div>
             </article>
             <article class="cu-surface demo-card">
