@@ -29,6 +29,14 @@ npm run pack:local
 
 **New in v0.12.0:** reusable native `NavigationView` and `SettingsPage`, with auxiliary SettingsGroup/SettingsItem composition, keyboard-aware navigation, metadata-only settings search and live AppShell integration. The 129 catalog records now contain **40 previews and 89 planned**. The React adapter exports **45 wrappers**. See [Navigation & Settings APIs](docs/SETTINGS_NAVIGATION.md).
 
+**DataTable refinement (in progress, still preview):** right-click row actions,
+header context actions, Excel-style value and condition filters (text and number
+operators), column visibility and page-scoped Select All. The React adapter now
+avoids redundant updates for referentially stable `columnFilters` inputs.
+Source-level regression tests and API declarations have been extended, but
+manual browser, keyboard/screen-reader and cross-framework acceptance checks
+are still required. See [Data component API](docs/DATA_COMPONENTS.md).
+
 ## Preview locally
 
 Requires Node.js 20+ (no third-party runtime dependencies in this milestone).
