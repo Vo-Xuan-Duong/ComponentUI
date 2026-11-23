@@ -202,6 +202,16 @@ export declare function safeBreadcrumbHref(value: string | null): string | null;
 
 
 export interface CuTableColumn { key:string;label?:string;sortable?:boolean;filterable?:boolean; }
+export type CuTableFilterOperator =
+  "contains"|"not-contains"|"starts-with"|"ends-with"|"equals"|"not-equals"|
+  "greater-than"|"greater-or-equal"|"less-than"|"less-or-equal"|
+  "between"|"is-blank"|"is-not-blank";
+export interface CuTableFilterCondition {
+  operator:CuTableFilterOperator;
+  value?:string|number;
+  value2?:string|number;
+}
+export type CuTableFilterSpec=unknown[]|CuTableFilterCondition;
 export type CuTableRecord = {id?:string|number;[key:string]:unknown};
 export interface CuTableRowAction {
   value:string;
@@ -218,7 +228,7 @@ export declare class CuDataTable extends HTMLElement {
   columns:CuTableColumn[];
   rowActions:CuTableRowAction[];
   headerActions:CuTableHeaderAction[];
-  columnFilters:Record<string,unknown[]>;
+  columnFilters:Record<string,CuTableFilterSpec>;
   readonly filteredRows:CuTableRecord[];
   readonly hiddenColumnKeys:string[];
   readonly visibleColumnKeys:string[];
@@ -227,7 +237,8 @@ export declare class CuDataTable extends HTMLElement {
   readonly sortDirection:"asc"|"desc";
   readonly selectedIds:string[];
   clearSelection():void;
-  setColumnFilter(key:string,values:unknown[]|null):void;
+  setColumnFilter(key:string,filter:CuTableFilterSpec|null):void;
+  setColumnCondition(key:string,operator:CuTableFilterOperator,value?:string|number,value2?:string|number):void;
   clearColumnFilter(key:string):void;
   clearAllFilters():void;
   clearSort():void;
@@ -236,8 +247,13 @@ export declare class CuDataTable extends HTMLElement {
 }
 export declare function tableFilterValueKey(value:unknown):string;
 export declare function tableFilterValueLabel(value:unknown):string;
+export declare const TABLE_FILTER_OPERATORS:readonly CuTableFilterOperator[];
+export declare function isTableFilterCondition(value:unknown):value is CuTableFilterCondition;
+export declare function matchTableFilterCondition(value:unknown,condition:CuTableFilterCondition):boolean;
+export declare function normalizeTableFilterSpec(spec:CuTableFilterSpec):CuTableFilterSpec;
 export declare function filterTableRows<T extends Record<string,unknown>>(
-  rows:T[],filters:Map<string,unknown[]>|Record<string,unknown[]>,omitKey?:string|null
+  rows:T[],filters:Map<string,CuTableFilterSpec>|Record<string,CuTableFilterSpec>,
+  omitKey?:string|null
 ):T[];
 export declare function uniqueTableFilterValues<T extends Record<string,unknown>>(
   rows:T[],key:string
