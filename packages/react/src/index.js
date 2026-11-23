@@ -16,7 +16,7 @@ export const REACT_TAGS = Object.freeze({
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
   DatePicker:"cu-date-picker", Slider:"cu-slider",
-  ProgressBar:"cu-progress-bar", Badge:"cu-badge",
+  ProgressBar:"cu-progress-bar", ProgressRing:"cu-progress-ring", Badge:"cu-badge", Chip:"cu-chip", Tag:"cu-tag",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
   Skeleton:"cu-skeleton", Spinner:"cu-spinner", Alert:"cu-alert",
@@ -40,7 +40,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuHeaderAction:"cu-header-action",
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
-  onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss"
+  onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove"
 });
 
 const PROPERTY_MAP = Object.freeze({
@@ -66,6 +66,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-date-picker":["value","required","disabled"],
   "cu-slider":["value","disabled"],
   "cu-progress-bar":["value","max"],
+  "cu-progress-ring":["value","max"],
+  "cu-chip":["value","selected","selectable","removable","disabled"],
   "cu-menu":["open"],
   "cu-menu-item":["disabled"],
   "cu-icon":["name"],
