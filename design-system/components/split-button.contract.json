@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "name": "SplitButton",
+  "tag": "cu-split-button",
+  "status": "preview",
+  "kind": "action",
+  "description": "Primary action button with adjacent secondary context menu backed by the shared ContextMenu element.",
+  "attributes": {
+    "disabled": "boolean",
+    "loading": "boolean",
+    "variant": "standard|accent|outline|subtle",
+    "size": "sm|md|lg",
+    "label": "string fallback",
+    "aria-label": "string for secondary toggle"
+  },
+  "properties": {
+    "actions": "{value:string,label?:string,disabled?:boolean}[]",
+    "open": "readonly boolean"
+  },
+  "methods": [
+    "press()",
+    "showMenu()",
+    "hideMenu(restoreFocus?)",
+    "focus(options?)"
+  ],
+  "events": [
+    "cu-press {type:'button'}",
+    "cu-action {value,label}"
+  ],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "structure": "Two native buttons: primary action and menu toggle",
+    "menu": "Shared cu-context-menu with role=menu and focus restoration",
+    "keyboard": "Tab, Enter, Space, ArrowDown/ArrowUp on toggle, Arrow keys/Home/End/Escape in menu",
+    "disabled": "Both buttons unavailable when disabled/loading; toggle unavailable when no enabled actions",
+    "appearance": "Full-row hover, focus ring, forced colors and reduced motion"
+  }
+}
