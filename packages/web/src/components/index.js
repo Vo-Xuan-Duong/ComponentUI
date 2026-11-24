@@ -5,6 +5,9 @@
  *   import ".../components/index.js" to register all browser-native controls.
  */
 export { CuButton } from "./button.js";
+export { CuSplitButton, normalizeSplitActions } from "./split-button.js";
+export { CuStepper, normalizeSteps, canVisitStep } from "./stepper.js";
+export { CuInfoBar } from "./info-bar.js";
 export { CuTextField } from "./text-field.js";
 export { CuPasswordField } from "./password-field.js";
 export { CuFilePicker, formatFileSize, matchesFileAccept, validateFileSelection } from "./file-picker.js";
