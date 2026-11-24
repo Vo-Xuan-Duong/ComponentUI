@@ -22,6 +22,10 @@ export interface CuEventDetails {
   key?: string;
   direction?: "asc" | "desc";
   page?: number;
+  pageCount?: number;
+  start?: number;
+  end?: number;
+  pageSize?: number;
   selectedIds?: string[];
   row?: Record<string,unknown>;
   column?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}|null;
@@ -52,6 +56,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   error?: string;
   placeholder?: string;
   value?: string | string[] | number | null;
+  values?: string[];
   checked?: boolean;
   disabled?: boolean;
   loading?: boolean;
@@ -80,6 +85,10 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   items?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
   commands?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
   maxVisible?: number;
+  pageSize?: number;
+  total?: number;
+  siblings?: number;
+  placement?: "left" | "right";
   columns?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}[];
   rows?: Record<string,unknown>[];
   rowActions?: {value:string;label?:string;
@@ -127,7 +136,7 @@ export declare function createReactComponent(
   React: typeof import("react"), tagName: string
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
-  Record<"Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
+  Record<"Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
