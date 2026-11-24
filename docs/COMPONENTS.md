@@ -67,3 +67,14 @@ These are registered in the web package and React adapter and are still marked
 
 All three are experimental previews, not production-certified; see
 [Workflow components](WORKFLOW_COMPONENTS.md).
+
+
+## Command and toolbar components
+
+- **IconButton** (`cu-icon-button`) — labeled icon-only actions and toggles.
+- **ToggleButtonGroup** (`cu-toggle-button-group`) — single/multiple pressed state.
+- **Toolbar** (`cu-toolbar`) — keyboard-navigable slotted controls.
+- **CommandBar** (`cu-command-bar`) — responsive commands with overflow.
+
+All are experimental previews, not production certified. See
+[Command controls](COMMAND_CONTROLS.md).
