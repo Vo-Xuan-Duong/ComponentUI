@@ -224,6 +224,22 @@
     "./components/drawer": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/drawer.js"
+    },
+    "./components/splitter": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/splitter.js"
+    },
+    "./components/resizable-panel": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/resizable-panel.js"
+    },
+    "./components/filter-bar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/filter-bar.js"
+    },
+    "./components/data-filter": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/data-filter.js"
     }
   },
   "files": [
