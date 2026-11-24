@@ -121,6 +121,7 @@ export class CuFilterBar extends BrowserElement {
   }
   _sync(){
     if(!this._search)return;
+    this._bar?.setAttribute("aria-label",this.getAttribute("label")||"Record filters");
     if(this._search.value!==this.query)this._search.value=this.query;
     this._search.placeholder=this.getAttribute("placeholder")||"Search records";
     this._search.setAttribute("aria-label",this.getAttribute("aria-label")||
