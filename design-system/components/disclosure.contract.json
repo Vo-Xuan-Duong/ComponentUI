@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "name": "Disclosure",
+  "tag": "cu-disclosure",
+  "status": "preview",
+  "kind": "auxiliary",
+  "description": "Standalone collapsible content panel and accessible base for AccordionItem.",
+  "attributes": {
+    "open": "boolean",
+    "disabled": "boolean",
+    "label": "string",
+    "value": "string",
+    "variant": "default|borderless"
+  },
+  "properties": {
+    "open": "boolean",
+    "disabled": "boolean",
+    "value": "string"
+  },
+  "methods": [
+    "show()",
+    "hide()",
+    "toggle()",
+    "focus(options?)"
+  ],
+  "events": [
+    "cu-toggle {open,value}"
+  ],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "structure": "native button toggles hidden content panel",
+    "state": "aria-expanded and aria-controls track current panel",
+    "keyboard": "Enter and Space on native button",
+    "disabled": "disabled native button blocks interaction",
+    "styling": "focus-visible, forced-colors and reduced motion"
+  }
+}
