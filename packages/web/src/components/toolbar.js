@@ -7,7 +7,8 @@ export function nextToolbarIndex(items,current,direction){
   if(direction==="End")return enabled.at(-1);
   const position=enabled.indexOf(current);
   const step=direction==="previous"?-1:1;
-  return enabled[((position<0?0:position)+step+enabled.length)%enabled.length];
+  if(position<0)return step===1?enabled[0]:enabled.at(-1);
+  return enabled[(position+step+enabled.length)%enabled.length];
 }
 
 const css=[
