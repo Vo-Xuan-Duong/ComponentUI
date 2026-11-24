@@ -7,7 +7,7 @@
  * versions that differ in their custom-event support behave consistently.
  */
 export const REACT_TAGS = Object.freeze({
-  Button:"cu-button", SplitButton:"cu-split-button", Stepper:"cu-stepper", InfoBar:"cu-info-bar", TextField:"cu-text-field",
+  Button:"cu-button", IconButton:"cu-icon-button", ToggleButtonGroup:"cu-toggle-button-group", Toolbar:"cu-toolbar", CommandBar:"cu-command-bar", SplitButton:"cu-split-button", Stepper:"cu-stepper", InfoBar:"cu-info-bar", TextField:"cu-text-field",
   PasswordField:"cu-password-field", FilePicker:"cu-file-picker", AppShell:"cu-app-shell",
   NavigationView:"cu-navigation-view", SettingsPage:"cu-settings-page",
   SettingsGroup:"cu-settings-group", SettingsItem:"cu-settings-item", TextArea:"cu-textarea",
@@ -45,6 +45,9 @@ export const REACT_EVENT_PROPS = Object.freeze({
 
 const PROPERTY_MAP = Object.freeze({
   "cu-button":["disabled","loading","type"],
+  "cu-icon-button":["name","disabled","loading","pressed","toggle"],
+  "cu-toggle-button-group":["items","value","multiple","disabled"],
+  "cu-command-bar":["commands","maxVisible","disabled"],
   "cu-split-button":["actions","disabled","loading"],
   "cu-stepper":["steps","value","linear"],
   "cu-text-field":["value","required","disabled"],
@@ -113,9 +116,14 @@ export function assignCuProperties(element, tagName, props = {}) {
     }
     if (name in element) {
       if ((tagName==="cu-split-button"&&name==="actions") ||
-          (tagName==="cu-stepper"&&name==="steps")) {
-        if(lastControlledArrays.get(element)===value)continue;
-        lastControlledArrays.set(element,value);
+          (tagName==="cu-stepper"&&name==="steps") ||
+          (tagName==="cu-command-bar"&&name==="commands") ||
+          (tagName==="cu-toggle-button-group"&&(name==="items"||
+            (name==="value"&&Array.isArray(value))))) {
+        let refs=lastControlledArrays.get(element);
+        if(!refs){refs=new Map();lastControlledArrays.set(element,refs);}
+        if(refs.get(name)===value)continue;
+        refs.set(name,value);
       }
       if (tagName === "cu-data-table" && name === "columnFilters") {
         if (lastControlledFilters.get(element) === value) continue;
