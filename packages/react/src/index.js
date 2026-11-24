@@ -12,7 +12,7 @@ export const REACT_TAGS = Object.freeze({
   NavigationView:"cu-navigation-view", SettingsPage:"cu-settings-page",
   SettingsGroup:"cu-settings-group", SettingsItem:"cu-settings-item", TextArea:"cu-textarea",
   NumberField:"cu-number-field", SearchBox:"cu-search-box", Checkbox:"cu-checkbox",
-  Switch:"cu-switch", Dialog:"cu-dialog", Select:"cu-select",
+  Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
   DatePicker:"cu-date-picker", Slider:"cu-slider",
@@ -62,6 +62,11 @@ const PROPERTY_MAP = Object.freeze({
   "cu-checkbox":["checked","value","disabled","required"],
   "cu-switch":["checked","value","disabled","required"],
   "cu-dialog":["open"],
+  "cu-drawer":["open","dismissible"],
+  "cu-accordion":["values","value","multiple"],
+  "cu-accordion-item":["open","disabled","value"],
+  "cu-disclosure":["open","disabled","value"],
+  "cu-pagination":["page","pageSize","total"],
   "cu-select":["value","required","disabled"],
   "cu-radio":["disabled","checked"],
   "cu-radio-group":["value","required","disabled"],
@@ -118,6 +123,7 @@ export function assignCuProperties(element, tagName, props = {}) {
       if ((tagName==="cu-split-button"&&name==="actions") ||
           (tagName==="cu-stepper"&&name==="steps") ||
           (tagName==="cu-command-bar"&&name==="commands") ||
+          (tagName==="cu-accordion"&&name==="values"&&Array.isArray(value)) ||
           (tagName==="cu-toggle-button-group"&&(name==="items"||
             (name==="value"&&Array.isArray(value))))) {
         let refs=lastControlledArrays.get(element);
