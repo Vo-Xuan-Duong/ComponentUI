@@ -20,7 +20,7 @@ const css=[
   ".title:empty,.message:empty{display:none;}",
   ".message{color:var(--cu-text-muted,#616161);}",
   ".actions{display:flex;align-items:center;flex-wrap:wrap;min-width:0;}",
-  ".actions:has(slot:empty){display:none;}",
+  ".actions[hidden]{display:none!important;}",
   ".close{display:grid;place-items:center;flex:none;min-width:28px;min-height:28px;",
   "border:0;border-radius:var(--cu-radius-md,6px);",
   "background:transparent;color:var(--cu-text-muted,#616161);cursor:pointer;}",
