@@ -17,6 +17,36 @@ export declare class CuButton extends HTMLElement {
   focus(options?: FocusOptions): void;
   click(): void;
 }
+export interface CuSplitAction { value:string;label?:string;disabled?:boolean; }
+export declare class CuSplitButton extends HTMLElement {
+  actions:CuSplitAction[];
+  disabled:boolean;
+  loading:boolean;
+  readonly open:boolean;
+  press():boolean;
+  showMenu():boolean;
+  hideMenu(restoreFocus?:boolean):void;
+  focus(options?:FocusOptions):void;
+}
+export declare function normalizeSplitActions(actions:unknown):Required<CuSplitAction>[];
+export interface CuStep {
+  value:string;label?:string;description?:string;disabled?:boolean;optional?:boolean;
+}
+export declare function normalizeSteps(value:unknown):Required<CuStep>[];
+export declare function canVisitStep(steps:CuStep[],index:number,currentIndex:number,linear?:boolean):boolean;
+export declare class CuStepper extends HTMLElement {
+  steps:CuStep[];
+  value:string;
+  readonly currentIndex:number;
+  linear:boolean;
+  goTo(value:string|number):boolean;
+  next():boolean;
+  previous():boolean;
+}
+export declare class CuInfoBar extends HTMLElement {
+  dismiss():boolean;
+  show():void;
+}
 export declare class CuTextField extends HTMLElement {
   static formAssociated: boolean;
   value: string;
