@@ -939,7 +939,7 @@
         {
           "name": "Splitter",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -948,7 +948,7 @@
         {
           "name": "ResizablePanel",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1120,7 +1120,7 @@
         {
           "name": "FilterBar",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1129,7 +1129,7 @@
         {
           "name": "DataFilter",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
