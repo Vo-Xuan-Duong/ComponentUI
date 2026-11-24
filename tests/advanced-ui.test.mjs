@@ -83,7 +83,7 @@ test("new components and icons are exported by the distribution manifests",async
   assert.equal(REACT_TAGS.AppShell,"cu-app-shell");
   assert.equal(REACT_EVENT_PROPS.onCuVisibilityChange,"cu-visibility-change");
   assert.equal(REACT_EVENT_PROPS.onCuNavigationToggle,"cu-navigation-toggle");
-  assert.equal(Object.keys(REACT_TAGS).length,55);
+  assert.equal(Object.keys(REACT_TAGS).length,60);
 });
 
 test("all package versions remain aligned and privately packable",async()=>{
