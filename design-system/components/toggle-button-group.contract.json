@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "ToggleButtonGroup",
+  "tag": "cu-toggle-button-group",
+  "status": "preview",
+  "kind": "selection",
+  "description": "Compact single/multi toggle controls with grouped buttons and roving focus.",
+  "attributes": {
+    "value": "string initial single selection",
+    "multiple": "boolean",
+    "disabled": "boolean",
+    "label": "string",
+    "aria-label": "string",
+    "orientation": "horizontal|vertical"
+  },
+  "properties": {
+    "items": "CuToggleOption[]",
+    "value": "string|string[]"
+  },
+  "methods": [
+    "select(value)",
+    "focus(options?)"
+  ],
+  "events": [
+    "cu-change {value,values}"
+  ],
+  "accessibility": {
+    "structure": "role=group native buttons and aria-pressed",
+    "keyboard": "Arrow keys, Home, End focus; native Enter/Space selection",
+    "disabled": "Individual and group disabled controls are bypassed",
+    "notes": "Not form-associated; consumers own form serialization"
+  }
+}
