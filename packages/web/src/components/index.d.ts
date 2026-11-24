@@ -84,6 +84,52 @@ export declare class CuCommandBar extends HTMLElement {
   activate(value:string):boolean;
   showOverflow():boolean;
 }
+export declare class CuDisclosure extends HTMLElement {
+  value:string;
+  open:boolean;
+  disabled:boolean;
+  show():boolean;
+  hide():void;
+  toggle():boolean;
+  focus(options?:FocusOptions):void;
+}
+export declare class CuAccordionItem extends CuDisclosure {}
+export declare function accordionValues(
+  items:Array<{value:string;open:boolean;disabled?:boolean}>,
+  multiple?:boolean
+):string[];
+export declare class CuAccordion extends HTMLElement {
+  multiple:boolean;
+  value:string;
+  values:string[];
+}
+export interface CuPaginationState {
+  page:number;
+  pageCount:number;
+  total:number;
+  pageSize:number;
+  start:number;
+  end:number;
+}
+export declare function normalizePagination(
+  page?:string|number|null,
+  total?:string|number|null,
+  pageSize?:string|number|null
+):CuPaginationState;
+export declare function paginationItems(
+  page:number,pageCount:number,siblings?:number
+):(number|"ellipsis")[];
+export declare class CuPagination extends HTMLElement {
+  total:number;pageSize:number;page:number;
+  readonly pageCount:number;
+  goTo(page:number):boolean;
+  next():boolean;
+  previous():boolean;
+}
+export declare class CuDrawer extends HTMLElement {
+  open:boolean;dismissible:boolean;
+  show():void;close(returnValue?:string):void;
+}
 export declare class CuTextField extends HTMLElement {
   static formAssociated: boolean;
   value: string;
