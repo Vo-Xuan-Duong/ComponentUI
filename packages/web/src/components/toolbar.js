@@ -21,6 +21,7 @@ const css=[
   "overflow-x:auto;overscroll-behavior-inline:contain;}",
   ":host([variant=flat]) .toolbar{border:0;padding:0;background:transparent;}",
   ":host([orientation=vertical]) .toolbar{flex-direction:column;align-items:stretch;overflow-y:auto;overflow-x:hidden;}",
+  "::slotted(:focus-visible){outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "::slotted([data-separator]){align-self:stretch;border-left:1px solid var(--cu-border-strong,#d1d1d1);margin:3px 4px;}",
   ":host([orientation=vertical]) ::slotted([data-separator]){border-left:0;border-top:1px solid var(--cu-border-strong,#d1d1d1);}",
   "@media(forced-colors:active){.toolbar{border-color:CanvasText;}}"
