@@ -77,7 +77,7 @@
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
           <div class="metric"><strong id="metric-previews">50</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">45</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-native">48</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -722,6 +722,54 @@
               </div>
             </article>
 
+            <article class="cu-surface demo-card">
+              <h3>Disclosure &amp; Accordion</h3>
+              <p class="demo-subtitle">Native-button disclosure panels with a single-open accordion or independently expanded sections.</p>
+              <cu-disclosure id="wc-disclosure" label="What is ComponentUI?" value="overview">
+                <p>A reusable Fluent Calm component library for web, desktop webviews and multiple frontend frameworks.</p>
+              </cu-disclosure>
+              <cu-accordion id="wc-accordion" label="Project setup">
+                <cu-accordion-item value="installation" label="Install packages" open>
+                  Use the local npm tarballs to install the Web Components package.
+                </cu-accordion-item>
+                <cu-accordion-item value="integration" label="Choose a framework">
+                  Bind native Custom Events in React, Vue or Svelte.
+                </cu-accordion-item>
+                <cu-accordion-item value="testing" label="Validate accessibility">
+                  Check keyboard navigation, reduced motion and high-contrast themes.
+                </cu-accordion-item>
+              </cu-accordion>
+              <div class="demo-row">
+                <cu-button id="wc-accordion-multi" variant="outline" size="sm">Enable multiple sections</cu-button>
+                <cu-button id="wc-accordion-reset" variant="subtle" size="sm">Reset sections</cu-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-accordion-result">Open section: installation</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Pagination</h3>
+              <p class="demo-subtitle">Clamped page selection, accessible page buttons, compact ranges and reactive totals.</p>
+              <cu-pagination id="wc-pagination" label="Example records" page="1" total="125" page-size="10"></cu-pagination>
+              <div class="demo-row">
+                <cu-button id="wc-pagination-prev" variant="outline" size="sm">Previous</cu-button>
+                <cu-button id="wc-pagination-next" variant="outline" size="sm">Next</cu-button>
+                <cu-button id="wc-pagination-empty" variant="subtle" size="sm">Toggle empty state</cu-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-pagination-result">Showing 1–10 of 125</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Drawer</h3>
+              <p class="demo-subtitle">An accessible modal side panel with optional dismissal, native focus management and action slots.</p>
+              <div class="demo-row">
+                <cu-button id="wc-drawer-open" variant="accent">Open drawer</cu-button>
+                <cu-button id="wc-drawer-left" variant="outline">Open on left</cu-button>
+              </div>
+              <cu-drawer id="wc-native-drawer" title="Project preferences" placement="right" dismissible>
+                <p>Adjust project preferences without navigating away from the current page.</p>
+                <cu-checkbox id="wc-drawer-sync" label="Synchronize project settings" checked></cu-checkbox>
+                <cu-button slot="actions" id="wc-drawer-done" variant="accent">Save and close</cu-button>
+              </cu-drawer>
+              <p class="cu-helper" role="status" id="wc-drawer-result">Drawer is closed.</p>
+            </article>
             <article class="cu-surface demo-card full-span">
               <h3>Stepper</h3>
               <p class="demo-subtitle">An accessible multi-step workflow with optional linear navigation and disabled stages.</p>
