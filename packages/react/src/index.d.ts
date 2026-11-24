@@ -6,6 +6,8 @@ export interface CuEventDetails {
   valueAsNumber?: number;
   checked?: boolean;
   selected?: boolean;
+  pressed?: boolean;
+  values?: string[];
   accept?: string;
   multiple?: boolean;
   maxSize?: number;
@@ -49,10 +51,13 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   message?: string;
   error?: string;
   placeholder?: string;
-  value?: string | number | null;
+  value?: string | string[] | number | null;
   checked?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  pressed?: boolean;
+  toggle?: boolean;
+  multiple?: boolean;
   dismissible?: boolean;
   required?: boolean;
   open?: boolean;
@@ -72,6 +77,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   orientation?: "horizontal" | "vertical";
   steps?: {value:string;label?:string;description?:string;disabled?:boolean;optional?:boolean}[];
   actions?: {value:string;label?:string;disabled?:boolean}[];
+  items?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
+  commands?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
+  maxVisible?: number;
   columns?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}[];
   rows?: Record<string,unknown>[];
   rowActions?: {value:string;label?:string;
@@ -119,7 +127,7 @@ export declare function createReactComponent(
   React: typeof import("react"), tagName: string
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
-  Record<"Button" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
+  Record<"Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
