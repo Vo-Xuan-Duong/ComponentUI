@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "name": "FilterBar",
+  "tag": "cu-filter-bar",
+  "status": "preview",
+  "kind": "data",
+  "description": "Composition of keyword search and child DataFilter controls, with structured aggregate events and clear-all action.",
+  "attributes": {
+    "query": "string",
+    "placeholder": "string",
+    "label": "string",
+    "aria-label": "string"
+  },
+  "properties": {
+    "query": "string",
+    "conditions": "readonly record of field to {operator,value}",
+    "activeCount": "readonly number"
+  },
+  "slots": [
+    "cu-data-filter children"
+  ],
+  "methods": [
+    "clear()"
+  ],
+  "events": [
+    "cu-filter-change {query,conditions,activeCount} from search input, filter changes or clear"
+  ],
+  "accessibility": {
+    "role": "search landmark",
+    "keyboard": "Native search input, clear button; child Selects accessible via keyboard",
+    "output": "Application can use applyFilterBar helper for client-side arrays",
+    "styling": "Fluent Calm semantic tokens with focus and high contrast"
+  },
+  "notes": "applyFilterBar(rows,query,conditions,searchKeys) composes DataTable structured filters with text query"
+}
