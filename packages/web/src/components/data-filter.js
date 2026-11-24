@@ -105,7 +105,9 @@ export class CuDataFilter extends BrowserElement {
   }
   _sync(){
     if(!this._input)return;
-    this._label.textContent=this.getAttribute("label")||this.field||"Filter";
+    const fieldLabel=this.getAttribute("label")||this.field||"Filter";
+    this._label.textContent=fieldLabel;
+    this._select.setAttribute("aria-label","Operator for "+fieldLabel);
     this._select.value=this.operator;
     this._select.disabled=this.disabled;
     this._input.disabled=this.disabled;
