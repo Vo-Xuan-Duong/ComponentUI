@@ -9,7 +9,8 @@ function nonNegativeInt(value,fallback){
 
 export function normalizePagination(page,total,pageSize=10){
   const count=nonNegativeInt(total,0);
-  const size=Math.max(1,nonNegativeInt(pageSize,10));
+  const requestedSize=nonNegativeInt(pageSize,10);
+  const size=requestedSize>0?requestedSize:10;
   const pageCount=Math.max(1,Math.ceil(count/size));
   const current=Math.max(1,Math.min(pageCount,nonNegativeInt(page,1)||1));
   return {page:current,pageCount,total:count,pageSize:size,
