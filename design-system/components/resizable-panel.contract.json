@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "name": "ResizablePanel",
+  "tag": "cu-resizable-panel",
+  "status": "preview",
+  "kind": "layout",
+  "description": "Scrollable content panel that can be resized alone with native CSS resize or composed inside Splitter.",
+  "attributes": {
+    "resizable": "boolean",
+    "direction": "horizontal|vertical|both",
+    "label": "string",
+    "aria-label": "string",
+    "variant": "default|flat"
+  },
+  "properties": {
+    "resizable": "boolean"
+  },
+  "slots": [
+    "default"
+  ],
+  "events": [
+    "cu-resize {width,height} when ResizeObserver detects dimension change after initialization"
+  ],
+  "accessibility": {
+    "role": "Optional named region when label/aria-label is supplied",
+    "scroll": "Own scrollable content region",
+    "mode": "Standalone CSS resize; disables CSS resize when used as a slotted pane in Splitter",
+    "responsive": "Constrained minimum sizes and theme surface"
+  }
+}
