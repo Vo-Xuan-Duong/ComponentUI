@@ -1,6 +1,7 @@
 # Báo Cáo Chi Tiết Các Test Case Đang Bị Fail (Failing Tests Report)
 
-> **Trạng thái**: 127 passed / 6 failed trên tổng số 133 tests (`node --test`)  
+> **Trạng thái trước khi sửa**: 127 passed / 6 failed trên tổng số 133 tests (`node --test`)  
+> **Cập nhật ngày 24/11/2026**: Đã sửa cả 6 nguyên nhân trong source/test trên nhánh `main`; **6/6 kiểm tra mục tiêu đạt** khi đối chiếu mã nguồn mới. **Chưa chạy lại toàn bộ 133 test** trong một checkout local, nên chưa xác nhận kết quả tổng thể 133/133.  
 > **Mục đích**: Cung cấp đầy đủ thông tin stack trace, nguyên nhân gốc rễ (root cause) và giải pháp đề xuất để ChatGPT Web hoặc lập trình viên có thể fix ngay lập tức.
 
 ---
@@ -136,3 +137,32 @@
   assert.match(react, /Button,.*SplitButton, Stepper, InfoBar/);
   ```
   Hoặc kiểm tra từng component riêng biệt.
+
+---
+
+## Kết quả xử lý trên nhánh `main` — 24/11/2026
+
+| # | Vị trí | Thay đổi đã thực hiện | Kiểm tra mục tiêu |
+| --- | --- | --- | --- |
+| 1 | `breadcrumb.js`, `fourth-wave.test.mjs` | Từ chối URL dạng `//host` trước khi xử lý đường dẫn tương đối; thêm regression cho khoảng trắng và nhiều dấu gạch chéo | Đạt |
+| 2 | `navigation.js` | Loại bỏ 4 thuộc tính `fill` của icon `palette` vì renderer đã không hỗ trợ thuộc tính này | Đạt |
+| 3 | `second-wave.test.mjs` | Thay assertion `copyOptions` đã bị loại bỏ bằng xác minh `role=listbox`, `_renderOptions` và `_optionNodes` | Đạt |
+| 4 | `index.html` | Sửa mô tả Select trong Playground thành `Fluent Calm listbox` | Đạt |
+| 5 | `third-wave.test.mjs` | Sửa escape trong regex `setAttribute("role","menuitem")` | Đạt |
+| 6 | `workflow-components.test.mjs` | Kiểm tra từng tên xuất ra từ `createReactComponents(React)` thay vì phụ thuộc vào thứ tự destructuring | Đạt |
+
+**Phương pháp xác minh:** các điều kiện của sáu trường hợp được thực thi
+với nội dung source/test mới tải từ GitHub, gồm kiểm thử trực tiếp
+`safeBreadcrumbHref()`, kiểm tra thuộc tính SVG, đối chiếu Select và
+Playground, thực thi assertion Menu và assertion React exports. Đây **không**
+phải là kết quả chạy toàn bộ `node --test`.
+
+**Cần xác nhận trên máy có checkout repository:**
+
+```bash
+git pull origin main
+npm run check
+npm run check:packages
+```
+
+Không sử dụng GitHub Actions.
