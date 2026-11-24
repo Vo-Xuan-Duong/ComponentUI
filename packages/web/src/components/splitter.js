@@ -18,7 +18,7 @@ export function splitPositionFromPointer(x,y,rect,orientation="horizontal",min=1
 const css=[
   ":host{display:block;box-sizing:border-box;min-width:0;min-height:0;",
   "height:240px;color:var(--cu-text,#242424);",
-  "--cu-split-position:50%;--cu-splitter-thickness:8px;}",
+  "--cu-split-position:50%;--cu-splitter-thickness:8px;--cu-splitter-half:4px;}",
   ":host([hidden]){display:none!important;}",
   ".layout{display:flex;align-items:stretch;width:100%;height:100%;min-width:0;min-height:0;}",
   ".handle{display:grid;place-items:center;flex:none;box-sizing:border-box;",
@@ -31,7 +31,7 @@ const css=[
   "background:var(--cu-accent,#0067c0);width:3px;}",
   ".handle:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-1px;",
   "border-radius:var(--cu-radius-sm,4px);}",
-  ".layout ::slotted([slot=start]){box-sizing:border-box;flex:0 0 calc(var(--cu-split-position) - var(--cu-splitter-thickness) / 2);",
+  ".layout ::slotted([slot=start]){box-sizing:border-box;flex:0 0 calc(var(--cu-split-position) - var(--cu-splitter-half));",
   "min-width:0;min-height:0;overflow:auto;}",
   ".layout ::slotted([slot=end]){box-sizing:border-box;flex:1 1 0;min-width:0;min-height:0;overflow:auto;}",
   ":host([orientation=vertical]) .layout{flex-direction:column;}",
