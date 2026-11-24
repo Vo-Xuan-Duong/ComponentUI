@@ -180,6 +180,18 @@
     "./components/progress-ring": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/progress-ring.js"
+    },
+    "./components/split-button": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/split-button.js"
+    },
+    "./components/stepper": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/stepper.js"
+    },
+    "./components/info-bar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/info-bar.js"
     }
   },
   "files": [
