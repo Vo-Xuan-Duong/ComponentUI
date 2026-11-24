@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "name": "Drawer",
+  "tag": "cu-drawer",
+  "status": "preview",
+  "kind": "overlay",
+  "description": "Modal left/right side panel with native HTML dialog focus handling and consumer actions.",
+  "attributes": {
+    "open": "boolean",
+    "dismissible": "boolean",
+    "title": "string",
+    "placement": "left|right",
+    "size": "sm|md|lg"
+  },
+  "properties": {
+    "open": "boolean",
+    "dismissible": "boolean"
+  },
+  "methods": [
+    "show()",
+    "close(returnValue?)"
+  ],
+  "slots": [
+    "default",
+    "actions"
+  ],
+  "events": [
+    "cu-open {}",
+    "cu-close {returnValue}"
+  ],
+  "accessibility": {
+    "structure": "native dialog opened with showModal(), aria-modal=true and aria-labelledby title",
+    "keyboard": "Escape and labeled close button when dismissible; actions slot for application controls",
+    "focus": "native modal focus containment and return to previous focus target",
+    "dismiss": "non-dismissible panels require application-driven close",
+    "responsive": "full-width side panel below 420px and high-contrast outlines"
+  }
+}
