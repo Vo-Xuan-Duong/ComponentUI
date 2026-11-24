@@ -5,6 +5,10 @@
  *   import ".../components/index.js" to register all browser-native controls.
  */
 export { CuButton } from "./button.js";
+export { CuIconButton } from "./icon-button.js";
+export { CuToggleButtonGroup, normalizeToggleOptions, toggleGroupValues } from "./toggle-button-group.js";
+export { CuToolbar, nextToolbarIndex } from "./toolbar.js";
+export { CuCommandBar, normalizeCommands, partitionCommands } from "./command-bar.js";
 export { CuSplitButton, normalizeSplitActions } from "./split-button.js";
 export { CuStepper, normalizeSteps, canVisitStep } from "./stepper.js";
 export { CuInfoBar } from "./info-bar.js";
