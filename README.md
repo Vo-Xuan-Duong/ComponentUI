@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 48 experimental catalogued browser Custom Elements. **There are 48 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 52 experimental catalogued browser Custom Elements. **There are 52 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -71,6 +71,16 @@ implementations, with **60 React wrappers** including auxiliary elements.
 See [Navigation surfaces](docs/NAVIGATION_SURFACES.md). The new controls
 have source-level regressions, but require local browser and accessibility
 validation before release.
+
+**Layout and filtering previews:** `Splitter`, `ResizablePanel`,
+`FilterBar` and `DataFilter` are now implemented and demonstrated in
+Playground. Splitter supports pointer and keyboard resizing; FilterBar
+composes search with structured field conditions using the custom Select.
+The catalog now contains **54 previews, 75 planned and 0 production-ready**
+entries; **52 catalogued Web Components** have implementations and the
+React adapter exposes **64 wrappers**. See
+[Layout and Data Filters](docs/LAYOUT_FILTERS.md). Browser and
+accessibility acceptance is still required.
 
 ## Preview locally
 
@@ -146,6 +156,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [SplitButton, Stepper and InfoBar component APIs](docs/WORKFLOW_COMPONENTS.md)
 - [IconButton, ToggleButtonGroup, Toolbar and CommandBar](docs/COMMAND_CONTROLS.md)
 - [Accordion, Disclosure, Pagination and Drawer](docs/NAVIGATION_SURFACES.md)
+- [Splitter, ResizablePanel, FilterBar and DataFilter](docs/LAYOUT_FILTERS.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
