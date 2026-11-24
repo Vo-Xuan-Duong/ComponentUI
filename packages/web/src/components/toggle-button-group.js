@@ -98,7 +98,7 @@ export class CuToggleButtonGroup extends BrowserElement {
   set value(input){
     const values=Array.isArray(input)?input:[input];
     const normalized=[...new Set(values.filter(v=>typeof v==="string"&&v.length))];
-    this._selected=normalized.filter(v=>this._items.some(item=>item.value===v&&!item.disabled));
+    this._selected=this._items.length?normalized.filter(v=>this._items.some(item=>item.value===v&&!item.disabled)):normalized;
     if(!this.multiple)this._selected=this._selected.slice(0,1);
     this._syncPressed();
   }
