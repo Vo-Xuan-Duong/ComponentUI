@@ -1,5 +1,9 @@
 import type { ReactCuComponent } from "./index.js";
 export declare const Button: ReactCuComponent;
+export declare const IconButton: ReactCuComponent;
+export declare const ToggleButtonGroup: ReactCuComponent;
+export declare const Toolbar: ReactCuComponent;
+export declare const CommandBar: ReactCuComponent;
 export declare const SplitButton: ReactCuComponent;
 export declare const Stepper: ReactCuComponent;
 export declare const InfoBar: ReactCuComponent;
