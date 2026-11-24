@@ -130,6 +130,41 @@ export declare class CuDrawer extends HTMLElement {
   open:boolean;dismissible:boolean;
   show():void;close(returnValue?:string):void;
 }
+export declare function clampSplitPosition(position:number|string|null,
+  min?:number,max?:number):number;
+export declare function splitPositionFromPointer(x:number,y:number,
+  rect:{left:number;top:number;width:number;height:number},
+  orientation?:"horizontal"|"vertical",min?:number,max?:number):number;
+export declare class CuSplitter extends HTMLElement {
+  position:number;min:number;max:number;disabled:boolean;
+  readonly orientation:"horizontal"|"vertical";
+}
+export declare class CuResizablePanel extends HTMLElement {
+  resizable:boolean;
+}
+export declare const DATA_FILTER_OPERATORS:readonly string[];
+export interface CuFilterCondition {
+  field:string;operator:string;value:string;
+}
+export declare function buildFilterCondition(field:string,operator:string,
+  value?:unknown):CuFilterCondition|null;
+export declare class CuDataFilter extends HTMLElement {
+  field:string;operator:string;value:string;disabled:boolean;
+  readonly condition:CuFilterCondition|null;
+  readonly active:boolean;
+  clear(emit?:boolean):boolean;
+}
+export type CuFilterBarConditions=Record<string,{operator:string;value:string}>;
+export declare function applyFilterBar<T extends Record<string,unknown>>(
+  rows:T[],query?:string,conditions?:CuFilterBarConditions,
+  searchKeys?:string[]|null
+):T[];
+export declare class CuFilterBar extends HTMLElement {
+  query:string;
+  readonly conditions:CuFilterBarConditions;
+  readonly activeCount:number;
+  clear():boolean;
+}
 export declare class CuTextField extends HTMLElement {
   static formAssociated: boolean;
   value: string;
