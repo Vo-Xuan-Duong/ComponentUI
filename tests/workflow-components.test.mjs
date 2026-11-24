@@ -188,7 +188,7 @@ test("new workflow components are wired through Web exports and React events",as
   assert.equal(REACT_TAGS.Stepper,"cu-stepper");
   assert.equal(REACT_TAGS.InfoBar,"cu-info-bar");
   assert.equal(REACT_EVENT_PROPS.onCuAction,"cu-action");
-  assert.equal(Object.keys(REACT_TAGS).length,51);
+  assert.equal(Object.keys(REACT_TAGS).length,55);
   for(const name of ["CuSplitButton","CuStepper","CuInfoBar"])
     assert.ok(types.includes("class "+name+" extends HTMLElement"));
   assert.match(react,/Button, SplitButton, Stepper, InfoBar/);
@@ -222,7 +222,7 @@ test("Playground and catalog include three new experimental workflow components"
   for(const name of ["SplitButton","Stepper","InfoBar"])
     assert.equal(entries.find(item=>item.name===name)?.status,"preview");
   assert.equal(entries.length,129);
-  assert.equal(entries.filter(item=>item.status==="preview").length,46);
-  assert.equal(entries.filter(item=>item.status==="planned").length,83);
+  assert.equal(entries.filter(item=>item.status==="preview").length,50);
+  assert.equal(entries.filter(item=>item.status==="planned").length,79);
   assert.equal(entries.filter(item=>item.status==="ready").length,0);
 });
