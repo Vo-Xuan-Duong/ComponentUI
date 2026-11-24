@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 51 tags (41 catalog components, Icon and 9 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 55 tags (45 catalog components, Icon and 9 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -221,6 +221,20 @@ integrate via existing Custom Element recognition and native events.
 
 See [Workflow components](WORKFLOW_COMPONENTS.md). Local browser-level
 acceptance and SSR verification are still necessary.
+
+## Command and toolbar component previews
+
+React now exposes **55 wrappers**, including `IconButton`,
+`ToggleButtonGroup`, `Toolbar` and `CommandBar`. Their
+`name`, `toggle`, `pressed`, `items`, `commands`,
+`value`, `multiple`, and `maxVisible` inputs are assigned as
+DOM properties where required. Array properties are reference-checked
+to avoid resetting controlled selections during unrelated React renders.
+Events map to `onCuPress`, `onCuChange` and `onCuAction`.
+Vue and Svelte continue using shared Custom Element registration.
+
+See [Command controls](COMMAND_CONTROLS.md). Framework and
+cross-browser testing remains part of the local acceptance process.
 
 ## v0.9.0 — independent package outputs and Svelte 5
 
