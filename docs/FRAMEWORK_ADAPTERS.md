@@ -197,7 +197,7 @@ runtime integration still requires local browser tests.
 ## Additional previews — Chip, Tag, ProgressRing
 
 The browser package registers `<cu-chip>`, `<cu-tag>`, and
-`<cu-progress-ring>`. React now has **48 wrappers**, including these
+`<cu-progress-ring>`. At this milestone, React had **48 wrappers**, including these
 three controls. `Chip` emits `cu-change` and the cancelable
 `cu-remove` event (React: `onCuChange`, `onCuRemove`); controlled
 `selected`, `selectable`, `removable`, `value`, and `disabled`
