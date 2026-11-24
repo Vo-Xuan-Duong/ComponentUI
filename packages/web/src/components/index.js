@@ -26,6 +26,10 @@ export { CuSearchBox } from "./search-box.js";
 export { CuCheckbox } from "./checkbox.js";
 export { CuSwitch } from "./switch.js";
 export { CuDialog } from "./dialog.js";
+export { CuDisclosure, CuAccordionItem } from "./disclosure.js";
+export { CuAccordion, accordionValues } from "./accordion.js";
+export { CuPagination, normalizePagination, paginationItems } from "./pagination.js";
+export { CuDrawer } from "./drawer.js";
 
 export { CuSelect } from "./select.js";
 export { CuRadio, CuRadioGroup } from "./radio-group.js";
