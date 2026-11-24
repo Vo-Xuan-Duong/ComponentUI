@@ -19,6 +19,7 @@ const css=[
   ".close{display:grid;place-items:center;flex:none;min-width:32px;min-height:32px;",
   "border:0;border-radius:var(--cu-radius-md,6px);background:transparent;",
   "color:inherit;cursor:pointer;}",
+  ".close[hidden]{display:none!important;}",
   ".close:hover{background:color-mix(in srgb,var(--cu-text,#242424) 9%,transparent);}",
   ".close:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "main{flex:1;overflow-y:auto;padding:18px 20px;min-height:0;}",
