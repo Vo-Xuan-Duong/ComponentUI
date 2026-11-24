@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 48 tags (38 catalog components, Icon and 9 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 51 tags (41 catalog components, Icon and 9 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -207,6 +207,20 @@ element registrations and their native event binding conventions.
 
 See [Compact components](COMPACT_COMPONENTS.md). Browser-level adapter
 validation remains a release requirement.
+
+## Workflow component previews — SplitButton, Stepper, InfoBar
+
+The React adapter now exposes **51 wrappers**. `SplitButton` accepts
+`actions` as a JavaScript property and emits `onCuPress` (primary)
+and `onCuAction` (secondary). `Stepper` accepts `steps`, `value`
+and `linear` as properties, emitting `onCuChange` with
+`{value,index,previousValue}`. `InfoBar` supports the `action`
+slot and `onCuDismiss`. Stable `actions` and `steps` references
+are not assigned redundantly across React renders. Vue and Svelte
+integrate via existing Custom Element recognition and native events.
+
+See [Workflow components](WORKFLOW_COMPONENTS.md). Local browser-level
+acceptance and SSR verification are still necessary.
 
 ## v0.9.0 — independent package outputs and Svelte 5
 
