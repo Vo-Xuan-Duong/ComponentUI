@@ -656,6 +656,7 @@ document.getElementById("wc-filter-active").addEventListener("cu-press",()=>{
   const status=projectFilters.querySelector('cu-data-filter[field="status"]');
   status.operator="equals";
   status.value="Active";
+  projectFilters.refresh();
   renderProjectFilters();
 });
 document.getElementById("wc-filter-reset").addEventListener("cu-press",()=>{
