@@ -1,4 +1,9 @@
 import type { ReactCuComponent } from "./index.js";
+export declare const Accordion: ReactCuComponent;
+export declare const AccordionItem: ReactCuComponent;
+export declare const Disclosure: ReactCuComponent;
+export declare const Pagination: ReactCuComponent;
+export declare const Drawer: ReactCuComponent;
 export declare const Button: ReactCuComponent;
 export declare const IconButton: ReactCuComponent;
 export declare const ToggleButtonGroup: ReactCuComponent;
