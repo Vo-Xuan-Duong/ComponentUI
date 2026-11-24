@@ -12,6 +12,7 @@ export interface CuEventDetails {
   navigationOpen?: boolean;
   withoutNavigation?: boolean;
   index?: number;
+  previousValue?: string;
   label?: string;
   action?: string;
   type?: string;
@@ -65,6 +66,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   selected?: boolean;
   selectable?: boolean;
   removable?: boolean;
+  linear?: boolean;
+  steps?: {value:string;label?:string;description?:string;disabled?:boolean;optional?:boolean}[];
+  actions?: {value:string;label?:string;disabled?:boolean}[];
   columns?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}[];
   rows?: Record<string,unknown>[];
   rowActions?: {value:string;label?:string;
@@ -95,6 +99,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuToggle?: (event: CuEvent) => void;
   onCuDismiss?: (event: CuEvent) => void;
   onCuRemove?: (event: CuEvent) => void;
+  onCuAction?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
@@ -111,7 +116,7 @@ export declare function createReactComponent(
   React: typeof import("react"), tagName: string
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
-  Record<"Button" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
+  Record<"Button" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
