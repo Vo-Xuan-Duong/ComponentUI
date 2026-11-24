@@ -76,8 +76,8 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">46</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">41</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-previews">50</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">45</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -377,6 +377,47 @@
             <span class="section-flag">Web Components · Experimental</span>
           </div>
           <div class="demo-grid">
+            <article class="cu-surface demo-card">
+              <h3>IconButton</h3>
+              <p class="demo-subtitle">Compact Lucide-only actions with explicit labels, hover, keyboard focus and optional pressed state.</p>
+              <div class="demo-row">
+                <cu-icon-button id="wc-icon-action" name="save" label="Save changes" variant="filled"></cu-icon-button>
+                <cu-icon-button id="wc-icon-toggle" name="eye" label="Show preview" toggle></cu-icon-button>
+                <cu-icon-button name="pencil" label="Edit document" variant="outline"></cu-icon-button>
+                <cu-icon-button name="ellipsis" label="Unavailable" disabled></cu-icon-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-icon-result">Activate Save or toggle Preview.</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ToggleButtonGroup</h3>
+              <p class="demo-subtitle">Single and multi-selection with arrow key navigation, focus indicators and disabled options.</p>
+              <cu-toggle-button-group id="wc-toggle-group" label="Text alignment"></cu-toggle-button-group>
+              <div class="demo-row">
+                <cu-toggle-button-group id="wc-toggle-multiple" label="Selected filters" multiple size="sm"></cu-toggle-button-group>
+              </div>
+              <p class="cu-helper" role="status" id="wc-toggle-result">Text alignment: Left</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Toolbar</h3>
+              <p class="demo-subtitle">Composed controls with ArrowLeft/ArrowRight and Home/End focus navigation.</p>
+              <cu-toolbar id="wc-toolbar" label="Editor tools">
+                <cu-icon-button name="save" label="Save document" id="wc-toolbar-save" variant="outline"></cu-icon-button>
+                <cu-icon-button name="pencil" label="Edit" id="wc-toolbar-edit"></cu-icon-button>
+                <cu-icon-button name="plus" label="Add item" id="wc-toolbar-add"></cu-icon-button>
+                <cu-icon-button name="x" label="Unavailable tool" disabled></cu-icon-button>
+              </cu-toolbar>
+              <p class="cu-helper" role="status" id="wc-toolbar-result">Focus a tool and use the arrow keys.</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>CommandBar</h3>
+              <p class="demo-subtitle">Adaptive command actions; secondary commands appear under More when space is limited.</p>
+              <cu-command-bar id="wc-command-bar" max-visible="3" label="Project commands"></cu-command-bar>
+              <div class="demo-row">
+                <cu-button id="wc-command-compact" variant="outline" size="sm">Show 1 command</cu-button>
+                <cu-button id="wc-command-expanded" variant="outline" size="sm">Show 4 commands</cu-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-command-result">Select a command or open the overflow menu.</p>
+            </article>
             <article class="cu-surface demo-card">
               <h3>SplitButton</h3>
               <p class="demo-subtitle">Primary action plus accessible dropdown choices. Keyboard: Tab, Arrow Down, Escape, and menu arrow keys.</p>
