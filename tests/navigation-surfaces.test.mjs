@@ -70,6 +70,28 @@ test("Accordion manages single- and multi-open items without dispatching setter 
   assert.equal(events.length,0);
 });
 
+test("Accordion reacts to child user toggles and closes siblings in single mode",()=>{
+  const accordion=Object.create(CuAccordion.prototype);
+  accordion.children=[
+    {localName:"cu-accordion-item",value:"first",open:true,disabled:false},
+    {localName:"cu-accordion-item",value:"second",open:true,disabled:false},
+    {localName:"cu-accordion-item",value:"third",open:false,disabled:false}
+  ];
+  const events=[];
+  accordion.hasAttribute=()=>false; // default single mode
+  accordion.dispatchEvent=e=>{events.push(e);return true;};
+  let stopped=false;
+  accordion._handleToggle({target:accordion.children[1],
+    stopPropagation(){stopped=true;}});
+  assert.equal(stopped,true);
+  assert.deepEqual(accordion.values,["second"]);
+  assert.equal(accordion.children[0].open,false);
+  assert.equal(events.length,1);
+  assert.equal(events[0].type,"cu-change");
+  assert.deepEqual(events[0].detail,
+    {value:"second",values:["second"],changedValue:"second",open:true});
+});
+
 test("Pagination clamps out-of-bounds and empty records",()=>{
   assert.deepEqual(normalizePagination(9,0,10),
     {page:1,pageCount:1,total:0,pageSize:10,start:0,end:0});
@@ -150,6 +172,11 @@ test("Drawer controls modal lifecycle and dismissible state",()=>{
   drawer.open=false;
   assert.equal(drawer.open,false);
   assert.equal(events.length,1); // Native dialog close event issues cu-close
+  drawer.show();
+  assert.equal(drawer._dialog.returnValue,""); // No stale saved status on reopen
+  assert.equal(events.length,2);
+  drawer.close();
+  drawer.open=false;
   drawer.dismissible=false;
   assert.equal(drawer._close.hidden,true);
 });
