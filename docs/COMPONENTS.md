@@ -57,3 +57,13 @@ remain required. See [SETTINGS_NAVIGATION.md](SETTINGS_NAVIGATION.md).
 
 These are registered in the web package and React adapter and are still marked
 `preview`, not production-certified. See [Compact components](COMPACT_COMPONENTS.md).
+
+
+## Workflow and feedback preview additions
+
+- **SplitButton** (`cu-split-button`) — primary action and accessible secondary menu.
+- **Stepper** (`cu-stepper`) — step navigation with linear and nonlinear behavior.
+- **InfoBar** (`cu-info-bar`) — persistent status with action slot and dismissal.
+
+All three are experimental previews, not production-certified; see
+[Workflow components](WORKFLOW_COMPONENTS.md).
