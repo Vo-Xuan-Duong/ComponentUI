@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "name": "CommandBar",
+  "tag": "cu-command-bar",
+  "status": "preview",
+  "kind": "action",
+  "description": "Responsive action bar with overflow menu reusing the native ContextMenu.",
+  "attributes": {
+    "max-visible": "non-negative integer; default 4",
+    "label": "string",
+    "aria-label": "string",
+    "disabled": "boolean",
+    "size": "sm|md"
+  },
+  "properties": {
+    "commands": "CuCommand[]",
+    "visibleCommands": "readonly CuCommand[]",
+    "overflowCommands": "readonly CuCommand[]",
+    "maxVisible": "number",
+    "disabled": "boolean"
+  },
+  "methods": [
+    "activate(value)",
+    "showOverflow()"
+  ],
+  "events": [
+    "cu-action {value,label}"
+  ],
+  "accessibility": {
+    "role": "toolbar",
+    "keyboard": "Native buttons, ArrowDown/ArrowUp on overflow, shared menu keyboard navigation and Escape",
+    "responsive": "Limited number of visible commands based on available host width with ResizeObserver",
+    "disabled": "Disabled command never fires event",
+    "styling": "Fluent Calm tokens, neutral focus and high contrast"
+  }
+}
