@@ -47,6 +47,43 @@ export declare class CuInfoBar extends HTMLElement {
   dismiss():boolean;
   show():void;
 }
+export declare class CuIconButton extends HTMLElement {
+  name:IconName|string;
+  disabled:boolean;loading:boolean;pressed:boolean;toggle:boolean;
+  press():boolean;focus(options?:FocusOptions):void;click():void;
+}
+export interface CuToggleOption {
+  value:string;label?:string;icon?:IconName|string;disabled?:boolean;
+}
+export declare function normalizeToggleOptions(items:unknown):Required<CuToggleOption>[];
+export declare function toggleGroupValues(current:string|string[],value:string,multiple?:boolean):string|string[];
+export declare class CuToggleButtonGroup extends HTMLElement {
+  items:CuToggleOption[];
+  value:string|string[];
+  multiple:boolean;disabled:boolean;
+  select(value:string):boolean;focus(options?:FocusOptions):void;
+}
+export declare function nextToolbarIndex(
+  items:Array<{disabled:boolean}>,current:number,direction:"next"|"previous"|"Home"|"End"
+):number;
+export declare class CuToolbar extends HTMLElement {
+  refresh():void;focus(options?:FocusOptions):void;
+}
+export interface CuCommand {
+  value:string;label?:string;icon?:IconName|string;disabled?:boolean;
+}
+export declare function normalizeCommands(items:unknown):Required<CuCommand>[];
+export declare function partitionCommands<T>(items:T[],maxVisible:number):
+  {visible:T[];overflow:T[]};
+export declare class CuCommandBar extends HTMLElement {
+  commands:CuCommand[];
+  disabled:boolean;
+  maxVisible:number;
+  readonly visibleCommands:CuCommand[];
+  readonly overflowCommands:CuCommand[];
+  activate(value:string):boolean;
+  showOverflow():boolean;
+}
 export declare class CuTextField extends HTMLElement {
   static formAssociated: boolean;
   value: string;
