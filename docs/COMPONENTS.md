@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **79 planned**, **50 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **75 planned**, **54 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -91,3 +91,15 @@ Accordion, Pagination and Drawer were already catalogued as previews; this
 milestone adds their browser implementations without changing the 129-entry
 catalog count. All remain experimental. See
 [Navigation surfaces](NAVIGATION_SURFACES.md).
+
+
+## Resizable layout and filtering previews
+
+- **Splitter** (`cu-splitter`) — pointer/keyboard-adjustable two-pane layout.
+- **ResizablePanel** (`cu-resizable-panel`) — scrollable pane or standalone CSS-resizable region.
+- **FilterBar** (`cu-filter-bar`) — keyword search with aggregate structured filters.
+- **DataFilter** (`cu-data-filter`) — field/operator/value conditions using custom Select.
+
+All four move from `planned` to `preview`. The catalog remains at
+129 entries, with 54 experimental previews and 75 planned components.
+See [Layout and Data Filters](LAYOUT_FILTERS.md).
