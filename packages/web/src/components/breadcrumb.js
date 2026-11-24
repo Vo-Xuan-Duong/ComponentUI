@@ -30,6 +30,8 @@ export function safeBreadcrumbHref(href) {
   if (typeof href !== "string") return null;
   const value=href.trim();
   if (!value || /[\u0000-\u001f\u007f]/u.test(value)) return null;
+  // Reject protocol-relative URLs before the plain relative-path fallback.
+  if (value.startsWith("//")) return null;
   if (/^(?:https?:\/\/|mailto:)/i.test(value)) return value;
   if (/^(?:\.{1,2}\/|\/|#)/.test(value) && !/^\/\//.test(value)) return value;
   // Plain document-relative URLs must not contain a protocol-like prefix.
