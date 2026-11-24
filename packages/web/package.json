@@ -192,6 +192,22 @@
     "./components/info-bar": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/info-bar.js"
+    },
+    "./components/icon-button": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/icon-button.js"
+    },
+    "./components/toggle-button-group": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/toggle-button-group.js"
+    },
+    "./components/toolbar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/toolbar.js"
+    },
+    "./components/command-bar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/command-bar.js"
     }
   },
   "files": [
