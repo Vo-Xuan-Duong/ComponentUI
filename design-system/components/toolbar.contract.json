@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "Toolbar",
+  "tag": "cu-toolbar",
+  "status": "preview",
+  "kind": "layout",
+  "description": "Keyboard-navigable composition of slotted action controls.",
+  "attributes": {
+    "label": "string",
+    "aria-label": "string",
+    "orientation": "horizontal|vertical",
+    "variant": "default|flat"
+  },
+  "slots": [
+    "default"
+  ],
+  "methods": [
+    "refresh()",
+    "focus(options?)"
+  ],
+  "events": [],
+  "accessibility": {
+    "role": "toolbar",
+    "navigation": "ArrowLeft/Right in horizontal, ArrowUp/Down in vertical, Home/End; skip disabled",
+    "composition": "Supports buttons, cu-button, cu-icon-button, cu-split-button, cu-select, cu-toggle-button-group and explicit data-toolbar-control",
+    "notes": "Children own events; Toolbar does not intercept activation"
+  }
+}
