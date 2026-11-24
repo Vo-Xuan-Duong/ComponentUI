@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "InfoBar",
+  "tag": "cu-info-bar",
+  "status": "preview",
+  "kind": "feedback",
+  "description": "Compact contextual notification with optional action slot and dismissal.",
+  "attributes": {
+    "title": "string",
+    "message": "string",
+    "tone": "info|success|warning|danger",
+    "variant": "subtle|tinted",
+    "dismissible": "boolean"
+  },
+  "methods": [
+    "dismiss()",
+    "show()"
+  ],
+  "slots": [
+    "default",
+    "action"
+  ],
+  "events": [
+    "cu-dismiss {tone}"
+  ],
+  "accessibility": {
+    "semantics": "role=alert for danger and role=status otherwise",
+    "dismiss": "Named native button, optional via dismissible",
+    "actions": "Slot for consumer-provided controls",
+    "styling": "Semantic tone with icon, no left accent stripe, forced-color focus treatment"
+  }
+}
