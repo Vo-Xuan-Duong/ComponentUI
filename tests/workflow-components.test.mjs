@@ -156,6 +156,8 @@ test("workflow components expose safe DOM markup and accessibility behavior",asy
   assert.match(split,/cu-context-menu class="actions-menu"/);
   assert.match(split,/aria-haspopup="menu"/);
   assert.match(split,/event.key==="ArrowDown"/);
+  assert.match(split,/this\._arrow\.addEventListener\("pointerdown"/);
+  assert.match(split,/if\(this\._menu\.open\)event\.stopPropagation\(\)/);
   assert.match(split,/notify\(this,"cu-action"/);
   assert.match(stepper,/role="list"/);
   assert.match(stepper,/aria-current","step"/);
