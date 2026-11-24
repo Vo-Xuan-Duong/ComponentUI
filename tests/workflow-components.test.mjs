@@ -113,6 +113,7 @@ test("Stepper emits cu-change for next, previous and explicit transitions",()=>{
   assert.equal(stepper.goTo("publish"),false);
   assert.equal(stepper.next(),true);
   assert.equal(stepper.value,"review");
+  assert.equal(stepper._focusIndex,1);
   assert.equal(stepper.next(),true);
   assert.equal(stepper.previous(),true);
   assert.equal(stepper.currentIndex,1);
@@ -123,6 +124,9 @@ test("Stepper emits cu-change for next, previous and explicit transitions",()=>{
   stepper.linear=false;
   assert.equal(stepper.goTo("publish"),true);
   assert.equal(events.at(-1).detail.index,3);
+  assert.equal(stepper._focusIndex,3);
+  stepper.value="draft";
+  assert.equal(stepper._focusIndex,0);
   const copy=stepper.steps;copy[0].label="Mutated";
   assert.equal(stepper.steps[0].label,"draft");
 });
