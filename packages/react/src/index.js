@@ -24,7 +24,7 @@ export const REACT_TAGS = Object.freeze({
   DataTable:"cu-data-table", TreeView:"cu-tree-view", TreeItem:"cu-tree-item",
   ListBox:"cu-listbox", ListOption:"cu-list-option",
   Combobox:"cu-combobox", ComboOption:"cu-combo-option",
-  ContextMenu:"cu-context-menu"
+  ContextMenu:"cu-context-menu", Splitter:"cu-splitter", ResizablePanel:"cu-resizable-panel", FilterBar:"cu-filter-bar", DataFilter:"cu-data-filter"
 });
 
 export const REACT_EVENT_PROPS = Object.freeze({
@@ -40,7 +40,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuHeaderAction:"cu-header-action",
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
-  onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action"
+  onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action", onCuResize:"cu-resize"
 });
 
 const PROPERTY_MAP = Object.freeze({
@@ -67,6 +67,10 @@ const PROPERTY_MAP = Object.freeze({
   "cu-accordion-item":["open","disabled","value"],
   "cu-disclosure":["open","disabled","value"],
   "cu-pagination":["page","pageSize","total"],
+  "cu-splitter":["position","min","max","disabled"],
+  "cu-resizable-panel":["resizable"],
+  "cu-filter-bar":["query"],
+  "cu-data-filter":["field","operator","value","disabled"],
   "cu-select":["value","required","disabled"],
   "cu-radio":["disabled","checked"],
   "cu-radio-group":["value","required","disabled"],
