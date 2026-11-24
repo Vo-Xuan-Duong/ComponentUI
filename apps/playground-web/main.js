@@ -298,6 +298,61 @@ document.getElementById("wc-action").addEventListener("cu-press", () => {
   showToast("Custom Element button", "cu-press was dispatched from <cu-button>.");
 });
 
+// IconButton, ToggleButtonGroup, Toolbar and CommandBar previews.
+const iconResult=document.getElementById("wc-icon-result");
+document.getElementById("wc-icon-action").addEventListener("cu-press",()=>{
+  iconResult.textContent="Save icon action activated";
+});
+document.getElementById("wc-icon-toggle").addEventListener("cu-change",event=>{
+  iconResult.textContent="Preview "+(event.detail.pressed?"enabled":"disabled");
+});
+const alignGroup=document.getElementById("wc-toggle-group");
+alignGroup.items=[
+  {value:"left",label:"Left",icon:"menu"},
+  {value:"center",label:"Center",icon:"check"},
+  {value:"right",label:"Right",icon:"arrow-up-right"},
+  {value:"justify",label:"Justify",disabled:true}
+];
+alignGroup.value="left";
+alignGroup.addEventListener("cu-change",event=>{
+  document.getElementById("wc-toggle-result").textContent="Text alignment: "+event.detail.value;
+});
+const multiGroup=document.getElementById("wc-toggle-multiple");
+multiGroup.items=[
+  {value:"draft",label:"Draft"},
+  {value:"review",label:"Review"},
+  {value:"published",label:"Published"}
+];
+multiGroup.value=["draft","review"];
+multiGroup.addEventListener("cu-change",event=>{
+  document.getElementById("wc-toggle-result").textContent=
+    "Filters: "+event.detail.values.join(", ");
+});
+for(const name of ["save","edit","add"]){
+  document.getElementById("wc-toolbar-"+name).addEventListener("cu-press",()=>{
+    document.getElementById("wc-toolbar-result").textContent=
+      "Toolbar action: "+name;
+  });
+}
+const wcCommands=document.getElementById("wc-command-bar");
+wcCommands.commands=[
+  {value:"save",label:"Save",icon:"save"},
+  {value:"new",label:"New item",icon:"plus"},
+  {value:"edit",label:"Edit",icon:"pencil"},
+  {value:"search",label:"Search",icon:"search"},
+  {value:"disabled",label:"Unavailable",disabled:true}
+];
+wcCommands.addEventListener("cu-action",event=>{
+  document.getElementById("wc-command-result").textContent=
+    "Command: "+event.detail.label;
+});
+document.getElementById("wc-command-compact").addEventListener("cu-press",()=>{
+  wcCommands.maxVisible=1;
+});
+document.getElementById("wc-command-expanded").addEventListener("cu-press",()=>{
+  wcCommands.maxVisible=4;
+});
+
 // SplitButton combines primary action and secondary menu without an Actions column.
 const wcSplit=document.getElementById("wc-split-button");
 const splitResult=document.getElementById("wc-split-result");
