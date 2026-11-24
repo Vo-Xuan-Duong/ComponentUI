@@ -136,7 +136,8 @@ test("DataFilter sync hides comparison input for blank operators",()=>{
   filter.getAttribute=k=>attrs.get(k)??null;
   filter.hasAttribute=k=>attrs.has(k);
   filter._label={textContent:""};
-  filter._select={value:"",disabled:false};
+  filter._select={value:"",disabled:false,
+    setAttribute(k,v){this[k]=v;}};
   filter._input={value:"",hidden:false,disabled:false,
     setAttribute(k,v){this[k]=v;}};
   filter._clear={hidden:true,disabled:false};
@@ -145,6 +146,7 @@ test("DataFilter sync hides comparison input for blank operators",()=>{
   assert.equal(filter._input.hidden,true);
   assert.equal(filter._clear.hidden,false);
   assert.equal(filter._select.value,"is-blank");
+  assert.equal(filter._select["aria-label"],"Operator for Project owner");
   assert.equal(filter._input["aria-label"],"Filter Project owner");
   attrs.set("disabled","");
   filter._sync();
@@ -214,10 +216,12 @@ test("FilterBar refreshes clear action after programmatic filter updates",()=>{
     setAttribute(k,v){this[k]=v;}
   };
   bar._clear={disabled:true};
+  bar._bar={setAttribute(k,v){this[k]=v;}};
   const child={localName:"cu-data-filter",condition:null};
   bar.children=[child];
   bar.refresh();
   assert.equal(bar._clear.disabled,true);
+  assert.equal(bar._bar["aria-label"],"Record filters");
   child.condition={field:"status",operator:"equals",value:"Active"};
   bar.refresh();
   assert.equal(bar._clear.disabled,false);
