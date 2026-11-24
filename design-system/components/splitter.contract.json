@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "name": "Splitter",
+  "tag": "cu-splitter",
+  "status": "preview",
+  "kind": "layout",
+  "description": "Two-pane split layout with draggable/keyboard-accessible separator; accepts slotted resizable panels.",
+  "attributes": {
+    "position": "percentage, defaults to 50",
+    "min": "minimum first-pane percentage, default 10",
+    "max": "maximum first-pane percentage, default 90",
+    "orientation": "horizontal|vertical",
+    "disabled": "boolean",
+    "label": "string",
+    "aria-label": "string"
+  },
+  "properties": {
+    "position": "number",
+    "min": "number",
+    "max": "number",
+    "disabled": "boolean",
+    "orientation": "readonly horizontal|vertical"
+  },
+  "slots": [
+    "start",
+    "end"
+  ],
+  "events": [
+    "cu-input {position} while dragging",
+    "cu-change {position} when dragging finishes or keyboard changes value"
+  ],
+  "accessibility": {
+    "role": "separator with aria-valuemin/max/now and aria-orientation",
+    "keyboard": "ArrowLeft/Right for left/right, ArrowUp/Down for top/bottom, Home/End extremes, Shift+Arrow 10-point steps",
+    "pointer": "Pointer capture supports mouse, pen and touch, pointercancel restores initial position",
+    "disabled": "Disables pointer and keyboard adjustment",
+    "styling": "Focus-visible, semantic colors, high contrast, reduced motion"
+  },
+  "notes": "Use with cu-resizable-panel slot=start and slot=end; author must supply enough host height"
+}
