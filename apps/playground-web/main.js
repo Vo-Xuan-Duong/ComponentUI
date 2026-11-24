@@ -1,4 +1,5 @@
 import "../../packages/web/src/components/index.js";
+import { applyFilterBar } from "../../packages/web/src/components/filter-bar.js";
 import {
   enhanceMenu, enhancePopover, enhanceDialogTrigger,
   enhancePagination, enhanceCommandPalette
@@ -608,6 +609,61 @@ wcTable.rowActions=[
 wcTable.headerActions=[
   {value:"inspect-column",label:"Inspect column"}
 ];
+// Splitter and standalone ResizablePanel: pointer, keyboard and ResizeObserver.
+const workspaceSplitter=document.getElementById("wc-splitter");
+const splitterResult=document.getElementById("wc-splitter-result");
+function setSplitterStatus(){
+  splitterResult.textContent="Panel split: "+Math.round(workspaceSplitter.position)+"%";
+}
+workspaceSplitter.addEventListener("cu-input",setSplitterStatus);
+workspaceSplitter.addEventListener("cu-change",setSplitterStatus);
+document.getElementById("wc-splitter-orientation").addEventListener("cu-press",()=>{
+  const vertical=workspaceSplitter.getAttribute("orientation")==="vertical";
+  if(vertical)workspaceSplitter.removeAttribute("orientation");
+  else workspaceSplitter.setAttribute("orientation","vertical");
+  document.getElementById("wc-splitter-orientation").textContent=vertical?
+    "Stack panels vertically":"Arrange panels horizontally";
+});
+document.getElementById("wc-splitter-reset").addEventListener("cu-press",()=>{
+  workspaceSplitter.position=50;
+  setSplitterStatus();
+});
+document.getElementById("wc-resizable-standalone").addEventListener("cu-resize",event=>{
+  const {width,height}=event.detail;
+  document.getElementById("wc-panel-result").textContent=
+    "Panel size: "+Math.round(width)+" × "+Math.round(height)+" px";
+});
+
+// FilterBar and DataFilter share DataTable filtering operators.
+const projectFilters=document.getElementById("wc-filter-bar");
+const filterResult=document.getElementById("wc-filter-result");
+const filterList=document.getElementById("wc-filter-list");
+const previewProjects=wcTable.rows;
+function renderProjectFilters(){
+  const matching=applyFilterBar(previewProjects,projectFilters.query,
+    projectFilters.conditions,["name","owner"]);
+  filterList.replaceChildren();
+  for(const record of matching){
+    const item=document.createElement("li");
+    item.textContent=record.name+" — "+record.owner+" ("+record.status+")";
+    filterList.append(item);
+  }
+  filterResult.textContent=matching.length+" matching projects; "+
+    projectFilters.activeCount+" active filters";
+}
+projectFilters.addEventListener("cu-filter-change",renderProjectFilters);
+document.getElementById("wc-filter-active").addEventListener("cu-press",()=>{
+  const status=projectFilters.querySelector('cu-data-filter[field="status"]');
+  status.operator="equals";
+  status.value="Active";
+  renderProjectFilters();
+});
+document.getElementById("wc-filter-reset").addEventListener("cu-press",()=>{
+  projectFilters.clear();
+  renderProjectFilters();
+});
+renderProjectFilters();
+
 const tableResult=document.getElementById("wc-data-table-result");
 wcTable.addEventListener("cu-sort",e=>{
   tableResult.textContent="Sorted "+e.detail.key+" ("+e.detail.direction+")";
