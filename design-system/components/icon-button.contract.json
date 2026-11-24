@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "name": "IconButton",
+  "tag": "cu-icon-button",
+  "status": "preview",
+  "kind": "action",
+  "description": "Accessible icon-only native button backed by the bundled Lucide subset.",
+  "attributes": {
+    "name": "IconName|string",
+    "label": "string",
+    "aria-label": "string",
+    "disabled": "boolean",
+    "loading": "boolean",
+    "toggle": "boolean",
+    "pressed": "boolean",
+    "size": "sm|md|lg|xl",
+    "variant": "subtle|outline|filled|accent"
+  },
+  "methods": [
+    "press()",
+    "focus(options?)",
+    "click()"
+  ],
+  "events": [
+    "cu-press {type:'button',name}",
+    "cu-change {value,pressed} when toggle"
+  ],
+  "accessibility": {
+    "role": "native button",
+    "label": "aria-label or label should describe the action",
+    "toggle": "aria-pressed when toggle is set",
+    "disabled": "disabled/loading stops activation",
+    "keyboard": "Enter and Space via native button",
+    "styling": "focus-visible, forced-colors, reduced-motion"
+  }
+}
