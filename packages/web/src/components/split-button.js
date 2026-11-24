@@ -73,6 +73,11 @@ export class CuSplitButton extends BrowserElement {
     this._fallback=root.querySelector(".fallback");
     this._actions=[];
     this._primary.addEventListener("click",()=>this.press());
+    // ContextMenu listens for outside pointerdown on document. Keep a click
+    // on our toggle from closing-then-immediately-reopening the flyout.
+    this._arrow.addEventListener("pointerdown",event=>{
+      if(this._menu.open)event.stopPropagation();
+    });
     this._arrow.addEventListener("click",()=>this._menu.open?this.hideMenu():this.showMenu());
     this._arrow.addEventListener("keydown",event=>{
       if(event.key==="ArrowDown"||event.key==="ArrowUp"){
