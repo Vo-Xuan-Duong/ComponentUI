@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "name": "Stepper",
+  "tag": "cu-stepper",
+  "status": "preview",
+  "kind": "navigation",
+  "description": "Accessible workflow step navigation for linear and nonlinear processes.",
+  "attributes": {
+    "value": "string current step value",
+    "linear": "boolean",
+    "orientation": "horizontal|vertical",
+    "aria-label": "string"
+  },
+  "properties": {
+    "steps": "{value:string,label?:string,description?:string,disabled?:boolean,optional?:boolean}[]",
+    "value": "string",
+    "currentIndex": "readonly number"
+  },
+  "methods": [
+    "goTo(indexOrValue)",
+    "next()",
+    "previous()"
+  ],
+  "events": [
+    "cu-change {value,index,previousValue}"
+  ],
+  "accessibility": {
+    "structure": "Named list with one native button per step",
+    "current": "aria-current=step",
+    "navigation": "Arrow keys and Home/End move keyboard focus; Enter/Space activate",
+    "linear": "Cannot skip ahead of next step; backward navigation permitted",
+    "states": "disabled and completed states communicated through text and icon",
+    "responsive": "Scrollable horizontal list on narrow screens; vertical layout option"
+  }
+}
