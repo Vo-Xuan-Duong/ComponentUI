@@ -45,7 +45,9 @@ test("new control implementations use form internals and native accessibility pa
     assert.match(script, /setFormValue/);
     assert.match(script, /setValidity/);
   }
-  assert.match(select, /copyOptions/);
+  assert.match(select, /role="listbox"/);
+  assert.match(select, /_renderOptions/);
+  assert.match(select, /_optionNodes/);
   assert.match(select, /MutationObserver/);
   assert.match(radio, /fieldset/);
   assert.match(tabs, /aria-selected/);
