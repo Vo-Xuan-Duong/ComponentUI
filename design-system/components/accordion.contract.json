@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "Accordion",
+  "tag": "cu-accordion",
+  "status": "preview",
+  "kind": "disclosure",
+  "description": "Grouped cu-accordion-item disclosure controls supporting single- and multi-open workflows.",
+  "attributes": {
+    "multiple": "boolean",
+    "label": "string",
+    "aria-label": "string",
+    "variant": "default|flush"
+  },
+  "properties": {
+    "value": "string",
+    "values": "string[] (defensive copy)",
+    "multiple": "boolean"
+  },
+  "slots": [
+    "cu-accordion-item children"
+  ],
+  "events": [
+    "cu-change {value,values,changedValue,open} on user interaction"
+  ],
+  "accessibility": {
+    "structure": "named group of aria-expanded disclosure buttons",
+    "keyboard": "Tab, Enter, Space on each child",
+    "state": "single mode automatically closes other sections, multiple mode permits concurrent panels",
+    "disabled": "disabled child headers cannot toggle",
+    "notes": "Programmatic value/values assignment does not emit change"
+  }
+}
