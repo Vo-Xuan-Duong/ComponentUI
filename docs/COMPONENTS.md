@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **89 planned**, **40 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **79 planned**, **50 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -78,3 +78,16 @@ All three are experimental previews, not production-certified; see
 
 All are experimental previews, not production certified. See
 [Command controls](COMMAND_CONTROLS.md).
+
+
+## Navigation surfaces and overlay implementations
+
+- **Accordion** (`cu-accordion` with `cu-accordion-item`) — single or multi-open sections.
+- **Disclosure** (`cu-disclosure`) — auxiliary standalone collapsible panel.
+- **Pagination** (`cu-pagination`) — accessible numbered page navigation.
+- **Drawer** (`cu-drawer`) — native modal side panel with action slot.
+
+Accordion, Pagination and Drawer were already catalogued as previews; this
+milestone adds their browser implementations without changing the 129-entry
+catalog count. All remain experimental. See
+[Navigation surfaces](NAVIGATION_SURFACES.md).
