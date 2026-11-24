@@ -26,18 +26,7 @@ export class CuAccordion extends BrowserElement {
     this._itemsRoot=root.querySelector(".items");
     this._slot=root.querySelector("slot");
     this._slot.addEventListener("slotchange",()=>this._sync());
-    this._onToggle=event=>{
-      const item=event.target;
-      if(!this._items().includes(item))return;
-      event.stopPropagation();
-      if(item.open&&!this.multiple){
-        for(const other of this._items())if(other!==item)other.open=false;
-      }
-      const values=this.values;
-      notify(this,"cu-change",{
-        value:values[0]??"",values,changedValue:item.value,open:item.open
-      });
-    };
+    this._onToggle=event=>this._handleToggle(event);
     this._observer=null;
   }
   connectedCallback(){
@@ -70,6 +59,18 @@ export class CuAccordion extends BrowserElement {
       item.open=next;
       if(next)opened=true;
     }
+  }
+  _handleToggle(event){
+    const item=event.target;
+    if(!this._items().includes(item))return;
+    event.stopPropagation();
+    if(item.open&&!this.multiple){
+      for(const other of this._items())if(other!==item)other.open=false;
+    }
+    const values=this.values;
+    notify(this,"cu-change",{
+      value:values[0]??"",values,changedValue:item.value,open:item.open
+    });
   }
   _items(){
     return [...this.children].filter(el=>el.localName==="cu-accordion-item");
