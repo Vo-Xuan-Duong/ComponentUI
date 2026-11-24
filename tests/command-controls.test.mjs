@@ -62,6 +62,14 @@ test("ToggleButtonGroup normalizes options and applies single/multi selection",(
   assert.equal(group.select("review"),true);
   assert.deepEqual(group.value,["draft"]);
   assert.equal(group.select("archived"),false);
+  const prepared=Object.create(CuToggleButtonGroup.prototype);
+  prepared._items=[];prepared._selected=[];
+  prepared.hasAttribute=k=>k==="multiple";
+  prepared._syncPressed=()=>{};prepared._render=()=>{};
+  prepared.value=["draft"];
+  assert.deepEqual(prepared.value,["draft"]);
+  prepared.items=[{value:"draft",label:"Draft"}];
+  assert.deepEqual(prepared.value,["draft"]);
   attrs.add("disabled");
   assert.equal(group.select("draft"),false);
   attrs.delete("disabled");group.multiple=false;
@@ -80,6 +88,8 @@ test("Toolbar roving index skips disabled items and wraps",()=>{
   assert.equal(nextToolbarIndex(items,0,"previous"),3);
   assert.equal(nextToolbarIndex(items,2,"Home"),0);
   assert.equal(nextToolbarIndex(items,2,"End"),3);
+  assert.equal(nextToolbarIndex(items,-1,"next"),0);
+  assert.equal(nextToolbarIndex(items,-1,"previous"),3);
   assert.equal(nextToolbarIndex([],0,"next"),-1);
 });
 
