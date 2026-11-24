@@ -46,12 +46,14 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   name?: string;
   label?: string;
   hint?: string;
+  message?: string;
   error?: string;
   placeholder?: string;
   value?: string | number | null;
   checked?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  dismissible?: boolean;
   required?: boolean;
   open?: boolean;
   active?: number;
@@ -67,6 +69,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   selectable?: boolean;
   removable?: boolean;
   linear?: boolean;
+  orientation?: "horizontal" | "vertical";
   steps?: {value:string;label?:string;description?:string;disabled?:boolean;optional?:boolean}[];
   actions?: {value:string;label?:string;disabled?:boolean}[];
   columns?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}[];
