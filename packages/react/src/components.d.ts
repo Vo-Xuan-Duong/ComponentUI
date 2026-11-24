@@ -1,5 +1,8 @@
 import type { ReactCuComponent } from "./index.js";
 export declare const Button: ReactCuComponent;
+export declare const SplitButton: ReactCuComponent;
+export declare const Stepper: ReactCuComponent;
+export declare const InfoBar: ReactCuComponent;
 export declare const TextField: ReactCuComponent;
 export declare const PasswordField: ReactCuComponent;
 export declare const FilePicker: ReactCuComponent;
