@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "name": "Pagination",
+  "tag": "cu-pagination",
+  "status": "preview",
+  "kind": "navigation",
+  "description": "Accessible navigation for paginated data with controlled page/total/pageSize and ellipsis ranges.",
+  "attributes": {
+    "page": "positive integer, default 1",
+    "page-size": "positive integer, default 10",
+    "total": "non-negative integer, default 0",
+    "siblings": "integer 0–3, default 1",
+    "label": "string",
+    "aria-label": "string",
+    "size": "sm|md"
+  },
+  "properties": {
+    "page": "number",
+    "pageSize": "number",
+    "total": "number",
+    "pageCount": "readonly number"
+  },
+  "methods": [
+    "goTo(page)",
+    "next()",
+    "previous()"
+  ],
+  "events": [
+    "cu-page-change {page,pageCount,total,pageSize,start,end} on valid user transition"
+  ],
+  "accessibility": {
+    "role": "named navigation landmark",
+    "current": "aria-current=page",
+    "buttons": "native Previous, Next and page buttons with accessible labels",
+    "empty": "total=0 disables navigation and shows 0–0 of 0",
+    "focus": "keyboard focus restored to newly rendered selected page button"
+  }
+}
