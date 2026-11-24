@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 60 tags (48 catalog components, Icon and 11 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 64 tags (52 catalog components, Icon and 11 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -249,6 +249,21 @@ imperatively; stable references avoid unnecessary writes. Use either
 
 See [Navigation surfaces](NAVIGATION_SURFACES.md). Browser/SSR
 integration acceptance remains outstanding.
+
+## Resizable layouts and structured filtering
+
+The Web package adds `cu-splitter`, `cu-resizable-panel`,
+`cu-filter-bar` and `cu-data-filter`. React has **64 wrappers**,
+including `Splitter`, `ResizablePanel`, `FilterBar` and
+`DataFilter`. Controlled DOM properties include the Splitter's
+`position`, the FilterBar's `query`, and the DataFilter's
+`field`/`operator`/`value`. The `onCuResize` event joins
+existing `onCuInput`, `onCuChange` and `onCuFilterChange`
+handlers. Vue and Svelte continue using Custom Element registration
+and native event subscriptions.
+
+See [Layout and Data Filters](LAYOUT_FILTERS.md). Real framework
+and browser acceptance remains outstanding.
 
 ## v0.9.0 — independent package outputs and Svelte 5
 
