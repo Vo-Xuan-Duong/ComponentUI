@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 45 experimental browser Custom Elements. **There are 45 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 48 experimental catalogued browser Custom Elements. **There are 48 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -57,10 +57,20 @@ and **51 React wrappers**. See [Workflow components](docs/WORKFLOW_COMPONENTS.md
 **Command and toolbar previews:** `IconButton`, `ToggleButtonGroup`,
 `Toolbar` and `CommandBar` are now available as native Web Components.
 They support keyboard-friendly icon actions, controlled single/multiple
-selection, composed toolbar focus and responsive command overflow. The
-catalog now contains **50 preview, 79 planned and 0 production-certified**
-components; there are **45 native browser Custom Elements** and **55 React
+selection, composed toolbar focus and responsive command overflow. At that milestone the
+catalog contained **50 preview, 79 planned and 0 production-certified**
+components; there were **45 native browser Custom Elements** and **55 React
 wrappers**. See [Command controls](docs/COMMAND_CONTROLS.md).
+
+**Navigation and overlay implementations:** `Accordion`, `Pagination` and
+`Drawer` now have real Custom Element implementations in addition to their
+existing reference previews. `Disclosure` and `AccordionItem` provide
+composable controls. The 129-entry catalog remains **50 preview, 79 planned
+and 0 production-certified**; **48 catalogued Web Components** now have
+implementations, with **60 React wrappers** including auxiliary elements.
+See [Navigation surfaces](docs/NAVIGATION_SURFACES.md). The new controls
+have source-level regressions, but require local browser and accessibility
+validation before release.
 
 ## Preview locally
 
@@ -135,6 +145,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Chip, Tag and ProgressRing component APIs](docs/COMPACT_COMPONENTS.md)
 - [SplitButton, Stepper and InfoBar component APIs](docs/WORKFLOW_COMPONENTS.md)
 - [IconButton, ToggleButtonGroup, Toolbar and CommandBar](docs/COMMAND_CONTROLS.md)
+- [Accordion, Disclosure, Pagination and Drawer](docs/NAVIGATION_SURFACES.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
