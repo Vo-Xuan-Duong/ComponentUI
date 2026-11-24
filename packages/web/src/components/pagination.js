@@ -80,7 +80,10 @@ export class CuPagination extends BrowserElement {
     this._next.addEventListener("click",()=>this.next());
     this._pages.addEventListener("click",event=>{
       const button=event.target.closest("button[data-page]");
-      if(button)this.goTo(Number(button.dataset.page));
+      if(button){
+        const target=Number(button.dataset.page);
+        if(this.goTo(target))this._pages.querySelector(`button[data-page="${target}"]`)?.focus();
+      }
     });
   }
   connectedCallback(){this._render();}
