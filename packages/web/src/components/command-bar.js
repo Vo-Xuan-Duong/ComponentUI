@@ -62,6 +62,7 @@ export class CuCommandBar extends BrowserElement {
     this._visible=[];
     this._overflow=[];
     this._observer=null;
+    this._lastCapacity=null;
     this._actions.addEventListener("click",event=>{
       const button=event.target.closest('button[data-command]');
       if(!button||button.disabled)return;
@@ -86,7 +87,9 @@ export class CuCommandBar extends BrowserElement {
   connectedCallback(){
     this._render();
     if(globalThis.ResizeObserver){
-      this._observer=new ResizeObserver(()=>this._render());
+      this._observer=new ResizeObserver(()=>{
+        if(this._capacity()!==this._lastCapacity)this._render();
+      });
       this._observer.observe(this);
     }
   }
@@ -131,7 +134,8 @@ export class CuCommandBar extends BrowserElement {
     if(this._menu.open)this._menu.hide();
     this._bar.setAttribute("aria-label",this.getAttribute("aria-label")||
       this.getAttribute("label")||"Commands");
-    const {visible,overflow}=partitionCommands(this._commands,this._capacity());
+    this._lastCapacity=this._capacity();
+    const {visible,overflow}=partitionCommands(this._commands,this._lastCapacity);
     this._visible=visible;this._overflow=overflow;
     this._actions.replaceChildren();
     for(const action of visible){
