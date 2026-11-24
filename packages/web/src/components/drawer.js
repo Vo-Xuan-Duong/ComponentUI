@@ -86,6 +86,7 @@ export class CuDrawer extends BrowserElement {
     if(!this.isConnected)return;
     if(this.open&&!this._dialog.open){
       this._trigger=globalThis.document?.activeElement??null;
+      this._dialog.returnValue="";
       this._dialog.showModal();
       notify(this,"cu-open",{});
     }else if(!this.open&&this._dialog.open){
