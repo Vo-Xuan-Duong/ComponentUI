@@ -7,7 +7,7 @@
  * versions that differ in their custom-event support behave consistently.
  */
 export const REACT_TAGS = Object.freeze({
-  Button:"cu-button", TextField:"cu-text-field",
+  Button:"cu-button", SplitButton:"cu-split-button", Stepper:"cu-stepper", InfoBar:"cu-info-bar", TextField:"cu-text-field",
   PasswordField:"cu-password-field", FilePicker:"cu-file-picker", AppShell:"cu-app-shell",
   NavigationView:"cu-navigation-view", SettingsPage:"cu-settings-page",
   SettingsGroup:"cu-settings-group", SettingsItem:"cu-settings-item", TextArea:"cu-textarea",
@@ -40,11 +40,13 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuHeaderAction:"cu-header-action",
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
-  onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove"
+  onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action"
 });
 
 const PROPERTY_MAP = Object.freeze({
   "cu-button":["disabled","loading","type"],
+  "cu-split-button":["actions","disabled","loading"],
+  "cu-stepper":["steps","value","linear"],
   "cu-text-field":["value","required","disabled"],
   "cu-password-field":["value","required","disabled"],
   "cu-file-picker":["disabled","required","multiple","maxSize"],
@@ -95,6 +97,7 @@ export function subscribeCuEvents(element, handlers = {}) {
 // DataTable exposes a defensive snapshot from columnFilters; compare incoming
 // React object references instead of comparing that snapshot to props.
 const lastControlledFilters=new WeakMap();
+const lastControlledArrays=new WeakMap();
 
 export function assignCuProperties(element, tagName, props = {}) {
   if (!element) return;
@@ -109,6 +112,11 @@ export function assignCuProperties(element, tagName, props = {}) {
       continue;
     }
     if (name in element) {
+      if ((tagName==="cu-split-button"&&name==="actions") ||
+          (tagName==="cu-stepper"&&name==="steps")) {
+        if(lastControlledArrays.get(element)===value)continue;
+        lastControlledArrays.set(element,value);
+      }
       if (tagName === "cu-data-table" && name === "columnFilters") {
         if (lastControlledFilters.get(element) === value) continue;
         lastControlledFilters.set(element,value);
