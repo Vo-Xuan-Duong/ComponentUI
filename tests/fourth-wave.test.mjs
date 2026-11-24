@@ -22,6 +22,8 @@ test("Breadcrumb rejects unsafe URLs without a browser URL parser",()=>{
   assert.equal(safeBreadcrumbHref("javascript:alert(1)"),null);
   assert.equal(safeBreadcrumbHref("data:text/html,<svg>"),null);
   assert.equal(safeBreadcrumbHref("//evil.example"),null);
+  assert.equal(safeBreadcrumbHref("  //evil.example  "),null);
+  assert.equal(safeBreadcrumbHref("///evil.example"),null);
   assert.equal(safeBreadcrumbHref("mailto:help@example.org"),"mailto:help@example.org");
   assert.equal(safeBreadcrumbHref("https://example.org/docs"),"https://example.org/docs");
   assert.equal(safeBreadcrumbHref("#components"),"#components");
