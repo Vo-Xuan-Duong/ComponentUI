@@ -57,7 +57,7 @@ test("new components use native controls, semantic tokens and safe text renderin
   assert.match(badge,/var\(--cu-accent/);
   assert.match(avatar,/addEventListener\("error"/);
   assert.match(avatar,/textContent = initialsFromName/);
-  assert.match(menu,/setAttribute\\("role","menuitem"\\)/);
+  assert.match(menu,/setAttribute\("role",\s*"menuitem"\)/);
   assert.match(menu,/event\.key === "Escape"/);
   assert.match(menu,/notify\(this,"cu-select"/);
 });
