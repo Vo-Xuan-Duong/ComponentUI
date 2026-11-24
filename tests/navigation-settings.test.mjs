@@ -76,7 +76,7 @@ test("Web package, TypeScript declarations and React wrappers expose four new ta
       "./dist/components/"+tag+".js");
   }
   assert.equal(REACT_EVENT_PROPS.onCuFilter,"cu-filter");
-  assert.equal(Object.keys(REACT_TAGS).length,55);
+  assert.equal(Object.keys(REACT_TAGS).length,60);
 });
 
 test("Playground composes AppShell and SettingsPage with real controls",async()=>{
