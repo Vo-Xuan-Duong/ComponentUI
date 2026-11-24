@@ -30,6 +30,10 @@ export { CuDisclosure, CuAccordionItem } from "./disclosure.js";
 export { CuAccordion, accordionValues } from "./accordion.js";
 export { CuPagination, normalizePagination, paginationItems } from "./pagination.js";
 export { CuDrawer } from "./drawer.js";
+export { CuSplitter, clampSplitPosition, splitPositionFromPointer } from "./splitter.js";
+export { CuResizablePanel } from "./resizable-panel.js";
+export { CuDataFilter, DATA_FILTER_OPERATORS, buildFilterCondition } from "./data-filter.js";
+export { CuFilterBar, applyFilterBar } from "./filter-bar.js";
 
 export { CuSelect } from "./select.js";
 export { CuRadio, CuRadioGroup } from "./radio-group.js";
