@@ -1,4 +1,8 @@
 import type { ReactCuComponent } from "./index.js";
+export declare const Splitter: ReactCuComponent;
+export declare const ResizablePanel: ReactCuComponent;
+export declare const FilterBar: ReactCuComponent;
+export declare const DataFilter: ReactCuComponent;
 export declare const Accordion: ReactCuComponent;
 export declare const AccordionItem: ReactCuComponent;
 export declare const Disclosure: ReactCuComponent;
