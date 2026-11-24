@@ -5,4 +5,4 @@
 import * as React from "react";
 import { createReactComponents } from "./index.js";
 
-export const { Button, TextField, PasswordField, FilePicker, AppShell, NavigationView, SettingsPage, SettingsGroup, SettingsItem, TextArea, NumberField, SearchBox, Checkbox, Switch, Dialog, Select, Radio, RadioGroup, Tab, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, ProgressRing, Badge, Chip, Tag, Avatar, Menu, MenuItem, Icon, Card, Divider, Skeleton, Spinner, Alert, Breadcrumb, BreadcrumbItem, DataTable, TreeView, TreeItem, ListBox, ListOption, Combobox, ComboOption, ContextMenu } = createReactComponents(React);
+export const { Button, SplitButton, Stepper, InfoBar, TextField, PasswordField, FilePicker, AppShell, NavigationView, SettingsPage, SettingsGroup, SettingsItem, TextArea, NumberField, SearchBox, Checkbox, Switch, Dialog, Select, Radio, RadioGroup, Tab, Tabs, Tooltip, Popover, DatePicker, Slider, ProgressBar, ProgressRing, Badge, Chip, Tag, Avatar, Menu, MenuItem, Icon, Card, Divider, Skeleton, Spinner, Alert, Breadcrumb, BreadcrumbItem, DataTable, TreeView, TreeItem, ListBox, ListOption, Combobox, ComboOption, ContextMenu } = createReactComponents(React);
