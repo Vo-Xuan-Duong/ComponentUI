@@ -509,6 +509,64 @@ document.getElementById("wc-breadcrumb-toggle").addEventListener("cu-press",() =
 });
 
 
+// Accordion, Disclosure, Pagination and native Drawer previews.
+const nativeAccordion=document.getElementById("wc-accordion");
+const accordionResult=document.getElementById("wc-accordion-result");
+nativeAccordion.addEventListener("cu-change",event=>{
+  accordionResult.textContent="Open sections: "+
+    (event.detail.values.join(", ")||"none");
+});
+document.getElementById("wc-accordion-multi").addEventListener("cu-press",()=>{
+  nativeAccordion.multiple=!nativeAccordion.multiple;
+  document.getElementById("wc-accordion-multi").textContent=
+    nativeAccordion.multiple?"Use single-open mode":"Enable multiple sections";
+  accordionResult.textContent="Mode: "+(nativeAccordion.multiple?"multiple":"single")+
+    "; open sections: "+(nativeAccordion.values.join(", ")||"none");
+});
+document.getElementById("wc-accordion-reset").addEventListener("cu-press",()=>{
+  nativeAccordion.multiple=false;
+  nativeAccordion.value="installation";
+  document.getElementById("wc-accordion-multi").textContent="Enable multiple sections";
+  accordionResult.textContent="Open section: installation";
+});
+const nativePager=document.getElementById("wc-pagination");
+const pagerResult=document.getElementById("wc-pagination-result");
+nativePager.addEventListener("cu-page-change",event=>{
+  const {start,end,total}=event.detail;
+  pagerResult.textContent="Showing "+start+"–"+end+" of "+total;
+});
+document.getElementById("wc-pagination-prev").addEventListener("cu-press",()=>{
+  nativePager.previous();
+});
+document.getElementById("wc-pagination-next").addEventListener("cu-press",()=>{
+  nativePager.next();
+});
+document.getElementById("wc-pagination-empty").addEventListener("cu-press",()=>{
+  nativePager.total=nativePager.total?0:125;
+  nativePager.page=1;
+  pagerResult.textContent=nativePager.total?"Showing 1–10 of 125":"Showing 0–0 of 0";
+});
+const nativeDrawer=document.getElementById("wc-native-drawer");
+const drawerResult=document.getElementById("wc-drawer-result");
+document.getElementById("wc-drawer-open").addEventListener("cu-press",()=>{
+  nativeDrawer.setAttribute("placement","right");
+  nativeDrawer.show();
+});
+document.getElementById("wc-drawer-left").addEventListener("cu-press",()=>{
+  nativeDrawer.setAttribute("placement","left");
+  nativeDrawer.show();
+});
+document.getElementById("wc-drawer-done").addEventListener("cu-press",()=>{
+  nativeDrawer.close("saved");
+});
+nativeDrawer.addEventListener("cu-open",()=>{
+  drawerResult.textContent="Drawer opened";
+});
+nativeDrawer.addEventListener("cu-close",event=>{
+  drawerResult.textContent=event.detail.returnValue==="saved"?
+    "Project preferences saved":"Drawer closed";
+});
+
 // Stepper: programmatic workflow steps with linear guard and accessible transitions.
 const wcStepper=document.getElementById("wc-stepper");
 const stepperResult=document.getElementById("wc-stepper-result");
