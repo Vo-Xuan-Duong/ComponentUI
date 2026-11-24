@@ -191,7 +191,7 @@ test("new workflow components are wired through Web exports and React events",as
   assert.equal(Object.keys(REACT_TAGS).length,55);
   for(const name of ["CuSplitButton","CuStepper","CuInfoBar"])
     assert.ok(types.includes("class "+name+" extends HTMLElement"));
-  const declared=react.match(/export const\\s*\\{([^}]+)\\}\\s*=\\s*createReactComponents\\(React\\)/);
+  const declared=react.match(/export const\s*\{([^}]+)\}\s*=\s*createReactComponents\(React\)/);
   assert.ok(declared,"React components must be exported by the component factory");
   const names=new Set(declared[1].split(",").map(name=>name.trim()));
   for(const name of ["SplitButton","Stepper","InfoBar"])
