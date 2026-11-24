@@ -297,6 +297,24 @@ wcForm.addEventListener("reset", () => {
 document.getElementById("wc-action").addEventListener("cu-press", () => {
   showToast("Custom Element button", "cu-press was dispatched from <cu-button>.");
 });
+
+// SplitButton combines primary action and secondary menu without an Actions column.
+const wcSplit=document.getElementById("wc-split-button");
+const splitResult=document.getElementById("wc-split-result");
+wcSplit.actions=[
+  {value:"save-copy",label:"Save a copy"},
+  {value:"export",label:"Export project"},
+  {value:"archive",label:"Archive (unavailable)",disabled:true}
+];
+wcSplit.addEventListener("cu-press",()=>{
+  splitResult.textContent="Primary action: Save project";
+  showToast("Project saved","The primary SplitButton action was activated.");
+});
+wcSplit.addEventListener("cu-action",event=>{
+  splitResult.textContent="Secondary action: "+event.detail.label;
+  showToast("SplitButton action",event.detail.label);
+});
+
 const wcDialog = document.getElementById("wc-dialog");
 document.getElementById("wc-open-dialog").addEventListener("cu-press", () => wcDialog.showModal());
 document.getElementById("wc-close-dialog").addEventListener("cu-press", () => wcDialog.close("confirmed"));
@@ -403,12 +421,55 @@ dismissibleAlert.addEventListener("cu-dismiss",event => {
 document.getElementById("wc-alert-restore").addEventListener("cu-press",() => {
   dismissibleAlert.show();
 });
+
+// InfoBar: persistent feedback, inline action and dismiss/restore.
+const wcInfo=document.getElementById("wc-info-bar");
+const infoResult=document.getElementById("wc-info-result");
+wcInfo.addEventListener("cu-dismiss",()=>{
+  infoResult.textContent="InfoBar dismissed";
+});
+document.getElementById("wc-info-action").addEventListener("cu-press",()=>{
+  infoResult.textContent="Opened synchronization details";
+  showToast("Synchronization","Local workspace changes are saved.");
+});
+document.getElementById("wc-info-success").addEventListener("cu-press",()=>{
+  wcInfo.setAttribute("tone","success");
+  wcInfo.setAttribute("title","Synchronization completed");
+  wcInfo.setAttribute("message","Everything is up to date.");
+  wcInfo.show();
+  infoResult.textContent="Success InfoBar visible";
+});
+document.getElementById("wc-info-restore").addEventListener("cu-press",()=>{
+  wcInfo.setAttribute("tone","info");
+  wcInfo.setAttribute("title","Workspace synchronization");
+  wcInfo.setAttribute("message","Your changes are saved locally.");
+  wcInfo.show();
+  infoResult.textContent="InfoBar restored";
+});
+
 const breadcrumbs = document.getElementById("wc-breadcrumb");
 document.getElementById("wc-breadcrumb-toggle").addEventListener("cu-press",() => {
   const last = breadcrumbs.querySelector("cu-breadcrumb-item:last-child");
   last.textContent = last.textContent.trim() === "Feedback" ? "Navigation" : "Feedback";
 });
 
+
+// Stepper: programmatic workflow steps with linear guard and accessible transitions.
+const wcStepper=document.getElementById("wc-stepper");
+const stepperResult=document.getElementById("wc-stepper-result");
+wcStepper.steps=[
+  {value:"draft",label:"Draft",description:"Prepare content"},
+  {value:"review",label:"Review",description:"Check changes"},
+  {value:"approval",label:"Approval",description:"Confirm details",optional:true},
+  {value:"published",label:"Published",description:"Publish project"}
+];
+wcStepper.value="draft";
+wcStepper.addEventListener("cu-change",event=>{
+  const step=wcStepper.steps[event.detail.index];
+  stepperResult.textContent="Current step: "+step.label;
+});
+document.getElementById("wc-stepper-prev").addEventListener("cu-press",()=>wcStepper.previous());
+document.getElementById("wc-stepper-next").addEventListener("cu-press",()=>wcStepper.next());
 
 // Fifth native Web Components wave — data-intensive interactions.
 const wcTable=document.getElementById("wc-data-table");
