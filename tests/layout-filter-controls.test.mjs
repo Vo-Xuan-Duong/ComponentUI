@@ -61,6 +61,33 @@ test("Splitter updates position and notifies only on actual changes",()=>{
   assert.equal(events.length,1);
 });
 
+test("Splitter exposes accessible range and orientation at sync",()=>{
+  const splitter=Object.create(CuSplitter.prototype);
+  const attrs=new Map([["position","40"],["min","20"],["max","80"],["label","Workspace"]]);
+  const aria=new Map(),css=new Map();
+  splitter.getAttribute=k=>attrs.get(k)??null;
+  splitter.hasAttribute=k=>attrs.has(k);
+  splitter.style={setProperty:(k,v)=>css.set(k,v)};
+  splitter._handle={
+    tabIndex:-1,
+    setAttribute:(k,v)=>aria.set(k,v)
+  };
+  splitter._sync();
+  assert.equal(css.get("--cu-split-position"),"40%");
+  assert.equal(aria.get("aria-valuenow"),"40");
+  assert.equal(aria.get("aria-valuemin"),"20");
+  assert.equal(aria.get("aria-valuemax"),"80");
+  assert.equal(aria.get("aria-orientation"),"vertical");
+  assert.equal(aria.get("aria-label"),"Workspace");
+  assert.equal(splitter._handle.tabIndex,0);
+  attrs.set("orientation","vertical");
+  attrs.set("disabled","");
+  splitter._sync();
+  assert.equal(aria.get("aria-orientation"),"horizontal");
+  assert.equal(aria.get("aria-disabled"),"true");
+  assert.equal(splitter._handle.tabIndex,-1);
+});
+
 test("DataFilter validates conditions and blank-state operators",()=>{
   assert.ok(DATA_FILTER_OPERATORS.includes("contains"));
   assert.ok(DATA_FILTER_OPERATORS.includes("is-blank"));
@@ -99,6 +126,31 @@ test("DataFilter respects disabled state and clears only active conditions",()=>
   filter.disabled=true;
   assert.equal(filter.active,false);
   assert.equal(filter.condition,null);
+});
+
+test("DataFilter sync hides comparison input for blank operators",()=>{
+  const filter=Object.create(CuDataFilter.prototype);
+  const attrs=new Map([
+    ["field","owner"],["operator","is-blank"],["label","Project owner"]
+  ]);
+  filter.getAttribute=k=>attrs.get(k)??null;
+  filter.hasAttribute=k=>attrs.has(k);
+  filter._label={textContent:""};
+  filter._select={value:"",disabled:false};
+  filter._input={value:"",hidden:false,disabled:false,
+    setAttribute(k,v){this[k]=v;}};
+  filter._clear={hidden:true,disabled:false};
+  filter._sync();
+  assert.equal(filter._label.textContent,"Project owner");
+  assert.equal(filter._input.hidden,true);
+  assert.equal(filter._clear.hidden,false);
+  assert.equal(filter._select.value,"is-blank");
+  assert.equal(filter._input["aria-label"],"Filter Project owner");
+  attrs.set("disabled","");
+  filter._sync();
+  assert.equal(filter._input.disabled,true);
+  assert.equal(filter._select.disabled,true);
+  assert.equal(filter._clear.disabled,true);
 });
 
 test("applyFilterBar combines structured conditions and keyword search",()=>{
@@ -152,6 +204,34 @@ test("FilterBar aggregates child conditions and clears in a single event",()=>{
   assert.equal(events.length,1);
 });
 
+test("FilterBar refreshes clear action after programmatic filter updates",()=>{
+  const bar=Object.create(CuFilterBar.prototype);
+  const attrs=new Map();
+  bar.getAttribute=k=>attrs.get(k)??null;
+  bar.setAttribute=(k,v)=>attrs.set(k,String(v));
+  bar._search={
+    value:"",placeholder:"",
+    setAttribute(k,v){this[k]=v;}
+  };
+  bar._clear={disabled:true};
+  const child={localName:"cu-data-filter",condition:null};
+  bar.children=[child];
+  bar.refresh();
+  assert.equal(bar._clear.disabled,true);
+  child.condition={field:"status",operator:"equals",value:"Active"};
+  bar.refresh();
+  assert.equal(bar._clear.disabled,false);
+  assert.equal(bar.activeCount,1);
+  child.condition=null;
+  bar.query="ui";
+  bar.refresh();
+  assert.equal(bar._search.value,"ui");
+  assert.equal(bar._clear.disabled,false);
+  bar.query="";
+  bar.refresh();
+  assert.equal(bar._clear.disabled,true);
+});
+
 test("components declare accessible keyboard, input and focus patterns",async()=>{
   const [split,panel,filter,bar]=await Promise.all(
     ["splitter","resizable-panel","data-filter","filter-bar"].map(n=>
@@ -170,6 +250,8 @@ test("components declare accessible keyboard, input and focus patterns",async()=
   assert.match(filter,/stopPropagation/);
   assert.match(bar,/role="search"/);
   assert.match(bar,/cu-filter-change/);
+  assert.match(bar,/MutationObserver/);
+  assert.match(bar,/this\.refresh\(\)/);
   assert.match(bar,/input.*type="search"/);
   for(const src of [split,filter,bar])assert.match(src,/focus-visible/);
   for(const src of [split,panel,filter,bar])assert.match(src,/forced-colors:active/);
