@@ -163,6 +163,7 @@ export declare class CuFilterBar extends HTMLElement {
   query:string;
   readonly conditions:CuFilterBarConditions;
   readonly activeCount:number;
+  refresh():void;
   clear():boolean;
 }
 export declare class CuTextField extends HTMLElement {
