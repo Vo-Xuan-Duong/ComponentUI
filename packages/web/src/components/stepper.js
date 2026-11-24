@@ -96,7 +96,12 @@ export class CuStepper extends BrowserElement {
     this._render();
   }
   get value(){return this.getAttribute("value")||this._steps[0]?.value||"";}
-  set value(next){this.setAttribute("value",String(next??""));}
+  set value(next){
+    const value=String(next??"");
+    const index=this._steps.findIndex(step=>step.value===value);
+    if(index>=0 && this._canVisit(index))this._focusIndex=index;
+    this.setAttribute("value",value);
+  }
   get currentIndex(){return this._steps.findIndex(step=>step.value===this.value);}
   get linear(){return this.hasAttribute("linear");}
   set linear(next){this.toggleAttribute("linear",Boolean(next));}
@@ -107,8 +112,8 @@ export class CuStepper extends BrowserElement {
     const current=this.currentIndex;
     if(current===index)return false;
     const previousValue=this.value;
-    this.value=this._steps[index].value;
     this._focusIndex=index;
+    this.value=this._steps[index].value;
     notify(this,"cu-change",{value:this.value,index,previousValue});
     return true;
   }
@@ -123,6 +128,10 @@ export class CuStepper extends BrowserElement {
   _render(){
     if(!this._list)return;
     const index=Math.max(0,this.currentIndex);
+    if(!this._canVisit(this._focusIndex)){
+      this._focusIndex=this._canVisit(index)?index:
+        this._steps.findIndex((_,i)=>this._canVisit(i));
+    }
     this._list.replaceChildren();
     this._list.setAttribute("aria-label",this.getAttribute("aria-label")||"Steps");
     for(const [i,step] of this._steps.entries()){
