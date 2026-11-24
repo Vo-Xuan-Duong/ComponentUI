@@ -76,8 +76,8 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">50</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">48</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-previews">54</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">52</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -779,6 +779,49 @@
                 <cu-button id="wc-stepper-next" variant="accent">Next step</cu-button>
               </div>
               <p class="cu-helper" role="status" id="wc-stepper-result">Current step: Draft</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Splitter &amp; ResizablePanel</h3>
+              <p class="demo-subtitle">Drag the handle or use Arrow keys, Home/End (Shift for larger steps). Switch between horizontal and vertical layouts.</p>
+              <cu-splitter id="wc-splitter" position="38" min="20" max="80" label="Editor workspace" style="height:255px;display:block">
+                <cu-resizable-panel slot="start" label="Project navigation" variant="default">
+                  <h4>Project navigator</h4>
+                  <p>Select a project, then resize the navigation panel.</p>
+                  <ul><li>ComponentUI</li><li>NovaBrowser</li><li>API Gateway</li></ul>
+                </cu-resizable-panel>
+                <cu-resizable-panel slot="end" label="Workspace preview">
+                  <h4>Editor preview</h4>
+                  <p>The right pane takes the remaining width. Its content scrolls independently when needed.</p>
+                  <cu-tag tone="success">Interactive layout</cu-tag>
+                </cu-resizable-panel>
+              </cu-splitter>
+              <div class="demo-row">
+                <cu-button id="wc-splitter-orientation" size="sm" variant="outline">Stack panels vertically</cu-button>
+                <cu-button id="wc-splitter-reset" size="sm" variant="outline">Reset to 50%</cu-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-splitter-result">Panel split: 38%</p>
+              <div class="demo-col">
+                <p class="demo-subtitle">Standalone resizable panel: drag its bottom-right corner.</p>
+                <cu-resizable-panel id="wc-resizable-standalone" label="Standalone resizable note"
+                  resizable style="width:300px;height:130px;max-width:100%">
+                  <p>Resize this panel without a parent splitter.</p>
+                </cu-resizable-panel>
+                <p class="cu-helper" role="status" id="wc-panel-result">Panel size updates when resized.</p>
+              </div>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>FilterBar &amp; DataFilter</h3>
+              <p class="demo-subtitle">Search and combine structured conditions. Each comparison dropdown uses ComponentUI Select, not an OS-native popup.</p>
+              <cu-filter-bar id="wc-filter-bar" label="Search projects" placeholder="Search names or owners">
+                <cu-data-filter field="status" label="Status" operator="contains"></cu-data-filter>
+                <cu-data-filter field="owner" label="Owner" operator="contains"></cu-data-filter>
+              </cu-filter-bar>
+              <p class="cu-helper" role="status" id="wc-filter-result">6 matching projects</p>
+              <ul id="wc-filter-list" aria-label="Filtered project results"></ul>
+              <div class="demo-row">
+                <cu-button id="wc-filter-active" size="sm" variant="outline">Show active projects</cu-button>
+                <cu-button id="wc-filter-reset" size="sm" variant="subtle">Clear all filters</cu-button>
+              </div>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>DataTable</h3>
