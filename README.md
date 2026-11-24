@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 41 experimental browser Custom Elements. **There are 41 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 45 experimental browser Custom Elements. **There are 45 experimental Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -50,9 +50,17 @@ exposed **48 wrappers**. See [Compact components](docs/COMPACT_COMPONENTS.md).
 are now implemented, registered in Web/React, and demonstrated in Playground.
 SplitButton composes an accessible menu with a primary action, Stepper
 supports linear and free navigation, and InfoBar provides contextual feedback
-with action slots. The catalog now contains **46 previews, 83 planned and 0
-production-certified components**; there are **41 browser Custom Elements**
+with action slots. At that milestone, the catalog contained **46 previews, 83 planned and 0
+production-certified components**; there were **41 browser Custom Elements**
 and **51 React wrappers**. See [Workflow components](docs/WORKFLOW_COMPONENTS.md).
+
+**Command and toolbar previews:** `IconButton`, `ToggleButtonGroup`,
+`Toolbar` and `CommandBar` are now available as native Web Components.
+They support keyboard-friendly icon actions, controlled single/multiple
+selection, composed toolbar focus and responsive command overflow. The
+catalog now contains **50 preview, 79 planned and 0 production-certified**
+components; there are **45 native browser Custom Elements** and **55 React
+wrappers**. See [Command controls](docs/COMMAND_CONTROLS.md).
 
 ## Preview locally
 
@@ -126,6 +134,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Display and feedback component APIs](docs/DISPLAY_FEEDBACK.md)
 - [Chip, Tag and ProgressRing component APIs](docs/COMPACT_COMPONENTS.md)
 - [SplitButton, Stepper and InfoBar component APIs](docs/WORKFLOW_COMPONENTS.md)
+- [IconButton, ToggleButtonGroup, Toolbar and CommandBar](docs/COMMAND_CONTROLS.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
