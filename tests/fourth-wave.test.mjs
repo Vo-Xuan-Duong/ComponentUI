@@ -68,7 +68,7 @@ test("Web Component package and React adapter expose new tags",async()=>{
   assert.equal(REACT_TAGS.Card,"cu-card");
   assert.equal(REACT_TAGS.Breadcrumb,"cu-breadcrumb");
   assert.equal(REACT_TAGS.BreadcrumbItem,"cu-breadcrumb-item");
-  assert.equal(Object.keys(REACT_TAGS).length,55);
+  assert.equal(Object.keys(REACT_TAGS).length,60);
 });
 
 test("Playground contains six component previews and functional controls",async()=>{
