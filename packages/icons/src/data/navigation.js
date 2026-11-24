@@ -12,8 +12,7 @@ export const NAVIGATION_ICONS = Object.freeze({
       {
         "cx": "13.5",
         "cy": "6.5",
-        "r": ".5",
-        "fill": "currentColor"
+        "r": ".5"
       }
     ],
     [
@@ -21,8 +20,7 @@ export const NAVIGATION_ICONS = Object.freeze({
       {
         "cx": "17.5",
         "cy": "10.5",
-        "r": ".5",
-        "fill": "currentColor"
+        "r": ".5"
       }
     ],
     [
@@ -30,8 +28,7 @@ export const NAVIGATION_ICONS = Object.freeze({
       {
         "cx": "6.5",
         "cy": "12.5",
-        "r": ".5",
-        "fill": "currentColor"
+        "r": ".5"
       }
     ],
     [
@@ -39,8 +36,7 @@ export const NAVIGATION_ICONS = Object.freeze({
       {
         "cx": "8.5",
         "cy": "7.5",
-        "r": ".5",
-        "fill": "currentColor"
+        "r": ".5"
       }
     ]
   ],
