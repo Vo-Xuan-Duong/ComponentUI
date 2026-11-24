@@ -56,6 +56,7 @@ export class CuFilterBar extends BrowserElement {
     this._search=root.querySelector("input");
     this._clear=root.querySelector("button");
     this._slot=root.querySelector("slot");
+    this._observer=null;
     this._search.addEventListener("input",()=>{
       this.query=this._search.value;
       this._emit("cu-filter-change");
@@ -72,10 +73,23 @@ export class CuFilterBar extends BrowserElement {
     this.addEventListener("cu-change",this._onFilterChange);
     this.addEventListener("cu-input",this._onFilterChange);
     this._sync();
+    if(globalThis.MutationObserver){
+      this._observer?.disconnect();
+      this._observer=new MutationObserver(records=>{
+        if(records.some(record=>record.type==="childList"||
+          ["field","operator","value","disabled"].includes(record.attributeName)))
+          this.refresh();
+      });
+      this._observer.observe(this,{
+        childList:true,subtree:true,attributes:true,
+        attributeFilter:["field","operator","value","disabled"]
+      });
+    }
   }
   disconnectedCallback(){
     this.removeEventListener("cu-change",this._onFilterChange);
     this.removeEventListener("cu-input",this._onFilterChange);
+    this._observer?.disconnect();this._observer=null;
   }
   attributeChangedCallback(){this._sync();}
   get query(){return this.getAttribute("query")||"";}
@@ -92,6 +106,7 @@ export class CuFilterBar extends BrowserElement {
   _filters(){
     return [...this.children].filter(el=>el.localName==="cu-data-filter");
   }
+  refresh(){this._sync();}
   clear(){
     if(!this.activeCount)return false;
     this.query="";
