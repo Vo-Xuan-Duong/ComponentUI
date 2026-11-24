@@ -23,6 +23,14 @@ export interface CuEventDetails {
   direction?: "asc" | "desc";
   page?: number;
   pageCount?: number;
+  position?: number;
+  conditions?: Record<string,{operator:string;value:string}>;
+  activeCount?: number;
+  field?: string;
+  operator?: string;
+  condition?: {field:string;operator:string;value:string}|null;
+  width?: number;
+  height?: number;
   start?: number;
   end?: number;
   pageSize?: number;
@@ -87,6 +95,11 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   maxVisible?: number;
   pageSize?: number;
   total?: number;
+  position?: number;
+  resizable?: boolean;
+  field?: string;
+  operator?: string;
+  query?: string;
   siblings?: number;
   placement?: "left" | "right";
   columns?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}[];
@@ -120,6 +133,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuDismiss?: (event: CuEvent) => void;
   onCuRemove?: (event: CuEvent) => void;
   onCuAction?: (event: CuEvent) => void;
+  onCuResize?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
@@ -136,7 +150,7 @@ export declare function createReactComponent(
   React: typeof import("react"), tagName: string
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
-  Record<"Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
+  Record<"Splitter" | "ResizablePanel" | "FilterBar" | "DataFilter" | "Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
