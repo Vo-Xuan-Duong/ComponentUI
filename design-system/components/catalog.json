@@ -23,7 +23,7 @@
         {
           "name": "SplitButton",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -420,7 +420,7 @@
         {
           "name": "Stepper",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -790,7 +790,7 @@
         {
           "name": "InfoBar",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
