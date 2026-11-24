@@ -42,9 +42,9 @@ are now implemented and connected to the React adapter, Playground,
 type declarations and contract catalog. Chip supports selection, disabled
 states and cancelable removal; Tag renders passive semantic labels;
 ProgressRing provides determinate and indeterminate progress with
-reduced-motion fallback. The catalog contains **43 previews, 86 planned
+reduced-motion fallback. At that milestone, the catalog contained **43 previews, 86 planned
 components and 0 production-certified releases**; the React adapter
-exposes **48 wrappers**. See [Compact components](docs/COMPACT_COMPONENTS.md).
+exposed **48 wrappers**. See [Compact components](docs/COMPACT_COMPONENTS.md).
 
 **Workflow and feedback previews:** `SplitButton`, `Stepper` and `InfoBar`
 are now implemented, registered in Web/React, and demonstrated in Playground.
