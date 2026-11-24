@@ -99,7 +99,7 @@ export class CuStepper extends BrowserElement {
   set value(next){
     const value=String(next??"");
     const index=this._steps.findIndex(step=>step.value===value);
-    if(index>=0 && this._canVisit(index))this._focusIndex=index;
+    if(index>=0 && !this._steps[index].disabled)this._focusIndex=index;
     this.setAttribute("value",value);
   }
   get currentIndex(){return this._steps.findIndex(step=>step.value===this.value);}
