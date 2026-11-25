@@ -1088,7 +1088,7 @@
         {
           "name": "TreeList",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
