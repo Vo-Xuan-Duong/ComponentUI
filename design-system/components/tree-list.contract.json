@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "name": "TreeList",
+  "tag": "cu-tree-list",
+  "status": "preview",
+  "kind": "data",
+  "description": "Virtualized nested tree navigation with flattened visible branches and fixed row heights.",
+  "properties": {
+    "items": "CuTreeListItem[]",
+    "value": "string selected node",
+    "expandedValues": "string[]",
+    "itemHeight": "number, defaults 38",
+    "overscan": "number, defaults 4",
+    "visibleCount": "readonly number"
+  },
+  "attributes": {
+    "label": "string",
+    "aria-label": "string",
+    "item-height": "number pixels",
+    "overscan": "number",
+    "empty-text": "string"
+  },
+  "methods": [
+    "expand(value)",
+    "collapse(value)",
+    "toggle(value)",
+    "select(value)",
+    "scrollToIndex(index)",
+    "focus(options?)"
+  ],
+  "events": [
+    "cu-toggle {value,expanded}",
+    "cu-change {value,item,index}"
+  ],
+  "accessibility": {
+    "role": "tree with treeitem rows",
+    "hierarchy": "aria-level, aria-posinset, aria-setsize and aria-expanded",
+    "selection": "aria-selected and aria-activedescendant on rendered row",
+    "keyboard": "Arrow keys, Home, End, Enter and Space",
+    "disabled": "Disabled rows cannot be selected or expanded",
+    "security": "Labels written using textContent"
+  },
+  "performance": {
+    "virtualization": "virtualListRange overscan and spacer nodes",
+    "requires": "Fixed row heights and stable unique value strings"
+  }
+}
