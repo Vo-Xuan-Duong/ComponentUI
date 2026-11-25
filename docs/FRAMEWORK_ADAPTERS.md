@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 64 tags (52 catalog components, Icon and 11 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 66 tags (54 catalog components, Icon and 11 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -264,6 +264,21 @@ and native event subscriptions.
 
 See [Layout and Data Filters](LAYOUT_FILTERS.md). Real framework
 and browser acceptance remains outstanding.
+
+## SplitView and VirtualList
+
+React now exposes **66 native wrappers**, including `SplitView` and
+`VirtualList`. `VirtualList.items` is assigned through the DOM
+property bridge with stable-reference optimization to avoid resetting
+the scroll window during unrelated React renders; `selectedIndex`,
+`itemHeight`, `overscan` and `labelKey` are also supported.
+`SplitView.position`, `collapsed` and `collapsible` are
+controlled as properties. For DataTable, `bindFilterBar()` is
+available on the forwarded native element ref and should be cleaned
+up when the consumer unmounts.
+
+See [Virtualized Workspace](VIRTUALIZED_WORKSPACE.md) for native APIs.
+Real React/Vue/Svelte integration tests remain outstanding.
 
 ## v0.9.0 — independent package outputs and Svelte 5
 
