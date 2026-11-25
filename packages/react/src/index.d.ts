@@ -23,6 +23,9 @@ export interface CuEventDetails {
   direction?: "asc" | "desc";
   page?: number;
   pageCount?: number;
+  previousIndex?: number;
+  item?: unknown;
+  collapsed?: boolean;
   position?: number;
   conditions?: Record<string,{operator:string;value:string}>;
   activeCount?: number;
@@ -90,11 +93,17 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   orientation?: "horizontal" | "vertical";
   steps?: {value:string;label?:string;description?:string;disabled?:boolean;optional?:boolean}[];
   actions?: {value:string;label?:string;disabled?:boolean}[];
-  items?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
+  items?: unknown[];
   commands?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
   maxVisible?: number;
   pageSize?: number;
   total?: number;
+  itemHeight?: number;
+  overscan?: number;
+  selectedIndex?: number;
+  labelKey?: string;
+  collapsible?: boolean;
+  collapsed?: boolean;
   position?: number;
   resizable?: boolean;
   field?: string;
@@ -150,7 +159,7 @@ export declare function createReactComponent(
   React: typeof import("react"), tagName: string
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
-  Record<"Splitter" | "ResizablePanel" | "FilterBar" | "DataFilter" | "Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
+  Record<"SplitView" | "VirtualList" | "Splitter" | "ResizablePanel" | "FilterBar" | "DataFilter" | "Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
