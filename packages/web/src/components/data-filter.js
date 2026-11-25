@@ -1,12 +1,9 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./select.js";
 import "./icon.js";
+import { TABLE_FILTER_OPERATORS } from "./filter-utils.js";
 
-export const DATA_FILTER_OPERATORS=Object.freeze([
-  "contains","not-contains","equals","not-equals","starts-with","ends-with",
-  "greater-than","greater-or-equal","less-than","less-or-equal",
-  "is-blank","is-not-blank"
-]);
+export const DATA_FILTER_OPERATORS=Object.freeze(TABLE_FILTER_OPERATORS.filter(operator=>operator!=="between"));
 const NO_VALUE=new Set(["is-blank","is-not-blank"]);
 export function buildFilterCondition(field,operator,value){
   if(typeof field!=="string"||!field.trim()||!DATA_FILTER_OPERATORS.includes(operator))
