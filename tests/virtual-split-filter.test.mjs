@@ -32,6 +32,43 @@ test("VirtualList range bounds large datasets to a small DOM window",()=>{
   assert.equal(virtualListRange(-10,0,2,40,0).start,0);
 });
 
+test("VirtualList renders bounded accessible DOM for 10,000 items",()=>{
+  const prior=globalThis.document;
+  try{
+    globalThis.document={
+      createDocumentFragment:()=>({children:[],append(n){this.children.push(n);}}),
+      createElement:()=>({
+        dataset:{},style:{},setAttribute(k,v){this[k]=v;}
+      })
+    };
+    const list=Object.create(CuVirtualList.prototype);
+    list._items=Array.from({length:10000},(_,i)=>({label:"Row "+(i+1)}));
+    list._selected=1000;
+    list._idBase="test-virtual";
+    list._lastRange=null;
+    list.getAttribute=k=>({overscan:"5","item-height":"40"}[k]??null);
+    list.hasAttribute=k=>k==="overscan"||k==="item-height";
+    list._viewport={scrollTop:40000,clientHeight:200,
+      setAttribute(k,v){this[k]=v;},removeAttribute(k){delete this[k];}};
+    list._top={style:{}};list._bottom={style:{}};list._empty={hidden:true};
+    list._itemsRoot={replaceChildren(fragment){this.rows=[...fragment.children];}};
+    list._render();
+    assert.equal(list._itemsRoot.rows.length,15);
+    assert.equal(list._itemsRoot.rows[0].dataset.index,"995");
+    assert.equal(list._itemsRoot.rows[0]["aria-posinset"],"996");
+    assert.equal(list._itemsRoot.rows[0]["aria-setsize"],"10000");
+    assert.equal(list._viewport["aria-activedescendant"],"test-virtual-1000");
+    assert.equal(list._top.style.height,"39800px");
+    assert.equal(list._bottom.style.height,"359600px");
+    const snapshot=list._itemsRoot.rows;
+    list._render();
+    assert.equal(list._itemsRoot.rows,snapshot);
+  }finally{
+    if(prior===undefined)delete globalThis.document;
+    else globalThis.document=prior;
+  }
+});
+
 test("VirtualList labels safely handle values, fallback and custom label keys",()=>{
   assert.equal(virtualListLabel("hello",0),"hello");
   assert.equal(virtualListLabel(42,1),"42");
@@ -88,6 +125,31 @@ test("SplitView collapse, expand and toggle retain expanded position",()=>{
   assert.deepEqual(events.map(e=>e.type),["cu-toggle","cu-toggle","cu-toggle"]);
   assert.deepEqual(events[0].detail,{collapsed:true,position:35});
   assert.equal(events.length,3);
+});
+
+test("SplitView ignores nested child controls and only relays own splitter events",()=>{
+  const view=Object.create(CuSplitView.prototype);
+  const attrs=new Map([["position","30"]]),out=[];
+  view._splitter={};
+  view.hasAttribute=k=>attrs.has(k);
+  view.getAttribute=k=>attrs.get(k)??null;
+  view.setAttribute=(k,v)=>attrs.set(k,String(v));
+  view.dispatchEvent=e=>{out.push(e);return true;};
+  view._sync=()=>{};
+  let stopped=0;
+  const nested={type:"cu-change",target:{},detail:{value:"other"},
+    stopPropagation(){stopped++;}};
+  view._handleSplitEvent(nested);
+  assert.equal(stopped,0);
+  assert.equal(out.length,0);
+  assert.equal(view.position,30);
+  const fromSplitter={type:"cu-change",target:view._splitter,
+    detail:{position:45},stopPropagation(){stopped++;}};
+  view._handleSplitEvent(fromSplitter);
+  assert.equal(stopped,1);
+  assert.equal(view.position,45);
+  assert.equal(out.length,1);
+  assert.deepEqual(out[0].detail,{position:45,collapsed:false});
 });
 
 test("SplitView configures inner splitter and excludes collapsed sidebar focus",()=>{
