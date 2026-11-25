@@ -36,6 +36,8 @@ export { CuDataFilter, DATA_FILTER_OPERATORS, buildFilterCondition } from "./dat
 export { CuFilterBar, applyFilterBar } from "./filter-bar.js";
 export { CuSplitView } from "./split-view.js";
 export { CuVirtualList, virtualListRange, virtualListLabel } from "./virtual-list.js";
+export { CuTreeList, flattenTreeList, initialTreeExpansion } from "./tree-list.js";
+export { CuInfiniteScroll, shouldLoadMore } from "./infinite-scroll.js";
 
 export { CuSelect } from "./select.js";
 export { CuRadio, CuRadioGroup } from "./radio-group.js";
