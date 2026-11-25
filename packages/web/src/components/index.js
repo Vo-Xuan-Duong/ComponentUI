@@ -34,6 +34,8 @@ export { CuSplitter, clampSplitPosition, splitPositionFromPointer } from "./spli
 export { CuResizablePanel } from "./resizable-panel.js";
 export { CuDataFilter, DATA_FILTER_OPERATORS, buildFilterCondition } from "./data-filter.js";
 export { CuFilterBar, applyFilterBar } from "./filter-bar.js";
+export { CuSplitView } from "./split-view.js";
+export { CuVirtualList, virtualListRange, virtualListLabel } from "./virtual-list.js";
 
 export { CuSelect } from "./select.js";
 export { CuRadio, CuRadioGroup } from "./radio-group.js";
