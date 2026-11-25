@@ -241,6 +241,30 @@ test("DataTable and FilterBar combine existing column and external filters",()=>
   assert.equal(notifies,3);
 });
 
+test("DataTable cu-filter-change reports combined filtered count and external state",()=>{
+  const table=Object.create(CuDataTable.prototype);
+  table._rows=[
+    {id:1,name:"ComponentUI",owner:"Ada",status:"Active"},
+    {id:2,name:"Other",owner:"Lin",status:"Active"},
+    {id:3,name:"Draft",owner:"Ada",status:"Draft"}
+  ];
+  table._columnFilters=new Map([["status",{operator:"equals",value:"Active"}]]);
+  table._externalQuery="ada";
+  table._externalConditions={owner:{operator:"equals",value:"Ada"}};
+  table._externalSearchKeys=["owner"];
+  const emitted=[];
+  table.dispatchEvent=e=>{emitted.push(e);return true;};
+  table._notifyFilterChange();
+  assert.equal(emitted.length,1);
+  assert.equal(emitted[0].type,"cu-filter-change");
+  assert.deepEqual(emitted[0].detail,{
+    filters:{status:{operator:"equals",value:"Active",value2:undefined}},
+    query:"ada",
+    externalFilters:{owner:{operator:"equals",value:"Ada"}},
+    filteredCount:1,totalCount:3
+  });
+});
+
 test("DataTable bindFilterBar rejects non-event targets",()=>{
   const table=Object.create(CuDataTable.prototype);
   assert.throws(()=>table.bindFilterBar(null),TypeError);
