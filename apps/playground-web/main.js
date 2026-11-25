@@ -609,6 +609,44 @@ wcTable.rowActions=[
 wcTable.headerActions=[
   {value:"inspect-column",label:"Inspect column"}
 ];
+// SplitView composes native Splitter, ResizablePanel and sidebar collapse.
+const workspaceSplitView=document.getElementById("wc-split-view");
+const splitViewResult=document.getElementById("wc-split-view-result");
+function syncSplitViewStatus(){
+  splitViewResult.textContent="Sidebar: "+Math.round(workspaceSplitView.position)+"% ("+
+    (workspaceSplitView.collapsed?"collapsed":"expanded")+")";
+}
+workspaceSplitView.addEventListener("cu-toggle",syncSplitViewStatus);
+workspaceSplitView.addEventListener("cu-change",syncSplitViewStatus);
+document.getElementById("wc-split-view-toggle").addEventListener("cu-press",()=>{
+  workspaceSplitView.toggle();
+});
+document.getElementById("wc-split-view-vertical").addEventListener("cu-press",()=>{
+  const vertical=workspaceSplitView.getAttribute("orientation")==="vertical";
+  if(vertical)workspaceSplitView.removeAttribute("orientation");
+  else workspaceSplitView.setAttribute("orientation","vertical");
+});
+
+// VirtualList renders a small window over 10k items.
+const largeList=document.getElementById("wc-virtual-list");
+const virtualResult=document.getElementById("wc-virtual-result");
+largeList.items=Array.from({length:10000},(_,index)=>({
+  id:"project-"+(index+1),
+  label:"Project record "+String(index+1).padStart(5,"0")
+}));
+largeList.addEventListener("cu-change",event=>{
+  virtualResult.textContent="Selected "+event.detail.value+
+    " (index "+event.detail.index+")";
+});
+document.getElementById("wc-virtual-jump").addEventListener("cu-press",()=>{
+  largeList.select(7999);
+  largeList.focus();
+});
+document.getElementById("wc-virtual-reset").addEventListener("cu-press",()=>{
+  largeList.select(0);
+  largeList.focus();
+});
+
 // Splitter and standalone ResizablePanel: pointer, keyboard and ResizeObserver.
 const workspaceSplitter=document.getElementById("wc-splitter");
 const splitterResult=document.getElementById("wc-splitter-result");
@@ -636,6 +674,8 @@ document.getElementById("wc-resizable-standalone").addEventListener("cu-resize",
 
 // FilterBar and DataFilter share DataTable filtering operators.
 const projectFilters=document.getElementById("wc-filter-bar");
+// DataTable retains its own column filters; FilterBar adds search/field criteria.
+wcTable.bindFilterBar(projectFilters,{searchKeys:["name","owner"]});
 const filterResult=document.getElementById("wc-filter-result");
 const filterList=document.getElementById("wc-filter-list");
 const previewProjects=wcTable.rows;
