@@ -1,5 +1,5 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
-import "./splitter.js";
+import { clampSplitPosition } from "./splitter.js";
 import "./resizable-panel.js";
 import "./icon.js";
 
@@ -65,13 +65,20 @@ export class CuSplitView extends BrowserElement {
   }
   connectedCallback(){this._sync();}
   attributeChangedCallback(){this._sync();}
+  _bounds(){
+    return {
+      min:this.hasAttribute("min")?Number(this.getAttribute("min")):15,
+      max:this.hasAttribute("max")?Number(this.getAttribute("max")):85
+    };
+  }
   get position(){
-    const value=Number(this.getAttribute("position"));
-    return this.hasAttribute("position")&&Number.isFinite(value)?value:32;
+    const {min,max}=this._bounds();
+    const raw=this.getAttribute("position");
+    return clampSplitPosition(raw===null||raw===""?32:raw,min,max);
   }
   set position(value){
-    const n=Number(value);
-    this.setAttribute("position",String(Number.isFinite(n)?n:32));
+    const {min,max}=this._bounds();
+    this.setAttribute("position",String(clampSplitPosition(value,min,max)));
   }
   get collapsed(){return this.hasAttribute("collapsed");}
   set collapsed(value){this.toggleAttribute("collapsed",Boolean(value));}
