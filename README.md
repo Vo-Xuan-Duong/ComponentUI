@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 52 experimental catalogued browser Custom Elements. **There are 52 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 54 experimental catalogued browser Custom Elements. **There are 54 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -82,6 +82,16 @@ React adapter exposes **64 wrappers**. See
 [Layout and Data Filters](docs/LAYOUT_FILTERS.md). Browser and
 accessibility acceptance is still required.
 
+**Virtualized workspace milestone:** `SplitView` and `VirtualList`
+are now experimental Web Components; SplitView provides a collapsible
+sidebar, and VirtualList renders a small viewport window across large
+fixed-height datasets. DataTable can now bind to FilterBar using
+`bindFilterBar()`, while pure filter utilities have been extracted to
+an independent import without the DataTable rendering graph. The
+129-component catalog now has **56 previews, 73 planned, 0 certified**
+and the React factory exposes **66 wrappers**. See
+[Virtualized Workspace](docs/VIRTUALIZED_WORKSPACE.md).
+
 ## Preview locally
 
 Requires Node.js 20+ (no third-party runtime dependencies in this milestone).
@@ -157,6 +167,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [IconButton, ToggleButtonGroup, Toolbar and CommandBar](docs/COMMAND_CONTROLS.md)
 - [Accordion, Disclosure, Pagination and Drawer](docs/NAVIGATION_SURFACES.md)
 - [Splitter, ResizablePanel, FilterBar and DataFilter](docs/LAYOUT_FILTERS.md)
+- [SplitView, VirtualList and connected DataTable filters](docs/VIRTUALIZED_WORKSPACE.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
