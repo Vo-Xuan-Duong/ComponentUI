@@ -24,7 +24,7 @@ export const REACT_TAGS = Object.freeze({
   DataTable:"cu-data-table", TreeView:"cu-tree-view", TreeItem:"cu-tree-item",
   ListBox:"cu-listbox", ListOption:"cu-list-option",
   Combobox:"cu-combobox", ComboOption:"cu-combo-option",
-  ContextMenu:"cu-context-menu", Splitter:"cu-splitter", ResizablePanel:"cu-resizable-panel", FilterBar:"cu-filter-bar", DataFilter:"cu-data-filter"
+  ContextMenu:"cu-context-menu", SplitView:"cu-split-view", VirtualList:"cu-virtual-list", Splitter:"cu-splitter", ResizablePanel:"cu-resizable-panel", FilterBar:"cu-filter-bar", DataFilter:"cu-data-filter"
 });
 
 export const REACT_EVENT_PROPS = Object.freeze({
@@ -67,6 +67,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-accordion-item":["open","disabled","value"],
   "cu-disclosure":["open","disabled","value"],
   "cu-pagination":["page","pageSize","total"],
+  "cu-split-view":["position","collapsible","collapsed"],
+  "cu-virtual-list":["items","itemHeight","overscan","labelKey","selectedIndex"],
   "cu-splitter":["position","min","max","disabled"],
   "cu-resizable-panel":["resizable"],
   "cu-filter-bar":["query"],
@@ -127,6 +129,7 @@ export function assignCuProperties(element, tagName, props = {}) {
       if ((tagName==="cu-split-button"&&name==="actions") ||
           (tagName==="cu-stepper"&&name==="steps") ||
           (tagName==="cu-command-bar"&&name==="commands") ||
+          (tagName==="cu-virtual-list"&&name==="items") ||
           (tagName==="cu-accordion"&&name==="values"&&Array.isArray(value)) ||
           (tagName==="cu-toggle-button-group"&&(name==="items"||
             (name==="value"&&Array.isArray(value))))) {
