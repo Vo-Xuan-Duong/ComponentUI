@@ -1,4 +1,6 @@
 import type { ReactCuComponent } from "./index.js";
+export declare const SplitView: ReactCuComponent;
+export declare const VirtualList: ReactCuComponent;
 export declare const Splitter: ReactCuComponent;
 export declare const ResizablePanel: ReactCuComponent;
 export declare const FilterBar: ReactCuComponent;
