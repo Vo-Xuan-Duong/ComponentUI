@@ -76,8 +76,8 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">54</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">52</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-previews">56</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">54</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -781,6 +781,38 @@
               <p class="cu-helper" role="status" id="wc-stepper-result">Current step: Draft</p>
             </article>
             <article class="cu-surface demo-card full-span">
+              <h3>SplitView</h3>
+              <p class="demo-subtitle">Composite sidebar and content layout with persistent resizing, optional collapse control and keyboard navigation.</p>
+              <cu-split-view id="wc-split-view" label="Project workspace" position="30"
+                min="15" max="75" collapsible style="height:300px">
+                <div slot="sidebar" style="padding:12px">
+                  <strong>Workspace</strong>
+                  <p>Navigation and project shortcuts</p>
+                  <ul><li>Projects</li><li>Components</li><li>Settings</li></ul>
+                </div>
+                <div slot="content" style="padding:12px">
+                  <strong>Content preview</strong>
+                  <p>Use the internal separator to resize. Collapse and expand the sidebar without losing its position.</p>
+                </div>
+              </cu-split-view>
+              <div class="demo-row">
+                <cu-button id="wc-split-view-toggle" size="sm" variant="outline">Toggle sidebar</cu-button>
+                <cu-button id="wc-split-view-vertical" size="sm" variant="subtle">Switch orientation</cu-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-split-view-result">Sidebar: 30% (expanded)</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>VirtualList</h3>
+              <p class="demo-subtitle">10,000 records rendered with a small virtual window. Arrow keys, Home/End and PageUp/PageDown move selection.</p>
+              <cu-virtual-list id="wc-virtual-list" item-height="40" overscan="5"
+                label="Large project records" style="height:290px"></cu-virtual-list>
+              <div class="demo-row">
+                <cu-button id="wc-virtual-jump" size="sm" variant="outline">Jump to record 8,000</cu-button>
+                <cu-button id="wc-virtual-reset" size="sm" variant="subtle">Back to first record</cu-button>
+              </div>
+              <p class="cu-helper" role="status" id="wc-virtual-result">10,000 records. Select an item using mouse or keyboard.</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
               <h3>Splitter &amp; ResizablePanel</h3>
               <p class="demo-subtitle">Drag the handle or use Arrow keys, Home/End (Shift for larger steps). Switch between horizontal and vertical layouts.</p>
               <cu-splitter id="wc-splitter" position="38" min="20" max="80" label="Editor workspace" style="height:255px;display:block">
@@ -811,7 +843,7 @@
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>FilterBar &amp; DataFilter</h3>
-              <p class="demo-subtitle">Search and combine structured conditions. Each comparison dropdown uses ComponentUI Select, not an OS-native popup.</p>
+              <p class="demo-subtitle">Search and combine structured conditions; the DataTable below updates automatically. Each comparison dropdown uses ComponentUI Select.</p>
               <cu-filter-bar id="wc-filter-bar" label="Search projects" placeholder="Search names or owners">
                 <cu-data-filter field="status" label="Status" operator="contains"></cu-data-filter>
                 <cu-data-filter field="owner" label="Owner" operator="contains"></cu-data-filter>
