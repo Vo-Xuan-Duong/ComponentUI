@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **73 planned**, **56 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **72 planned**, **57 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -114,3 +114,14 @@ See [Layout and Data Filters](LAYOUT_FILTERS.md).
 
 The catalog remains 129 components: **56 preview, 73 planned, 0 certified**.
 See [Virtualized Workspace](VIRTUALIZED_WORKSPACE.md).
+
+
+## Hierarchical and incremental data controls
+
+- **TreeList** (`cu-tree-list`) — accessible virtualized tree navigation with fixed-height rows.
+- **InfiniteScroll** (`cu-infinite-scroll`) — auxiliary observer-driven incremental loading and manual fallback.
+- **DataTable performance** — cached filter/sort results, row identity indexing, and invalidation when data changes.
+
+TreeList moves to preview; InfiniteScroll is auxiliary and does not
+increase the 129-entry catalog. Current catalog totals: **57 preview,
+72 planned, 0 certified**. See [Large Data Components](LARGE_DATA_COMPONENTS.md).
