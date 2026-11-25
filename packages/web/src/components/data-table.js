@@ -196,6 +196,9 @@ export class CuDataTable extends BrowserElement {
     this._selected=new Set();
     this._hiddenColumns=new Set();
     this._columnFilters=new Map();
+    this._filteredCache=null;
+    this._sortedCache=null;
+    this._rowIndex=new WeakMap();
     this._boundFilterBar=null;
     this._boundFilterHandler=null;
     this._externalQuery="";
@@ -347,6 +350,12 @@ export class CuDataTable extends BrowserElement {
   set rows(value){
     if(value===this._rows)return; // stable reference across React rerenders
     this._rows=Array.isArray(value)?value:[];
+    this._rowIndex=new WeakMap();
+    this._rows.forEach((row,index)=>{
+      if(row&&typeof row==="object"&&!this._rowIndex.has(row))
+        this._rowIndex.set(row,index);
+    });
+    this._invalidateView();
     this._page=1;this._selected.clear();this._render();
   }
   get columns(){return this._columnInput;}
@@ -361,6 +370,7 @@ export class CuDataTable extends BrowserElement {
       this._hiddenColumns.clear();
     this._columnFilters=new Map([...this._columnFilters].filter(([key])=>
       this._columns.some(column=>column.key===key&&column.filterable!==false)));
+    this._invalidateView();
     this._sortKey="";this._page=1;this._render();
   }
   get rowActions(){return this._rowActions;}
@@ -390,12 +400,26 @@ export class CuDataTable extends BrowserElement {
       if(Array.isArray(spec)||isTableFilterCondition(spec))
         next.set(key,normalizeTableFilterSpec(spec));
     }
-    this._columnFilters=next;this._page=1;this._render();this._notifyFilterChange();
+    this._columnFilters=next;this._invalidateView();this._page=1;this._render();this._notifyFilterChange();
   }
-  get filteredRows(){
-    return applyFilterBar(filterTableRows(this._rows,this._columnFilters),
-      this._externalQuery,this._externalConditions,this._externalSearchKeys);
+  // Filter and sort once for a given dataset/condition revision, not on each page render.
+  // The public getter returns a copy so callers cannot mutate our cached view.
+  _invalidateView(){
+    this._filteredCache=null;
+    this._sortedCache=null;
   }
+  _getFilteredRows(){
+    if(!this._filteredCache)
+      this._filteredCache=applyFilterBar(filterTableRows(this._rows??[],this._columnFilters),
+        this._externalQuery,this._externalConditions,this._externalSearchKeys);
+    return this._filteredCache;
+  }
+  _getSortedRows(){
+    if(!this._sortedCache)
+      this._sortedCache=sortTableRows(this._getFilteredRows(),this._sortKey,this._direction);
+    return this._sortedCache;
+  }
+  get filteredRows(){return [...this._getFilteredRows()];}
   get externalFilterState(){
     return {query:this._externalQuery??"",
       conditions:{...(this._externalConditions??{})}};
@@ -412,6 +436,7 @@ export class CuDataTable extends BrowserElement {
       const conditions=bar.conditions;
       this._externalConditions=conditions&&typeof conditions==="object"?
         {...conditions}:{};
+      this._invalidateView();
       this._page=1;
       this._render();
       this._notifyFilterChange();
@@ -428,6 +453,7 @@ export class CuDataTable extends BrowserElement {
     this._externalQuery="";
     this._externalConditions={};
     this._externalSearchKeys=null;
+    this._invalidateView();
     this._page=1;
     this._render();
     this._notifyFilterChange();
@@ -436,6 +462,7 @@ export class CuDataTable extends BrowserElement {
     if(!this._columns.some(col=>col.key===key&&col.filterable!==false))return;
     if(spec==null){this.clearColumnFilter(key);return;}
     this._columnFilters.set(key,normalizeTableFilterSpec(spec));
+    this._invalidateView();
     this._page=1;this._render();this._notifyFilterChange();
   }
   setColumnCondition(key,operator,value="",value2=""){
@@ -443,16 +470,18 @@ export class CuDataTable extends BrowserElement {
   }
   clearColumnFilter(key){
     if(!this._columnFilters.delete(key))return;
+    this._invalidateView();
     this._page=1;this._render();this._notifyFilterChange();
   }
   clearAllFilters(){
     if(!this._columnFilters.size)return;
-    this._columnFilters.clear();this._page=1;this._render();this._notifyFilterChange();
+    this._columnFilters.clear();this._invalidateView();
+    this._page=1;this._render();this._notifyFilterChange();
   }
   _notifyFilterChange(){
     notify(this,"cu-filter-change",{filters:this.columnFilters,
       query:this._externalQuery??"",externalFilters:{...(this._externalConditions??{})},
-      filteredCount:this.filteredRows.length,totalCount:this._rows.length});
+      filteredCount:this._getFilteredRows().length,totalCount:this._rows.length});
   }
   get hiddenColumnKeys(){return [...this._hiddenColumns];}
   get visibleColumnKeys(){return this._columns.filter(column=>
@@ -474,11 +503,15 @@ export class CuDataTable extends BrowserElement {
     input.indeterminate=selected>0&&selected<ids.length;
     input.disabled=this.hasAttribute("loading")||!ids.length;
   }
-  _rowId(row,index){return String(row?.id ?? this._rows.indexOf(row) ?? index);}
+  _rowId(row,index){
+    if(row?.id!=null)return String(row.id);
+    // WeakMap prevents O(n²) indexOf calls while rendering or selecting large pages.
+    const original=row&&typeof row==="object"?this._rowIndex?.get(row):undefined;
+    return String(original??this._rows?.indexOf(row)??index);
+  }
   _pageSize(){return Math.max(1,Math.min(100,Math.floor(Number(this.getAttribute("page-size"))||5)));}
   _setPage(value){
-    const sorted=sortTableRows(this.filteredRows,this._sortKey,this._direction);
-    const next=paginateRows(sorted,value,this._pageSize()).page;
+    const next=paginateRows(this._getSortedRows(),value,this._pageSize()).page;
     if(next===this._page)return;
     this._page=next;this._render();
     notify(this,"cu-page-change",{page:this._page});
@@ -492,6 +525,7 @@ export class CuDataTable extends BrowserElement {
     if(this._sortKey===key&&this._direction===direction)return;
     this._sortKey=key??"";
     this._direction=direction;
+    this._sortedCache=null;
     this._page=1;this._render();
     notify(this,"cu-sort",{key:this._sortKey,direction:this._direction});
   }
@@ -745,8 +779,7 @@ export class CuDataTable extends BrowserElement {
       this._caption.textContent||"Data table");
     const columns=this._columns.filter(column=>!this._hiddenColumns.has(column.key));
     const busy=this.hasAttribute("loading");
-    const sorted=sortTableRows(this.filteredRows,this._sortKey,this._direction);
-    const page=paginateRows(sorted,this._page,this._pageSize());
+    const page=paginateRows(this._getSortedRows(),this._page,this._pageSize());
     this._page=page.page;
     this._visiblePageRows=busy||!columns.length?[]:page.rows;
     this._head.replaceChildren();
