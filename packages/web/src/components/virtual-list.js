@@ -80,9 +80,11 @@ export class CuVirtualList extends BrowserElement {
       if(!Object.hasOwn(moves,key)&&!["Home","End","Enter"," "].includes(key))return;
       event.preventDefault();
       if(key==="Enter"||key===" "){if(this._selected>=0)this.select(this._selected,{emit:true,force:true});return;}
+      const baseline=this._selected<0?
+        (moves[key]>0?-1:len):this._selected;
       let candidate=key==="Home"?0:key==="End"?len-1:
-        Math.max(0,Math.min(len-1,(this._selected<0?0:this._selected)+moves[key]));
-      const direction=key==="Home"||key==="ArrowDown"||key==="PageDown"||key==="End"?1:-1;
+        Math.max(0,Math.min(len-1,baseline+moves[key]));
+      const direction=key==="End"||key==="ArrowUp"||key==="PageUp"?-1:1;
       if(this._items[candidate]?.disabled){
         while(candidate>=0&&candidate<len&&this._items[candidate]?.disabled)candidate+=direction;
         if(candidate<0||candidate>=len)return;
