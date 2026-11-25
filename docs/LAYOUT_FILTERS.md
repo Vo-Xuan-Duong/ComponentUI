@@ -179,3 +179,22 @@ host applications before using these components in production.
 
 The source-level regression tests do not establish browser, framework
 or screen-reader certification. No GitHub Actions workflows are executed.
+
+
+## DataTable integration update
+
+FilterBar can now be connected to an existing DataTable without rewriting
+its column filter state:
+
+```js
+const table=document.querySelector("cu-data-table");
+const bar=document.querySelector("cu-filter-bar");
+const unbind=table.bindFilterBar(bar,{searchKeys:["name","owner"]});
+// On teardown:
+unbind();
+```
+
+The shared filtering helpers also have a lightweight import:
+`@componentui/web/components/filter-utils`. Legacy exports from
+`filter-bar` and `data-table` are retained. See
+[Virtualized Workspace](VIRTUALIZED_WORKSPACE.md) for API details.
