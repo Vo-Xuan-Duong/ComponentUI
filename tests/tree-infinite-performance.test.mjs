@@ -79,12 +79,14 @@ test("TreeList expands and selects nodes while blocking disabled entries",()=>{
   assert.equal(tree.select("leaf"),true);
   assert.equal(tree.collapse("branch"),true);
   assert.equal(tree.visibleCount,4);
+  assert.equal(tree.value,"branch"); // Selected leaf is hidden; nearest visible ancestor is selected.
   assert.equal(tree.toggle("branch"),true);
   assert.equal(tree.visibleCount,5);
   assert.deepEqual(events.map(e=>e.type),[
-    "cu-toggle","cu-change","cu-toggle","cu-change","cu-toggle","cu-toggle"
+    "cu-toggle","cu-change","cu-toggle","cu-change","cu-toggle","cu-change","cu-toggle"
   ]);
   assert.deepEqual(events[1].detail,{value:"first",item:tree._items[0].children[0],index:1});
+  assert.deepEqual(events[5].detail,{value:"branch",item:tree._items[0].children[2],index:3});
 });
 
 test("TreeList uses virtual window independent of deep hierarchy size",()=>{
