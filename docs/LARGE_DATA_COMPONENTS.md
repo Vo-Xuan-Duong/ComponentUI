@@ -60,7 +60,9 @@ The scroll container uses `role="tree"`, with
 `aria-activedescendant` on the currently rendered active row.
 ArrowRight expands or moves into children; ArrowLeft collapses or
 selects the parent; ArrowUp/Down, Home/End, Enter/Space are supported.
-Disabled items cannot be selected or expanded. User labels use
+Disabled items cannot be selected or expanded. When a selected descendant
+becomes hidden after collapsing its parent, TreeList moves selection to the
+nearest visible ancestor and emits a change event. User labels use
 `textContent`, never interpolated HTML.
 
 The pure helpers `flattenTreeList(items,expandedSet)` and
@@ -125,7 +127,8 @@ DataTable now memoizes filtered and sorted row arrays until the
 relevant inputs change. Changing page or rerendering the table does not
 need to repeat the full filter/sort pipeline. Cache invalidation occurs
 when consumers assign `rows`, change `columns`, set/clear column
-filters, update a bound FilterBar or change sorting. The public
+filters, update a bound FilterBar or change sorting. When no filters
+are active, DataTable also avoids unnecessary intermediate array copies. The public
 `filteredRows` getter returns a defensive array copy.
 
 For records without explicit `id`, DataTable builds a `WeakMap`
