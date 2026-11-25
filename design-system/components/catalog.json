@@ -483,7 +483,7 @@
         {
           "name": "SplitView",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -713,7 +713,7 @@
         {
           "name": "VirtualList",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
