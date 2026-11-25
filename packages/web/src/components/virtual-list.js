@@ -69,7 +69,8 @@ export class CuVirtualList extends BrowserElement {
     this._itemsRoot.addEventListener("click",event=>{
       const option=event.target.closest('[role="option"]');
       if(!option)return;
-      this.select(Number(option.dataset.index));
+      if(this.select(Number(option.dataset.index)))
+        this._viewport.focus({preventScroll:true});
     });
     this._viewport.addEventListener("keydown",event=>{
       const len=this._items.length;
