@@ -1,18 +1,9 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
-import { filterTableRows } from "./data-table.js";
+import { applyFilterBar } from "./filter-utils.js";
+export { applyFilterBar } from "./filter-utils.js";
 import "./data-filter.js";
 import "./icon.js";
 
-export function applyFilterBar(rows,query="",conditions={},searchKeys=null){
-  const filtered=filterTableRows(Array.isArray(rows)?rows:[],conditions);
-  const needle=String(query??"").trim().toLocaleLowerCase();
-  if(!needle)return filtered;
-  const keys=Array.isArray(searchKeys)?searchKeys:null;
-  return filtered.filter(row=>{
-    const values=keys?keys.map(key=>row?.[key]):Object.values(row??{});
-    return values.some(value=>value!=null&&String(value).toLocaleLowerCase().includes(needle));
-  });
-}
 
 const css=[
   ":host{display:block;min-width:0;color:var(--cu-text,#242424);",
