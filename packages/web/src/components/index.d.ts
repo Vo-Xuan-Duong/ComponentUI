@@ -166,6 +166,30 @@ export declare class CuFilterBar extends HTMLElement {
   refresh():void;
   clear():boolean;
 }
+export declare class CuSplitView extends HTMLElement {
+  position:number;
+  collapsible:boolean;
+  collapsed:boolean;
+  collapse():boolean;
+  expand():boolean;
+  toggle():boolean;
+}
+export declare function virtualListRange(
+  scrollTop:number,viewportHeight:number,count:number,itemHeight?:number,overscan?:number
+):{start:number;end:number;top:number;bottom:number;totalHeight:number};
+export declare function virtualListLabel(
+  item:unknown,index:number,labelKey?:string
+):string;
+export declare class CuVirtualList extends HTMLElement {
+  items:unknown[];
+  itemHeight:number;
+  overscan:number;
+  labelKey:string;
+  selectedIndex:number;
+  select(index:number,options?:{emit?:boolean;force?:boolean}):boolean;
+  scrollToIndex(index:number,align?:"auto"|"start"|"end"):boolean;
+  focus(options?:FocusOptions):void;
+}
 export declare class CuTextField extends HTMLElement {
   static formAssociated: boolean;
   value: string;
@@ -390,6 +414,9 @@ export declare class CuDataTable extends HTMLElement {
   headerActions:CuTableHeaderAction[];
   columnFilters:Record<string,CuTableFilterSpec>;
   readonly filteredRows:CuTableRecord[];
+  readonly externalFilterState:{query:string;conditions:CuFilterBarConditions};
+  bindFilterBar(bar:CuFilterBar,options?:{searchKeys?:string[]|null}):()=>void;
+  unbindFilterBar():void;
   readonly hiddenColumnKeys:string[];
   readonly visibleColumnKeys:string[];
   page:number;
