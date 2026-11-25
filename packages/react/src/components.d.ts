@@ -1,4 +1,6 @@
 import type { ReactCuComponent } from "./index.js";
+export declare const TreeList: ReactCuComponent;
+export declare const InfiniteScroll: ReactCuComponent;
 export declare const SplitView: ReactCuComponent;
 export declare const VirtualList: ReactCuComponent;
 export declare const Splitter: ReactCuComponent;
