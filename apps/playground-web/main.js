@@ -727,6 +727,83 @@ wcTable.addEventListener("cu-filter-change",e=>{
   tableResult.textContent=e.detail.filteredCount+" of "+e.detail.totalCount+
     " records"+(active.length?" (filtered: "+active.join(", ")+")":"");
 });
+// TreeList: virtualized hierarchy, 200 folders and 2,000 leaf records.
+const largeTree=document.getElementById("wc-tree-list");
+const treeListResult=document.getElementById("wc-tree-list-result");
+largeTree.items=Array.from({length:200},(_,folder)=>({
+  value:"folder-"+folder,label:"Folder "+String(folder+1).padStart(3,"0"),
+  expanded:folder===0,
+  children:Array.from({length:10},(_,file)=>({
+    value:"file-"+folder+"-"+file,
+    label:"module-"+String(file+1).padStart(2,"0")+".tsx"
+  }))
+}));
+largeTree.addEventListener("cu-change",event=>{
+  treeListResult.textContent="Selected: "+event.detail.value;
+});
+largeTree.addEventListener("cu-toggle",event=>{
+  treeListResult.textContent=(event.detail.expanded?"Expanded: ":"Collapsed: ")+event.detail.value+
+    " — "+largeTree.visibleCount+" visible nodes";
+});
+document.getElementById("wc-tree-list-expand").addEventListener("cu-press",()=>{
+  largeTree.expand("folder-0");largeTree.focus();
+});
+document.getElementById("wc-tree-list-collapse").addEventListener("cu-press",()=>{
+  largeTree.collapse("folder-0");largeTree.focus();
+});
+
+// InfiniteScroll: the application owns fetching and signals completion.
+const incrementalFeed=document.getElementById("wc-infinite-scroll");
+const feedContainer=document.getElementById("wc-infinite-items");
+const feedStatus=document.getElementById("wc-infinite-result");
+const FEED_TOTAL=120,FEED_BATCH=20;
+let loadedFeedItems=0;
+function appendFeedItems(size){
+  const fragment=document.createDocumentFragment();
+  for(let i=0;i<size;i++){
+    const item=document.createElement("li");
+    item.textContent="Incremental record #"+String(loadedFeedItems+i+1).padStart(3,"0");
+    item.style.padding="6px 0";
+    fragment.append(item);
+  }
+  loadedFeedItems+=size;
+  feedContainer.append(fragment);
+  feedStatus.textContent=loadedFeedItems+" of "+FEED_TOTAL+" records loaded";
+}
+incrementalFeed.addEventListener("cu-load-more",()=>{
+  const size=Math.min(FEED_BATCH,FEED_TOTAL-loadedFeedItems);
+  if(size>0)appendFeedItems(size);
+  incrementalFeed.complete({hasMore:loadedFeedItems<FEED_TOTAL});
+});
+document.getElementById("wc-infinite-next").addEventListener("cu-press",()=>{
+  incrementalFeed.requestMore("manual");
+});
+document.getElementById("wc-infinite-reset").addEventListener("cu-press",()=>{
+  feedContainer.replaceChildren();
+  loadedFeedItems=0;
+  incrementalFeed.reset();
+  incrementalFeed.hasMore=true;
+  appendFeedItems(FEED_BATCH);
+});
+appendFeedItems(FEED_BATCH);
+
+// DataTable performance example: cached filtered/sorted views over 5k records.
+const originalTableRows=wcTable.rows;
+document.getElementById("wc-table-large").addEventListener("cu-press",()=>{
+  wcTable.rows=Array.from({length:5000},(_,index)=>({
+    id:"perf-"+index,
+    name:"Project "+String(index+1).padStart(5,"0"),
+    owner:["Dương","Team","Ops"][index%3],
+    status:["Active","Review","Planned"][index%3],
+    updated:"2026-11-25"
+  }));
+  tableResult.textContent="Loaded 5,000 records; pagination uses cached filter and sort results";
+});
+document.getElementById("wc-table-small").addEventListener("cu-press",()=>{
+  wcTable.rows=originalTableRows;
+  tableResult.textContent="Restored 6 sample projects";
+});
+
 const tree=document.getElementById("wc-tree-view");
 tree.addEventListener("cu-change",e=>{
   document.getElementById("wc-tree-view-result").textContent="Selected "+e.detail.label;
