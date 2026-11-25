@@ -21,7 +21,7 @@ export const REACT_TAGS = Object.freeze({
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
   Skeleton:"cu-skeleton", Spinner:"cu-spinner", Alert:"cu-alert",
   Breadcrumb:"cu-breadcrumb", BreadcrumbItem:"cu-breadcrumb-item",
-  DataTable:"cu-data-table", TreeView:"cu-tree-view", TreeItem:"cu-tree-item",
+  DataTable:"cu-data-table", TreeView:"cu-tree-view", TreeList:"cu-tree-list", InfiniteScroll:"cu-infinite-scroll", TreeItem:"cu-tree-item",
   ListBox:"cu-listbox", ListOption:"cu-list-option",
   Combobox:"cu-combobox", ComboOption:"cu-combo-option",
   ContextMenu:"cu-context-menu", SplitView:"cu-split-view", VirtualList:"cu-virtual-list", Splitter:"cu-splitter", ResizablePanel:"cu-resizable-panel", FilterBar:"cu-filter-bar", DataFilter:"cu-data-filter"
@@ -40,6 +40,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuHeaderAction:"cu-header-action",
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
+  onCuLoadMore:"cu-load-more",
   onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action", onCuResize:"cu-resize"
 });
 
@@ -89,6 +90,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-icon":["name"],
   "cu-data-table":["rows","columns","rowActions","headerActions","columnFilters","page"],
   "cu-tree-view":["value"],
+  "cu-tree-list":["items","value","expandedValues","itemHeight","overscan"],
+  "cu-infinite-scroll":["hasMore","loading","threshold"],
   "cu-listbox":["value","disabled","required"],
   "cu-combobox":["value","disabled"]
 });
@@ -130,6 +133,7 @@ export function assignCuProperties(element, tagName, props = {}) {
           (tagName==="cu-stepper"&&name==="steps") ||
           (tagName==="cu-command-bar"&&name==="commands") ||
           (tagName==="cu-virtual-list"&&name==="items") ||
+          (tagName==="cu-tree-list"&&(name==="items"||name==="expandedValues")) ||
           (tagName==="cu-accordion"&&name==="values"&&Array.isArray(value)) ||
           (tagName==="cu-toggle-button-group"&&(name==="items"||
             (name==="value"&&Array.isArray(value))))) {
