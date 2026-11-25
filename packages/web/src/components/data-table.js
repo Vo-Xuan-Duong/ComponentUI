@@ -196,6 +196,11 @@ export class CuDataTable extends BrowserElement {
     this._selected=new Set();
     this._hiddenColumns=new Set();
     this._columnFilters=new Map();
+    this._boundFilterBar=null;
+    this._boundFilterHandler=null;
+    this._externalQuery="";
+    this._externalConditions={};
+    this._externalSearchKeys=null;
     this._filterEditor=null;
     this._rowActions=[];
     this._headerActions=[];
@@ -331,6 +336,7 @@ export class CuDataTable extends BrowserElement {
     window.addEventListener("scroll",this._filterViewport,true);
   }
   disconnectedCallback(){
+    this.unbindFilterBar();
     this._hideFilterPanel(false);
     document.removeEventListener("pointerdown",this._filterOutside);
     window.removeEventListener("resize",this._filterViewport);
@@ -386,7 +392,46 @@ export class CuDataTable extends BrowserElement {
     }
     this._columnFilters=next;this._page=1;this._render();this._notifyFilterChange();
   }
-  get filteredRows(){return filterTableRows(this._rows,this._columnFilters);}
+  get filteredRows(){
+    return applyFilterBar(filterTableRows(this._rows,this._columnFilters),
+      this._externalQuery,this._externalConditions,this._externalSearchKeys);
+  }
+  get externalFilterState(){
+    return {query:this._externalQuery??"",
+      conditions:{...(this._externalConditions??{})}};
+  }
+  bindFilterBar(bar,{searchKeys=null}={}){
+    if(!bar||typeof bar.addEventListener!=="function"||
+      typeof bar.removeEventListener!=="function")
+      throw new TypeError("bindFilterBar expects a cu-filter-bar element");
+    if(this._boundFilterBar)this.unbindFilterBar();
+    this._boundFilterBar=bar;
+    this._externalSearchKeys=Array.isArray(searchKeys)?[...searchKeys]:null;
+    this._boundFilterHandler=()=>{
+      this._externalQuery=String(bar.query??"");
+      const conditions=bar.conditions;
+      this._externalConditions=conditions&&typeof conditions==="object"?
+        {...conditions}:{};
+      this._page=1;
+      this._render();
+      this._notifyFilterChange();
+    };
+    bar.addEventListener("cu-filter-change",this._boundFilterHandler);
+    this._boundFilterHandler();
+    return ()=>{if(this._boundFilterBar===bar)this.unbindFilterBar();};
+  }
+  unbindFilterBar(){
+    if(!this._boundFilterBar)return;
+    this._boundFilterBar.removeEventListener("cu-filter-change",this._boundFilterHandler);
+    this._boundFilterBar=null;
+    this._boundFilterHandler=null;
+    this._externalQuery="";
+    this._externalConditions={};
+    this._externalSearchKeys=null;
+    this._page=1;
+    this._render();
+    this._notifyFilterChange();
+  }
   setColumnFilter(key,spec){
     if(!this._columns.some(col=>col.key===key&&col.filterable!==false))return;
     if(spec==null){this.clearColumnFilter(key);return;}
@@ -406,6 +451,7 @@ export class CuDataTable extends BrowserElement {
   }
   _notifyFilterChange(){
     notify(this,"cu-filter-change",{filters:this.columnFilters,
+      query:this._externalQuery??"",externalFilters:{...(this._externalConditions??{})},
       filteredCount:this.filteredRows.length,totalCount:this._rows.length});
   }
   get hiddenColumnKeys(){return [...this._hiddenColumns];}
