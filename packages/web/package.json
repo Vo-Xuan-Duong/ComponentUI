@@ -252,6 +252,14 @@
     "./components/filter-utils": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/filter-utils.js"
+    },
+    "./components/tree-list": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/tree-list.js"
+    },
+    "./components/infinite-scroll": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/infinite-scroll.js"
     }
   },
   "files": [
