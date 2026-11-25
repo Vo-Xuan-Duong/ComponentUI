@@ -5,7 +5,7 @@ adds two optional, framework-specific adapters to reduce integration boilerplate
 
 | Framework | Package (local tarball / workspace) | Capability |
 | --- | --- | --- |
-| React 18/19 | `packages/react/` | Factory for 66 tags (54 catalog components, Icon and 11 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
+| React 18/19 | `packages/react/` | Factory for 68 tags (55 catalog components, Icon and 12 declarative/auxiliary tags); controlled properties; native `cu-*` event handlers; forwarded ref |
 | Vue 3 | `packages/vue/` | Vite SFC `isCustomElement` predicate; reusable `v-cu-model` directive; native event-value extraction and cleanup |
 | HTML/JavaScript | `packages/web/` | No framework adapter required; import Custom Elements directly |
 
@@ -279,6 +279,21 @@ up when the consumer unmounts.
 
 See [Virtualized Workspace](VIRTUALIZED_WORKSPACE.md) for native APIs.
 Real React/Vue/Svelte integration tests remain outstanding.
+
+## TreeList and InfiniteScroll data adapters
+
+React exposes **68 wrappers** including `TreeList` and
+`InfiniteScroll`. TreeList receives `items` and `expandedValues`
+through stable-reference DOM property assignment; `value`,
+`itemHeight` and `overscan` are controlled as native properties.
+InfiniteScroll receives `hasMore`, `loading` and `threshold`;
+`onCuLoadMore` subscribes to the native `cu-load-more` event.
+Its consumers append DOM items and call `complete()` when loading
+finishes. Vue and Svelte may register the same Custom Elements and
+subscribe to the corresponding native Custom Events.
+
+See [Large Data Components](LARGE_DATA_COMPONENTS.md). Browser and
+installed-package acceptance remains outstanding.
 
 ## v0.9.0 — independent package outputs and Svelte 5
 
