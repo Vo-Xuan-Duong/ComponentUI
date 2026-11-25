@@ -41,6 +41,7 @@ export interface CuEventDetails {
   row?: Record<string,unknown>;
   column?: {key:string;label?:string;sortable?:boolean;filterable?:boolean}|null;
   filters?: Record<string,unknown[]|{operator:string;value?:string|number;value2?:string|number}>;
+  externalFilters?: Record<string,{operator:string;value:string}>;
   filteredCount?: number;
   totalCount?: number;
   hiddenKeys?: string[];
