@@ -29,6 +29,8 @@ export interface CuEventDetails {
   position?: number;
   conditions?: Record<string,{operator:string;value:string}>;
   activeCount?: number;
+  reason?: string;
+  requested?: number;
   field?: string;
   operator?: string;
   condition?: {field:string;operator:string;value:string}|null;
@@ -95,6 +97,10 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   steps?: {value:string;label?:string;description?:string;disabled?:boolean;optional?:boolean}[];
   actions?: {value:string;label?:string;disabled?:boolean}[];
   items?: unknown[];
+  expandedValues?: string[];
+  hasMore?: boolean;
+  threshold?: number;
+  emptyText?: string;
   commands?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
   maxVisible?: number;
   pageSize?: number;
@@ -144,6 +150,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuRemove?: (event: CuEvent) => void;
   onCuAction?: (event: CuEvent) => void;
   onCuResize?: (event: CuEvent) => void;
+  onCuLoadMore?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
@@ -160,7 +167,7 @@ export declare function createReactComponent(
   React: typeof import("react"), tagName: string
 ): ReactCuComponent;
 export declare function createReactComponents(React: typeof import("react")):
-  Record<"SplitView" | "VirtualList" | "Splitter" | "ResizablePanel" | "FilterBar" | "DataFilter" | "Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
+  Record<"TreeList" | "InfiniteScroll" | "SplitView" | "VirtualList" | "Splitter" | "ResizablePanel" | "FilterBar" | "DataFilter" | "Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
