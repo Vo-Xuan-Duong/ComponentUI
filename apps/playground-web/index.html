@@ -76,8 +76,8 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">56</strong><span>Preview components</span></div>
-          <div class="metric"><strong id="metric-native">54</strong><span>Native Web Components</span></div>
+          <div class="metric"><strong id="metric-previews">57</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
 
@@ -858,10 +858,35 @@
             <article class="cu-surface demo-card full-span">
               <h3>DataTable</h3>
               <p class="demo-subtitle">Filter columns like Excel: choose Values or Conditions (contains, greater than, between), and right-click headers for sorting or column visibility.</p>
+              <div class="demo-row"><cu-button id="wc-table-large" size="sm" variant="outline">Load 5,000 rows</cu-button><cu-button id="wc-table-small" size="sm" variant="subtle">Restore sample</cu-button></div>
               <cu-data-table id="wc-data-table" caption="Project inventory" page-size="4"
                 selectable empty-text="No matching projects">
               </cu-data-table>
               <p class="cu-helper" id="wc-data-table-result" role="status">Click the sliders icon in a header to filter by values or conditions; the first header checkbox selects all rows on the visible page. Right-click rows for actions.</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>TreeList</h3>
+              <p class="demo-subtitle">Virtualized project hierarchy. Expand folders with ArrowRight, collapse with ArrowLeft, and navigate with Home, End and Up/Down.</p>
+              <cu-tree-list id="wc-tree-list" label="Large source tree"
+                item-height="38" overscan="4" style="height:300px"></cu-tree-list>
+              <div class="demo-row">
+                <cu-button id="wc-tree-list-expand" size="sm" variant="outline">Expand first folder</cu-button>
+                <cu-button id="wc-tree-list-collapse" size="sm" variant="subtle">Collapse first folder</cu-button>
+              </div>
+              <p class="cu-helper" id="wc-tree-list-result" role="status">200 folders with 10 files each. Select or expand a folder.</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>InfiniteScroll</h3>
+              <p class="demo-subtitle">Loads records incrementally using IntersectionObserver and a keyboard-accessible Load more button as fallback.</p>
+              <cu-infinite-scroll id="wc-infinite-scroll" label="Incremental project feed"
+                has-more threshold="120" style="height:270px">
+                <ul id="wc-infinite-items" style="margin:0;padding:12px 22px"></ul>
+              </cu-infinite-scroll>
+              <div class="demo-row">
+                <cu-button id="wc-infinite-reset" size="sm" variant="outline">Reset feed</cu-button>
+                <cu-button id="wc-infinite-next" size="sm" variant="subtle">Request next batch</cu-button>
+              </div>
+              <p class="cu-helper" id="wc-infinite-result" role="status">20 of 120 items loaded.</p>
             </article>
             <article class="cu-surface demo-card">
               <h3>TreeView</h3>
