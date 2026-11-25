@@ -409,9 +409,17 @@ export class CuDataTable extends BrowserElement {
     this._sortedCache=null;
   }
   _getFilteredRows(){
-    if(!this._filteredCache)
-      this._filteredCache=applyFilterBar(filterTableRows(this._rows??[],this._columnFilters),
-        this._externalQuery,this._externalConditions,this._externalSearchKeys);
+    if(!this._filteredCache){
+      const rows=this._rows??[];
+      const base=this._columnFilters?.size?
+        filterTableRows(rows,this._columnFilters):rows;
+      const externalActive=Boolean(String(this._externalQuery??"").trim())||
+        Object.keys(this._externalConditions??{}).length>0;
+      // Avoid copying/filtering a second time when the external bar is idle.
+      this._filteredCache=externalActive?
+        applyFilterBar(base,this._externalQuery,this._externalConditions,
+          this._externalSearchKeys):base;
+    }
     return this._filteredCache;
   }
   _getSortedRows(){
