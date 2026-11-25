@@ -258,7 +258,7 @@ test("DataTable cu-filter-change reports combined filtered count and external st
   assert.equal(emitted.length,1);
   assert.equal(emitted[0].type,"cu-filter-change");
   assert.deepEqual(emitted[0].detail,{
-    filters:{status:{operator:"equals",value:"Active",value2:undefined}},
+    filters:{status:{operator:"equals",value:"Active"}},
     query:"ada",
     externalFilters:{owner:{operator:"equals",value:"Ada"}},
     filteredCount:1,totalCount:3
