@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "name": "InfiniteScroll",
+  "tag": "cu-infinite-scroll",
+  "status": "preview",
+  "kind": "auxiliary",
+  "description": "Accessible scroll container that requests additional data on intersection or near-bottom scrolling; application controls data fetching.",
+  "properties": {
+    "hasMore": "boolean",
+    "loading": "boolean",
+    "threshold": "number 0–2000",
+    "page": "readonly incrementing request counter"
+  },
+  "attributes": {
+    "has-more": "boolean",
+    "loading": "boolean",
+    "threshold": "number pixels",
+    "label": "string",
+    "aria-label": "string",
+    "end-text": "string"
+  },
+  "methods": [
+    "requestMore(reason?)",
+    "complete({hasMore?})",
+    "reset()"
+  ],
+  "events": [
+    "cu-load-more {page,reason}"
+  ],
+  "slots": [
+    "default"
+  ],
+  "accessibility": {
+    "role": "region with accessible name",
+    "busy": "aria-busy reflects loading",
+    "fallback": "Native button to request more without scrolling",
+    "status": "aria-live polite status for loading and end",
+    "keyboard": "Tab and Enter/Space native button"
+  },
+  "lifecycle": {
+    "request": "Only one in flight; loading state prevents duplicate requests",
+    "completion": "Application appends data and calls complete; no component network calls",
+    "observer": "IntersectionObserver with scroll fallback"
+  }
+}
