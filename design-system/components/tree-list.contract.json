@@ -35,7 +35,7 @@
   "accessibility": {
     "role": "tree with treeitem rows",
     "hierarchy": "aria-level, aria-posinset, aria-setsize and aria-expanded",
-    "selection": "aria-selected and aria-activedescendant on rendered row",
+    "selection": "aria-selected and aria-activedescendant on rendered row; collapsing an ancestor of the selection reanchors to the nearest visible ancestor and emits cu-change",
     "keyboard": "Arrow keys, Home, End, Enter and Space",
     "disabled": "Disabled rows cannot be selected or expanded",
     "security": "Labels written using textContent"
