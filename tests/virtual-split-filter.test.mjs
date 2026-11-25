@@ -152,6 +152,25 @@ test("SplitView ignores nested child controls and only relays own splitter event
   assert.deepEqual(out[0].detail,{position:45,collapsed:false});
 });
 
+test("SplitView position respects the configured min/max bounds",()=>{
+  const view=Object.create(CuSplitView.prototype);
+  const attrs=new Map([["min","20"],["max","75"],["position","35"]]);
+  view.hasAttribute=k=>attrs.has(k);
+  view.getAttribute=k=>attrs.get(k)??null;
+  view.setAttribute=(k,v)=>attrs.set(k,String(v));
+  view._sync=()=>{};
+  view.position=110;
+  assert.equal(view.position,75);
+  assert.equal(attrs.get("position"),"75");
+  view.position=-20;
+  assert.equal(view.position,20);
+  assert.equal(attrs.get("position"),"20");
+  attrs.set("position","invalid");
+  assert.equal(view.position,50);
+  attrs.delete("position");
+  assert.equal(view.position,32);
+});
+
 test("SplitView configures inner splitter and excludes collapsed sidebar focus",()=>{
   const view=Object.create(CuSplitView.prototype);
   const attrs=new Map([["position","34"],["collapsible",""],["collapsed",""],["label","Workspace"]]);
