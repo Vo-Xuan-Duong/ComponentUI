@@ -240,6 +240,18 @@
     "./components/data-filter": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/data-filter.js"
+    },
+    "./components/split-view": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/split-view.js"
+    },
+    "./components/virtual-list": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/virtual-list.js"
+    },
+    "./components/filter-utils": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/filter-utils.js"
     }
   },
   "files": [
