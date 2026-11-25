@@ -85,6 +85,7 @@ export class CuTreeList extends BrowserElement {
     this._selected="";
     this._active=0;
     this._lastRange=null;
+    this._renderRevision=0;
     this._observer=null;
     this._prefix="cu-tree-list-"+(++treeListId);
     this._viewport.addEventListener("scroll",()=>this._render());
@@ -143,10 +144,17 @@ export class CuTreeList extends BrowserElement {
   _setExpanded(key,expanded){
     const row=this._visible.find(item=>item.value===key);
     if(!row||!row.hasChildren||row.disabled||row.expanded===expanded)return false;
+    const previousSelection=this._selected;
     if(expanded)this._expanded.add(key);
     else this._expanded.delete(key);
     this._refresh();
     notify(this,"cu-toggle",{value:key,expanded});
+    if(this._selected!==previousSelection){
+      const index=this._visible.findIndex(item=>item.value===this._selected);
+      if(index>=0)notify(this,"cu-change",{
+        value:this._selected,item:this._visible[index].item,index
+      });
+    }
     return true;
   }
   select(value){
@@ -171,13 +179,24 @@ export class CuTreeList extends BrowserElement {
   }
   focus(options){this._viewport.focus(options);}
   _refresh(){
+    const previous=this._visible;
     this._visible=flattenTreeList(this._items,this._expanded);
-    const i=this._visible.findIndex(row=>row.value===this._selected&&!row.disabled);
+    let i=this._visible.findIndex(row=>row.value===this._selected&&!row.disabled);
+    if(i<0&&this._selected){
+      // When a branch closes, reanchor selection to its nearest visible ancestor.
+      const byValue=new Map(previous.map(row=>[row.value,row]));
+      let parent=byValue.get(this._selected)?.parent??null;
+      while(parent!==null&&i<0){
+        i=this._visible.findIndex(row=>row.value===parent&&!row.disabled);
+        if(i>=0)this._selected=parent;
+        else parent=byValue.get(parent)?.parent??null;
+      }
+    }
     if(i>=0)this._active=i;
     else if(this._active>=this._visible.length)this._active=Math.max(0,this._visible.length-1);
-    if(this._visible[this._active]?.disabled){
+    if(this._visible[this._active]?.disabled)
       this._active=Math.max(0,this._visible.findIndex(row=>!row.disabled));
-    }
+    this._renderRevision=(this._renderRevision||0)+1;
     this._lastRange=null;
     this._render();
   }
@@ -221,7 +240,7 @@ export class CuTreeList extends BrowserElement {
     const range=virtualListRange(this._viewport.scrollTop,
       this._viewport.clientHeight||340,count,this.itemHeight,this.overscan);
     const signature=[range.start,range.end,this.itemHeight,this._selected,
-      [...this._expanded].join(","),count].join(":");
+      this._renderRevision||0,count].join(":");
     if(signature===this._lastRange)return;
     this._lastRange=signature;
     this._top.style.height=range.top+"px";
