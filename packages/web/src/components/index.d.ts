@@ -190,6 +190,40 @@ export declare class CuVirtualList extends HTMLElement {
   scrollToIndex(index:number,align?:"auto"|"start"|"end"):boolean;
   focus(options?:FocusOptions):void;
 }
+export interface CuTreeListItem {
+  value?:string;id?:string|number;label?:string;name?:string;
+  disabled?:boolean;expanded?:boolean;children?:CuTreeListItem[];
+}
+export interface CuTreeListRow {
+  value:string;label:string;level:number;parent:string|null;
+  posinset:number;setsize:number;disabled:boolean;
+  hasChildren:boolean;expanded:boolean;item:CuTreeListItem;
+}
+export declare function flattenTreeList(
+  items:CuTreeListItem[],expanded?:Set<string>|string[]
+):CuTreeListRow[];
+export declare function initialTreeExpansion(items:CuTreeListItem[]):Set<string>;
+export declare class CuTreeList extends HTMLElement {
+  items:CuTreeListItem[];
+  value:string;
+  itemHeight:number;
+  overscan:number;
+  expandedValues:string[];
+  readonly visibleCount:number;
+  expand(value:string):boolean;collapse(value:string):boolean;toggle(value:string):boolean;
+  select(value:string):boolean;scrollToIndex(index:number):boolean;
+  focus(options?:FocusOptions):void;
+}
+export declare function shouldLoadMore(
+  scrollTop:number,clientHeight:number,scrollHeight:number,threshold?:number
+):boolean;
+export declare class CuInfiniteScroll extends HTMLElement {
+  hasMore:boolean;loading:boolean;threshold:number;
+  readonly page:number;
+  requestMore(reason?:string):boolean;
+  complete(options?:{hasMore?:boolean}):void;
+  reset():void;
+}
 export declare class CuTextField extends HTMLElement {
   static formAssociated: boolean;
   value: string;
