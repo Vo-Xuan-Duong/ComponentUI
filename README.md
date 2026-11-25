@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 54 experimental catalogued browser Custom Elements. **There are 54 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 55 experimental catalogued browser Custom Elements. **There are 55 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -92,6 +92,16 @@ an independent import without the DataTable rendering graph. The
 and the React factory exposes **66 wrappers**. See
 [Virtualized Workspace](docs/VIRTUALIZED_WORKSPACE.md).
 
+**Large-data milestone:** `TreeList` adds virtualized hierarchical
+navigation, and auxiliary `InfiniteScroll` provides controlled
+incremental loading with a manual fallback. DataTable now caches
+filtered/sorted views between page changes and indexes row identities
+for larger local datasets. The 129-item catalog has **57 previews,
+72 planned and 0 production-certified** entries; **55 catalogued
+native Web Components** are implemented, alongside the auxiliary
+InfiniteScroll control. The React factory exposes **68 wrappers**.
+See [Large Data Components](docs/LARGE_DATA_COMPONENTS.md).
+
 ## Preview locally
 
 Requires Node.js 20+ (no third-party runtime dependencies in this milestone).
@@ -168,6 +178,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Accordion, Disclosure, Pagination and Drawer](docs/NAVIGATION_SURFACES.md)
 - [Splitter, ResizablePanel, FilterBar and DataFilter](docs/LAYOUT_FILTERS.md)
 - [SplitView, VirtualList and connected DataTable filters](docs/VIRTUALIZED_WORKSPACE.md)
+- [TreeList, InfiniteScroll and DataTable performance](docs/LARGE_DATA_COMPONENTS.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
