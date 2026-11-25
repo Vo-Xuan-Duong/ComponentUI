@@ -50,16 +50,18 @@ export class CuSplitView extends BrowserElement {
     this._toggleLabel=root.querySelector(".toggle-label");
     this._expandedPosition=32;
     this._toggle.addEventListener("click",()=>this.toggle());
-    for(const type of ["cu-input","cu-change"]){
-      this._splitter.addEventListener(type,event=>{
-        event.stopPropagation();
-        if(this.collapsed)return;
-        const position=event.detail.position;
-        if(this.getAttribute("position")!==String(position))
-          this.setAttribute("position",String(position));
-        notify(this,type,{position,collapsed:false});
-      });
-    }
+    for(const type of ["cu-input","cu-change"])
+      this._splitter.addEventListener(type,event=>this._handleSplitEvent(event));
+  }
+  _handleSplitEvent(event){
+    // Only handle Splitter events; nested slotted inputs may also emit cu-change.
+    if(event.target!==this._splitter)return;
+    event.stopPropagation();
+    if(this.collapsed)return;
+    const position=event.detail.position;
+    if(this.getAttribute("position")!==String(position))
+      this.setAttribute("position",String(position));
+    notify(this,event.type,{position,collapsed:false});
   }
   connectedCallback(){this._sync();}
   attributeChangedCallback(){this._sync();}
