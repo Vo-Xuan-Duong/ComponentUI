@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "name": "SplitView",
+  "tag": "cu-split-view",
+  "status": "preview",
+  "kind": "layout",
+  "description": "Composed sidebar/content view backed by cu-splitter and cu-resizable-panel; optional collapse control.",
+  "attributes": {
+    "position": "percentage, defaults to 32",
+    "min": "percentage, defaults to 15",
+    "max": "percentage, defaults to 85",
+    "orientation": "horizontal|vertical",
+    "collapsible": "boolean",
+    "collapsed": "boolean",
+    "disabled": "boolean",
+    "label": "string"
+  },
+  "properties": {
+    "position": "number",
+    "collapsed": "boolean",
+    "collapsible": "boolean"
+  },
+  "slots": [
+    "sidebar",
+    "content"
+  ],
+  "methods": [
+    "collapse()",
+    "expand()",
+    "toggle()"
+  ],
+  "events": [
+    "cu-input {position,collapsed} when separator moves",
+    "cu-change {position,collapsed} when adjustment completes",
+    "cu-toggle {collapsed,position} when sidebar toggles"
+  ],
+  "accessibility": {
+    "sidebar": "inert when collapsed and excluded from keyboard focus",
+    "toggle": "native button with aria-expanded and aria-controls",
+    "separator": "reuses Splitter role=separator and aria-valuenow,min,max; Arrow keys and Home/End",
+    "viewport": "the host must have a usable height",
+    "highContrast": "focus and surfaces derive from tokens"
+  },
+  "notes": "Content is consumer-owned and slotted, never interpolated as raw HTML."
+}
