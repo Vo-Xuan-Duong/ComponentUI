@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **75 planned**, **54 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **73 planned**, **56 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -103,3 +103,14 @@ catalog count. All remain experimental. See
 All four move from `planned` to `preview`. The catalog remains at
 129 entries, with 54 experimental previews and 75 planned components.
 See [Layout and Data Filters](LAYOUT_FILTERS.md).
+
+
+## Virtualized workspace and connected data filtering
+
+- **SplitView** (`cu-split-view`) — sidebar/content layout with collapsible navigation.
+- **VirtualList** (`cu-virtual-list`) — fixed-row-height rendering with a bounded DOM window for large datasets.
+- **DataTable + FilterBar** — direct `bindFilterBar()` integration preserves existing column filters.
+- **Filter utilities** — pure filtering in a separate lightweight module with backward-compatible reexports.
+
+The catalog remains 129 components: **56 preview, 73 planned, 0 certified**.
+See [Virtualized Workspace](VIRTUALIZED_WORKSPACE.md).
