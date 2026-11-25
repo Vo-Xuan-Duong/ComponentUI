@@ -216,6 +216,24 @@ test("DataTable memoizes 10k-row filtered and sorted views across pagination",()
   assert.equal(table._getSortedRows()[0].rank,1);
 });
 
+test("DataTable avoids repeated copy and filter passes with no active criteria",()=>{
+  const table=Object.create(CuDataTable.prototype);
+  const rows=Array.from({length:10000},(_,i)=>({id:i,score:i}));
+  table._rows=rows;table._columnFilters=new Map();
+  table._externalQuery="";table._externalConditions={};table._externalSearchKeys=null;
+  table._sortKey="";table._direction="asc";
+  assert.equal(table._getFilteredRows(),rows);
+  assert.equal(table._getFilteredRows(),rows);
+  const sorted=table._getSortedRows();
+  assert.notEqual(sorted,rows);
+  assert.equal(sorted.length,10000);
+  assert.equal(table._getSortedRows(),sorted);
+  assert.notEqual(table.filteredRows,rows);
+  table._externalQuery="999";
+  table._invalidateView();
+  assert.equal(table._getFilteredRows().length,19);
+});
+
 test("DataTable invalidates view caches when data and sorting changes",()=>{
   const table=Object.create(CuDataTable.prototype);
   table._rows=[{id:"1",rank:2},{id:"2",rank:1}];
