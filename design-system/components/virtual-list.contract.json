@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "name": "VirtualList",
+  "tag": "cu-virtual-list",
+  "status": "preview",
+  "kind": "data",
+  "description": "Fixed-row-height virtualized listbox that only renders the visible slice of a large item array.",
+  "attributes": {
+    "item-height": "positive pixels, default 40",
+    "overscan": "nonnegative integer 0–50, default 4",
+    "label-key": "field from object records; default label",
+    "label": "string",
+    "aria-label": "string",
+    "empty-text": "string"
+  },
+  "properties": {
+    "items": "unknown[] stable-reference array",
+    "itemHeight": "number",
+    "overscan": "number",
+    "labelKey": "string",
+    "selectedIndex": "number (index, -1 none)"
+  },
+  "methods": [
+    "select(index,{emit?,force?})",
+    "scrollToIndex(index,align?)",
+    "focus(options?)"
+  ],
+  "events": [
+    "cu-change {index,previousIndex,item,value} on selection"
+  ],
+  "accessibility": {
+    "role": "listbox viewport with role=option children",
+    "rows": "aria-posinset, aria-setsize and aria-selected",
+    "selection": "aria-activedescendant only points to a rendered option",
+    "keyboard": "ArrowUp/ArrowDown, Home/End, PageUp/PageDown and Enter/Space",
+    "disabled": "disabled items cannot be selected",
+    "security": "labels are rendered using textContent, not innerHTML"
+  },
+  "performance": {
+    "algorithm": "fixed-size rows with overscan and top/bottom spacer elements",
+    "expectedDom": "proportional to viewportHeight/itemHeight, not total item count",
+    "notes": "does not support dynamic row heights yet"
+  }
+}
