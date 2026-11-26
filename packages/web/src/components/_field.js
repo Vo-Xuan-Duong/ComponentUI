@@ -32,7 +32,7 @@ export function syncFieldValidity(host,input,{wrapper=null,hint=host._hint,error
   const revealed=state.invalid&&Boolean(error||host._validationRevealed);
   input.setAttribute("aria-invalid",String(revealed));
   if(wrapper)wrapper.dataset.invalid=String(revealed);
-  if(errorNode)errorNode.textContent=revealed?state.message:"";
+  if(errorNode){const message=revealed?state.message:"";if(errorNode.textContent!==message)errorNode.textContent=message;}
   syncFieldDescriptions(input,hint,errorNode);
   host._internals?.setFormValue(input.disabled?null:input.value);
   if(state.invalid)host._internals?.setValidity(state.flags,state.message,input);
