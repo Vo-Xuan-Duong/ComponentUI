@@ -1,6 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
-import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay } from "./_overlay.js";
+import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay, isTopOverlay } from "./_overlay.js";
 
 export class CuComboOption extends BrowserElement {
   static get observedAttributes(){return ["value","label","disabled","selected"];}
@@ -25,15 +25,20 @@ const css=[
   "border-bottom-width:2px;border-radius:var(--cu-radius-md,6px);",
   "background:var(--cu-surface,#fff);color:var(--cu-text,#242424);",
   "font:400 14px var(--cu-font-body,system-ui);}",
-  "input:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
-  "input:disabled{opacity:.55;}",
+  "input:hover:not(:disabled):not(:focus){background:var(--cu-surface-alt,#fafafa);",
+  "border-color:var(--cu-accent,#0067c0);}",
+  "input:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;",
+  "border-bottom-color:var(--cu-accent,#0067c0);",
+  "box-shadow:0 0 0 4px color-mix(in srgb,var(--cu-focus,#0067c0) 14%,transparent);}",
+  "input:disabled{opacity:.55;cursor:not-allowed;}",
+  "input[aria-invalid=true]{border-bottom-color:var(--cu-danger,#c42b1c);}",
   ".popup{position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:2;",
   "box-sizing:border-box;padding:5px;max-height:235px;overflow:auto;",
   "border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-lg,8px);",
   "background:var(--cu-surface-elevated,#fff);",
   "box-shadow:var(--cu-shadow-flyout,0 12px 28px rgb(0 0 0/.16));}",
   ".popup[hidden]{display:none!important;}",
-  ".popup:not([hidden]){animation:cu-combo-enter var(--cu-motion-normal,160ms) ease both;}",
+  ".popup:not([hidden]){animation:cu-combo-enter var(--cu-motion-normal,160ms) var(--cu-motion-ease,ease) both;}",
   "@keyframes cu-combo-enter{from{opacity:.5}to{opacity:1}}",
   ".option[aria-selected=true]:not([data-active=true]):not(:hover){background:var(--cu-state-selected);}",
   ".option{padding:9px 11px;min-height:34px;box-sizing:border-box;",
@@ -42,7 +47,9 @@ const css=[
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 19%,var(--cu-surface,#fff));}",
   ".empty{padding:12px;color:var(--cu-text-muted,#616161);font-size:12px;}",
   "slot{display:none!important;}",
-  "@media(forced-colors:active){.option[data-active=true]{outline:2px solid Highlight;}}",
+  "@media(prefers-reduced-motion:reduce){.popup:not([hidden]){animation:none;}}",
+  "@media(forced-colors:active){.option[data-active=true]{outline:2px solid Highlight;}",
+  "input:focus-visible{outline-color:Highlight;box-shadow:none;}}",
   focusStyle
 ].join("");
 let idCounter=0;
@@ -234,13 +241,24 @@ export class CuCombobox extends BrowserElement {
   }
   _key(e){
     if(this._disabled())return;
-    if(e.key==="Escape"&&this._open){e.preventDefault();e.stopPropagation();this.hide(true);return;}
+    if(e.key==="Escape"&&this._open&&isTopOverlay(this)){
+      e.preventDefault();e.stopPropagation();this.hide(true);return;
+    }
     if(e.key==="Tab"){this.hide(true);return;}
     if(e.key==="ArrowDown"||e.key==="ArrowUp"){
       e.preventDefault();
       if(!this._open){this.show();return;}
+      const count=this._visible.length;
+      if(!count)return;
+      const direction=e.key==="ArrowDown"?1:-1;
+      this._active=this._active<0?(direction>0?0:count-1):
+        (this._active+direction+count)%count;
+      this._markActive();return;
+    }
+    if((e.key==="Home"||e.key==="End")&&this._open){
+      e.preventDefault();
       if(!this._visible.length)return;
-      this._active=(this._active+(e.key==="ArrowDown"?1:-1)+this._visible.length)%this._visible.length;
+      this._active=e.key==="Home"?0:this._visible.length-1;
       this._markActive();return;
     }
     if(e.key==="Enter"&&this._open){
