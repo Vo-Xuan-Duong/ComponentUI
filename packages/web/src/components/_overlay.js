@@ -36,7 +36,7 @@ export function overlayGeometry(anchor,size,viewport,{
   const above=Math.max(0,anchor.top-top-margin-gap);
   const desired=Math.min(maxHeight,Math.max(0,size.height));
   const placement=below<desired&&above>below?"top":"bottom";
-  const height=Math.min(maxHeight,placement==="top"?above:below);
+  const height=Math.min(desired,placement==="top"?above:below);
   const wanted=align==="end"?anchor.right-width:anchor.left;
   const x=Math.max(left+margin,Math.min(wanted,right-margin-width));
   return {placement,left:x-anchor.left,width,maxHeight:height,gap};
