@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "ScrollView",
+  "tag": "scroll-view",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "axis": "vertical | horizontal | both",
+    "scrollbar": "auto | thin | hidden",
+    "label": "string"
+  },
+  "events": [
+    "cu-scroll"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

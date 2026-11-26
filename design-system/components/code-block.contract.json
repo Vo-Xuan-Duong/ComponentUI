@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "CodeBlock",
+  "tag": "code-block",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "value": "string",
+    "language": "string",
+    "copyable": "boolean"
+  },
+  "events": [
+    "cu-action"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

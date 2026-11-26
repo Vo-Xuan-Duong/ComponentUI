@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "FormField",
+  "tag": "form-field",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "required": "boolean"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "ListItem",
+  "tag": "list-item",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "description": "string",
+    "value": "string",
+    "actionable": "boolean",
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-select"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

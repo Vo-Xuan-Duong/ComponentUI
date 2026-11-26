@@ -77,7 +77,7 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">132</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">92</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-previews">105</strong><span>Preview components</span></div>
           <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
@@ -625,6 +625,42 @@
                 <cu-button type="submit" variant="accent">Read form values</cu-button>
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>List and DescriptionList</h3><p class="demo-subtitle">Semantic information and actionable rows.</p>
+              <cu-list label="Workspace files" id="wc-list">
+                <cu-list-item label="Documents" description="128 files" value="documents" actionable><cu-icon slot="leading" name="folder"></cu-icon></cu-list-item>
+                <cu-list-item label="Settings" description="Application preferences" value="settings" actionable><cu-icon slot="leading" name="settings"></cu-icon></cu-list-item>
+                <cu-list-item label="Read-only information" description="A non-interactive list item"></cu-list-item>
+              </cu-list>
+              <cu-description-list id="wc-description-list"></cu-description-list>
+              <p id="wc-list-result" role="status" class="cu-helper">Choose a row.</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Kbd and CodeBlock</h3><p>Press <cu-kbd>Ctrl</cu-kbd> + <cu-kbd>K</cu-kbd> for the command palette.</p>
+              <cu-code-block language="JavaScript" copyable id="wc-code-block"></cu-code-block>
+              <cu-image alt="Image fallback example" fallback-text="No image provided"></cu-image>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ScrollView and Collapsible</h3>
+              <cu-scroll-view label="Scrollable notes" scrollbar="thin" style="--cu-scroll-max-height:130px">
+                <cu-collapsible label="Workspace details" open>
+                  <p>Reusable scroll and disclosure behavior.</p><p>Keyboard-accessible controls.</p><p>Use slots for application content.</p><p>Independent of framework runtime.</p>
+                </cu-collapsible>
+              </cu-scroll-view>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Form, FormField and FileUpload</h3><p class="demo-subtitle">Native form semantics, file selection and host-owned upload requests.</p>
+              <cu-form id="wc-form" intercept-submit>
+                <form>
+                  <cu-form-field label="Project details" hint="Provide a name for this example.">
+                    <cu-text-field name="project" label="Project name" required></cu-text-field>
+                  </cu-form-field>
+                  <cu-file-upload id="wc-file-upload" label="Attachments" name="attachments" multiple max-size="10485760"></cu-file-upload>
+                  <div class="demo-row"><cu-button type="submit" size="sm">Read form</cu-button><cu-button type="reset" size="sm">Reset</cu-button></div>
+                </form>
+              </cu-form>
+              <p id="wc-form-result" class="cu-helper" role="status">No data sent.</p>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>Layout foundation</h3><p class="demo-subtitle">Responsive container, grid, flex and stack with theme-aware surfaces.</p>

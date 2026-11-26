@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "Collapsible",
+  "tag": "collapsible",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "open": "boolean",
+    "disabled": "boolean",
+    "label": "string",
+    "value": "string"
+  },
+  "events": [
+    "cu-toggle"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

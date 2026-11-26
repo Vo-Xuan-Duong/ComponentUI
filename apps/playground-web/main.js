@@ -116,6 +116,13 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+document.getElementById("wc-description-list").items=[{label:"Branch",value:"main"},{label:"Status",value:"Preview"},{label:"Frameworks",value:"React / Vue / Svelte"}];
+document.getElementById("wc-list").addEventListener("cu-select",event=>{document.getElementById("wc-list-result").textContent="Selected: "+event.detail.label;});
+document.getElementById("wc-code-block").value='import "@componentui/web";\nconst ready = true;';
+const wcForm=document.getElementById("wc-form");
+wcForm.addEventListener("cu-submit",event=>{document.getElementById("wc-form-result").textContent="Project: "+String(event.detail.formData.get("project")||"")+" (local demo)";});
+wcForm.addEventListener("cu-reset",()=>{document.getElementById("wc-form-result").textContent="Form reset.";});
+document.getElementById("wc-file-upload").addEventListener("cu-upload",event=>{document.getElementById("wc-form-result").textContent=event.detail.count+" file(s) selected for upload; no network request.";});
 const wcRichForm=document.getElementById("wc-rich-form");
 wcRichForm.addEventListener("submit",event=>{
   event.preventDefault();

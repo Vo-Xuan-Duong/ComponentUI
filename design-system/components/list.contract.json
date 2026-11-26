@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "List",
+  "tag": "list",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "variant": "plain | default",
+    "no-divider": "boolean"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

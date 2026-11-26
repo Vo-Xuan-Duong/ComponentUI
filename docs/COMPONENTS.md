@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **40 planned**, **92 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **27 planned**, **105 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -185,3 +185,7 @@ DockLayout is a new catalog entry; KanbanBoard moves from planned to preview. In
 ## Layout foundation, RichTextEditor and ChartContainer
 
 Eight planned entries move to preview. Inventory: 132 entries, 92 preview, 40 planned, 0 ready. See [Layout and editor foundation](LAYOUT_EDITOR_CHART.md).
+
+## Forms, lists and utility components
+
+Eleven planned entries gain preview modules. Radio and MenuItem already had native implementations and gallery demos, so their catalog status is reconciled to preview. Inventory: 132 entries, 105 preview, 27 planned, 0 ready. See [Forms and display utilities](FORM_DISPLAY_UTILITIES.md).

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "name": "DescriptionList",
+  "tag": "description-list",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "orientation": "horizontal | vertical"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "92 experimental catalogued browser Custom Elements; 92 catalog preview entries, 40 planned, 0 production-ready.",
+  "summary": "105 catalogued experimental browser Custom Elements; 105 catalog preview entries, 27 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -217,7 +217,7 @@
         {
           "name": "Radio",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -316,7 +316,7 @@
         {
           "name": "FileUpload",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -352,7 +352,7 @@
         {
           "name": "FormField",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -361,7 +361,7 @@
         {
           "name": "Form",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -474,7 +474,7 @@
         {
           "name": "MenuItem",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -533,7 +533,7 @@
         {
           "name": "List",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -542,7 +542,7 @@
         {
           "name": "ListItem",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -578,7 +578,7 @@
         {
           "name": "DescriptionList",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -659,7 +659,7 @@
         {
           "name": "Kbd",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -668,7 +668,7 @@
         {
           "name": "CodeBlock",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -740,7 +740,7 @@
         {
           "name": "Image",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -975,7 +975,7 @@
         {
           "name": "ScrollView",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -984,7 +984,7 @@
         {
           "name": "Collapsible",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

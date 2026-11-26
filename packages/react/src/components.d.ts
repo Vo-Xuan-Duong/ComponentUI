@@ -105,3 +105,15 @@ export declare const Surface: ReactCuComponent;
 export declare const PageHeader: ReactCuComponent;
 export declare const RichTextEditor: ReactCuComponent;
 export declare const ChartContainer: ReactCuComponent;
+
+export declare const List: ReactCuComponent;
+export declare const ListItem: ReactCuComponent;
+export declare const DescriptionList: ReactCuComponent;
+export declare const Kbd: ReactCuComponent;
+export declare const CodeBlock: ReactCuComponent;
+export declare const Image: ReactCuComponent;
+export declare const ScrollView: ReactCuComponent;
+export declare const Collapsible: ReactCuComponent;
+export declare const FileUpload: ReactCuComponent;
+export declare const FormField: ReactCuComponent;
+export declare const Form: ReactCuComponent;

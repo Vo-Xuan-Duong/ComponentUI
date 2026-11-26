@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "Form",
+  "tag": "form",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "intercept-submit": "boolean"
+  },
+  "events": [
+    "cu-submit",
+    "cu-reset"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

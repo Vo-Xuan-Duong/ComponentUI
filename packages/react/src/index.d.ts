@@ -87,6 +87,7 @@ export interface CuEventDetails {
   visible?: boolean;
   open?: boolean;
   files?: File[];
+  formData?: FormData;
   count?: number;
   total?: number;
   groups?: number;
@@ -106,7 +107,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   values?: string[];
   checked?: boolean;
   disabled?: boolean;
-  loading?: boolean;
+  loading?: boolean | "lazy" | "eager";
   pressed?: boolean;
   toggle?: boolean;
   multiple?: boolean;
@@ -155,6 +156,16 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   count?: number | string;
   "chart-type"?: "bar" | "line";
   "show-table"?: boolean;
+  "copyable"?: boolean;
+  "intercept-submit"?: boolean;
+  "actionable"?: boolean;
+  "no-divider"?: boolean;
+  src?: string;
+  alt?: string;
+  language?: string;
+  fit?: "contain" | "cover" | "fill";
+  "fallback-text"?: string;
+  "upload-label"?: string;
   maxVisible?: number;
   "max-selected"?: number | string;
   "max-tags"?: number | string;
@@ -240,6 +251,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuAction?: (event: CuEvent) => void;
   onCuResize?: (event: CuEvent) => void;
   onCuMove?: (event: CuEvent) => void;
+  onCuUpload?: (event: CuEvent) => void;
+  onCuSubmit?: (event: CuEvent) => void;
+  onCuReset?: (event: CuEvent) => void;
   onCuLoadMore?: (event: CuEvent) => void;
   onCuRetry?: (event: CuEvent) => void;
   onCuScroll?: (event: CuEvent) => void;
@@ -266,7 +280,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "Stack" | "Grid" | "Flex" | "Surface" | "PageHeader" | "RichTextEditor" | "ChartContainer" | "Container" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "Stack" | "Grid" | "Flex" | "Surface" | "PageHeader" | "RichTextEditor" | "ChartContainer" | "List" | "ListItem" | "DescriptionList" | "Kbd" | "CodeBlock" | "Image" | "ScrollView" | "Collapsible" | "FileUpload" | "FormField" | "Form" | "Container" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

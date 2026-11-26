@@ -68,7 +68,7 @@ test("Web Component package and React adapter expose new tags",async()=>{
   assert.equal(REACT_TAGS.Card,"cu-card");
   assert.equal(REACT_TAGS.Breadcrumb,"cu-breadcrumb");
   assert.equal(REACT_TAGS.BreadcrumbItem,"cu-breadcrumb-item");
-  assert.equal(Object.keys(REACT_TAGS).length,105);
+  assert.equal(Object.keys(REACT_TAGS).length,116);
 });
 
 test("Playground contains six component previews and functional controls",async()=>{
@@ -91,7 +91,7 @@ test("six catalog entries move to preview without claiming production readiness"
   for(const name of ["Card","Divider","Skeleton","Spinner","Alert","Breadcrumb"])
     assert.equal(statuses.get(name),"preview");
   assert.equal(records.length,132);
-  assert.equal(records.filter(c=>c.status==="preview").length,92);
-  assert.equal(records.filter(c=>c.status==="planned").length,40);
+  assert.equal(records.filter(c=>c.status==="preview").length,105);
+  assert.equal(records.filter(c=>c.status==="planned").length,27);
   assert.equal(records.filter(c=>c.status==="ready").length,0);
 });

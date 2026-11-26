@@ -408,6 +408,50 @@
     "./components/chart-container": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/chart-container.js"
+    },
+    "./components/list": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/list.js"
+    },
+    "./components/list-item": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/list-item.js"
+    },
+    "./components/description-list": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/description-list.js"
+    },
+    "./components/kbd": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/kbd.js"
+    },
+    "./components/code-block": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/code-block.js"
+    },
+    "./components/image": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/image.js"
+    },
+    "./components/scroll-view": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/scroll-view.js"
+    },
+    "./components/collapsible": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/collapsible.js"
+    },
+    "./components/file-upload": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/file-upload.js"
+    },
+    "./components/form-field": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/form-field.js"
+    },
+    "./components/form": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/form.js"
     }
   },
   "files": [

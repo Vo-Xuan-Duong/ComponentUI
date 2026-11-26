@@ -144,6 +144,8 @@ export class CuFilePicker extends BrowserElement{
   get files(){return [...this._files];}
   get disabled(){return this.hasAttribute("disabled");}
   set disabled(value){this.toggleAttribute("disabled",Boolean(value));}
+  get required(){return this.hasAttribute("required");}
+  set required(value){this.toggleAttribute("required",Boolean(value));}
   get multiple(){return this.hasAttribute("multiple");}
   set multiple(value){this.toggleAttribute("multiple",Boolean(value));}
   get maxSize(){return Number(this.getAttribute("max-size"))||0;}

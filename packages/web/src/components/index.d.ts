@@ -281,7 +281,7 @@ export declare class CuPasswordField extends HTMLElement {
 export declare class CuFilePicker extends HTMLElement {
   static formAssociated: boolean;
   readonly files: File[];
-  disabled: boolean; multiple: boolean; maxSize: number;
+  disabled: boolean; required: boolean; multiple: boolean; maxSize: number;
   clear(emit?: boolean): void;
   focus(options?: FocusOptions): void;
   checkValidity(): boolean;
@@ -658,6 +658,29 @@ export declare class CuRichTextEditor extends HTMLElement {
   checkValidity():boolean;
   reportValidity():boolean;
 }
+export declare class CuList extends HTMLElement {}
+export declare class CuListItem extends HTMLElement {disabled:boolean;value:string;}
+export interface CuDescriptionItem {label:string;value:string;}
+export declare function normalizeDescriptionItems(value:unknown):CuDescriptionItem[];
+export declare class CuDescriptionList extends HTMLElement {items:CuDescriptionItem[];}
+export declare class CuKbd extends HTMLElement {}
+export declare class CuCodeBlock extends HTMLElement {value:string;copy():Promise<boolean>;}
+export declare class CuImage extends HTMLElement {}
+export declare class CuScrollView extends CuScrollArea {}
+export declare class CuCollapsible extends CuDisclosure {}
+export declare class CuFileUpload extends CuFilePicker {
+  loading:boolean;
+  requestUpload():boolean;
+}
+export declare class CuFormField extends HTMLElement {}
+export declare class CuForm extends HTMLElement {
+  readonly form:HTMLFormElement|null;
+  readonly data:FormData|null;
+  checkValidity():boolean;
+  reportValidity():boolean;
+  requestSubmit(submitter?:HTMLElement):boolean;
+  reset():boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -900,6 +923,17 @@ declare global {
     "cu-status-bar": CuStatusBar;
     "cu-dock-layout": CuDockLayout;
     "cu-kanban-board": CuKanbanBoard;
+    "cu-form": CuForm;
+    "cu-form-field": CuFormField;
+    "cu-file-upload": CuFileUpload;
+    "cu-collapsible": CuCollapsible;
+    "cu-scroll-view": CuScrollView;
+    "cu-image": CuImage;
+    "cu-code-block": CuCodeBlock;
+    "cu-kbd": CuKbd;
+    "cu-description-list": CuDescriptionList;
+    "cu-list-item": CuListItem;
+    "cu-list": CuList;
     "cu-chart-container": CuChartContainer;
     "cu-rich-text-editor": CuRichTextEditor;
     "cu-page-header": CuPageHeader;

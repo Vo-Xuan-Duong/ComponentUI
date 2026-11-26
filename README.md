@@ -236,4 +236,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **DockLayout and KanbanBoard milestone:** 132 catalog entries, 84 preview, 48 planned, zero production-ready; 97 React wrappers. See [DockLayout and KanbanBoard](docs/DOCK_KANBAN.md).
 
-**Current milestone — Layout foundation, editor and charts:** 132 catalog entries, 92 preview, 40 planned, zero production-ready; 105 React wrappers. See [Layout and editor foundation](docs/LAYOUT_EDITOR_CHART.md).
+**Layout foundation, editor and charts milestone:** 132 catalog entries, 92 preview, 40 planned, zero production-ready; 105 React wrappers. See [Layout and editor foundation](docs/LAYOUT_EDITOR_CHART.md).
+
+**Current milestone — Forms and display utilities:** 132 catalog entries, 105 preview, 27 planned, zero production-ready; 116 React wrappers. See [Forms and display utilities](docs/FORM_DISPLAY_UTILITIES.md).

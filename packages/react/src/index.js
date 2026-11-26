@@ -15,7 +15,7 @@ export const REACT_TAGS = Object.freeze({
   Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast", AutoComplete:"cu-autocomplete", NotificationCenter:"cu-notification-center",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
-  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline", Carousel:"cu-carousel", PropertyGrid:"cu-property-grid", FileExplorer:"cu-file-explorer", DataGrid:"cu-data-grid", TitleBar:"cu-title-bar", WindowControls:"cu-window-controls", StatusBar:"cu-status-bar", DockLayout:"cu-dock-layout", KanbanBoard:"cu-kanban-board", ChartContainer:"cu-chart-container", RichTextEditor:"cu-rich-text-editor", PageHeader:"cu-page-header", Surface:"cu-surface", Flex:"cu-flex", Grid:"cu-grid", Stack:"cu-stack", Container:"cu-container",
+  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline", Carousel:"cu-carousel", PropertyGrid:"cu-property-grid", FileExplorer:"cu-file-explorer", DataGrid:"cu-data-grid", TitleBar:"cu-title-bar", WindowControls:"cu-window-controls", StatusBar:"cu-status-bar", DockLayout:"cu-dock-layout", KanbanBoard:"cu-kanban-board", Form:"cu-form", FormField:"cu-form-field", FileUpload:"cu-file-upload", Collapsible:"cu-collapsible", ScrollView:"cu-scroll-view", Image:"cu-image", CodeBlock:"cu-code-block", Kbd:"cu-kbd", DescriptionList:"cu-description-list", ListItem:"cu-list-item", List:"cu-list", ChartContainer:"cu-chart-container", RichTextEditor:"cu-rich-text-editor", PageHeader:"cu-page-header", Surface:"cu-surface", Flex:"cu-flex", Grid:"cu-grid", Stack:"cu-stack", Container:"cu-container",
   ProgressBar:"cu-progress-bar", ProgressRing:"cu-progress-ring", Badge:"cu-badge", Chip:"cu-chip", Tag:"cu-tag",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
@@ -41,7 +41,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
   onCuLoadMore:"cu-load-more",
-  onCuRetry:"cu-retry", onCuScroll:"cu-scroll", onCuCellChange:"cu-cell-change", onCuMove:"cu-move", onCuWindowAction:"cu-window-action", onCuWindowDrag:"cu-window-drag",
+  onCuRetry:"cu-retry", onCuScroll:"cu-scroll", onCuCellChange:"cu-cell-change", onCuMove:"cu-move", onCuUpload:"cu-upload", onCuSubmit:"cu-submit", onCuReset:"cu-reset", onCuWindowAction:"cu-window-action", onCuWindowDrag:"cu-window-drag",
   onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action", onCuResize:"cu-resize"
 });
 
@@ -118,6 +118,11 @@ const PROPERTY_MAP = Object.freeze({
   "cu-kanban-board":["lanes","items","readonly"],
   "cu-rich-text-editor":["value","disabled","readonly","required"],
   "cu-chart-container":["items"],
+  "cu-description-list":["items"],
+  "cu-list-item":["value","disabled"],
+  "cu-code-block":["value"],
+  "cu-collapsible":["open","disabled","value"],
+  "cu-file-upload":["disabled","required","multiple","maxSize","loading"],
   "cu-tree-view":["value"],
   "cu-tree-list":["items","value","expandedValues","itemHeight","overscan"],
   "cu-infinite-scroll":["hasMore","loading","threshold","error"],
@@ -168,7 +173,7 @@ export function assignCuProperties(element, tagName, props = {}) {
           (tagName==="cu-dock-layout"&&name==="layout") ||
           (tagName==="cu-kanban-board"&&name==="lanes") ||
           (tagName==="cu-data-grid"&&name==="rows") ||
-          (["cu-avatar-group","cu-segmented-control","cu-timeline","cu-carousel","cu-property-grid","cu-file-explorer","cu-status-bar","cu-kanban-board","cu-chart-container"].includes(tagName)&&name==="items") ||
+          (["cu-avatar-group","cu-segmented-control","cu-timeline","cu-carousel","cu-property-grid","cu-file-explorer","cu-status-bar","cu-kanban-board","cu-chart-container","cu-description-list"].includes(tagName)&&name==="items") ||
           (tagName==="cu-virtual-list"&&name==="items") ||
           (tagName==="cu-tree-list"&&(name==="items"||name==="expandedValues")) ||
           (tagName==="cu-accordion"&&name==="values"&&Array.isArray(value)) ||
