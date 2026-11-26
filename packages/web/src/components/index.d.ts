@@ -222,6 +222,8 @@ export declare class CuInfiniteScroll extends HTMLElement {
   readonly page:number;
   requestMore(reason?:string):boolean;
   complete(options?:{hasMore?:boolean}):void;
+  error:string;
+  fail(message?:string):boolean;
   reset():void;
 }
 export declare class CuTextField extends HTMLElement {
@@ -442,6 +444,8 @@ export interface CuTableHeaderAction {
   disabled?:boolean|((column:CuTableColumn|null)=>boolean);
 }
 export declare class CuDataTable extends HTMLElement {
+  loading:boolean;
+  error:string;
   rows:CuTableRecord[];
   columns:CuTableColumn[];
   rowActions:CuTableRowAction[];
