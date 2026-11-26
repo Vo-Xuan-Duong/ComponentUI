@@ -1,4 +1,5 @@
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import { syncFieldValidity, wireFieldValidation } from "./_field.js";
 import "./icon.js";
 
 const css=[
@@ -6,13 +7,15 @@ const css=[
   ":host([hidden]){display:none!important;}",
   ".field{display:grid;gap:7px;min-width:0;}",
   ".label{font-size:13px;font-weight:600;}",
-  ".label:empty,.hint:empty{display:none!important;}",
+  ".label:empty,.hint:empty,.error:empty{display:none!important;}",
+  ".error{font-size:12px;color:var(--cu-danger,#c42b1c);}",
+  ".control[data-invalid=true]{border-color:var(--cu-danger,#c42b1c);}",
   ".control{display:flex;align-items:center;gap:8px;box-sizing:border-box;",
   "height:var(--cu-control-height,40px);padding:0 8px 0 12px;",
   "border:1px solid var(--cu-border-strong,#d1d1d1);border-bottom-width:2px;",
   "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);",
   "transition:background var(--cu-motion-fast,100ms),border-color var(--cu-motion-fast,100ms);}",
-  ".control:hover:not([data-disabled=true]){background:var(--cu-surface-alt,#fafafa);}",
+  ".control:hover:not([data-disabled=true]){background:var(--cu-surface-alt,#fafafa);border-color:var(--cu-accent,#0067c0);}",
   ".control:focus-within{border-bottom-color:var(--cu-accent,#0067c0);",
   "outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   ".control[data-disabled=true]{opacity:.5;}",
@@ -37,7 +40,7 @@ const css=[
 export class CuSearchBox extends BrowserElement{
   static formAssociated=true;
   static get observedAttributes(){
-    return ["label","hint","name","value","placeholder","disabled","readonly",
+    return ["label","hint","error","name","value","placeholder","disabled","readonly",
       "required","aria-label","autocomplete"];
   }
   constructor(){
@@ -49,13 +52,14 @@ export class CuSearchBox extends BrowserElement{
       '<input type="search" part="input" enterkeyhint="search">' +
       '<button class="clear" part="clear" type="button" aria-label="Clear search" hidden>' +
       '<cu-icon name="x" size="16"></cu-icon></button></div>' +
-      '<span class="hint" part="hint"></span></div>');
+      '<span class="hint" part="hint"></span><span class="error" part="error"></span></div>');
     this._input=root.querySelector("input");
     this._input.id="cu-search-box-"+(++CuSearchBox._id);
     this._wrapper=root.querySelector(".control");
     this._clear=root.querySelector(".clear");
     this._label=root.querySelector(".label");
     this._hint=root.querySelector(".hint");
+    this._error=root.querySelector(".error");
     this._initialized=false;
     this._input.addEventListener("input",()=>{
       this._update();notify(this,"cu-input",{value:this.value});
@@ -64,15 +68,17 @@ export class CuSearchBox extends BrowserElement{
       this._update();notify(this,"cu-change",{value:this.value});
     });
     this._input.addEventListener("keydown",event=>{
+      if(event.isComposing||this._input.disabled||this._input.readOnly)return;
       if(event.key==="Enter")notify(this,"cu-search",{value:this.value});
-      if(event.key==="Escape"&&this.value){event.preventDefault();this.clear();}
+      if(event.key==="Escape"&&this.value){event.preventDefault();event.stopPropagation();this.clear();}
     });
     this._clear.addEventListener("click",()=>{this.clear();this._input.focus();});
+    wireFieldValidation(this,this._input,()=>this._update());
   }
   connectedCallback(){
     if(!this._initialized){
       this._defaultValue=this.getAttribute("value")??"";
-      this._input.value=this._defaultValue;
+      if(!this._valueAssigned)this._input.value=this._defaultValue;
       this._initialized=true;
     }
     this._sync();
@@ -85,10 +91,10 @@ export class CuSearchBox extends BrowserElement{
     }else this._sync();
   }
   formDisabledCallback(value){this._formDisabled=value;this._sync();}
-  formResetCallback(){this.value=this._defaultValue??"";}
+  formResetCallback(){this._validationRevealed=false;this.value=this._defaultValue??"";}
   formStateRestoreCallback(value){this.value=String(value??"");}
   get value(){return this._input.value;}
-  set value(value){this._input.value=String(value??"");this._update();}
+  set value(value){this._valueAssigned=true;this._input.value=String(value??"");this._update();}
   get disabled(){return this.hasAttribute("disabled");}
   set disabled(value){this.toggleAttribute("disabled",Boolean(value));}
   focus(options){this._input.focus(options);}
@@ -119,12 +125,7 @@ export class CuSearchBox extends BrowserElement{
   _update(){
     if(!this._input)return;
     this._clear.hidden=!this.value||this._input.disabled||this._input.readOnly;
-    this._internals?.setFormValue(this._input.disabled?null:this.value);
-    if(this._internals){
-      if(!this._input.checkValidity())
-        this._internals.setValidity(this._input.validity,this._input.validationMessage,this._input);
-      else this._internals.setValidity({});
-    }
+    syncFieldValidity(this,this._input,{wrapper:this._wrapper});
   }
 }
 CuSearchBox._id=0;
