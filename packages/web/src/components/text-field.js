@@ -1,5 +1,6 @@
 
 import { BrowserElement, mount, notify, define, fieldStyle } from "./_shared.js";
+import { syncFieldValidity, wireFieldValidation } from "./_field.js";
 
 const TEXT_TYPES = new Set(["text", "email", "password", "search", "tel", "url"]);
 
@@ -7,7 +8,7 @@ export class CuTextField extends BrowserElement {
   static formAssociated = true;
   static get observedAttributes() {
     return ["label", "hint", "error", "type", "value", "placeholder", "name",
-      "required", "disabled", "readonly", "aria-label", "autocomplete", "minlength", "maxlength"];
+      "required", "disabled", "readonly", "aria-label", "autocomplete", "minlength", "maxlength", "pattern", "inputmode"];
   }
 
   constructor() {
@@ -27,15 +28,26 @@ export class CuTextField extends BrowserElement {
       this._syncFormValue();
       notify(this, "cu-change", {value:this.value});
     });
+    wireFieldValidation(this,this._input,()=>this._syncFormValue());
   }
 
-  connectedCallback() { this._sync(); }
-  attributeChangedCallback() { this._sync(); }
+  connectedCallback() {
+    if(!this._initialized){
+      if(!this._valueAssigned)this._input.value=this.getAttribute("value")??"";
+      this._initialized=true;
+    }
+    this._sync();
+  }
+  attributeChangedCallback(name) {
+    if(name==="value"&&this._initialized)this.value=this.getAttribute("value")??"";
+    this._sync();
+  }
   formDisabledCallback(disabled) { this._formDisabled = disabled; this._sync(); }
-  formResetCallback() { this.value = this.getAttribute("value") ?? ""; }
+  formResetCallback() { this._validationRevealed=false;this.value = this.getAttribute("value") ?? ""; }
   formStateRestoreCallback(value) { this.value = String(value ?? ""); }
   get value() { return this._input.value; }
   set value(value) {
+    this._valueAssigned=true;
     this._input.value = String(value ?? "");
     this._syncFormValue();
   }
@@ -55,35 +67,25 @@ export class CuTextField extends BrowserElement {
     this._hint.textContent = this.getAttribute("hint") || "";
     this._error.textContent = this.getAttribute("error") || "";
     this._input.placeholder = this.getAttribute("placeholder") || "";
-    this._input.name = this.getAttribute("name") || "";
+    this._input.name = ""; // ElementInternals submits the host.
     this._input.required = this.required;
     this._input.disabled = this.disabled || Boolean(this._formDisabled);
     this._input.readOnly = this.hasAttribute("readonly");
     this._input.autocomplete = this.getAttribute("autocomplete") || "off";
     const ariaLabel = this.getAttribute("aria-label");
     if (ariaLabel) this._input.setAttribute("aria-label", ariaLabel);
+    else if(this._label.textContent)this._input.setAttribute("aria-label",this._label.textContent);
     else this._input.removeAttribute("aria-label");
-    for (const name of ["minlength", "maxlength"]) {
+    for (const name of ["minlength", "maxlength", "pattern", "inputmode"]) {
       if (this.hasAttribute(name)) this._input.setAttribute(name, this.getAttribute(name));
       else this._input.removeAttribute(name);
     }
-    if (this.hasAttribute("value")) this._input.defaultValue = this.getAttribute("value");
-    this._input.setAttribute("aria-invalid", String(Boolean(this.getAttribute("error"))));
+    this._input.defaultValue = this.getAttribute("value")??"";
     this._syncFormValue();
   }
 
   _syncFormValue() {
-    this._internals?.setFormValue(this.value);
-    if (!this._internals) return;
-    const invalid = !this._input.checkValidity();
-    const customError = this.getAttribute("error");
-    if (customError) {
-      this._internals.setValidity({customError:true}, customError, this._input);
-    } else if (invalid) {
-      this._internals.setValidity(this._input.validity, this._input.validationMessage, this._input);
-    } else {
-      this._internals.setValidity({});
-    }
+    syncFieldValidity(this,this._input);
   }
 }
 
