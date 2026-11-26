@@ -422,6 +422,36 @@
                 </div>
               </div>
             </div>
+            <div class="quality-lab-grid" id="form-quality-demo" style="margin-top:16px">
+              <div class="quality-lab-cell">
+                <div class="preview-label">Native validation</div>
+                <form id="quality-form" class="demo-col">
+                  <cu-text-field name="email" label="Email" type="email" required hint="Try an invalid email, then submit."></cu-text-field>
+                  <cu-number-field name="quantity" label="Quantity" min="1" max="10" value="2" required></cu-number-field>
+                  <cu-date-picker name="date" label="Date" required></cu-date-picker>
+                  <div class="demo-row"><button type="submit" class="cu-btn" data-variant="accent">Validate</button><button type="reset" class="cu-btn">Reset</button></div>
+                </form>
+                <p id="quality-form-result" class="cu-helper" role="status">Native constraints are checked on submit.</p>
+              </div>
+              <div class="quality-lab-cell">
+                <div class="preview-label">Input states</div>
+                <cu-textarea label="Notes" maxlength="80" show-count auto-resize hint="Up to 80 characters"></cu-textarea>
+                <cu-password-field label="Password" minlength="8" hint="At least 8 characters"></cu-password-field>
+                <cu-search-box label="Search" error="Search is temporarily unavailable"></cu-search-box>
+                <cu-text-field label="Readonly" value="Workspace ID" readonly></cu-text-field>
+              </div>
+              <div class="quality-lab-cell">
+                <div class="preview-label">Data feedback</div>
+                <cu-data-table id="quality-data-table" caption="Records preview" page-size="3"></cu-data-table>
+                <div class="demo-row">
+                  <cu-button id="quality-data-loading" size="sm">Loading</cu-button>
+                  <cu-button id="quality-data-error" size="sm">Error</cu-button>
+                  <cu-button id="quality-data-empty" size="sm">Empty</cu-button>
+                  <cu-button id="quality-data-ready" size="sm" variant="accent">Ready</cu-button>
+                </div>
+                <cu-file-picker label="Attachment" accept=".pdf" max-size="1048576" hint="PDF only; maximum 1 MB"></cu-file-picker>
+              </div>
+            </div>
             <div class="demo-row" id="overlay-quality-demo">
               <cu-popover id="quality-nested-popover" title="Nested overlay test" placement="end">
                 <cu-button slot="trigger" variant="outline">Nested overlay test</cu-button>
