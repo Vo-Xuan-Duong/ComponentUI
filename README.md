@@ -191,6 +191,7 @@ The npm workspace contains experimental native Web Components and React/Vue/Svel
 - [SplitView, VirtualList and connected DataTable filters](docs/VIRTUALIZED_WORKSPACE.md)
 - [TreeList, InfiniteScroll and DataTable performance](docs/LARGE_DATA_COMPONENTS.md)
 - [Interaction Quality Bar and visual acceptance](docs/QUALITY_BAR.md)
+- [Overlay focus, keyboard and viewport quality](docs/OVERLAY_QUALITY.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
