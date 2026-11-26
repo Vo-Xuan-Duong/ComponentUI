@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "82 experimental catalogued browser Custom Elements; 82 catalog preview entries, 49 planned, 0 production-ready.",
+  "summary": "84 experimental catalogued browser Custom Elements; 84 catalog preview entries, 48 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -1129,6 +1129,15 @@
             "web",
             "native-as-needed"
           ]
+        },
+        {
+          "name": "DockLayout",
+          "priority": "P2",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
         }
       ]
     },
@@ -1156,7 +1165,7 @@
         {
           "name": "KanbanBoard",
           "priority": "P2",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

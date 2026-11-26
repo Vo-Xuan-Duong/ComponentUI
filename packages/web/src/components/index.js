@@ -74,6 +74,8 @@ export { CuDataGrid, coerceGridValue } from "./data-grid.js";
 export { CuTitleBar, isTitleBarDragTarget } from "./title-bar.js";
 export { CuWindowControls, windowControlActions } from "./window-controls.js";
 export { CuStatusBar, normalizeStatusItems } from "./status-bar.js";
+export { CuDockLayout, normalizeDockLayout } from "./dock-layout.js";
+export { CuKanbanBoard, normalizeKanbanLanes, normalizeKanbanItems, moveKanbanItem } from "./kanban-board.js";
 export { CuProgressBar } from "./progress-bar.js";
 export { CuProgressRing, normalizeRingProgress } from "./progress-ring.js";
 export { CuChip } from "./chip.js";

@@ -368,6 +368,14 @@
     "./components/status-bar": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/status-bar.js"
+    },
+    "./components/dock-layout": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/dock-layout.js"
+    },
+    "./components/kanban-board": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/kanban-board.js"
     }
   },
   "files": [

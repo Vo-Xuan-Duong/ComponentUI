@@ -76,7 +76,7 @@
         </section>
 
         <div class="metrics" aria-label="ComponentUI project summary">
-          <div class="metric"><strong id="metric-components">131</strong><span>Catalog entries</span></div>
+          <div class="metric"><strong id="metric-components">132</strong><span>Catalog entries</span></div>
           <div class="metric"><strong id="metric-previews">57</strong><span>Preview components</span></div>
           <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
@@ -625,6 +625,22 @@
                 <cu-button type="submit" variant="accent">Read form values</cu-button>
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>DockLayout</h3><p class="demo-subtitle">Resize the panels using the dividers or arrow keys. Toggle optional regions without losing their content.</p>
+              <div class="demo-row"><cu-button size="sm" id="wc-dock-start">Toggle explorer</cu-button><cu-button size="sm" id="wc-dock-end">Toggle inspector</cu-button><cu-button size="sm" id="wc-dock-bottom">Toggle output</cu-button></div>
+              <cu-dock-layout id="wc-dock-layout" label="IDE workspace" style="height:340px">
+                <section slot="start" style="padding:12px"><strong>Explorer</strong><p>src /</p><p>components /</p><p>index.js</p></section>
+                <section style="padding:16px"><strong>Workspace</strong><p>Central editor and application content.</p><cu-text-field label="Document title" value="ComponentUI"></cu-text-field></section>
+                <section slot="end" style="padding:12px"><strong>Inspector</strong><p>Layout properties</p><p>Theme: System</p></section>
+                <section slot="bottom" style="padding:12px"><strong>Output</strong><p>Ready for local verification.</p></section>
+              </cu-dock-layout>
+              <p id="wc-dock-result" class="cu-helper" role="status">Resize or toggle a panel.</p>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>KanbanBoard</h3><p class="demo-subtitle">Drag tasks between lanes or use the move selector and up/down buttons.</p>
+              <cu-kanban-board id="wc-kanban-board" label="Component roadmap"></cu-kanban-board>
+              <p id="wc-kanban-result" class="cu-helper" role="status">Move a task to update the board.</p>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>Desktop window chrome</h3><p class="demo-subtitle">TitleBar, WindowControls and StatusBar. Window actions are simulated in the browser.</p>

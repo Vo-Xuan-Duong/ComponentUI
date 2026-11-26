@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "KanbanBoard",
+  "tag": "cu-kanban-board",
+  "status": "preview",
+  "kind": "workflow",
+  "attributes": {
+    "label": "string",
+    "readonly": "boolean",
+    "empty-text": "string"
+  },
+  "events": [
+    "cu-move"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

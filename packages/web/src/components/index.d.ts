@@ -611,6 +611,27 @@ export declare class CuWindowControls extends HTMLElement {
 export interface CuStatusItem {id:string;label:string;value?:string;icon?:string;tone?:"neutral"|"success"|"warning"|"danger"|"info";align?:"start"|"end";action?:string;disabled?:boolean;}
 export declare function normalizeStatusItems(items:unknown):Required<CuStatusItem>[];
 export declare class CuStatusBar extends HTMLElement {items:CuStatusItem[];}
+export type CuDockRegion="start"|"end"|"bottom";
+export interface CuDockState {start:number;end:number;bottom:number;startOpen:boolean;endOpen:boolean;bottomOpen:boolean;}
+export declare function normalizeDockLayout(value?:Partial<CuDockState>):CuDockState;
+export declare class CuDockLayout extends HTMLElement {
+  get layout():CuDockState;
+  set layout(value:Partial<CuDockState>);
+  disabled:boolean;
+  toggleRegion(region:CuDockRegion):boolean;
+  resizeRegion(region:CuDockRegion,size:number):boolean;
+}
+export interface CuKanbanLane {id:string;label:string;}
+export interface CuKanbanItem {id:string;laneId:string;title:string;description?:string;tag?:string;disabled?:boolean;}
+export declare function normalizeKanbanLanes(value:unknown):CuKanbanLane[];
+export declare function normalizeKanbanItems(value:unknown,lanes:CuKanbanLane[]):CuKanbanItem[];
+export declare function moveKanbanItem(items:CuKanbanItem[],id:string,laneId:string,beforeId?:string|null):CuKanbanItem[];
+export declare class CuKanbanBoard extends HTMLElement {
+  lanes:CuKanbanLane[];
+  items:CuKanbanItem[];
+  readonly:boolean;
+  moveItem(id:string,laneId:string,beforeId?:string|null):boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -851,6 +872,8 @@ declare global {
     "cu-title-bar": CuTitleBar;
     "cu-window-controls": CuWindowControls;
     "cu-status-bar": CuStatusBar;
+    "cu-dock-layout": CuDockLayout;
+    "cu-kanban-board": CuKanbanBoard;
     "cu-file-explorer": CuFileExplorer;
     "cu-tree-view": CuTreeView;
     "cu-tree-item": CuTreeItem;

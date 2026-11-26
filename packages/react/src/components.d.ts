@@ -70,6 +70,8 @@ export declare const DataGrid: ReactCuComponent;
 export declare const TitleBar: ReactCuComponent;
 export declare const WindowControls: ReactCuComponent;
 export declare const StatusBar: ReactCuComponent;
+export declare const DockLayout: ReactCuComponent;
+export declare const KanbanBoard: ReactCuComponent;
 export declare const ProgressBar: ReactCuComponent;
 export declare const Badge: ReactCuComponent;
 export declare const Chip: ReactCuComponent;

@@ -116,6 +116,26 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcDockLayout=document.getElementById("wc-dock-layout");
+wcDockLayout.layout={start:23,end:24,bottom:26};
+for(const region of ["start","end","bottom"])
+  document.getElementById("wc-dock-"+region).addEventListener("cu-press",()=>wcDockLayout.toggleRegion(region));
+for(const type of ["cu-resize","cu-change"])
+  wcDockLayout.addEventListener(type,event=>{
+    if(event.target===wcDockLayout)document.getElementById("wc-dock-result").textContent=JSON.stringify(event.detail.layout);
+  });
+const wcKanbanBoard=document.getElementById("wc-kanban-board");
+wcKanbanBoard.lanes=[{id:"todo",label:"Planned"},{id:"doing",label:"In progress"},{id:"done",label:"Implemented"}];
+wcKanbanBoard.items=[
+  {id:"editor",laneId:"todo",title:"RichTextEditor",description:"Reusable rich text controls",tag:"Inputs"},
+  {id:"chart",laneId:"todo",title:"ChartContainer",description:"Responsive data visualization",tag:"Data display"},
+  {id:"review",laneId:"doing",title:"Browser acceptance",description:"Validate keyboard and pointer interactions",tag:"Quality"},
+  {id:"dock",laneId:"done",title:"DockLayout",tag:"Desktop"},
+  {id:"kanban",laneId:"done",title:"KanbanBoard",tag:"Workflow"}
+];
+wcKanbanBoard.addEventListener("cu-move",event=>{
+  document.getElementById("wc-kanban-result").textContent=event.detail.item.title+" → "+event.detail.laneId;
+});
 const wcTitleBar=document.getElementById("wc-title-bar");
 const wcWindowControls=document.getElementById("wc-window-controls");
 const wcStatusBar=document.getElementById("wc-status-bar");

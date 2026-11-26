@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "DockLayout",
+  "tag": "cu-dock-layout",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "label": "string",
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-resize",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
