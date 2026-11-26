@@ -40,7 +40,7 @@ test("PasswordField uses native input and accessible Lucide visibility toggle",a
   for(const pattern of [
     /type="password"/,/autocomplete="current-password"/,/aria-pressed/,
     /aria-describedby/,/this\._input\.type=/,/name="eye"/,
-    /"eye-off"/,/formResetCallback/,/setFormValue/,/setValidity/,
+    /"eye-off"/,/formResetCallback/,/syncFieldValidity/,/wireFieldValidation/,
     /cu-visibility-change/,/minlength/,/maxlength/,/pattern/
   ])assert.match(source,pattern);
   assert.doesNotMatch(source,/setAttribute\("value"/);
