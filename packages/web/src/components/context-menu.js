@@ -60,7 +60,7 @@ export class CuContextMenu extends BrowserElement {
     });
     this._menu.addEventListener("keydown",event=>{
       if(event.key==="Escape"&&isTopOverlay(this)){event.preventDefault();event.stopPropagation();this.hide(true);return;}
-      if(event.key==="Tab"){this.hide();return;}
+      if(event.key==="Tab"){this.hide(true);return;}
       const items=this._enabled();
       if(!items.length)return;
       const index=items.indexOf(event.target);
