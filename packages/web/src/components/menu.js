@@ -30,6 +30,7 @@ const css = [
   focusStyle
 ].join("");
 
+let menuInstanceId=0;
 export class CuMenu extends BrowserElement {
   static get observedAttributes() { return ["open","aria-label"]; }
   constructor() {
@@ -38,6 +39,7 @@ export class CuMenu extends BrowserElement {
       '<slot name="trigger"></slot><div part="menu" class="menu" role="menu" hidden></div><slot></slot>');
     this._trigger = root.querySelector('slot[name="trigger"]');
     this._menu = root.querySelector('[role="menu"]');
+    this._menu.id="cu-menu-"+(++menuInstanceId);
     this._trigger.addEventListener("slotchange",() => this._syncTrigger());
     this._trigger.addEventListener("click",event => {
       if (!event.defaultPrevented) this.open ? this.hide() : this.show();
@@ -115,6 +117,7 @@ export class CuMenu extends BrowserElement {
   _syncTrigger() {
     for (const trigger of this._trigger.assignedElements({flatten:true})) {
       trigger.setAttribute("aria-haspopup","menu");
+      trigger.setAttribute("aria-controls",this._menu.id);
       trigger.setAttribute("aria-expanded",String(this.open));
     }
   }
