@@ -151,6 +151,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuAction?: (event: CuEvent) => void;
   onCuResize?: (event: CuEvent) => void;
   onCuLoadMore?: (event: CuEvent) => void;
+  onCuRetry?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
