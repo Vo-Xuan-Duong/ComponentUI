@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **68 planned**, **61 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **67 planned**, **63 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -133,3 +133,7 @@ TimePicker and DateRangePicker move to preview. Current inventory: 129 catalog e
 ## Calendar and rating controls
 
 Calendar and Rating move to preview. Current inventory: 129 catalog entries, 61 preview, 68 planned, 0 ready. See [Calendar and rating](CALENDAR_RATING.md).
+
+## MultiSelect and Toast
+
+MultiSelect is a new catalog entry and Toast moves to preview. Current inventory: 130 entries, 63 preview, 67 planned, 0 ready. See [MultiSelect and Toast](MULTISELECT_TOAST.md).

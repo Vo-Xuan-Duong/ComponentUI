@@ -188,7 +188,7 @@ test("new workflow components are wired through Web exports and React events",as
   assert.equal(REACT_TAGS.Stepper,"cu-stepper");
   assert.equal(REACT_TAGS.InfoBar,"cu-info-bar");
   assert.equal(REACT_EVENT_PROPS.onCuAction,"cu-action");
-  assert.equal(Object.keys(REACT_TAGS).length,72);
+  assert.equal(Object.keys(REACT_TAGS).length,74);
   for(const name of ["CuSplitButton","CuStepper","CuInfoBar"])
     assert.ok(types.includes("class "+name+" extends HTMLElement"));
   const declared=react.match(/export const\s*\{([^}]+)\}\s*=\s*createReactComponents\(React\)/);
@@ -225,8 +225,8 @@ test("Playground and catalog include three new experimental workflow components"
   const entries=JSON.parse(catalog).groups.flatMap(group=>group.components);
   for(const name of ["SplitButton","Stepper","InfoBar"])
     assert.equal(entries.find(item=>item.name===name)?.status,"preview");
-  assert.equal(entries.length,129);
-  assert.equal(entries.filter(item=>item.status==="preview").length,61);
-  assert.equal(entries.filter(item=>item.status==="planned").length,68);
+  assert.equal(entries.length,130);
+  assert.equal(entries.filter(item=>item.status==="preview").length,63);
+  assert.equal(entries.filter(item=>item.status==="planned").length,67);
   assert.equal(entries.filter(item=>item.status==="ready").length,0);
 });

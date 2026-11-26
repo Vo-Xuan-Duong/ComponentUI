@@ -76,7 +76,7 @@
         </section>
 
         <div class="metrics" aria-label="ComponentUI project summary">
-          <div class="metric"><strong id="metric-components">129</strong><span>Catalog entries</span></div>
+          <div class="metric"><strong id="metric-components">130</strong><span>Catalog entries</span></div>
           <div class="metric"><strong id="metric-previews">57</strong><span>Preview components</span></div>
           <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
@@ -625,6 +625,20 @@
                 <cu-button type="submit" variant="accent">Read form values</cu-button>
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>MultiSelect &amp; Toast</h3>
+              <p class="demo-subtitle">Search, select and remove multiple values. Try queued notifications.</p>
+              <form class="cu-web-form" id="wc-multi-form">
+                <cu-multi-select name="framework" label="Frameworks" required max-selected="3" hint="Choose up to three frameworks.">
+                  <option value="react" selected>React</option><option value="vue" selected>Vue</option>
+                  <option value="svelte">Svelte</option><option value="web">Web Components</option>
+                  <option value="legacy" disabled>Legacy framework</option>
+                </cu-multi-select>
+                <div class="demo-row"><cu-button type="submit" variant="accent">Read form values</cu-button><cu-button type="reset">Reset</cu-button></div>
+              </form>
+              <pre class="cu-web-result" id="wc-multi-result" role="status">Choose frameworks.</pre>
+              <div class="demo-row"><cu-button id="wc-toast-queue">Queue notifications</cu-button><cu-button id="wc-toast-action">Action toast</cu-button><cu-button id="wc-toast-clear">Clear notifications</cu-button></div>
             </article>
             <article class="cu-surface demo-card">
               <h3>Calendar &amp; Rating</h3>
@@ -1261,6 +1275,6 @@ vue({ template: { compilerOptions: {
     <div class="cu-command-empty" data-cu-command-empty hidden>No matching commands found.</div>
     <div class="cu-command-footer">Use ↑ ↓ to select · Enter to open · Esc to close</div>
   </dialog>
-  <div class="cu-toast-container" id="toast-container" aria-live="polite" aria-relevant="additions"></div>
+  <cu-toast id="toast-container" max-visible="3"></cu-toast>
 </body>
 </html>

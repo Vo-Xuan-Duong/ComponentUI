@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "MultiSelect",
+  "tag": "cu-multi-select",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "JSON string array",
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "max-selected": "number",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

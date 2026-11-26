@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "Toast",
+  "tag": "cu-toast",
+  "status": "preview",
+  "kind": "feedback",
+  "attributes": {
+    "max-visible": "number",
+    "placement": "bottom-end | bottom-start | top-end"
+  },
+  "events": [
+    "cu-dismiss",
+    "cu-action"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

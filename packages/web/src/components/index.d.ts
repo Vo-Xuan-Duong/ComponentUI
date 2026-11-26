@@ -343,6 +343,28 @@ export declare class CuSelect extends HTMLElement {
   checkValidity(): boolean;
   reportValidity(): boolean;
 }
+export interface CuMultiOption {value:string;label?:string;disabled?:boolean;}
+export declare function normalizeMultiOptions(items:unknown):Required<CuMultiOption>[];
+export declare function normalizeMultiValue(value:unknown,items:CuMultiOption[],max?:number):string[];
+export declare class CuMultiSelect extends HTMLElement {
+  static formAssociated:boolean;
+  items:CuMultiOption[];
+  value:string[];
+  disabled:boolean;
+  required:boolean;
+  focus(options?:FocusOptions):void;
+  show():void;
+  hide():void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
+export interface CuToastOptions {id?:string;title?:string;message?:string;tone?:"info"|"success"|"warning"|"danger";duration?:number;action?:string;}
+export declare function normalizeToast(options?:CuToastOptions):Required<CuToastOptions>;
+export declare class CuToast extends HTMLElement {
+  show(options:CuToastOptions):string;
+  dismiss(id:string,reason?:string):boolean;
+  clear():void;
+}
 export declare class CuRadio extends HTMLElement {}
 export declare class CuRadioGroup extends HTMLElement {
   static formAssociated: boolean;
@@ -581,6 +603,8 @@ declare global {
     "cu-switch": CuSwitch;
     "cu-dialog": CuDialog;
     "cu-select": CuSelect;
+    "cu-multi-select": CuMultiSelect;
+    "cu-toast": CuToast;
     "cu-radio": CuRadio;
     "cu-radio-group": CuRadioGroup;
     "cu-tab": CuTab;

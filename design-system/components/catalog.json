@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "59 experimental catalogued browser Custom Elements; 61 catalog preview entries, 68 planned, 0 production-ready.",
+  "summary": "61 experimental catalogued browser Custom Elements; 63 catalog preview entries, 67 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -154,6 +154,15 @@
         {
           "name": "Select",
           "priority": "P0",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "MultiSelect",
+          "priority": "P1",
           "status": "preview",
           "renderers": [
             "web",
@@ -772,7 +781,7 @@
         {
           "name": "Toast",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Current milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 55 experimental catalogued browser Custom Elements. **There are 55 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Foundation milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 55 experimental catalogued browser Custom Elements. **There are 55 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
@@ -211,3 +211,5 @@ No package has been published. Licensing and third-party attribution policy must
 **Temporal controls milestone:** TimePicker and DateRangePicker add two native form-associated components with standalone exports and React wrappers. The catalog now has 59 previews, 70 planned, zero production-ready; the React factory exposes 70 wrappers. See [Temporal controls](docs/TEMPORAL_CONTROLS.md).
 
 **Calendar and rating milestone:** A custom inline Calendar and native-radio Rating are available as preview Web Components, with standalone imports and React wrappers. The 129-entry catalog now has 61 previews, 68 planned, zero production-ready; the React factory exposes 72 wrappers. See [Calendar and rating](docs/CALENDAR_RATING.md).
+
+**Current milestone — MultiSelect and Toast:** the catalog now contains 130 entries, 63 preview, 67 planned, zero production-ready. The React factory exposes 74 wrappers. MultiSelect adds a searchable multi-value form control; Toast replaces the old Playground-only notification implementation with a reusable queue. See [MultiSelect and Toast](docs/MULTISELECT_TOAST.md).

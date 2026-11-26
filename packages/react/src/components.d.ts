@@ -35,6 +35,8 @@ export declare const Checkbox: ReactCuComponent;
 export declare const Switch: ReactCuComponent;
 export declare const Dialog: ReactCuComponent;
 export declare const Select: ReactCuComponent;
+export declare const MultiSelect: ReactCuComponent;
+export declare const Toast: ReactCuComponent;
 export declare const Radio: ReactCuComponent;
 export declare const RadioGroup: ReactCuComponent;
 export declare const Tab: ReactCuComponent;

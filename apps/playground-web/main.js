@@ -114,33 +114,24 @@ dialog.addEventListener("close", () => {
 
 const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
-  const toast = document.createElement("div");
-  toast.className = "cu-toast";
-  toast.setAttribute("role", "status");
-  const mark = document.createElement("cu-icon");
-  mark.setAttribute("name", "info");
-  mark.setAttribute("size", "18");
-  const text = document.createElement("div");
-  const strong = document.createElement("strong");
-  strong.textContent = title;
-  const desc = document.createElement("p");
-  desc.textContent = message;
-  text.append(strong, desc);
-  const close = document.createElement("button");
-  close.type = "button";
-  const closeIcon = document.createElement("cu-icon");
-  closeIcon.setAttribute("name", "x");
-  closeIcon.setAttribute("size", "16");
-  close.append(closeIcon);
-  close.setAttribute("aria-label", "Dismiss notification");
-  close.addEventListener("click", () => toast.remove());
-  toast.append(mark, text, close);
-  toastContainer.append(toast);
-  const timeout = setTimeout(() => toast.remove(), 4500);
-  toast.addEventListener("click", event => {
-    if (event.target === close) clearTimeout(timeout);
-  });
+  return toastContainer.show({title,message,duration:4500});
 }
+const wcMultiForm=document.getElementById("wc-multi-form");
+wcMultiForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  document.getElementById("wc-multi-result").textContent=
+    JSON.stringify(new FormData(wcMultiForm).getAll("framework"),null,2);
+});
+wcMultiForm.addEventListener("reset",()=>{document.getElementById("wc-multi-result").textContent="Form reset.";});
+document.getElementById("wc-toast-queue").addEventListener("cu-press",()=>{
+  for(const tone of ["info","success","warning","danger"])
+    toastContainer.show({title:tone[0].toUpperCase()+tone.slice(1),message:"Queued notification",tone,duration:5000});
+});
+document.getElementById("wc-toast-action").addEventListener("cu-press",()=>{
+  toastContainer.show({title:"Item archived",message:"This is a local preview.",action:"Undo",duration:0});
+});
+document.getElementById("wc-toast-clear").addEventListener("cu-press",()=>toastContainer.clear());
+toastContainer.addEventListener("cu-action",event=>showToast("Action selected",event.detail.action));
 document.getElementById("show-toast").addEventListener("click", () => showToast("Notification delivered", "The toast can be dismissed."));
 document.querySelectorAll("[data-toast]").forEach(button => {
   button.addEventListener("click", () => showToast(button.dataset.toast));

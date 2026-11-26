@@ -276,6 +276,14 @@
     "./components/rating": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/rating.js"
+    },
+    "./components/multi-select": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/multi-select.js"
+    },
+    "./components/toast": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/toast.js"
     }
   },
   "files": [
