@@ -238,4 +238,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **Layout foundation, editor and charts milestone:** 132 catalog entries, 92 preview, 40 planned, zero production-ready; 105 React wrappers. See [Layout and editor foundation](docs/LAYOUT_EDITOR_CHART.md).
 
-**Current milestone — Forms and display utilities:** 132 catalog entries, 105 preview, 27 planned, zero production-ready; 116 React wrappers. See [Forms and display utilities](docs/FORM_DISPLAY_UTILITIES.md).
+**Forms and display utilities milestone:** 132 catalog entries, 105 preview, 27 planned, zero production-ready; 116 React wrappers. See [Forms and display utilities](docs/FORM_DISPLAY_UTILITIES.md).
+
+**Current milestone — Actions, navigation and feedback:** 132 catalog entries, 120 preview, 12 planned, zero production-ready; 131 React wrappers. See [Actions, navigation and feedback](docs/ACTION_NAV_FEEDBACK.md).

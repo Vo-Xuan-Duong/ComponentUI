@@ -452,6 +452,66 @@
     "./components/form": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/form.js"
+    },
+    "./components/toggle-button": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/toggle-button.js"
+    },
+    "./components/hyperlink": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/hyperlink.js"
+    },
+    "./components/menu-button": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/menu-button.js"
+    },
+    "./components/floating-action-button": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/floating-action-button.js"
+    },
+    "./components/sidebar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/sidebar.js"
+    },
+    "./components/top-nav": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/top-nav.js"
+    },
+    "./components/vertical-tabs": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/vertical-tabs.js"
+    },
+    "./components/bottom-navigation": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/bottom-navigation.js"
+    },
+    "./components/tab-view": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/tab-view.js"
+    },
+    "./components/snackbar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/snackbar.js"
+    },
+    "./components/confirm-dialog": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/confirm-dialog.js"
+    },
+    "./components/flyout": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/flyout.js"
+    },
+    "./components/teaching-tip": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/teaching-tip.js"
+    },
+    "./components/callout": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/callout.js"
+    },
+    "./components/banner": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/banner.js"
     }
   },
   "files": [

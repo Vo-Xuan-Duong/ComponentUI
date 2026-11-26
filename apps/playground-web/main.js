@@ -116,6 +116,11 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcSnackbar=document.getElementById("wc-snackbar");
+document.getElementById("wc-snackbar-show").addEventListener("cu-press",()=>wcSnackbar.show({message:"Workspace updated",tone:"success",action:"Dismiss"}));
+const wcConfirmDialog=document.getElementById("wc-confirm-dialog");
+document.getElementById("wc-confirm-show").addEventListener("cu-press",()=>wcConfirmDialog.showModal());
+wcConfirmDialog.addEventListener("cu-close",event=>{document.getElementById("wc-confirm-result").textContent=event.detail.returnValue==="confirm"?"Confirmed (demo only)":"Cancelled";});
 document.getElementById("wc-description-list").items=[{label:"Branch",value:"main"},{label:"Status",value:"Preview"},{label:"Frameworks",value:"React / Vue / Svelte"}];
 document.getElementById("wc-list").addEventListener("cu-select",event=>{document.getElementById("wc-list-result").textContent="Selected: "+event.detail.label;});
 document.getElementById("wc-code-block").value='import "@componentui/web";\nconst ready = true;';

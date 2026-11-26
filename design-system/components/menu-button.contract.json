@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "MenuButton",
+  "tag": "menu-button",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "open": "boolean",
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-select",
+    "cu-open",
+    "cu-close"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -15,7 +15,7 @@ export const REACT_TAGS = Object.freeze({
   Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast", AutoComplete:"cu-autocomplete", NotificationCenter:"cu-notification-center",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
-  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline", Carousel:"cu-carousel", PropertyGrid:"cu-property-grid", FileExplorer:"cu-file-explorer", DataGrid:"cu-data-grid", TitleBar:"cu-title-bar", WindowControls:"cu-window-controls", StatusBar:"cu-status-bar", DockLayout:"cu-dock-layout", KanbanBoard:"cu-kanban-board", Form:"cu-form", FormField:"cu-form-field", FileUpload:"cu-file-upload", Collapsible:"cu-collapsible", ScrollView:"cu-scroll-view", Image:"cu-image", CodeBlock:"cu-code-block", Kbd:"cu-kbd", DescriptionList:"cu-description-list", ListItem:"cu-list-item", List:"cu-list", ChartContainer:"cu-chart-container", RichTextEditor:"cu-rich-text-editor", PageHeader:"cu-page-header", Surface:"cu-surface", Flex:"cu-flex", Grid:"cu-grid", Stack:"cu-stack", Container:"cu-container",
+  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline", Carousel:"cu-carousel", PropertyGrid:"cu-property-grid", FileExplorer:"cu-file-explorer", DataGrid:"cu-data-grid", TitleBar:"cu-title-bar", WindowControls:"cu-window-controls", StatusBar:"cu-status-bar", DockLayout:"cu-dock-layout", KanbanBoard:"cu-kanban-board", Banner:"cu-banner", Callout:"cu-callout", TeachingTip:"cu-teaching-tip", Flyout:"cu-flyout", ConfirmDialog:"cu-confirm-dialog", Snackbar:"cu-snackbar", TabView:"cu-tab-view", BottomNavigation:"cu-bottom-navigation", VerticalTabs:"cu-vertical-tabs", TopNav:"cu-top-nav", Sidebar:"cu-sidebar", FloatingActionButton:"cu-floating-action-button", MenuButton:"cu-menu-button", Hyperlink:"cu-hyperlink", ToggleButton:"cu-toggle-button", Form:"cu-form", FormField:"cu-form-field", FileUpload:"cu-file-upload", Collapsible:"cu-collapsible", ScrollView:"cu-scroll-view", Image:"cu-image", CodeBlock:"cu-code-block", Kbd:"cu-kbd", DescriptionList:"cu-description-list", ListItem:"cu-list-item", List:"cu-list", ChartContainer:"cu-chart-container", RichTextEditor:"cu-rich-text-editor", PageHeader:"cu-page-header", Surface:"cu-surface", Flex:"cu-flex", Grid:"cu-grid", Stack:"cu-stack", Container:"cu-container",
   ProgressBar:"cu-progress-bar", ProgressRing:"cu-progress-ring", Badge:"cu-badge", Chip:"cu-chip", Tag:"cu-tag",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
@@ -119,6 +119,18 @@ const PROPERTY_MAP = Object.freeze({
   "cu-rich-text-editor":["value","disabled","readonly","required"],
   "cu-chart-container":["items"],
   "cu-description-list":["items"],
+  "cu-toggle-button":["pressed","disabled","loading"],
+  "cu-hyperlink":["href","disabled"],
+  "cu-menu-button":["open","disabled"],
+  "cu-floating-action-button":["disabled","loading","type"],
+  "cu-sidebar":["value"],
+  "cu-top-nav":["value"],
+  "cu-bottom-navigation":["value"],
+  "cu-vertical-tabs":["active"],
+  "cu-tab-view":["active"],
+  "cu-confirm-dialog":["open"],
+  "cu-flyout":["open"],
+  "cu-teaching-tip":["open"],
   "cu-list-item":["value","disabled"],
   "cu-code-block":["value"],
   "cu-collapsible":["open","disabled","value"],
@@ -157,7 +169,7 @@ export function assignCuProperties(element, tagName, props = {}) {
     const value = props[name];
 
     // The native dialog's open getter is read-only. Do not assign to it.
-    if (tagName === "cu-dialog" && name === "open") {
+    if ((tagName === "cu-dialog" || tagName === "cu-confirm-dialog") && name === "open") {
       if (value && !element.open) element.showModal();
       else if (!value && element.open) element.close();
       continue;

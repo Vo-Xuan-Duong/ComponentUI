@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "Banner",
+  "tag": "banner",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "title": "string",
+    "message": "string",
+    "tone": "string",
+    "dismissible": "boolean"
+  },
+  "events": [
+    "cu-dismiss"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "Snackbar",
+  "tag": "snackbar",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "max-visible": "number"
+  },
+  "events": [
+    "cu-action",
+    "cu-dismiss"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

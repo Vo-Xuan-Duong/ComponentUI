@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **27 planned**, **105 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **12 planned**, **120 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -189,3 +189,7 @@ Eight planned entries move to preview. Inventory: 132 entries, 92 preview, 40 pl
 ## Forms, lists and utility components
 
 Eleven planned entries gain preview modules. Radio and MenuItem already had native implementations and gallery demos, so their catalog status is reconciled to preview. Inventory: 132 entries, 105 preview, 27 planned, 0 ready. See [Forms and display utilities](FORM_DISPLAY_UTILITIES.md).
+
+## Actions, navigation and feedback
+
+Fifteen entries move to preview. Inventory: 132 entries, 120 preview, 12 planned, 0 ready. See [Actions, navigation and feedback](ACTION_NAV_FEEDBACK.md).

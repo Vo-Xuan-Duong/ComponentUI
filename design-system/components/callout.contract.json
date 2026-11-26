@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "Callout",
+  "tag": "callout",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "title": "string",
+    "tone": "string",
+    "dismissible": "boolean"
+  },
+  "events": [
+    "cu-dismiss"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

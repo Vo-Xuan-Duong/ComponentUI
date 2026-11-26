@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "TeachingTip",
+  "tag": "teaching-tip",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "open": "boolean",
+    "title": "string",
+    "placement": "start | end"
+  },
+  "events": [
+    "cu-open",
+    "cu-close"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

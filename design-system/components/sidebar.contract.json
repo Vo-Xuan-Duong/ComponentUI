@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "Sidebar",
+  "tag": "sidebar",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "value": "string",
+    "variant": "plain | default"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

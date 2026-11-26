@@ -77,7 +77,7 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">132</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">105</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-previews">120</strong><span>Preview components</span></div>
           <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
@@ -625,6 +625,38 @@
                 <cu-button type="submit" variant="accent">Read form values</cu-button>
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Action components</h3>
+              <div class="demo-row"><cu-toggle-button pressed>Pin</cu-toggle-button><cu-hyperlink href="#quality-lab">Quality lab</cu-hyperlink>
+                <cu-menu-button label="Actions"><cu-menu-item value="copy">Copy</cu-menu-item><cu-menu-item value="rename">Rename</cu-menu-item><cu-menu-item disabled>Unavailable</cu-menu-item></cu-menu-button>
+                <cu-floating-action-button size="sm" aria-label="Add item"><cu-icon name="plus"></cu-icon> Add</cu-floating-action-button>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Navigation patterns</h3>
+              <cu-top-nav label="Workspace" value="overview"><button data-value="overview" type="button">Overview</button><button data-value="files" type="button">Files</button></cu-top-nav>
+              <cu-sidebar label="Optional sidebar" value="overview"><button data-value="overview" type="button">Overview</button><button data-value="settings" type="button">Settings</button></cu-sidebar>
+              <cu-bottom-navigation label="Mobile sections" value="home"><button data-value="home" type="button">Home</button><button data-value="search" type="button">Search</button><button data-value="profile" type="button">Profile</button></cu-bottom-navigation>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>VerticalTabs and TabView</h3>
+              <cu-vertical-tabs aria-label="Workspace tabs"><cu-tab label="Overview">Overview content</cu-tab><cu-tab label="Settings">Settings content</cu-tab></cu-vertical-tabs>
+              <cu-tab-view variant="pill" aria-label="View mode"><cu-tab label="Summary">Summary</cu-tab><cu-tab label="Details">Details</cu-tab></cu-tab-view>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Feedback patterns</h3>
+              <cu-callout tone="info" title="Tip">Use the context menu to access additional commands.</cu-callout>
+              <cu-banner tone="success" title="Workspace ready" dismissible></cu-banner>
+              <div class="demo-row">
+                <cu-button id="wc-snackbar-show" size="sm">Show snackbar</cu-button>
+                <cu-button id="wc-confirm-show" size="sm">Confirm action</cu-button>
+                <cu-flyout title="Quick actions"><cu-button slot="trigger" size="sm">Flyout</cu-button><div slot="content">Quick action content</div></cu-flyout>
+                <cu-teaching-tip title="Keyboard shortcuts"><cu-button slot="trigger" size="sm">Show tip</cu-button><div slot="content">Use the arrow keys to navigate menus.</div></cu-teaching-tip>
+              </div>
+              <cu-snackbar id="wc-snackbar"></cu-snackbar>
+              <cu-confirm-dialog id="wc-confirm-dialog" title="Confirm demo action" confirm-label="Continue">This example does not perform an external operation.</cu-confirm-dialog>
+              <p id="wc-confirm-result" class="cu-helper" role="status">No action taken.</p>
             </article>
             <article class="cu-surface demo-card">
               <h3>List and DescriptionList</h3><p class="demo-subtitle">Semantic information and actionable rows.</p>

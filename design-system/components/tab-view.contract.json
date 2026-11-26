@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "TabView",
+  "tag": "tab-view",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "active": "number",
+    "variant": "default | pill",
+    "orientation": "horizontal | vertical"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

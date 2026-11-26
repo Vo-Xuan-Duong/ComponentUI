@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "FloatingActionButton",
+  "tag": "floating-action-button",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean",
+    "loading": "boolean",
+    "size": "sm | md",
+    "variant": "outline | default"
+  },
+  "events": [
+    "cu-press"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

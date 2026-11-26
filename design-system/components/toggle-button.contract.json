@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "ToggleButton",
+  "tag": "toggle-button",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "pressed": "boolean",
+    "disabled": "boolean",
+    "loading": "boolean"
+  },
+  "events": [
+    "cu-change",
+    "cu-press"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

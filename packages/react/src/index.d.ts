@@ -166,6 +166,11 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   fit?: "contain" | "cover" | "fill";
   "fallback-text"?: string;
   "upload-label"?: string;
+  href?: string;
+  target?: "_self" | "_blank" | "_parent" | "_top";
+  "confirm-label"?: string;
+  "cancel-label"?: string;
+  "danger-confirm"?: boolean;
   maxVisible?: number;
   "max-selected"?: number | string;
   "max-tags"?: number | string;
@@ -280,7 +285,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "Stack" | "Grid" | "Flex" | "Surface" | "PageHeader" | "RichTextEditor" | "ChartContainer" | "List" | "ListItem" | "DescriptionList" | "Kbd" | "CodeBlock" | "Image" | "ScrollView" | "Collapsible" | "FileUpload" | "FormField" | "Form" | "Container" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "Stack" | "Grid" | "Flex" | "Surface" | "PageHeader" | "RichTextEditor" | "ChartContainer" | "List" | "ListItem" | "DescriptionList" | "Kbd" | "CodeBlock" | "Image" | "ScrollView" | "Collapsible" | "FileUpload" | "FormField" | "Form" | "ToggleButton" | "Hyperlink" | "MenuButton" | "FloatingActionButton" | "Sidebar" | "TopNav" | "VerticalTabs" | "BottomNavigation" | "TabView" | "Snackbar" | "ConfirmDialog" | "Flyout" | "TeachingTip" | "Callout" | "Banner" | "Container" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

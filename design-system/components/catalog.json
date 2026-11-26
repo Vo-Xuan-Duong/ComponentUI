@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "105 catalogued experimental browser Custom Elements; 105 catalog preview entries, 27 planned, 0 production-ready.",
+  "summary": "120 catalogued experimental browser Custom Elements; 120 catalog preview entries, 12 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -41,7 +41,7 @@
         {
           "name": "ToggleButton",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -59,7 +59,7 @@
         {
           "name": "Hyperlink",
           "priority": "P0",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -86,7 +86,7 @@
         {
           "name": "MenuButton",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -95,7 +95,7 @@
         {
           "name": "FloatingActionButton",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -384,7 +384,7 @@
         {
           "name": "Sidebar",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -393,7 +393,7 @@
         {
           "name": "TopNav",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -420,7 +420,7 @@
         {
           "name": "VerticalTabs",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -492,7 +492,7 @@
         {
           "name": "BottomNavigation",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -510,7 +510,7 @@
         {
           "name": "TabView",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -799,7 +799,7 @@
         {
           "name": "Snackbar",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -844,7 +844,7 @@
         {
           "name": "ConfirmDialog",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -862,7 +862,7 @@
         {
           "name": "Flyout",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -880,7 +880,7 @@
         {
           "name": "TeachingTip",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -889,7 +889,7 @@
         {
           "name": "Callout",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -898,7 +898,7 @@
         {
           "name": "Banner",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

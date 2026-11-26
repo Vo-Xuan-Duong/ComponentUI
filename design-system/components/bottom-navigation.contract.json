@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "BottomNavigation",
+  "tag": "bottom-navigation",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "value": "string"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

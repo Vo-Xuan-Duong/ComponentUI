@@ -681,6 +681,23 @@ export declare class CuForm extends HTMLElement {
   requestSubmit(submitter?:HTMLElement):boolean;
   reset():boolean;
 }
+export declare class CuToggleButton extends HTMLElement {
+  pressed:boolean;disabled:boolean;loading:boolean;focus(options?:FocusOptions):void;click():void;
+}
+export declare class CuHyperlink extends HTMLElement {href:string;disabled:boolean;focus(options?:FocusOptions):void;}
+export declare class CuMenuButton extends CuMenu {disabled:boolean;}
+export declare class CuFloatingActionButton extends CuButton {}
+export declare class CuSidebar extends CuNavigationView {}
+export declare class CuTopNav extends CuNavigationView {}
+export declare class CuVerticalTabs extends CuTabs {}
+export declare class CuBottomNavigation extends CuNavigationView {}
+export declare class CuTabView extends CuTabs {}
+export declare class CuSnackbar extends CuToast {}
+export declare class CuConfirmDialog extends CuDialog {}
+export declare class CuFlyout extends CuPopover {}
+export declare class CuTeachingTip extends CuPopover {}
+export declare class CuCallout extends CuAlert {}
+export declare class CuBanner extends CuInfoBar {}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -923,6 +940,21 @@ declare global {
     "cu-status-bar": CuStatusBar;
     "cu-dock-layout": CuDockLayout;
     "cu-kanban-board": CuKanbanBoard;
+    "cu-banner": CuBanner;
+    "cu-callout": CuCallout;
+    "cu-teaching-tip": CuTeachingTip;
+    "cu-flyout": CuFlyout;
+    "cu-confirm-dialog": CuConfirmDialog;
+    "cu-snackbar": CuSnackbar;
+    "cu-tab-view": CuTabView;
+    "cu-bottom-navigation": CuBottomNavigation;
+    "cu-vertical-tabs": CuVerticalTabs;
+    "cu-top-nav": CuTopNav;
+    "cu-sidebar": CuSidebar;
+    "cu-floating-action-button": CuFloatingActionButton;
+    "cu-menu-button": CuMenuButton;
+    "cu-hyperlink": CuHyperlink;
+    "cu-toggle-button": CuToggleButton;
     "cu-form": CuForm;
     "cu-form-field": CuFormField;
     "cu-file-upload": CuFileUpload;

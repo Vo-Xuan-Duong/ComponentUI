@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "VerticalTabs",
+  "tag": "vertical-tabs",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "active": "number"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
