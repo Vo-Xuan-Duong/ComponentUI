@@ -133,6 +133,7 @@ test("Escape closes only topmost ComboBox and Select, without stealing ancestor 
   combo.hide=()=>{comboCloses++;};
   const select=Object.create(CuSelect.prototype);
   select._open=true;select._isDisabled=()=>false;
+  select._enabledIndices=()=>[];
   select.hide=()=>{selectCloses++;};
   registerOverlay(select);
   registerOverlay(combo);
@@ -186,7 +187,7 @@ test("Menu and Popover expose stable trigger-to-popup associations and motion pr
   for(const source of [combo,select]){
     assert.match(source,/isTopOverlay\(this\)/);
     assert.match(source,/aria-activedescendant/);
-    assert.match(source,/prefers-reduced-motion:reduce/);
+    assert.match(source,/prefers-reduced-motion\s*:\s*reduce/);
     assert.match(source,/forced-colors:active/);
   }
   assert.match(combo,/e\.key==="Home"/);
