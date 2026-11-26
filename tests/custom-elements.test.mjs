@@ -54,8 +54,10 @@ test("Implementation uses native form internals and modal keyboard primitives", 
   const check = await read("../packages/web/src/components/checkbox.js");
   const dialog = await read("../packages/web/src/components/dialog.js");
   assert.match(field, /attachInternals/);
-  assert.match(field, /setFormValue/);
-  assert.match(field, /setValidity/);
+  assert.match(field, /syncFieldValidity/);
+  const sharedField=await read("../packages/web/src/components/_field.js");
+  assert.match(sharedField,/setFormValue/);
+  assert.match(sharedField,/setValidity/);
   assert.match(check, /role.*switch/);
   assert.match(check, /setFormValue/);
   assert.match(dialog, /showModal\(\)/);
