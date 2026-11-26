@@ -688,6 +688,29 @@ export declare class CuDataTable extends HTMLElement {
   hideColumn(key:string):void;
   showAllColumns():void;
 }
+export interface CuGridColumn extends CuTableColumn {
+  editable?:boolean;type?:"text"|"number"|"boolean"|"select"|"color";
+  required?:boolean;min?:number;max?:number;step?:number;
+  options?:{value:string;label?:string;disabled?:boolean}[];
+}
+export declare function coerceGridValue(column:CuGridColumn,value:unknown,previous?:unknown):{valid:boolean;value:unknown;message:string};
+export declare class CuDataGrid extends CuDataTable {
+  columns:CuGridColumn[];
+  readonly:boolean;
+  editCell(id:string,key:string):boolean;
+  setCellValue(id:string,key:string,value:unknown):boolean;
+}
+export interface CuFileEntry {id:string;parentId?:string|null;name:string;kind:"file"|"folder";size?:number;modified?:string;}
+export declare function normalizeFileEntries(items:unknown):CuFileEntry[];
+export declare function fileExplorerPath(items:CuFileEntry[],folderId:string):CuFileEntry[];
+export declare function listFileEntries(items:CuFileEntry[],folderId:string,query?:string):CuFileEntry[];
+export declare class CuFileExplorer extends HTMLElement {
+  items:CuFileEntry[];
+  folderId:string;
+  query:string;
+  actions:{value:string;label?:string;disabled?:boolean}[];
+  navigate(id:string):boolean;
+}
 export declare function tableFilterValueKey(value:unknown):string;
 export declare function tableFilterValueLabel(value:unknown):string;
 export declare const TABLE_FILTER_OPERATORS:readonly CuTableFilterOperator[];
@@ -806,6 +829,8 @@ declare global {
     "cu-breadcrumb": CuBreadcrumb;
     "cu-breadcrumb-item": CuBreadcrumbItem;
     "cu-data-table": CuDataTable;
+    "cu-data-grid": CuDataGrid;
+    "cu-file-explorer": CuFileExplorer;
     "cu-tree-view": CuTreeView;
     "cu-tree-item": CuTreeItem;
     "cu-listbox": CuListBox;

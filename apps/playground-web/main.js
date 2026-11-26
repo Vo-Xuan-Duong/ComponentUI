@@ -116,6 +116,37 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcFileExplorer=document.getElementById("wc-file-explorer");
+wcFileExplorer.items=[
+  {id:"src",kind:"folder",name:"src"},
+  {id:"docs",kind:"folder",name:"docs"},
+  {id:"readme",kind:"file",name:"README.md",size:4096,modified:"2026-11-26"},
+  {id:"pkg",kind:"file",name:"package.json",size:2048,modified:"2026-11-26"},
+  {id:"components",parentId:"src",kind:"folder",name:"components"},
+  {id:"index",parentId:"src",kind:"file",name:"index.js",size:1200},
+  {id:"button",parentId:"components",kind:"file",name:"button.js",size:5200},
+  {id:"table",parentId:"components",kind:"file",name:"data-table.js",size:28600},
+  {id:"guide",parentId:"docs",kind:"file",name:"Guide.md",size:1820}
+];
+wcFileExplorer.actions=[{value:"rename",label:"Rename"},{value:"copy",label:"Copy"},{value:"delete",label:"Delete"}];
+wcFileExplorer.addEventListener("cu-open",event=>{document.getElementById("wc-file-explorer-result").textContent="Open: "+event.detail.entry.name;});
+wcFileExplorer.addEventListener("cu-action",event=>{document.getElementById("wc-file-explorer-result").textContent=event.detail.action+": "+event.detail.entry.name+" (demo only)";});
+const wcDataGrid=document.getElementById("wc-data-grid");
+wcDataGrid.columns=[
+  {key:"name",label:"Product",editable:true,required:true},
+  {key:"quantity",label:"Quantity",editable:true,type:"number",min:0,step:1},
+  {key:"status",label:"Status",editable:true,type:"select",options:[{value:"Active"},{value:"Draft"},{value:"Archived"}]},
+  {key:"enabled",label:"Enabled",editable:true,type:"boolean"}
+];
+wcDataGrid.rows=[
+  {id:"p1",name:"Desktop kit",quantity:12,status:"Active",enabled:true},
+  {id:"p2",name:"Admin template",quantity:8,status:"Draft",enabled:false},
+  {id:"p3",name:"Design tokens",quantity:24,status:"Active",enabled:true},
+  {id:"p4",name:"Legacy UI",quantity:0,status:"Archived",enabled:false}
+];
+wcDataGrid.rowActions=[{value:"details",label:"View details"},{value:"archive",label:"Archive"}];
+wcDataGrid.addEventListener("cu-cell-change",event=>{document.getElementById("wc-data-grid-result").textContent=JSON.stringify(event.detail,null,2);});
+wcDataGrid.addEventListener("cu-row-action",event=>{if(event.detail.action!=="edit-cell")showToast("Grid action",event.detail.action+" (demo only)");});
 const wcCarousel=document.getElementById("wc-carousel");
 wcCarousel.items=[
   {id:"layout",title:"Workspace layouts"},

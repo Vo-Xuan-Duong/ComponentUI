@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "name": "FileExplorer",
+  "tag": "cu-file-explorer",
+  "status": "preview",
+  "kind": "navigation",
+  "attributes": {
+    "label": "string",
+    "folder-id": "string",
+    "query": "string",
+    "empty-text": "string"
+  },
+  "events": [
+    "cu-change",
+    "cu-select",
+    "cu-open",
+    "cu-action",
+    "cu-search"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

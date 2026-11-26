@@ -65,6 +65,8 @@ export declare const SegmentedControl: ReactCuComponent;
 export declare const Timeline: ReactCuComponent;
 export declare const Carousel: ReactCuComponent;
 export declare const PropertyGrid: ReactCuComponent;
+export declare const FileExplorer: ReactCuComponent;
+export declare const DataGrid: ReactCuComponent;
 export declare const ProgressBar: ReactCuComponent;
 export declare const Badge: ReactCuComponent;
 export declare const Chip: ReactCuComponent;

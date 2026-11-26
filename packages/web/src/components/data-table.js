@@ -797,6 +797,7 @@ export class CuDataTable extends BrowserElement {
       this._showHeaderMenu(column,header,rect.left+16,rect.bottom);
     });
   }
+  _renderDataCell(row,column,id){return this._makeCell(row?.[column.key]);}
   _makeCell(text,tag="td"){
     const cell=document.createElement(tag);
     cell.textContent=String(text??"");
@@ -938,7 +939,7 @@ export class CuDataTable extends BrowserElement {
           });
           td.append(checkbox);tr.append(td);
         }
-        for(const col of columns)tr.append(this._makeCell(row?.[col.key]));
+        for(const col of columns)tr.append(this._renderDataCell(row,col,id));
         this._body.append(tr);
       });
     }

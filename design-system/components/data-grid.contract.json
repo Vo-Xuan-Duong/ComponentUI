@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "DataGrid",
+  "tag": "cu-data-grid",
+  "status": "preview",
+  "kind": "editor",
+  "attributes": {
+    "caption": "string",
+    "page-size": "number",
+    "selectable": "boolean",
+    "readonly": "boolean",
+    "loading": "boolean",
+    "error": "string"
+  },
+  "events": [
+    "cu-cell-change",
+    "cu-row-action",
+    "cu-header-action",
+    "cu-filter-change",
+    "cu-sort",
+    "cu-page-change",
+    "cu-selection-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

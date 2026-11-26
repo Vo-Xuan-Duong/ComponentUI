@@ -348,6 +348,14 @@
     "./components/property-grid": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/property-grid.js"
+    },
+    "./components/file-explorer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/file-explorer.js"
+    },
+    "./components/data-grid": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/data-grid.js"
     }
   },
   "files": [

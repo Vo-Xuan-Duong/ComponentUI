@@ -15,7 +15,7 @@ export const REACT_TAGS = Object.freeze({
   Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast", AutoComplete:"cu-autocomplete", NotificationCenter:"cu-notification-center",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
-  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline", Carousel:"cu-carousel", PropertyGrid:"cu-property-grid",
+  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline", Carousel:"cu-carousel", PropertyGrid:"cu-property-grid", FileExplorer:"cu-file-explorer", DataGrid:"cu-data-grid",
   ProgressBar:"cu-progress-bar", ProgressRing:"cu-progress-ring", Badge:"cu-badge", Chip:"cu-chip", Tag:"cu-tag",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
@@ -41,7 +41,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
   onCuLoadMore:"cu-load-more",
-  onCuRetry:"cu-retry", onCuScroll:"cu-scroll",
+  onCuRetry:"cu-retry", onCuScroll:"cu-scroll", onCuCellChange:"cu-cell-change",
   onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action", onCuResize:"cu-resize"
 });
 
@@ -109,6 +109,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-menu-item":["disabled"],
   "cu-icon":["name"],
   "cu-data-table":["rows","columns","rowActions","headerActions","columnFilters","page","loading","error"],
+  "cu-data-grid":["rows","columns","rowActions","headerActions","columnFilters","page","loading","error","readonly"],
+  "cu-file-explorer":["items","folderId","query","actions"],
   "cu-tree-view":["value"],
   "cu-tree-list":["items","value","expandedValues","itemHeight","overscan"],
   "cu-infinite-scroll":["hasMore","loading","threshold","error"],
@@ -149,14 +151,15 @@ export function assignCuProperties(element, tagName, props = {}) {
       continue;
     }
     if (name in element) {
-      if ((tagName==="cu-split-button"&&name==="actions") ||
+      if (((tagName==="cu-split-button"||tagName==="cu-file-explorer")&&name==="actions") ||
           (tagName==="cu-stepper"&&name==="steps") ||
           (tagName==="cu-multi-select"&&(name==="items"||name==="value")) ||
           ((tagName==="cu-range-slider"||tagName==="cu-tag-input")&&name==="value") ||
           ((tagName==="cu-autocomplete"||tagName==="cu-notification-center")&&name==="items") ||
           ((tagName==="cu-command-bar"||tagName==="cu-command-palette")&&name==="commands") ||
           (tagName==="cu-statistic"&&name==="series") ||
-          (["cu-avatar-group","cu-segmented-control","cu-timeline","cu-carousel","cu-property-grid"].includes(tagName)&&name==="items") ||
+          (tagName==="cu-data-grid"&&name==="rows") ||
+          (["cu-avatar-group","cu-segmented-control","cu-timeline","cu-carousel","cu-property-grid","cu-file-explorer"].includes(tagName)&&name==="items") ||
           (tagName==="cu-virtual-list"&&name==="items") ||
           (tagName==="cu-tree-list"&&(name==="items"||name==="expandedValues")) ||
           (tagName==="cu-accordion"&&name==="values"&&Array.isArray(value)) ||
@@ -167,7 +170,7 @@ export function assignCuProperties(element, tagName, props = {}) {
         if(refs.get(name)===value)continue;
         refs.set(name,value);
       }
-      if (tagName === "cu-data-table" && name === "columnFilters") {
+      if ((tagName === "cu-data-table" || tagName === "cu-data-grid") && name === "columnFilters") {
         if (lastControlledFilters.get(element) === value) continue;
         lastControlledFilters.set(element,value);
       }

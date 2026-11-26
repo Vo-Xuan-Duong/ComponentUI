@@ -228,4 +228,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **SegmentedControl and Timeline milestone:** 131 catalog entries, 75 preview, 56 planned, zero production-ready; 88 React wrappers. See [SegmentedControl and Timeline](docs/SEGMENT_TIMELINE.md).
 
-**Current milestone — Carousel and PropertyGrid:** 131 catalog entries, 77 preview, 54 planned, zero production-ready; 90 React wrappers. See [Carousel and PropertyGrid](docs/CAROUSEL_PROPERTY.md).
+**Carousel and PropertyGrid milestone:** 131 catalog entries, 77 preview, 54 planned, zero production-ready; 90 React wrappers. See [Carousel and PropertyGrid](docs/CAROUSEL_PROPERTY.md).
+
+**Current milestone — FileExplorer and DataGrid:** 131 catalog entries, 79 preview, 52 planned, zero production-ready; 92 React wrappers. See [FileExplorer and DataGrid](docs/FILE_GRID.md).
