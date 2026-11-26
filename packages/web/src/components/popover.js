@@ -1,5 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import { registerOverlay, unregisterOverlay, isTopOverlay, placeAnchoredOverlay, watchOverlayViewport, restoreOverlayFocus } from "./_overlay.js";
 
 const css = [
   ":host{position:relative;display:inline-flex;vertical-align:middle;max-width:100%;}",
@@ -10,7 +11,11 @@ const css = [
   "border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface-elevated,#fff);",
   "color:var(--cu-text,#242424);box-shadow:var(--cu-shadow-flyout,0 12px 28px rgb(0 0 0/.16));",
   "font:400 13px/1.5 var(--cu-font-body,system-ui);}",
+  ":host([open]){z-index:85;}",
+  ".panel{overflow:auto;overscroll-behavior:contain;}",
   ".panel[hidden]{display:none!important;}",
+  ".panel:not([hidden]){animation:cu-popover-enter var(--cu-motion-normal,160ms) ease both;}",
+  "@keyframes cu-popover-enter{from{opacity:.5}to{opacity:1}}",
   ":host([placement=end]) .panel{left:auto;right:0;}",
   focusStyle
 ].join("");
@@ -33,21 +38,23 @@ export class CuPopover extends BrowserElement {
       if (this.open && !event.composedPath().includes(this)) this.hide();
     };
     this._onDocumentKey = event => {
-      if (this.open && event.key === "Escape") {
+      if (this.open && event.key === "Escape" && !event.defaultPrevented && isTopOverlay(this)) {
         event.preventDefault();
         this.hide();
-        this._trigger.assignedElements({flatten:true})[0]?.focus();
+        restoreOverlayFocus(this._trigger.assignedElements({flatten:true})[0]);
       }
     };
   }
   connectedCallback() {
     document.addEventListener("pointerdown",this._onDocumentPointer);
     document.addEventListener("keydown",this._onDocumentKey);
+    this._stopViewport=watchOverlayViewport(this,()=>this._placePanel());
     this._sync();
   }
   disconnectedCallback() {
     document.removeEventListener("pointerdown",this._onDocumentPointer);
     document.removeEventListener("keydown",this._onDocumentKey);
+    this._stopViewport?.();this._stopViewport=null;this.hide();unregisterOverlay(this);
   }
   attributeChangedCallback(name,oldValue,newValue) {
     if (!this._panel) return;
@@ -66,8 +73,11 @@ export class CuPopover extends BrowserElement {
       trigger.setAttribute("aria-haspopup", "dialog");
     }
   }
+  _placePanel(){if(this.open)placeAnchoredOverlay(this,this._panel,{maxHeight:360,gap:8,align:this.getAttribute("placement")==="end"?"end":"start"});}
   _sync() {
     this._panel.hidden = !this.open;
+    if(this.open){if(!this._registered){registerOverlay(this);this._registered=true;}this._placePanel();}
+    else{unregisterOverlay(this);this._registered=false;}
     this._panel.setAttribute("aria-label",this.getAttribute("title") || "Popover");
     this._syncTrigger();
   }
