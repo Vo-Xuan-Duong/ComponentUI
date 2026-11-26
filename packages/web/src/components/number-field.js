@@ -1,4 +1,5 @@
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import { syncFieldValidity, wireFieldValidation } from "./_field.js";
 import "./icon.js";
 
 export function stepNumber(value,direction=1,step=1,min=null,max=null){
@@ -27,10 +28,10 @@ const css=[
   "border:1px solid var(--cu-border-strong,#d1d1d1);border-bottom-width:2px;",
   "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);",
   "transition:border-color var(--cu-motion-fast,100ms),background var(--cu-motion-fast,100ms);}",
-  ".control:hover:not([data-disabled=true]){background:var(--cu-surface-alt,#fafafa);}",
+  ".control:hover:not([data-disabled=true]){background:var(--cu-surface-alt,#fafafa);border-color:var(--cu-accent,#0067c0);}",
   ".control:focus-within{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;",
   "border-bottom-color:var(--cu-accent,#0067c0);}",
-  ".control[data-invalid=true]{border-bottom-color:var(--cu-danger,#c42b1c);}",
+  ".control[data-invalid=true]{border-color:var(--cu-danger,#c42b1c);}",
   "input{min-width:0;width:100%;flex:1;background:transparent;border:0;padding:0 12px;",
   "color:inherit;outline:0;font:400 14px var(--cu-font-body,system-ui);}",
   "input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}",
@@ -83,12 +84,13 @@ export class CuNumberField extends BrowserElement{
     this._input.addEventListener("change",()=>this._announce("cu-change"));
     this._minus.addEventListener("click",()=>this._step(-1));
     this._plus.addEventListener("click",()=>this._step(1));
+    wireFieldValidation(this,this._input,()=>this._update());
   }
   connectedCallback(){
     if(!this._initialized){
       this._defaultValue=this.getAttribute("value")??"";
       this._initialized=true;
-      this.value=this._defaultValue;
+      if(!this._valueAssigned)this._input.value=this._defaultValue;
     }
     this._sync();
   }
@@ -100,10 +102,10 @@ export class CuNumberField extends BrowserElement{
     }else this._sync();
   }
   formDisabledCallback(value){this._formDisabled=value;this._sync();}
-  formResetCallback(){this.value=this._defaultValue??"";}
+  formResetCallback(){this._validationRevealed=false;this.value=this._defaultValue??"";}
   formStateRestoreCallback(value){this.value=String(value??"");}
   get value(){return this._input.value;}
-  set value(value){this._input.value=String(value??"");this._update();}
+  set value(value){this._valueAssigned=true;this._input.value=String(value??"");this._update();}
   get valueAsNumber(){return this._input.valueAsNumber;}
   get disabled(){return this.hasAttribute("disabled");}
   set disabled(value){this.toggleAttribute("disabled",Boolean(value));}
@@ -112,6 +114,7 @@ export class CuNumberField extends BrowserElement{
   reportValidity(){return this._internals?.reportValidity()??this._input.reportValidity();}
   _step(direction){
     if(this._input.disabled||this._input.readOnly)return;
+    const previous=this.value;
     // Use browser-native stepping for correct step base and constraint behavior.
     try{
       this._input.stepUp(direction>0?1:-1);
@@ -120,8 +123,7 @@ export class CuNumberField extends BrowserElement{
         this.getAttribute("step")==="any"?1:this.getAttribute("step")??1,
         this.getAttribute("min"),this.getAttribute("max"));
     }
-    this._announce("cu-input");
-    this._announce("cu-change");
+    if(this.value!==previous){this._announce("cu-input");this._announce("cu-change");}
     this._input.focus();
   }
   _announce(type){this._update();notify(this,type,{value:this.value,valueAsNumber:this.valueAsNumber});}
@@ -149,16 +151,7 @@ export class CuNumberField extends BrowserElement{
   }
   _update(){
     if(!this._input)return;
-    const error=this.getAttribute("error"),invalid=Boolean(error)||!this._input.checkValidity();
-    this._wrapper.dataset.invalid=String(invalid);
-    this._input.setAttribute("aria-invalid",String(invalid));
-    this._internals?.setFormValue(this._input.disabled?null:this.value);
-    if(this._internals){
-      if(error)this._internals.setValidity({customError:true},error,this._input);
-      else if(!this._input.checkValidity())
-        this._internals.setValidity(this._input.validity,this._input.validationMessage,this._input);
-      else this._internals.setValidity({});
-    }
+    syncFieldValidity(this,this._input,{wrapper:this._wrapper});
     const value=this.valueAsNumber;
     const min=this.getAttribute("min"),max=this.getAttribute("max");
     this._minus.disabled=this._input.disabled||this._input.readOnly||
