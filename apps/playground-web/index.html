@@ -76,7 +76,7 @@
         </section>
 
         <div class="metrics" aria-label="ComponentUI project summary">
-          <div class="metric"><strong id="metric-components">130</strong><span>Catalog entries</span></div>
+          <div class="metric"><strong id="metric-components">131</strong><span>Catalog entries</span></div>
           <div class="metric"><strong id="metric-previews">57</strong><span>Preview components</span></div>
           <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
@@ -625,6 +625,20 @@
                 <cu-button type="submit" variant="accent">Read form values</cu-button>
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>SegmentedControl</h3><p class="demo-subtitle">Single-choice segmented inputs with native radio behavior and form support.</p>
+              <form class="cu-web-form" id="wc-segment-form">
+                <cu-segmented-control id="wc-segment-view" name="view" label="Workspace view" value="grid" fullwidth required hint="Use arrow keys to change the selection."></cu-segmented-control>
+                <cu-segmented-control id="wc-segment-density" name="density" label="Density" value="comfortable" variant="accent" size="sm"></cu-segmented-control>
+                <div class="demo-row"><cu-button type="submit" variant="accent">Read form values</cu-button><cu-button type="reset">Reset</cu-button></div>
+              </form>
+              <pre class="cu-web-result" id="wc-segment-result" role="status">Select an option.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Timeline</h3><p class="demo-subtitle">Ordered activity, status markers and optional event actions.</p>
+              <cu-timeline id="wc-timeline" label="Release activity"></cu-timeline>
+              <div class="demo-row"><cu-button id="wc-timeline-reverse">Reverse order</cu-button><cu-button id="wc-timeline-orientation">Switch orientation</cu-button></div>
             </article>
             <article class="cu-surface demo-card">
               <h3>ScrollArea</h3><p class="demo-subtitle">Native scroll behavior with themed scrollbars and edge metrics.</p>

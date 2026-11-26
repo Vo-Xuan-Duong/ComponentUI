@@ -332,6 +332,14 @@
     "./components/avatar-group": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/avatar-group.js"
+    },
+    "./components/segmented-control": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/segmented-control.js"
+    },
+    "./components/timeline": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/timeline.js"
     }
   },
   "files": [

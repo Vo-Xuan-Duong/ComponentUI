@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "SegmentedControl",
+  "tag": "cu-segmented-control",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "string",
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean",
+    "orientation": "horizontal | vertical",
+    "variant": "default | accent",
+    "fullwidth": "boolean",
+    "size": "sm | md | lg"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

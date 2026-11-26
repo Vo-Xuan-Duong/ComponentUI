@@ -547,6 +547,24 @@ export declare class CuAvatarGroup extends HTMLElement {
   maxVisible:number;
   expanded:boolean;
 }
+export interface CuSegmentOption {value:string;label?:string;icon?:string;disabled?:boolean;}
+export declare function normalizeSegmentOptions(items:unknown):Required<CuSegmentOption>[];
+export declare function resolveSegmentValue(value:unknown,items:CuSegmentOption[]):string;
+export declare class CuSegmentedControl extends HTMLElement {
+  static formAssociated:boolean;
+  items:CuSegmentOption[];
+  value:string;
+  disabled:boolean;
+  readonly:boolean;
+  required:boolean;
+  select(value:string):boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
+export interface CuTimelineItem {id:string;title:string;description?:string;time?:string;datetime?:string;status?:"neutral"|"success"|"warning"|"danger"|"active";icon?:string;action?:string;}
+export declare function normalizeTimelineItems(items:unknown):Required<CuTimelineItem>[];
+export declare class CuTimeline extends HTMLElement {items:CuTimelineItem[];}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -742,6 +760,8 @@ declare global {
     "cu-loading-overlay": CuLoadingOverlay;
     "cu-scroll-area": CuScrollArea;
     "cu-avatar-group": CuAvatarGroup;
+    "cu-segmented-control": CuSegmentedControl;
+    "cu-timeline": CuTimeline;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;
     "cu-avatar": CuAvatar;

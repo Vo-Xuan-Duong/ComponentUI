@@ -69,7 +69,7 @@ test("new controls are exported to independently built packages and React adapte
   assert.equal(REACT_TAGS.TextArea,"cu-textarea");
   assert.equal(REACT_TAGS.NumberField,"cu-number-field");
   assert.equal(REACT_TAGS.SearchBox,"cu-search-box");
-  assert.equal(Object.keys(REACT_TAGS).length,86);
+  assert.equal(Object.keys(REACT_TAGS).length,88);
   assert.equal(REACT_EVENT_PROPS.onCuSearch,"cu-search");
   const react=await read("../packages/react/src/components.js");
   for(const name of ["TextArea","NumberField","SearchBox"])assert.ok(react.includes(name));
@@ -104,8 +104,8 @@ test("catalog still has 129 entries; new forms preview, none production ready",a
   const status=new Map(components.map(c=>[c.name,c.status]));
   for(const name of ["TextArea","NumberField","SearchBox"])
     assert.equal(status.get(name),"preview");
-  assert.equal(components.length,130);
-  assert.equal(components.filter(c=>c.status==="preview").length,73);
-  assert.equal(components.filter(c=>c.status==="planned").length,57);
+  assert.equal(components.length,131);
+  assert.equal(components.filter(c=>c.status==="preview").length,75);
+  assert.equal(components.filter(c=>c.status==="planned").length,56);
   assert.equal(components.filter(c=>c.status==="ready").length,0);
 });

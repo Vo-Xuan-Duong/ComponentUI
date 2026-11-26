@@ -116,6 +116,25 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcSegmentView=document.getElementById("wc-segment-view");
+wcSegmentView.items=[{value:"grid",label:"Grid",icon:"panel-left"},{value:"list",label:"List",icon:"menu"},{value:"details",label:"Details",icon:"info"}];
+document.getElementById("wc-segment-density").items=[{value:"compact",label:"Compact"},{value:"comfortable",label:"Comfortable"},{value:"spacious",label:"Spacious",disabled:true}];
+const wcSegmentForm=document.getElementById("wc-segment-form");
+wcSegmentForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  document.getElementById("wc-segment-result").textContent=JSON.stringify(Object.fromEntries(new FormData(wcSegmentForm)),null,2);
+});
+wcSegmentForm.addEventListener("reset",()=>{document.getElementById("wc-segment-result").textContent="Form reset.";});
+const wcTimeline=document.getElementById("wc-timeline");
+wcTimeline.items=[
+  {id:"created",title:"Release prepared",description:"Release notes and component contracts updated.",time:"09:00",status:"success"},
+  {id:"build",title:"Package build",description:"Standalone package exports verified in source.",time:"09:20",status:"success"},
+  {id:"review",title:"Local review required",description:"Browser and framework acceptance still pending.",time:"10:00",status:"warning",action:"View details"},
+  {id:"release",title:"Release review",description:"Waiting for local verification.",time:"Next step",status:"active"}
+];
+wcTimeline.addEventListener("cu-action",event=>showToast("Timeline action",event.detail.action+": "+event.detail.item.title));
+document.getElementById("wc-timeline-reverse").addEventListener("cu-press",()=>wcTimeline.toggleAttribute("reverse"));
+document.getElementById("wc-timeline-orientation").addEventListener("cu-press",()=>wcTimeline.setAttribute("orientation",wcTimeline.getAttribute("orientation")==="horizontal"?"vertical":"horizontal"));
 const wcScrollArea=document.getElementById("wc-scroll-area");
 const wcScrollRows=document.getElementById("wc-scroll-rows");
 for(let i=1;i<=16;i++){
