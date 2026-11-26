@@ -1,4 +1,4 @@
-import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
+import {BrowserElement,mount,define,notify,focusStyle,frameTask} from "./_shared.js";
 const finite=v=>typeof v==="number"&&Number.isFinite(v)?v:0;
 export function scrollAreaMetrics({scrollTop=0,scrollLeft=0,scrollHeight=0,scrollWidth=0,clientHeight=0,clientWidth=0,rtl=false}={}){
   const maxScrollTop=Math.max(0,finite(scrollHeight)-finite(clientHeight));
@@ -27,15 +27,17 @@ export class CuScrollArea extends BrowserElement{
     super();
     const root=mount(this,css,'<div class="viewport" part="viewport" role="region" tabindex="0"><div class="content" part="content"><slot></slot></div></div>');
     this._viewport=root.querySelector(".viewport");this._content=root.querySelector(".content");this._slot=root.querySelector("slot");
-    this._viewport.addEventListener("scroll",()=>{this._refresh();notify(this,"cu-scroll",this.metrics);},{passive:true});
+    this._frame=frameTask(this,()=>{const metrics=this.metrics;this._refresh(metrics);if(this._scrollPending){this._scrollPending=false;notify(this,"cu-scroll",metrics);}});
+    this._viewport.addEventListener("scroll",()=>{this._scrollPending=true;this._frame.request();},{passive:true});
     this._slot.addEventListener("slotchange",()=>this._refresh());
   }
   connectedCallback(){
     this._sync();
     const Observer=this.ownerDocument.defaultView?.ResizeObserver;
-    if(Observer){this._observer=new Observer(()=>this._refresh());this._observer.observe(this._viewport);this._observer.observe(this._content);}
+    this._observer?.disconnect();
+    if(Observer){this._observer=new Observer(()=>this._frame.request());this._observer.observe(this._viewport);this._observer.observe(this._content);}
   }
-  disconnectedCallback(){this._observer?.disconnect();this._observer=null;}
+  disconnectedCallback(){this._frame.cancel();this._scrollPending=false;this._observer?.disconnect();this._observer=null;}
   attributeChangedCallback(){this._sync();}
   get metrics(){
     const v=this._viewport;if(!v)return scrollAreaMetrics();
@@ -50,9 +52,8 @@ export class CuScrollArea extends BrowserElement{
   scrollBy(...args){this._viewport.scrollBy(...args);}
   focus(options){this._viewport.focus(options);}
   _sync(){if(!this._viewport)return;this._viewport.setAttribute("aria-label",this.getAttribute("aria-label")||this.getAttribute("label")||"Scrollable content");this._refresh();}
-  _refresh(){
+  _refresh(m=this.metrics){
     if(!this._viewport)return;
-    const m=this.metrics;
     for(const [key,value] of Object.entries({atTop:m.atTop,atBottom:m.atBottom,atStart:m.atStart,atEnd:m.atEnd,canScrollX:m.canScrollX,canScrollY:m.canScrollY})){
       const attr=key.replace(/[A-Z]/g,c=>"-"+c.toLowerCase());this._viewport.toggleAttribute("data-"+attr,value);
     }

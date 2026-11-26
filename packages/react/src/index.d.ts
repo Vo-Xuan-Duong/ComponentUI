@@ -225,6 +225,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   total?: number;
   itemHeight?: number;
   overscan?: number;
+  "render-batch"?: number | string;
   selectedIndex?: number;
   labelKey?: string;
   collapsible?: boolean;

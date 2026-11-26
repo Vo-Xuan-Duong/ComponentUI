@@ -118,7 +118,10 @@ function showToast(title, message = "ComponentUI interaction preview.") {
 }
 const wcTreeTable=document.getElementById("wc-tree-table");
 wcTreeTable.columns=[{key:"status",label:"Status"},{key:"owner",label:"Owner"}];
-wcTreeTable.items=[{id:"web",label:"Web Components",values:{status:"Preview",owner:"UI"},expanded:true,children:[{id:"forms",label:"Forms",values:{status:"Preview",owner:"UI"}},{id:"data",label:"Data display",values:{status:"Preview",owner:"UI"}}]},{id:"desktop",label:"Desktop patterns",values:{status:"Preview",owner:"Platform"},children:[{id:"dock",label:"Dock layout",values:{status:"Preview",owner:"Platform"}}]}];
+const wcTreeSmallItems=[{id:"web",label:"Web Components",values:{status:"Preview",owner:"UI"},expanded:true,children:[{id:"forms",label:"Forms",values:{status:"Preview",owner:"UI"}},{id:"data",label:"Data display",values:{status:"Preview",owner:"UI"}}]},{id:"desktop",label:"Desktop patterns",values:{status:"Preview",owner:"Platform"},children:[{id:"dock",label:"Dock layout",values:{status:"Preview",owner:"Platform"}}]}];
+wcTreeTable.items=wcTreeSmallItems;
+document.getElementById("wc-tree-large").addEventListener("cu-press",()=>{wcTreeTable.query="";document.getElementById("wc-tree-table-query").value="";wcTreeTable.items=Array.from({length:200},(_,i)=>({id:"folder-"+i,label:"Folder "+i,expanded:true,values:{status:"Preview",owner:"Platform"},children:Array.from({length:10},(_,j)=>({id:"file-"+i+"-"+j,label:"File "+j,values:{status:"Preview",owner:"UI"}}))}));});
+document.getElementById("wc-tree-small").addEventListener("cu-press",()=>{wcTreeTable.query="";document.getElementById("wc-tree-table-query").value="";wcTreeTable.items=wcTreeSmallItems;});
 wcTreeTable.rowActions=[{value:"details",label:"View details"},{value:"copy-id",label:"Show identifier"}];
 document.getElementById("wc-tree-table-query").addEventListener("cu-input",e=>{wcTreeTable.query=e.detail.value;});
 document.getElementById("wc-tree-expand").addEventListener("cu-press",()=>wcTreeTable.expandAll());

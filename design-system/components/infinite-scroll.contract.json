@@ -40,6 +40,6 @@
   "lifecycle": {
     "request": "Only one in flight; loading state prevents duplicate requests",
     "completion": "Application appends data and calls complete; no component network calls",
-    "observer": "IntersectionObserver with scroll fallback"
+    "observer": "IntersectionObserver with passive scroll fallback; callbacks from disconnected/replaced observers ignored."
   }
 }

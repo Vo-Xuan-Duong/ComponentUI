@@ -25,6 +25,37 @@ export function mount(element, css, markup) {
   return root;
 }
 
+/** Coalesce visual work to a single frame; cancel on disconnect. */
+export function frameTask(host,callback){
+  let pending=null;
+  return {
+    request(){
+      if(pending||host.isConnected===false)return;
+      const view=host.ownerDocument?.defaultView;
+      if(!view?.requestAnimationFrame){callback();return;}
+      const task={view,id:null};pending=task;
+      task.id=view.requestAnimationFrame(()=>{
+        if(pending!==task)return;
+        pending=null;
+        if(host.isConnected!==false)callback();
+      });
+    },
+    cancel(){
+      const task=pending;pending=null;
+      if(task)task.view.cancelAnimationFrame?.(task.id);
+    }
+  };
+}
+/** Retain only the current virtual window's nodes, reusing overlapping rows.
+ * Revision changes invalidate cached content (including dimensions and labels).
+ */
+export function reconcileVirtualWindow(previous,start,end,revision,create){
+  const old=previous?.revision===revision?previous.nodes:null;
+  const nodes=new Map();
+  for(let index=start;index<end;index++)nodes.set(index,old?.get(index)??create(index));
+  return {revision,nodes};
+}
+
 export function notify(element, type, detail) {
   element.dispatchEvent(new CustomEvent(type, {
     bubbles: true, composed: true, detail

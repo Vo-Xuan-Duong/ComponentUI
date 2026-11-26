@@ -1,11 +1,12 @@
-import { BrowserElement, mount, notify, define } from "./_shared.js";
+import { BrowserElement, mount, notify, define, frameTask, reconcileVirtualWindow } from "./_shared.js";
 
 export function virtualListRange(scrollTop,viewportHeight,count,itemHeight=40,overscan=4){
-  const total=Math.max(0,Math.floor(Number(count)||0));
-  const height=Math.max(1,Math.floor(Number(itemHeight)||40));
-  const viewport=Math.max(0,Number(viewportHeight)||0);
-  const extra=Math.max(0,Math.min(50,Math.floor(Number(overscan)||0)));
-  const offset=Math.max(0,Number(scrollTop)||0);
+  const finite=(v,fallback=0)=>Number.isFinite(Number(v))?Number(v):fallback;
+  const total=Math.max(0,Math.floor(finite(count)));
+  const height=Math.max(1,Math.floor(finite(itemHeight,40)||40));
+  const viewport=Math.max(0,finite(viewportHeight));
+  const extra=Math.max(0,Math.min(50,Math.floor(finite(overscan))));
+  const offset=Math.min(Math.max(0,total*height-viewport),Math.max(0,finite(scrollTop)));
   const start=Math.min(total,Math.max(0,Math.floor(offset/height)-extra));
   const end=Math.min(total,Math.ceil((offset+viewport)/height)+extra);
   return {start,end,top:start*height,bottom:(total-end)*height,totalHeight:total*height};
@@ -32,7 +33,7 @@ const css=[
   ".item{box-sizing:border-box;display:flex;align-items:center;min-width:0;",
   "padding:0 12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;",
   "border-bottom:1px solid var(--cu-border,#e5e5e5);cursor:pointer;}",
-  ".item:hover:not([aria-disabled=true]){background:color-mix(in srgb,var(--cu-accent,#0067c0) 9%,var(--cu-surface,#fff));}",
+  ".item:hover:not([aria-disabled=true]){background:var(--cu-state-hover);}",
   ".item[aria-selected=true]{color:var(--cu-accent,#0067c0);",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 14%,var(--cu-surface,#fff));}",
   ".item[aria-disabled=true]{opacity:.45;cursor:not-allowed;}",
@@ -65,7 +66,8 @@ export class CuVirtualList extends BrowserElement {
     this._lastRange=null;
     this._observer=null;
     this._idBase="cu-virtual-"+(++virtualListId);
-    this._viewport.addEventListener("scroll",()=>this._render());
+    this._frame=frameTask(this,()=>this._render());
+    this._viewport.addEventListener("scroll",()=>this._frame.request(),{passive:true});
     this._itemsRoot.addEventListener("click",event=>{
       const option=event.target.closest('[role="option"]');
       if(!option)return;
@@ -97,17 +99,20 @@ export class CuVirtualList extends BrowserElement {
   }
   connectedCallback(){
     this._sync();this._render();
-    if(globalThis.ResizeObserver){
-      this._observer=new ResizeObserver(()=>this._render());
+    const Observer=this.ownerDocument?.defaultView?.ResizeObserver??globalThis.ResizeObserver;
+    this._observer?.disconnect();
+    if(Observer){
+      this._observer=new Observer(()=>this._frame.request());
       this._observer.observe(this._viewport);
     }
   }
-  disconnectedCallback(){this._observer?.disconnect();this._observer=null;}
+  disconnectedCallback(){this._frame.cancel();this._observer?.disconnect();this._observer=null;this._window=null;this._lastRange=null;}
   attributeChangedCallback(){this._sync();this._lastRange=null;this._render();}
   get items(){return this._items;}
   set items(value){
-    this._items=Array.isArray(value)?value:[];
-    if(this._selected>=this._items.length)this._selected=-1;
+    if(value===this._items)return;
+    this._items=Array.isArray(value)?value:[];this._window=null;
+    if(this._selected>=this._items.length||this._items[this._selected]?.disabled)this._selected=-1;
     this._viewport.scrollTop=0;this._lastRange=null;this._render();
   }
   get itemHeight(){const n=Number(this.getAttribute("item-height"));return n>0&&Number.isFinite(n)?Math.max(16,Math.floor(n)):40;}
@@ -119,9 +124,9 @@ export class CuVirtualList extends BrowserElement {
   get selectedIndex(){return this._selected;}
   set selectedIndex(value){
     const index=Number(value);
-    this._selected=Number.isInteger(index)&&index>=0&&index<this._items.length?index:-1;
+    this._selected=Number.isInteger(index)&&index>=0&&index<this._items.length&&!this._items[index]?.disabled?index:-1;
     if(this._selected>=0)this.scrollToIndex(this._selected);
-    this._render();
+    else this._render();
   }
   scrollToIndex(index,align="auto"){
     const i=Math.floor(Number(index));
@@ -144,7 +149,6 @@ export class CuVirtualList extends BrowserElement {
     const previousIndex=this._selected;
     this._selected=next;
     this.scrollToIndex(next);
-    this._render();
     if(emit)notify(this,"cu-change",{
       index:next,previousIndex,item:this._items[next],
       value:virtualListLabel(this._items[next],next,this.labelKey)
@@ -168,22 +172,23 @@ export class CuVirtualList extends BrowserElement {
     this._lastRange=signature;
     this._top.style.height=range.top+"px";
     this._bottom.style.height=range.bottom+"px";
-    const frag=document.createDocumentFragment();
-    for(let i=range.start;i<range.end;i++){
+    const doc=this.ownerDocument??globalThis.document,frag=doc.createDocumentFragment();
+    const revision=[this.itemHeight,this.labelKey,len].join(":");
+    this._window=reconcileVirtualWindow(this._window,range.start,range.end,revision,i=>{
       const item=this._items[i];
-      const option=document.createElement("div");
+      const option=doc.createElement("div");
       option.className="item";
       option.dataset.index=String(i);
       option.id=this._idBase+"-"+i;
       option.setAttribute("role","option");
-      option.setAttribute("aria-selected",String(i===this._selected));
       option.setAttribute("aria-posinset",String(i+1));
       option.setAttribute("aria-setsize",String(len));
       if(item?.disabled)option.setAttribute("aria-disabled","true");
       option.style.height=this.itemHeight+"px";
       option.textContent=virtualListLabel(item,i,this.labelKey);
-      frag.append(option);
-    }
+      return option;
+    });
+    for(const [i,option] of this._window.nodes){option.setAttribute("aria-selected",String(i===this._selected));frag.append(option);}
     this._itemsRoot.replaceChildren(frag);
     if(this._selected>=range.start&&this._selected<range.end)
       this._viewport.setAttribute("aria-activedescendant",this._idBase+"-"+this._selected);

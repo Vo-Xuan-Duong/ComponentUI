@@ -15,7 +15,8 @@
     "packages:verify": "node scripts/verify-packages.mjs",
     "pack:local": "node scripts/pack-packages.mjs",
     "check:packages": "npm run build:packages && npm run packages:verify",
-    "quality:check": "node scripts/check-quality.mjs"
+    "quality:check": "node scripts/check-quality.mjs",
+    "benchmark:data": "node scripts/benchmark-data.mjs"
   },
   "workspaces": [
     "packages/*",

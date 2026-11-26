@@ -643,7 +643,8 @@
               <h3>TreeTable</h3><p class="demo-subtitle">Search nested records, sort siblings and use header/row context menus.</p>
               <cu-text-field id="wc-tree-table-query" label="Search hierarchy" placeholder="Try Platform or Forms"></cu-text-field>
               <div class="demo-row"><cu-button id="wc-tree-expand" size="sm">Expand all</cu-button><cu-button id="wc-tree-collapse" size="sm">Collapse all</cu-button><cu-button id="wc-tree-clear-sort" size="sm">Clear sorting</cu-button></div>
-              <cu-tree-table id="wc-tree-table" label="Project"></cu-tree-table>
+              <div class="demo-row"><cu-button id="wc-tree-large" size="sm" variant="outline">Load 2,200 sample records</cu-button><cu-button id="wc-tree-small" size="sm" variant="subtle">Restore example</cu-button></div>
+              <cu-tree-table id="wc-tree-table" label="Project" render-batch="200"></cu-tree-table>
               <p id="wc-tree-table-result" role="status" class="cu-helper">Right-click a header or row for actions.</p>
             </article>
             <article class="cu-surface demo-card full-span">

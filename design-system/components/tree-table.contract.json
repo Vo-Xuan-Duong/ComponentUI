@@ -7,7 +7,8 @@
   "attributes": {
     "label": "string",
     "empty-text": "string",
-    "query": "string; accent-insensitive keyword search"
+    "query": "string; accent-insensitive keyword search",
+    "render-batch": "25–1000; default 200; progressive row batches"
   },
   "events": [
     "cu-toggle",
@@ -25,7 +26,8 @@
     "query": "string",
     "rowActions": "custom context menu actions",
     "sortKey": "readonly string|null; empty string selects label",
-    "sortDirection": "readonly asc|desc"
+    "sortDirection": "readonly asc|desc",
+    "renderBatch": "readonly number"
   },
   "methods": [
     "toggle(id)",
@@ -33,5 +35,8 @@
     "collapseAll()",
     "sortBy(key,direction)",
     "clearSort()"
-  ]
+  ],
+  "performance": {
+    "strategy": "Progressive display of flattened visible rows; initial DOM bounded by batch; Show more grows DOM. Not virtualization."
+  }
 }

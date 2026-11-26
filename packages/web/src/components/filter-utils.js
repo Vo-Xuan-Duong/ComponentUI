@@ -75,8 +75,8 @@ export function uniqueTableFilterValues(rows,key) {
     if(values.has(id)){values.get(id).count++;continue;}
     values.set(id,{key:id,value,label:tableFilterValueLabel(value),count:1});
   }
-  return [...values.values()].sort((a,b)=>
-    a.label.localeCompare(b.label,undefined,{numeric:true,sensitivity:"base"}));
+  const collator=new Intl.Collator(undefined,{numeric:true,sensitivity:"base"});
+  return [...values.values()].sort((a,b)=>collator.compare(a.label,b.label));
 }
 // Keyword matching is kept with structured conditions to avoid importing
 // DataTable, its menus and its other UI dependencies from FilterBar.

@@ -20,14 +20,15 @@ export function filterTreeTableItems(items,query=""){
 }
 export function sortTreeTableItems(items,key,direction="asc"){
  if(key==null)return items;
- const factor=direction==="desc"?-1:1;
+ const factor=direction==="desc"?-1:1,collator=new Intl.Collator(undefined,{numeric:true,sensitivity:"base"});
  const value=item=>key===""?item.label:item.values?.[key];
- return [...items].sort((a,b)=>{
+ const visit=nodes=>[...nodes].sort((a,b)=>{
    const av=value(a),bv=value(b);
    if(av==null||av==="")return bv==null||bv===""?0:1;
    if(bv==null||bv==="")return -1;
-   return factor*String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:"base"});
- }).map(item=>({...item,children:sortTreeTableItems(item.children||[],key,direction)}));
+   return factor*collator.compare(String(av),String(bv));
+ }).map(item=>({...item,children:visit(item.children||[])}));
+ return visit(items);
 }
 const css=[
  ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
@@ -35,16 +36,17 @@ const css=[
  "table{width:100%;border-collapse:collapse;text-align:start;}th,td{padding:9px 12px;border-bottom:1px solid var(--cu-border,#e5e5e5);text-align:start;white-space:nowrap;}thead th{background:var(--cu-surface-alt,#fafafa);position:sticky;top:0;z-index:1;font-weight:650;}",
  "tbody tr:hover{background:var(--cu-state-hover);}tbody tr[data-context=true]{background:var(--cu-state-active);}tbody tr:last-child td{border-bottom:0;}.node{display:flex;align-items:center;gap:5px;padding-inline-start:calc(var(--depth)*18px);}",
  "button,.space{width:24px;height:24px;display:grid;place-items:center;flex:none;}button{border:0;border-radius:5px;background:transparent;color:inherit;cursor:pointer;}button:hover:not(:disabled){background:var(--cu-state-hover);}button:disabled{cursor:default;opacity:.6;}",
- ".sort{width:auto;display:inline-flex;gap:5px;align-items:center;font:inherit;padding:0 4px;}tr:focus-visible{outline-offset:-2px;}.empty{text-align:center;padding:20px;color:var(--cu-text-muted,#616161);}.menu{position:fixed;width:0;height:0;}.summary{font-size:12px;padding:8px 12px;color:var(--cu-text-muted,#616161);}",
+ ".sort{width:auto;display:inline-flex;gap:5px;align-items:center;font:inherit;padding:0 4px;}tr:focus-visible{outline-offset:-2px;}.empty{text-align:center;padding:20px;color:var(--cu-text-muted,#616161);}.menu{position:fixed;width:0;height:0;}.summary{font-size:12px;padding:8px 12px;color:var(--cu-text-muted,#616161);}.more{width:auto;padding:4px 12px;margin:0 12px 8px;border:1px solid var(--cu-border,#e5e5e5);min-height:32px;font:inherit;}.more[hidden]{display:none!important;}",
  focusStyle
 ].join("");
 const walk=(nodes,fn)=>{for(const n of nodes){fn(n);walk(n.children||[],fn);}};
 export class CuTreeTable extends BrowserElement{
- static get observedAttributes(){return ["label","aria-label","empty-text","query"];}
+ static get observedAttributes(){return ["label","aria-label","empty-text","query","render-batch"];}
  constructor(){
-  super();this._items=[];this._columns=[];this._expanded=new Set();this._sortKey=null;this._direction="asc";this._rowActions=[];
-  const root=mount(this,css,'<div class="frame"><table part="table"><thead></thead><tbody></tbody></table></div><div class="summary" role="status"></div><cu-context-menu class="menu" aria-label="Tree table actions"></cu-context-menu>');
-  this._table=root.querySelector("table");this._head=root.querySelector("thead");this._body=root.querySelector("tbody");this._summary=root.querySelector(".summary");this._menu=root.querySelector("cu-context-menu");
+  super();this._items=[];this._columns=[];this._expanded=new Set();this._sortKey=null;this._direction="asc";this._rowActions=[];this._limit=this.renderBatch;
+  const root=mount(this,css,'<div class="frame"><table part="table"><thead></thead><tbody></tbody></table></div><div class="summary" role="status" tabindex="-1"></div><button class="more" type="button" hidden>Show more rows</button><cu-context-menu class="menu" aria-label="Tree table actions"></cu-context-menu>');
+  this._table=root.querySelector("table");this._head=root.querySelector("thead");this._body=root.querySelector("tbody");this._summary=root.querySelector(".summary");this._menu=root.querySelector("cu-context-menu");this._more=root.querySelector(".more");
+  this._more.addEventListener("click",()=>{this._limit+=this.renderBatch;this._render();if(this._more.hidden)this._summary.focus({preventScroll:true});});
   this._menu.addEventListener("cu-close",()=>this._clearContext());
   this._menu.addEventListener("cu-select",event=>{
    event.stopPropagation();const context=this._context,action=event.detail.value;if(!context)return;
@@ -52,9 +54,10 @@ export class CuTreeTable extends BrowserElement{
    else{const item=normalizeTreeTableItems([context.item])[0];notify(this,"cu-row-action",{id:item.id,row:item,action,label:event.detail.label});}
   });
  }
- connectedCallback(){this._render();}attributeChangedCallback(){this._render();}
+ connectedCallback(){this._render();}attributeChangedCallback(name){if(name==="query"||name==="render-batch")this._limit=this.renderBatch;this._render();}
+ get renderBatch(){const n=Number(this.getAttribute("render-batch"));return Number.isFinite(n)&&n>0?Math.max(25,Math.min(1000,Math.floor(n))):200;}
  get items(){return normalizeTreeTableItems(this._items);}
- set items(v){const oldIds=new Set();walk(this._items,n=>oldIds.add(n.id));this._items=normalizeTreeTableItems(v);const next=new Set();walk(this._items,n=>{if(n.children.length&&(this._expanded.has(n.id)||(!oldIds.has(n.id)&&n.expanded)))next.add(n.id);});this._expanded=next;this._render();}
+ set items(v){this._limit=this.renderBatch;const oldIds=new Set();walk(this._items,n=>oldIds.add(n.id));this._items=normalizeTreeTableItems(v);const next=new Set();walk(this._items,n=>{if(n.children.length&&(this._expanded.has(n.id)||(!oldIds.has(n.id)&&n.expanded)))next.add(n.id);});this._expanded=next;this._render();}
  get columns(){return this._columns.map(x=>({...x}));}
  set columns(v){const seen=new Set();this._columns=(Array.isArray(v)?v:[]).filter(x=>x&&typeof x.key==="string"&&x.key&&!seen.has(x.key)&&seen.add(x.key)).map(x=>({key:x.key,label:String(x.label??x.key),sortable:x.sortable!==false}));if(this._sortKey&& !this._columns.some(c=>c.key===this._sortKey&&c.sortable))this._sortKey=null;this._render();}
  get query(){return this.getAttribute("query")||"";}set query(v){this.setAttribute("query",String(v??""));}
@@ -89,7 +92,7 @@ export class CuTreeTable extends BrowserElement{
   const searching=Boolean(this.query.trim()),filtered=filterTreeTableItems(this._items,this.query),ordered=sortTreeTableItems(filtered,this._sortKey,this._direction),expanded=new Set(this._expanded);
   if(searching)walk(ordered,n=>{if(n.children.length)expanded.add(n.id);});
   const rows=visibleTreeTableRows(ordered,expanded),originals=new Map();walk(this._items,item=>originals.set(item.id,item));
-  this._body.replaceChildren(...rows.map(({item,depth})=>{
+  const shown=rows.slice(0,this._limit),fragment=doc.createDocumentFragment();for(const {item,depth} of shown){
    const tr=doc.createElement("tr"),cell=doc.createElement("td"),node=doc.createElement("div");tr.dataset.id=item.id;node.className="node";node.style.setProperty("--depth",String(depth));
    if(item.children.length){const b=doc.createElement("button");b.type="button";b.dataset.id=item.id;b.disabled=searching;b.setAttribute("aria-expanded",String(expanded.has(item.id)));b.setAttribute("aria-label",(expanded.has(item.id)?"Collapse ":"Expand ")+item.label);const icon=doc.createElement("cu-icon");icon.setAttribute("name",expanded.has(item.id)?"chevron-down":"chevron-right");icon.setAttribute("size","14");b.append(icon);b.addEventListener("click",()=>this.toggle(item.id));node.append(b);}
    else{const gap=doc.createElement("span");gap.className="space";node.append(gap);}
@@ -98,10 +101,11 @@ export class CuTreeTable extends BrowserElement{
    const original=originals.get(item.id)??item;
    const actions=this._rowActions.map(a=>({value:a.value,label:String(a.label??a.value),disabled:typeof a.disabled==="function"?Boolean(a.disabled(normalizeTreeTableItems([original])[0])):Boolean(a.disabled)}));
    if(actions.length){tr.tabIndex=0;this._bindMenu(tr,{kind:"row",item:original},actions);}
-   return tr;
-  }));
+   fragment.append(tr);
+  }this._body.replaceChildren(fragment);
   if(!rows.length){const tr=doc.createElement("tr"),td=doc.createElement("td");td.colSpan=this._columns.length+1;td.className="empty";td.textContent=searching?"No matching rows":this.getAttribute("empty-text")||"No rows";tr.append(td);this._body.append(tr);}
-  this._summary.textContent=rows.length+" visible row"+(rows.length===1?"":"s")+(searching?" · filtered":"");
+  this._summary.textContent=shown.length+" of "+rows.length+" visible row"+(rows.length===1?"":"s")+(searching?" · filtered":"");
+  this._more.hidden=shown.length>=rows.length;this._more.textContent="Show more ("+(rows.length-shown.length)+" remaining)";
   const target=focusId??focusedToggle;
   if(target)[...this._body.querySelectorAll("button:not(:disabled)")].find(b=>b.dataset.id===target)?.focus({preventScroll:true});
   else if(focusedRow)[...this._body.querySelectorAll("tr[tabindex]")].find(r=>r.dataset.id===focusedRow)?.focus({preventScroll:true});

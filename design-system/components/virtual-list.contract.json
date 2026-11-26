@@ -39,6 +39,7 @@
   "performance": {
     "algorithm": "fixed-size rows with overscan and top/bottom spacer elements",
     "expectedDom": "proportional to viewportHeight/itemHeight, not total item count",
-    "notes": "does not support dynamic row heights yet"
+    "notes": "does not support dynamic row heights yet",
+    "reuse": "Overlapping row nodes reused within the current window; scroll and resize coalesced via requestAnimationFrame; pending frame cancelled on disconnect."
   }
 }

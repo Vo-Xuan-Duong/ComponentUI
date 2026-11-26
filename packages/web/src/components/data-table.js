@@ -11,6 +11,7 @@ export { tableFilterValueKey, tableFilterValueLabel, TABLE_FILTER_OPERATORS, isT
 export function sortTableRows(rows, key, direction = "asc") {
   if (!key || !["asc","desc"].includes(direction)) return [...rows];
   const factor = direction === "desc" ? -1 : 1;
+  const collator=new Intl.Collator(undefined,{numeric:true,sensitivity:"base"});
   return rows.map((row,index)=>({row,index})).sort((a,b)=>{
     const av=a.row?.[key], bv=b.row?.[key];
     if (av == null && bv == null) return a.index-b.index;
@@ -18,7 +19,7 @@ export function sortTableRows(rows, key, direction = "asc") {
     if (bv == null) return -1;
     const numeric=typeof av==="number" && typeof bv==="number" && Number.isFinite(av) && Number.isFinite(bv);
     const compare=numeric ? av-bv :
-      String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:"base"});
+      collator.compare(String(av),String(bv));
     return factor*compare || a.index-b.index;
   }).map(entry=>entry.row);
 }
@@ -707,8 +708,8 @@ export class CuDataTable extends BrowserElement {
       const key=tableFilterValueKey(value);
       if(!byKey.has(key))byKey.set(key,{key,value,label:tableFilterValueLabel(value),count:0});
     }
-    const all=[...byKey.values()].sort((a,b)=>
-      a.label.localeCompare(b.label,undefined,{numeric:true,sensitivity:"base"}));
+    const collator=new Intl.Collator(undefined,{numeric:true,sensitivity:"base"});
+    const all=[...byKey.values()].sort((a,b)=>collator.compare(a.label,b.label));
     const condition=isTableFilterCondition(existing)?existing:null;
     this._filterEditor={column,header,focusTarget:focusTarget??header.querySelector(".filter-trigger")??header.querySelector("button")??header,
       options:all,selected:new Set((Array.isArray(existing)?existing:

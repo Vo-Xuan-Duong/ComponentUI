@@ -704,7 +704,7 @@ export declare function visibleTreeTableRows(items:CuTreeTableItem[],expanded:Se
 export declare function filterTreeTableItems(items:CuTreeTableItem[],query?:string):CuTreeTableItem[];
 export declare function sortTreeTableItems(items:CuTreeTableItem[],key:string|null,direction?:"asc"|"desc"):CuTreeTableItem[];
 export declare class CuTreeTable extends HTMLElement {
-  items:CuTreeTableItem[];columns:CuTableColumn[];expandedValues:string[];query:string;
+  items:CuTreeTableItem[];columns:CuTableColumn[];expandedValues:string[];query:string;readonly renderBatch:number;
   rowActions:{value:string;label?:string;disabled?:boolean|((item:CuTreeTableItem)=>boolean)}[];
   readonly sortKey:string|null;readonly sortDirection:"asc"|"desc";
   toggle(id:string):boolean;expandAll():void;collapseAll():void;

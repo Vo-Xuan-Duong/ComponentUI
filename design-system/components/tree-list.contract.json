@@ -42,6 +42,8 @@
   },
   "performance": {
     "virtualization": "virtualListRange overscan and spacer nodes",
-    "requires": "Fixed row heights and stable unique value strings"
+    "requires": "Fixed row heights and stable unique value strings",
+    "reuse": "Overlapping row nodes reused within the current window; scroll and resize coalesced via requestAnimationFrame; pending frame cancelled on disconnect.",
+    "inputSafety": "Repeated objects/keys skipped in visible traversal, depth limited to 100, initial expansion supports id and path fallback."
   }
 }

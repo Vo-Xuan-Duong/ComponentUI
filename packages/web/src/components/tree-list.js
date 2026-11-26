@@ -1,4 +1,4 @@
-import { BrowserElement, mount, notify, define } from "./_shared.js";
+import { BrowserElement, mount, notify, define, frameTask, reconcileVirtualWindow } from "./_shared.js";
 import { virtualListRange } from "./virtual-list.js";
 import "./icon.js";
 
@@ -6,13 +6,16 @@ import "./icon.js";
 export function flattenTreeList(items,expanded=new Set()){
   if(!Array.isArray(items))return [];
   const open=expanded instanceof Set?expanded:new Set(expanded??[]);
-  const output=[];
+  const output=[],seen=new WeakSet(),keys=new Set();
   const visit=(nodes,level,parent,path)=>{
+    if(level>100)return;
     const length=nodes.length;
     for(let index=0;index<length;index++){
       const item=nodes[index];
-      if(!item||typeof item!=="object")continue;
+      if(!item||typeof item!=="object"||seen.has(item))continue;
+      seen.add(item);
       const value=String(item.value??item.id??path.concat(index).join("."));
+      if(keys.has(value))continue;keys.add(value);
       const children=Array.isArray(item.children)?item.children:[];
       const hasChildren=children.length>0;
       const isOpen=hasChildren&&open.has(value);
@@ -26,15 +29,17 @@ export function flattenTreeList(items,expanded=new Set()){
   return output;
 }
 export function initialTreeExpansion(items){
-  const expanded=new Set();
-  const visit=nodes=>{
-    for(const item of Array.isArray(nodes)?nodes:[]){
-      if(!item||typeof item!=="object")continue;
-      if(item.expanded&&item.value!=null)expanded.add(String(item.value));
-      visit(item.children);
+  const expanded=new Set(),seen=new WeakSet();
+  const visit=(nodes,path,depth)=>{
+    if(depth>100)return;
+    for(const [index,item] of (Array.isArray(nodes)?nodes:[]).entries()){
+      if(!item||typeof item!=="object"||seen.has(item))continue;
+      seen.add(item);const nextPath=path.concat(index);
+      if(item.expanded)expanded.add(String(item.value??item.id??nextPath.join(".")));
+      visit(item.children,nextPath,depth+1);
     }
   };
-  visit(items);
+  visit(items,[],1);
   return expanded;
 }
 
@@ -49,7 +54,7 @@ const css=[
   ".item{box-sizing:border-box;display:flex;align-items:center;gap:6px;min-width:0;",
   "padding-inline-start:calc(8px + (var(--level) - 1)*18px);padding-inline-end:10px;",
   "border-radius:var(--cu-radius-md,6px);cursor:pointer;white-space:nowrap;overflow:hidden;}",
-  ".item:hover:not([aria-disabled=true]){background:color-mix(in srgb,var(--cu-accent,#0067c0) 9%,var(--cu-surface,#fff));}",
+  ".item:hover:not([aria-disabled=true]){background:var(--cu-state-hover);}",
   ".item[aria-selected=true]{background:color-mix(in srgb,var(--cu-accent,#0067c0) 15%,var(--cu-surface,#fff));",
   "color:var(--cu-accent,#0067c0);}",
   ".item[aria-disabled=true]{opacity:.46;cursor:not-allowed;}",
@@ -81,14 +86,15 @@ export class CuTreeList extends BrowserElement {
     this._empty=root.querySelector(".empty");
     this._items=[];
     this._expanded=new Set();
-    this._visible=[];
+    this._visible=[];this._visibleIndex=new Map();
     this._selected="";
     this._active=0;
     this._lastRange=null;
     this._renderRevision=0;
     this._observer=null;
     this._prefix="cu-tree-list-"+(++treeListId);
-    this._viewport.addEventListener("scroll",()=>this._render());
+    this._frame=frameTask(this,()=>this._render());
+    this._viewport.addEventListener("scroll",()=>this._frame.request(),{passive:true});
     this._itemsRoot.addEventListener("click",event=>{
       const element=event.target.closest('[role="treeitem"]');
       if(!element)return;
@@ -102,12 +108,14 @@ export class CuTreeList extends BrowserElement {
   }
   connectedCallback(){
     this._sync();this._render();
-    if(globalThis.ResizeObserver){
-      this._observer=new ResizeObserver(()=>this._render());
+    const Observer=this.ownerDocument?.defaultView?.ResizeObserver??globalThis.ResizeObserver;
+    this._observer?.disconnect();
+    if(Observer){
+      this._observer=new Observer(()=>this._frame.request());
       this._observer.observe(this._viewport);
     }
   }
-  disconnectedCallback(){this._observer?.disconnect();this._observer=null;}
+  disconnectedCallback(){this._frame.cancel();this._observer?.disconnect();this._observer=null;this._window=null;this._lastRange=null;}
   attributeChangedCallback(){this._sync();this._lastRange=null;this._render();}
   get items(){return this._items;}
   set items(value){
@@ -129,7 +137,8 @@ export class CuTreeList extends BrowserElement {
   get value(){return this._selected;}
   set value(v){
     this._selected=String(v??"");
-    this._active=Math.max(0,this._visible.findIndex(row=>row.value===this._selected&&!row.disabled));
+    const index=this._visibleIndex?.get(this._selected)??-1;
+    this._active=index>=0&&!this._visible[index].disabled?index:Math.max(0,this._visible.findIndex(row=>!row.disabled));
     this._lastRange=null;this._render();
   }
   get expandedValues(){return [...this._expanded];}
@@ -142,7 +151,7 @@ export class CuTreeList extends BrowserElement {
   collapse(value){return this._setExpanded(String(value),false);}
   toggle(value){const key=String(value);return this._setExpanded(key,!this._expanded.has(key));}
   _setExpanded(key,expanded){
-    const row=this._visible.find(item=>item.value===key);
+    const row=this._visible[this._visibleIndex?.get(key)??-1];
     if(!row||!row.hasChildren||row.disabled||row.expanded===expanded)return false;
     const previousSelection=this._selected;
     if(expanded)this._expanded.add(key);
@@ -159,8 +168,8 @@ export class CuTreeList extends BrowserElement {
   }
   select(value){
     const key=String(value);
-    const index=this._visible.findIndex(item=>item.value===key&&!item.disabled);
-    if(index<0)return false;
+    const index=this._visibleIndex?.get(key)??-1;
+    if(index<0||this._visible[index].disabled)return false;
     this._active=index;
     if(this._selected===key){this.scrollToIndex(index);return false;}
     this._selected=key;
@@ -174,20 +183,22 @@ export class CuTreeList extends BrowserElement {
     const current=this._viewport.scrollTop,view=this._viewport.clientHeight||340;
     if(top<current)this._viewport.scrollTop=top;
     else if(bottom>current+view)this._viewport.scrollTop=Math.max(0,bottom-view);
-    this._lastRange=null;this._render();
+    this._render();
     return true;
   }
   focus(options){this._viewport.focus(options);}
   _refresh(){
     const previous=this._visible;
     this._visible=flattenTreeList(this._items,this._expanded);
-    let i=this._visible.findIndex(row=>row.value===this._selected&&!row.disabled);
+    this._visibleIndex=new Map(this._visible.map((row,index)=>[row.value,index]));
+    const enabledIndex=value=>{const index=this._visibleIndex.get(value)??-1;return index>=0&&!this._visible[index].disabled?index:-1;};
+    let i=enabledIndex(this._selected);
     if(i<0&&this._selected){
       // When a branch closes, reanchor selection to its nearest visible ancestor.
       const byValue=new Map(previous.map(row=>[row.value,row]));
       let parent=byValue.get(this._selected)?.parent??null;
       while(parent!==null&&i<0){
-        i=this._visible.findIndex(row=>row.value===parent&&!row.disabled);
+        i=enabledIndex(parent);
         if(i>=0)this._selected=parent;
         else parent=byValue.get(parent)?.parent??null;
       }
@@ -240,15 +251,16 @@ export class CuTreeList extends BrowserElement {
     const range=virtualListRange(this._viewport.scrollTop,
       this._viewport.clientHeight||340,count,this.itemHeight,this.overscan);
     const signature=[range.start,range.end,this.itemHeight,this._selected,
-      this._renderRevision||0,count].join(":");
+      this._renderRevision||0,count,this._active].join(":");
     if(signature===this._lastRange)return;
     this._lastRange=signature;
     this._top.style.height=range.top+"px";
     this._bottom.style.height=range.bottom+"px";
-    const fragment=document.createDocumentFragment();
-    for(let index=range.start;index<range.end;index++){
+    const doc=this.ownerDocument??globalThis.document,fragment=doc.createDocumentFragment();
+    const revision=[this._renderRevision||0,this.itemHeight,count].join(":");
+    this._window=reconcileVirtualWindow(this._window,range.start,range.end,revision,index=>{
       const item=this._visible[index];
-      const row=document.createElement("div");
+      const row=doc.createElement("div");
       row.id=this._prefix+"-"+index;
       row.className="item";
       row.dataset.index=String(index);
@@ -258,25 +270,25 @@ export class CuTreeList extends BrowserElement {
       row.setAttribute("aria-level",String(item.level));
       row.setAttribute("aria-posinset",String(item.posinset));
       row.setAttribute("aria-setsize",String(item.setsize));
-      row.setAttribute("aria-selected",String(item.value===this._selected));
       if(item.disabled)row.setAttribute("aria-disabled","true");
       if(item.hasChildren)row.setAttribute("aria-expanded",String(item.expanded));
-      const toggle=document.createElement(item.hasChildren?"button":"span");
+      const toggle=doc.createElement(item.hasChildren?"button":"span");
       toggle.className=item.hasChildren?"toggle":"placeholder";
       if(item.hasChildren){
         toggle.type="button";toggle.tabIndex=-1;
         toggle.setAttribute("aria-label",(item.expanded?"Collapse ":"Expand ")+item.label);
-        const icon=document.createElement("cu-icon");
+        const icon=doc.createElement("cu-icon");
         icon.setAttribute("name",item.expanded?"chevron-down":"chevron-right");
         icon.setAttribute("size","15");
         icon.setAttribute("aria-hidden","true");
         toggle.append(icon);
       }
-      const label=document.createElement("span");
+      const label=doc.createElement("span");
       label.className="name";label.textContent=item.label;
       row.append(toggle,label);
-      fragment.append(row);
-    }
+      return row;
+    });
+    for(const [index,row] of this._window.nodes){row.setAttribute("aria-selected",String(this._visible[index].value===this._selected));fragment.append(row);}
     this._itemsRoot.replaceChildren(fragment);
     const active=this._visible[this._active];
     if(active&&this._active>=range.start&&this._active<range.end)

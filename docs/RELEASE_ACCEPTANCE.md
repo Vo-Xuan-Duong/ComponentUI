@@ -99,3 +99,20 @@ Run `node --test tests/data-components-stability.test.mjs` and the full
 local acceptance checks. Verify nested Escape handling, 1,000 distinct
 filter values, external FilterBar scope, controlled selection, cell
 editing and focus, and filtered TreeTable row actions.
+
+## Stabilization pass 4 — performance and lifecycle
+
+VirtualList and TreeList reuse DOM nodes in overlapping windows and retain
+only the current window cache. Scroll and resize visual work is coalesced
+per animation frame and cancelled on disconnect. Virtual range offsets
+are clamped to the dataset length and nonfinite values are normalized.
+TreeList indexes visible IDs, detects repeated nodes and limits traversal
+depth to 100. ScrollArea reports a coalesced latest scroll snapshot, not
+every native scroll event. InfiniteScroll guards stale observer callbacks.
+Sorting and distinct filter value ordering reuse Intl.Collator per operation.
+TreeTable defaults to progressive rendering in batches of 200 visible
+rows, configurable using render-batch (25–1000). Show more expands the
+DOM cumulatively; this is not viewport virtualization. DataTable and
+DataGrid remain paginated (maximum 100 rows per page).
+
+Local verification: run `npm run benchmark:data`, `node --test tests/performance-lifecycle.test.mjs`, and the full check/package commands. Benchmark measurements are local Node.js helper timings, not browser FPS or memory measurements. In Playground load the 2,200-row tree, expand batches, filter and sort, and repeatedly mount/unmount scroll components. Verify retained focus, scroll behavior, observer cleanup and heap snapshots in browser DevTools. No production readiness claims are made.

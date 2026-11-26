@@ -57,7 +57,7 @@ export class CuInfiniteScroll extends BrowserElement {
     this._viewport.addEventListener("scroll",()=>{
       // Do not run a duplicate manual fallback if IntersectionObserver is active.
       if(!this._observer&&this._nearBottom())this.requestMore("scroll");
-    });
+    },{passive:true});
   }
   connectedCallback(){
     this._sync();this._setupObserver();
@@ -119,11 +119,13 @@ export class CuInfiniteScroll extends BrowserElement {
   }
   _setupObserver(){
     this._observer?.disconnect();this._observer=null;
-    if(!globalThis.IntersectionObserver)return;
-    this._observer=new IntersectionObserver(entries=>{
+    const Observer=this.ownerDocument?.defaultView?.IntersectionObserver??globalThis.IntersectionObserver;
+    if(!Observer)return;
+    const observer=new Observer(entries=>{
+      if(this._observer!==observer||!this.isConnected)return;
       if(entries.some(entry=>entry.isIntersecting))this.requestMore("intersection");
     },{root:this._viewport,rootMargin:"0px 0px "+this.threshold+"px 0px"});
-    this._observer.observe(this._sentinel);
+    this._observer=observer;observer.observe(this._sentinel);
   }
   _sync(){
     if(!this._viewport)return;
