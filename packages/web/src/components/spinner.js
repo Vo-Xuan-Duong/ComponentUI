@@ -14,13 +14,14 @@ const css = [
   ".label{font:500 13px var(--cu-font-body,system-ui);",
   "color:var(--cu-text-muted,#616161);}",
   ".label:empty{display:none;}",
+  ".sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}",
   "@keyframes cu-spin{to{transform:rotate(360deg);}}",
   "@media(prefers-reduced-motion:reduce){.wheel{animation:none;",
   "border-top-color:currentColor;border-right-color:currentColor;}}",
   "@media(forced-colors:active){.wheel{border-color:GrayText;border-top-color:CanvasText;}}"
 ].join("");
 export class CuSpinner extends BrowserElement {
-  static get observedAttributes() { return ["label","size"]; }
+  static get observedAttributes() { return ["label","size","aria-label"]; }
   constructor() {
     super();
     const root=mount(this,css,'<span class="wheel" aria-hidden="true" part="spinner"></span>' +
@@ -34,8 +35,10 @@ export class CuSpinner extends BrowserElement {
     const label=this.getAttribute("label") || "Loading";
     this._label.textContent=this.hasAttribute("label")?label:"";
     this.setAttribute("role","status");
-    this.setAttribute("aria-label",label);
-    this.setAttribute("aria-busy","true");
+    // A status node must not stay aria-busy: that can suppress its own announcement.
+    this._label.setAttribute("aria-hidden",String(Boolean(this.getAttribute("aria-label"))));
+    if(!this._label.textContent){this._label.textContent=this.getAttribute("aria-label")||"Loading";this._label.classList.add("sr-only");}
+    else this._label.classList.remove("sr-only");
   }
 }
 define("cu-spinner",CuSpinner);
