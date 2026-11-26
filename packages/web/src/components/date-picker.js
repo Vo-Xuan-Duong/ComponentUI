@@ -1,5 +1,6 @@
 
 import { BrowserElement, mount, notify, define, fieldStyle } from "./_shared.js";
+import { syncFieldValidity, wireFieldValidation } from "./_field.js";
 
 /** Browser-native calendar input, with localized UI provided by the browser. */
 export class CuDatePicker extends BrowserElement {
@@ -26,25 +27,29 @@ export class CuDatePicker extends BrowserElement {
       this._syncForm();
       notify(this, "cu-change", {value:this.value});
     });
+    wireFieldValidation(this,this._input,()=>this._syncForm());
   }
   connectedCallback() {
     if (!this._initialized) {
       this._defaultValue = this.getAttribute("value") ?? "";
-      this._input.value = this._defaultValue;
+      if(!this._valueAssigned)this._input.value = this._defaultValue;
       this._initialized = true;
     }
     this._sync();
   }
   attributeChangedCallback(name) {
     if (!this._input) return;
-    if (name === "value" && this._initialized) this._input.value = this.getAttribute("value") ?? "";
+    if (name === "value" && this._initialized) {
+      this._defaultValue=this.getAttribute("value")??"";
+      this.value=this._defaultValue;
+    }
     this._sync();
   }
   formDisabledCallback(disabled) { this._formDisabled = disabled; this._sync(); }
-  formResetCallback() { this.value = this._defaultValue ?? ""; }
+  formResetCallback() { this._validationRevealed=false;this.value = this._defaultValue ?? ""; }
   formStateRestoreCallback(value) { this.value = String(value ?? ""); }
   get value() { return this._input.value; }
-  set value(value) { this._input.value = String(value ?? ""); this._syncForm(); }
+  set value(value) { this._valueAssigned=true;this._input.value = String(value ?? ""); this._syncForm(); }
   get disabled() { return this.hasAttribute("disabled"); }
   set disabled(value) { this.toggleAttribute("disabled",Boolean(value)); }
   get required() { return this.hasAttribute("required"); }
@@ -65,18 +70,12 @@ export class CuDatePicker extends BrowserElement {
     this._input.name = ""; // ElementInternals submits the host, not the shadow input.
     const accessibleName = this.getAttribute("aria-label");
     if (accessibleName) this._input.setAttribute("aria-label", accessibleName);
+    else if(this._label.textContent)this._input.setAttribute("aria-label",this._label.textContent);
     else this._input.removeAttribute("aria-label");
-    this._input.setAttribute("aria-invalid",String(Boolean(this.getAttribute("error"))));
     this._syncForm();
   }
   _syncForm() {
-    this._internals?.setFormValue(this.disabled || this._formDisabled ? null : this.value);
-    if (!this._internals) return;
-    const customError = this.getAttribute("error");
-    if (customError) this._internals.setValidity({customError:true},customError,this._input);
-    else if (!this._input.checkValidity()) this._internals.setValidity(
-      this._input.validity,this._input.validationMessage,this._input);
-    else this._internals.setValidity({});
+    syncFieldValidity(this,this._input);
   }
 }
 define("cu-date-picker",CuDatePicker);
