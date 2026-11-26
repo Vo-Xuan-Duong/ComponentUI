@@ -31,7 +31,12 @@ export const QUALITY_CHECKS = Object.freeze([
   },
   {
     path:"packages/web/src/components/text-field.js",
-    markers:["aria-invalid","setValidity","formResetCallback","cu-input","cu-change"]
+    markers:["syncFieldValidity","wireFieldValidation","formResetCallback","cu-input","cu-change"]
+  },
+  {
+    path:"packages/web/src/components/_field.js",
+    markers:["aria-invalid","aria-describedby","setFormValue","setValidity","setCustomValidity",
+      "wireFieldValidation","willValidate","_validationRevealed"]
   },
   {
     path:"packages/theme/src/components.css",
