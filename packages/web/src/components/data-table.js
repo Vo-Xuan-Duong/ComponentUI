@@ -78,6 +78,7 @@ const css=[
   ".filter-conditions-view input[hidden]{display:none!important;}",
   ".filter-condition-error{color:var(--cu-danger,#c42b1c);font-size:12px;min-height:0;}",
   ".filter-condition-error:empty{display:none;}",
+  ".filter-conditions-view input[aria-invalid=true]{border-color:var(--cu-danger,#c42b1c);}",
   ".filter-search{box-sizing:border-box;width:100%;min-height:34px;padding:7px 9px;",
   "border:1px solid var(--cu-border-strong,#d1d1d1);",
   "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);",
@@ -95,7 +96,7 @@ const css=[
   ".filter-footer{display:flex;gap:7px;justify-content:flex-end;align-items:center;",
   "border-top:1px solid var(--cu-border,#e5e5e5);padding-top:9px;}",
   ".filter-footer button{border:1px solid var(--cu-border,#e5e5e5);}",
-  ".filter-footer .filter-apply{color:var(--cu-on-accent,#fff);",
+  ".filter-footer .filter-apply{color:var(--cu-accent-text,#fff);",
   "background:var(--cu-accent,#0067c0);border-color:var(--cu-accent,#0067c0);}",
   ".filter-footer .filter-apply:hover{background:var(--cu-accent-hover,#005ba1);}",
   ".filter-footer .filter-clear{margin-right:auto;}",
@@ -145,14 +146,14 @@ export class CuDataTable extends BrowserElement {
       '<section class="filter-panel" part="filter-panel" role="dialog" aria-label="Column filter" hidden>' +
       '<div class="filter-title"></div>' +
       '<div class="filter-modes" role="tablist" aria-label="Filter type">' +
-      '<button type="button" class="filter-mode-values" role="tab" aria-controls="cu-filter-values" aria-selected="true">Values</button>' +
-      '<button type="button" class="filter-mode-conditions" role="tab" aria-controls="cu-filter-conditions" aria-selected="false" tabindex="-1">Conditions</button></div>' +
-      '<div class="filter-values-view" id="cu-filter-values" role="tabpanel">' +
+      '<button type="button" class="filter-mode-values" id="cu-filter-values-tab" role="tab" aria-controls="cu-filter-values" aria-selected="true">Values</button>' +
+      '<button type="button" class="filter-mode-conditions" id="cu-filter-conditions-tab" role="tab" aria-controls="cu-filter-conditions" aria-selected="false" tabindex="-1">Conditions</button></div>' +
+      '<div class="filter-values-view" id="cu-filter-values" role="tabpanel" aria-labelledby="cu-filter-values-tab">' +
       '<input class="filter-search" type="search" placeholder="Search values..." aria-label="Search filter values">' +
       '<label class="filter-select-all"><input type="checkbox" class="filter-all"><span>Select all matching</span></label>' +
       '<div class="filter-options" role="group" aria-label="Available filter values"></div>' +
       '<div class="filter-summary" role="status"></div></div>' +
-      '<div class="filter-conditions-view" id="cu-filter-conditions" role="tabpanel" hidden>' +
+      '<div class="filter-conditions-view" id="cu-filter-conditions" role="tabpanel" aria-labelledby="cu-filter-conditions-tab" hidden>' +
       '<cu-select class="filter-operator" aria-label="Filter condition">' +
       '<option value="contains">Contains</option><option value="not-contains">Does not contain</option>' +
       '<option value="starts-with">Starts with</option><option value="ends-with">Ends with</option>' +
@@ -164,9 +165,9 @@ export class CuDataTable extends BrowserElement {
       '<option value="between">Between (inclusive)</option>' +
       '<option value="is-blank">Is blank</option>' +
       '<option value="is-not-blank">Is not blank</option></cu-select>' +
-      '<input class="filter-condition-value" aria-label="Condition value" placeholder="Enter a value">' +
-      '<input class="filter-condition-value2" aria-label="Second condition value" placeholder="Upper bound" hidden>' +
-      '<div class="filter-condition-error" role="alert"></div></div>' +
+      '<input class="filter-condition-value" aria-label="Condition value" aria-describedby="cu-filter-condition-error" placeholder="Enter a value">' +
+      '<input class="filter-condition-value2" aria-label="Second condition value" aria-describedby="cu-filter-condition-error" placeholder="Upper bound" hidden>' +
+      '<div class="filter-condition-error" id="cu-filter-condition-error" role="alert"></div></div>' +
       '<div class="filter-footer"><button type="button" class="filter-clear">Clear</button>' +
       '<button type="button" class="filter-cancel">Cancel</button>' +
       '<button type="button" class="filter-apply">Apply</button></div></section>');
@@ -263,6 +264,8 @@ export class CuDataTable extends BrowserElement {
     this._filterModeValues.addEventListener("click",()=>this._setFilterMode("values",true));
     this._filterModeConditions.addEventListener("click",()=>this._setFilterMode("conditions",true));
     this._filterOperator.addEventListener("cu-change",()=>this._syncFilterConditionInputs());
+    for(const input of [this._filterConditionValue,this._filterConditionValue2])
+      input.addEventListener("input",()=>this._clearFilterConditionError());
     this._filterAll.addEventListener("change",()=>{
       const editor=this._filterEditor;
       if(!editor)return;
@@ -290,15 +293,16 @@ export class CuDataTable extends BrowserElement {
         const second=this._filterConditionValue2.value.trim();
         const noValue=operator==="is-blank"||operator==="is-not-blank";
         if(!noValue&&(!first||(operator==="between"&&!second))){
-          this._filterConditionError.textContent="Enter the required value.";
-          (first?this._filterConditionValue2:this._filterConditionValue).focus();
+          this._showFilterConditionError(first?this._filterConditionValue2:this._filterConditionValue,
+            "Enter the required value.");
           return;
         }
         if(NUMERIC_FILTER_OPERATORS.has(operator) &&
           (!Number.isFinite(Number(first))||
             (operator==="between"&&!Number.isFinite(Number(second))))){
-          this._filterConditionError.textContent="Enter valid numeric values.";
-          this._filterConditionValue.focus();return;
+          this._showFilterConditionError(!Number.isFinite(Number(first))?
+            this._filterConditionValue:this._filterConditionValue2,"Enter valid numeric values.");
+          return;
         }
         spec={operator,value:noValue?"":first,value2:operator==="between"?second:""};
       }else{
@@ -621,7 +625,18 @@ export class CuDataTable extends BrowserElement {
     this._filterConditionValue2.hidden=op!=="between";
     this._filterConditionValue.placeholder=NUMERIC_FILTER_OPERATORS.has(op)?
       "Enter a number":"Enter text";
+    this._clearFilterConditionError();
+  }
+  _clearFilterConditionError(){
     this._filterConditionError.textContent="";
+    for(const input of [this._filterConditionValue,this._filterConditionValue2])
+      input.removeAttribute("aria-invalid");
+  }
+  _showFilterConditionError(input,message){
+    this._clearFilterConditionError();
+    this._filterConditionError.textContent=message;
+    input.setAttribute("aria-invalid","true");
+    input.focus();
   }
   _matchingFilterOptions(){
     const editor=this._filterEditor;

@@ -365,3 +365,7 @@ validate this and SSR behavior locally.
 These tests are **not executed by this change**. Node source tests cannot
 certify visual, keyboard, screen-reader or cross-browser behavior.
 No GitHub Actions workflows are added.
+
+### Filter accessibility refinement
+
+Values and Conditions tabs explicitly label their associated panels. Invalid condition operands expose `aria-invalid`, reference the alert message and receive keyboard focus on Apply (including the second Between operand). Editing a value or changing the operator clears stale validation feedback. The Apply button uses the theme's accent-text token in both light and dark mode. Row and column context menus remain unchanged; no row action column is added.
