@@ -89,8 +89,11 @@ test("Combobox Escape closes only its own popup and consumes the event",()=>{
   combo._open=true;combo._disabled=()=>false;
   let hidden=false,prevented=false,stopped=false;
   combo.hide=restore=>{hidden=restore;};
-  combo._key({key:"Escape",preventDefault(){prevented=true;},stopPropagation(){stopped=true;}});
-  assert.equal(hidden,true);assert.equal(prevented,true);assert.equal(stopped,true);
+  registerOverlay(combo);
+  try{
+    combo._key({key:"Escape",preventDefault(){prevented=true;},stopPropagation(){stopped=true;}});
+    assert.equal(hidden,true);assert.equal(prevented,true);assert.equal(stopped,true);
+  }finally{unregisterOverlay(combo);}
 });
 test("All anchored components share geometry or stack helpers and lifecycle cleanup",async()=>{
   const names=["select","combobox","menu","popover","context-menu","dialog","drawer"];
