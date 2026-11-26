@@ -1,4 +1,5 @@
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import { syncFieldValidity, wireFieldValidation } from "./_field.js";
 import "./icon.js";
 
 const css=[
@@ -11,10 +12,10 @@ const css=[
   "border:1px solid var(--cu-border-strong,#d1d1d1);border-bottom-width:2px;",
   "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);",
   "transition:background var(--cu-motion-fast,100ms),border-color var(--cu-motion-fast,100ms);}",
-  ".control:hover:not([data-disabled=true]){background:var(--cu-surface-alt,#fafafa);}",
+  ".control:hover:not([data-disabled=true]){background:var(--cu-surface-alt,#fafafa);border-color:var(--cu-accent,#0067c0);}",
   ".control:focus-within{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;",
   "border-bottom-color:var(--cu-accent,#0067c0);}",
-  ".control[data-invalid=true]{border-bottom-color:var(--cu-danger,#c42b1c);}",
+  ".control[data-invalid=true]{border-color:var(--cu-danger,#c42b1c);}",
   ".control[data-disabled=true]{opacity:.52;}",
   "input{flex:1;min-width:0;width:100%;height:100%;min-height:calc(var(--cu-control-height,40px) - 2px);",
   "padding:0 12px;background:transparent;border:0;outline:0;color:inherit;",
@@ -74,11 +75,12 @@ export class CuPasswordField extends BrowserElement {
       notify(this,"cu-change",{value:this.value});
     });
     this._toggle.addEventListener("click",()=>this.toggleVisibility());
+    wireFieldValidation(this,this._input,()=>this._update());
   }
   connectedCallback(){this._sync();}
   attributeChangedCallback(){this._sync();}
   formDisabledCallback(disabled){this._formDisabled=disabled;this._sync();}
-  formResetCallback(){this.value="";this._setVisible(false);}
+  formResetCallback(){this._validationRevealed=false;this.value="";this._setVisible(false);}
   formStateRestoreCallback(value){this.value=String(value??"");}
   get value(){return this._input.value;}
   set value(next){this._input.value=String(next??"");this._update();}
@@ -126,22 +128,13 @@ export class CuPasswordField extends BrowserElement {
     if(descriptions.length)input.setAttribute("aria-describedby",descriptions.join(" "));
     else input.removeAttribute("aria-describedby");
     this._toggle.disabled=input.disabled;
+    if(input.disabled&&this._visible)this._setVisible(false);
     this._control.dataset.disabled=String(input.disabled);
     this._update();
   }
   _update(){
     if(!this._input)return;
-    const error=this.getAttribute("error");
-    const invalid=Boolean(error)||!this._input.checkValidity();
-    this._input.setAttribute("aria-invalid",String(invalid));
-    this._control.dataset.invalid=String(invalid);
-    this._internals?.setFormValue(this._input.disabled?null:this.value);
-    if(this._internals){
-      if(error)this._internals.setValidity({customError:true},error,this._input);
-      else if(!this._input.checkValidity())
-        this._internals.setValidity(this._input.validity,this._input.validationMessage,this._input);
-      else this._internals.setValidity({});
-    }
+    syncFieldValidity(this,this._input,{wrapper:this._control});
   }
 }
 define("cu-password-field",CuPasswordField);
