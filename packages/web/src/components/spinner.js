@@ -36,7 +36,6 @@ export class CuSpinner extends BrowserElement {
     this._label.textContent=this.hasAttribute("label")?label:"";
     this.setAttribute("role","status");
     // A status node must not stay aria-busy: that can suppress its own announcement.
-    this._label.setAttribute("aria-hidden",String(Boolean(this.getAttribute("aria-label"))));
     if(!this._label.textContent){this._label.textContent=this.getAttribute("aria-label")||"Loading";this._label.classList.add("sr-only");}
     else this._label.classList.remove("sr-only");
   }
