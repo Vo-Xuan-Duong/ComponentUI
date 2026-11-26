@@ -149,3 +149,7 @@ Both move from planned to preview. Current inventory: 130 entries, 67 preview, 6
 ## ColorPicker and TagInput
 
 Both move from planned to preview. Current inventory: 130 entries, 69 preview, 61 planned, 0 ready. See [ColorPicker and TagInput](COLOR_TAGS.md).
+
+## CommandPalette and EmptyState
+
+These existing preview catalog entries now have native Web Component implementations. Catalog totals remain 130 entries: 69 preview, 61 planned, 0 ready. There are 69 catalogued experimental Web Components and 82 React wrappers. See [CommandPalette and EmptyState](COMMAND_EMPTY.md).

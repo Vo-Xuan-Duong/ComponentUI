@@ -227,7 +227,7 @@ test("Web and React adapters register all five Custom Element tags",async()=>{
     assert.ok(types.includes("class Cu"+name+" extends "));
     assert.ok(react.includes(name));
   }
-  assert.equal(Object.keys(REACT_TAGS).length,80);
+  assert.equal(Object.keys(REACT_TAGS).length,82);
   let sets=0;
   const accordion={};
   Object.defineProperty(accordion,"values",{get(){return [];},set(){sets++;}});

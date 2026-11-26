@@ -17,7 +17,7 @@ test("new data components are import-safe without browser globals",()=>{
   assert.equal(REACT_TAGS.TreeList,"cu-tree-list");
   assert.equal(REACT_TAGS.InfiniteScroll,"cu-infinite-scroll");
   assert.equal(REACT_EVENT_PROPS.onCuLoadMore,"cu-load-more");
-  assert.equal(Object.keys(REACT_TAGS).length,80);
+  assert.equal(Object.keys(REACT_TAGS).length,82);
 });
 
 test("TreeList pure helper flattens only expanded branches with correct semantics",()=>{

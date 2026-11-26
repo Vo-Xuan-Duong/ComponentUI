@@ -400,7 +400,7 @@ test("package entry points, React event handlers and Playground match new elemen
     assert.equal(manifest.exports["./components/"+name].default,
       "./dist/components/"+name+".js");
   }
-  assert.equal(Object.keys(REACT_TAGS).length,80);
+  assert.equal(Object.keys(REACT_TAGS).length,82);
   assert.equal(REACT_TAGS.ContextMenu,"cu-context-menu");
   assert.equal(REACT_TAGS.DataTable,"cu-data-table");
   assert.equal(REACT_EVENT_PROPS.onCuSort,"cu-sort");

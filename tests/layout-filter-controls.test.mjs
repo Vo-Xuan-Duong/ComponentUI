@@ -281,7 +281,7 @@ test("React adapter and Web package expose four new components",async()=>{
     assert.ok(types.includes("class Cu"+name+" extends HTMLElement"));
     assert.ok(react.includes(name));
   }
-  assert.equal(Object.keys(REACT_TAGS).length,80);
+  assert.equal(Object.keys(REACT_TAGS).length,82);
   assert.equal(REACT_EVENT_PROPS.onCuResize,"cu-resize");
   assert.equal(REACT_EVENT_PROPS.onCuFilterChange,"cu-filter-change");
   const split={position:50,min:10,max:90,disabled:false};

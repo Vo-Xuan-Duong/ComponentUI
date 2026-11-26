@@ -218,4 +218,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **RangeSlider and OTPInput milestone:** 130 catalog entries, 67 preview, 63 planned, zero production-ready; 78 React wrappers. See [RangeSlider and OTPInput](docs/RANGE_OTP.md).
 
-**Current milestone — ColorPicker and TagInput:** 130 catalog entries, 69 preview, 61 planned, zero production-ready; 80 React wrappers. See [ColorPicker and TagInput](docs/COLOR_TAGS.md).
+**ColorPicker and TagInput milestone:** 130 catalog entries, 69 preview, 61 planned, zero production-ready; 80 React wrappers. See [ColorPicker and TagInput](docs/COLOR_TAGS.md).
+
+**Current milestone — CommandPalette and EmptyState:** both previously preview-only HTML patterns are now standalone Web Components. 69 catalogued implementations, 69 preview entries, 61 planned, 0 production-ready, 82 React wrappers. See [CommandPalette and EmptyState](docs/COMMAND_EMPTY.md).

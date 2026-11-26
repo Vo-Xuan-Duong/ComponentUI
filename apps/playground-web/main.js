@@ -2,7 +2,7 @@ import "../../packages/web/src/components/index.js";
 import { applyFilterBar } from "../../packages/web/src/components/filter-bar.js";
 import {
   enhanceMenu, enhancePopover, enhanceDialogTrigger,
-  enhancePagination, enhanceCommandPalette
+  enhancePagination
 } from "../../packages/web/src/interactions.js";
 
 import {
@@ -345,21 +345,30 @@ const paletteCommands = [
   { label:"Switch to Dark Mode", description:"Change the gallery theme", action:"dark", keywords:["theme", "appearance"] },
   { label:"Follow System Theme", description:"Use operating system theme", action:"system", keywords:["theme", "appearance"] }
 ];
-const commandPalette = enhanceCommandPalette(document.getElementById("command-palette"), {
-  trigger: document.getElementById("open-command"),
-  commands: paletteCommands,
-  onSelect(command) {
-    if (command.action) {
-      setPreferences({ theme: command.action });
-      showToast("Theme updated", `Theme: ${command.action}`);
-    } else if (command.target) {
-      location.hash = "#" + command.target;
-      document.getElementById(command.target)?.scrollIntoView({ block:"start" });
-      syncActiveNavigation();
-    }
+const commandPalette = document.getElementById("command-palette");
+const paletteActions = paletteCommands.map(command => ({
+  ...command,
+  value: command.action ? "theme:"+command.action : "navigate:"+command.target,
+  group: command.action ? "Appearance" : "Navigation",
+  icon: command.action ? "palette" : "arrow-up-right"
+}));
+commandPalette.commands = paletteActions;
+commandPalette.addEventListener("cu-select", event => {
+  const command = paletteActions.find(item => item.value === event.detail.value);
+  if (!command) return;
+  if (command.action) {
+    setPreferences({theme:command.action});
+    showToast("Theme updated", `Theme: ${command.action}`);
+  } else if (command.target) {
+    location.hash = "#" + command.target;
+    document.getElementById(command.target)?.scrollIntoView({block:"start"});
+    syncActiveNavigation();
   }
 });
-document.getElementById("open-command-secondary").addEventListener("click", commandPalette.open);
+for (const id of ["open-command","open-command-secondary"])
+  document.getElementById(id).addEventListener("click",()=>commandPalette.show());
+document.getElementById("wc-empty-create").addEventListener("cu-press",()=>showToast("Create workspace","Example action; no workspace is created."));
+document.getElementById("wc-empty-reset").addEventListener("cu-press",()=>showToast("Clear filters","Example action; no filters are changed."));
 
 
 // First reusable Custom Elements. All form values are collected by native

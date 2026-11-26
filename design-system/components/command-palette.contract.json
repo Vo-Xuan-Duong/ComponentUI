@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "CommandPalette",
+  "tag": "cu-command-palette",
+  "status": "preview",
+  "kind": "navigation",
+  "attributes": {
+    "title": "string",
+    "placeholder": "string",
+    "shortcut": "mod+k (opt-in)",
+    "open": "boolean",
+    "empty-text": "string"
+  },
+  "events": [
+    "cu-open",
+    "cu-close",
+    "cu-select"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

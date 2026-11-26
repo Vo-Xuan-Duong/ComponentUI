@@ -504,6 +504,16 @@ export declare class CuTagInput extends HTMLElement {
   checkValidity():boolean;
   reportValidity():boolean;
 }
+export interface CuPaletteCommand {value:string;label?:string;description?:string;group?:string;icon?:string;shortcut?:string;keywords?:string[];disabled?:boolean;}
+export declare function normalizePaletteCommands(items:unknown):Required<CuPaletteCommand>[];
+export declare function searchPaletteCommands(items:CuPaletteCommand[],query:string):CuPaletteCommand[];
+export declare class CuCommandPalette extends HTMLElement {
+  commands:CuPaletteCommand[];
+  open:boolean;
+  show():boolean;
+  close(reason?:string):void;
+}
+export declare class CuEmptyState extends HTMLElement {}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -693,6 +703,8 @@ declare global {
     "cu-otp-input": CuOTPInput;
     "cu-color-picker": CuColorPicker;
     "cu-tag-input": CuTagInput;
+    "cu-command-palette": CuCommandPalette;
+    "cu-empty-state": CuEmptyState;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;
     "cu-avatar": CuAvatar;

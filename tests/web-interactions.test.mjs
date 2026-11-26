@@ -42,7 +42,7 @@ test("playground includes new native-first preview patterns without sidebar glyp
   const theme = await readFile(new URL("../packages/theme/src/components.css", import.meta.url), "utf8");
   const app = await readFile(new URL("../apps/playground-web/main.js", import.meta.url), "utf8");
   for(const id of ["patterns","sample-drawer","open-drawer","demo-menu","info-popover",
-    "demo-pagination","command-palette","open-command","command-input","command-listbox"]) {
+    "demo-pagination","command-palette","open-command","wc-empty-create","wc-empty-reset"]) {
     assert.ok(html.includes(`id="${id}"`), `Missing preview id: ${id}`);
   }
   assert.doesNotMatch(html, /class="side-icon"/);
@@ -51,7 +51,9 @@ test("playground includes new native-first preview patterns without sidebar glyp
     ".cu-empty-state",".cu-page-button",".cu-drawer",".cu-command-dialog"]) {
     assert.ok(theme.includes(cls), `Missing visual CSS: ${cls}`);
   }
-  assert.match(app, /enhanceCommandPalette/);
+  assert.match(app, /commandPalette\.commands\s*=/);
+  assert.match(html, /<cu-command-palette\b/);
+  assert.match(html, /<cu-empty-state\b/);
   assert.match(app, /enhancePagination/);
   assert.match(app, /enhanceMenu/);
   assert.match(app, /enhancePopover/);

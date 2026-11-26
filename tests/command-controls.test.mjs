@@ -163,7 +163,7 @@ test("Web packages, React event and property bindings cover four new controls",a
       (i?"-":"")+c.toLowerCase()));
     assert.ok(types.includes("class Cu"+name+" extends HTMLElement"));
   }
-  assert.equal(Object.keys(REACT_TAGS).length,80);
+  assert.equal(Object.keys(REACT_TAGS).length,82);
   assert.equal(REACT_EVENT_PROPS.onCuAction,"cu-action");
   assert.match(react,/Button, IconButton, ToggleButtonGroup, Toolbar, CommandBar/);
   let sets=0,values=0,commandsCount=0;

@@ -114,7 +114,13 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   hasMore?: boolean;
   threshold?: number;
   emptyText?: string;
-  commands?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
+  commands?: {value:string;label?:string;icon?:string;disabled?:boolean;description?:string;group?:string;shortcut?:string;keywords?:string[]}[];
+  description?: string;
+  shortcut?: string;
+  "empty-text"?: string;
+  "no-icon"?: boolean;
+  icon?: IconName;
+  align?: "start" | "center";
   maxVisible?: number;
   "max-selected"?: number | string;
   "max-tags"?: number | string;
@@ -197,7 +203,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

@@ -109,7 +109,7 @@ test("package exports and React wrappers expose all three elements",async()=>{
   assert.equal(REACT_TAGS.Chip,"cu-chip");
   assert.equal(REACT_TAGS.Tag,"cu-tag");
   assert.equal(REACT_TAGS.ProgressRing,"cu-progress-ring");
-  assert.equal(Object.keys(REACT_TAGS).length,80);
+  assert.equal(Object.keys(REACT_TAGS).length,82);
   assert.equal(REACT_EVENT_PROPS.onCuRemove,"cu-remove");
   const chip={value:"",selected:false,removable:false,selectable:false,disabled:false};
   assignCuProperties(chip,"cu-chip",

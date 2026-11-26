@@ -16,7 +16,7 @@ test("SplitView and VirtualList are import-safe native Custom Elements",()=>{
   assert.ok(CuVirtualList.observedAttributes.includes("item-height"));
   assert.equal(REACT_TAGS.SplitView,"cu-split-view");
   assert.equal(REACT_TAGS.VirtualList,"cu-virtual-list");
-  assert.equal(Object.keys(REACT_TAGS).length,80);
+  assert.equal(Object.keys(REACT_TAGS).length,82);
 });
 
 test("VirtualList range bounds large datasets to a small DOM window",()=>{

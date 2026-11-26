@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "EmptyState",
+  "tag": "cu-empty-state",
+  "status": "preview",
+  "kind": "display",
+  "attributes": {
+    "title": "string",
+    "description": "string",
+    "icon": "string",
+    "no-icon": "boolean",
+    "variant": "outlined | plain",
+    "size": "sm | md",
+    "align": "start | center"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

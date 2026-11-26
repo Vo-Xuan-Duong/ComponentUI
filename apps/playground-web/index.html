@@ -295,7 +295,7 @@
 
         <section class="section" id="patterns" aria-labelledby="patterns-heading">
           <div class="section-heading">
-            <div><h2 id="patterns-heading">More components</h2><p>Reusable, progressively-enhanced HTML patterns: Accordion, Tooltip, Popover, Menu, Drawer, Pagination and Command Palette.</p></div>
+            <div><h2 id="patterns-heading">More components</h2><p>Reusable components and progressively enhanced patterns: Accordion, Tooltip, Popover, Menu, Drawer, Pagination, Command Palette and Empty State.</p></div>
             <span class="section-flag">Interactive reference components</span>
           </div>
           <div class="demo-grid">
@@ -343,12 +343,12 @@
             </article>
             <article class="cu-surface demo-card">
               <h3>Empty State</h3><p class="demo-subtitle">A useful starting point for an empty workspace.</p>
-              <div class="cu-empty-state">
-                <div class="cu-empty-illustration" aria-hidden="true"><cu-icon name="folder-open" size="28"></cu-icon></div>
-                <strong>Nothing here yet</strong>
-                <p>Create a workspace to organize your projects.</p>
-                <button class="cu-btn" data-variant="accent" data-toast="Create workspace" type="button">Create workspace</button>
-              </div>
+              <cu-empty-state title="Nothing here yet" description="Create a workspace to organize your projects." icon="folder-open" variant="outlined">
+                <cu-button slot="actions" variant="accent" id="wc-empty-create">Create workspace</cu-button>
+              </cu-empty-state>
+              <cu-empty-state title="No matching results" description="Try another search or clear the filters." icon="search" size="sm" align="start">
+                <cu-button slot="actions" id="wc-empty-reset">Clear filters</cu-button>
+              </cu-empty-state>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>Pagination</h3><p class="demo-subtitle">Functional client-side paging over a demonstration dataset.</p>
@@ -1297,19 +1297,7 @@ vue({ template: { compilerOptions: {
       <button type="button" class="cu-btn" data-variant="accent" id="drawer-save">Save changes</button>
     </div>
   </dialog>
-  <dialog class="cu-command-dialog" id="command-palette" aria-labelledby="command-title">
-    <div class="cu-command-top">
-      <h2 id="command-title">Search ComponentUI</h2>
-      <form method="dialog"><button type="submit" class="cu-btn cu-icon-btn" aria-label="Close command palette"><cu-icon name="x" size="18"></cu-icon></button></form>
-    </div>
-    <div class="cu-command-search">
-      <label class="visually-hidden" for="command-input">Search sections and actions</label>
-      <input class="cu-input" id="command-input" data-cu-command-input type="search" autocomplete="off" placeholder="Search sections and actions…" aria-expanded="false">
-    </div>
-    <div class="cu-command-list" id="command-listbox" role="listbox" aria-label="Matching commands"></div>
-    <div class="cu-command-empty" data-cu-command-empty hidden>No matching commands found.</div>
-    <div class="cu-command-footer">Use ↑ ↓ to select · Enter to open · Esc to close</div>
-  </dialog>
+  <cu-command-palette id="command-palette" title="Search ComponentUI" placeholder="Search sections and actions…" shortcut="mod+k"></cu-command-palette>
   <cu-toast id="toast-container" max-visible="3"></cu-toast>
 </body>
 </html>
