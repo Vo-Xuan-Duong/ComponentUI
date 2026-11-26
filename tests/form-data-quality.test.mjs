@@ -3,6 +3,9 @@ import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import {fieldValidity,syncFieldDescriptions,syncFieldValidity,wireFieldValidation}
   from "../packages/web/src/components/_field.js";
+import {normalizeProgress} from "../packages/web/src/components/_progress.js";
+import {CuProgressBar} from "../packages/web/src/components/progress-bar.js";
+import {normalizeRingProgress} from "../packages/web/src/components/progress-ring.js";
 import {CuInfiniteScroll} from "../packages/web/src/components/infinite-scroll.js";
 import {CuDataTable} from "../packages/web/src/components/data-table.js";
 import {REACT_EVENT_PROPS,assignCuProperties} from "../packages/react/src/index.js";
@@ -191,4 +194,36 @@ test("DataTable and Playground provide visible and accessible state matrix",asyn
   assert.match(js,/qualityForm\.addEventListener\("invalid"/);
   assert.match(js,/qualityTable\.addEventListener\("cu-retry"/);
   assert.match(types,/fail\(message\?:string\):boolean/);
+});
+
+test("Linear and circular progress share clamping and indeterminate semantics",()=>{
+  for(const [value,max,expected] of [
+    [null,100,{value:null,max:100,percent:null}],
+    ["  ",100,{value:null,max:100,percent:null}],
+    ["invalid",50,{value:null,max:50,percent:null}],
+    [-5,50,{value:0,max:50,percent:0}],
+    [25,50,{value:25,max:50,percent:50}],
+    [80,50,{value:50,max:50,percent:100}],
+    [10,0,{value:10,max:100,percent:10}]
+  ]){
+    assert.deepEqual(normalizeProgress(value,max),expected);
+    assert.deepEqual(normalizeRingProgress(value,max),expected);
+  }
+  const bar=Object.create(CuProgressBar.prototype),attrs=new Map([["value","invalid"],["max","50"]]);
+  bar._progress={max:50};
+  bar.getAttribute=k=>attrs.get(k)??null;
+  assert.equal(bar.value,null);
+  attrs.set("value","-5");
+  assert.equal(bar.value,0);
+});
+test("Feedback components keep motion preference and loading status accessible",async()=>{
+  const [bar,ring,spinner]=await Promise.all(["progress-bar","progress-ring","spinner"].map(
+    name=>read("../packages/web/src/components/"+name+".js")));
+  assert.match(bar,/from ".\/_progress\.js"/);
+  assert.match(ring,/from ".\/_progress\.js"/);
+  assert.match(bar,/<progress part="progress"/);
+  assert.match(bar,/data-indeterminate=true/);
+  for(const source of [bar,ring,spinner])assert.match(source,/prefers-reduced-motion:reduce/);
+  assert.match(spinner,/setAttribute\("role","status"\)/);
+  assert.doesNotMatch(spinner,/setAttribute\("aria-busy","true"\)/);
 });
