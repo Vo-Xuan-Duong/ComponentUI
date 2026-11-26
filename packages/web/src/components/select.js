@@ -362,6 +362,7 @@ export class CuSelect extends BrowserElement {
       this._active = this._options.findIndex(o => o.value === this._value && !o.disabled);
       if (this._active < 0) this._active = this._enabledIndices()[0] ?? -1;
       this._syncActive();
+      this._placePopup();
     }
   }
   _sync() {
