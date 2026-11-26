@@ -613,11 +613,13 @@
             </article>
 
             <article class="cu-surface demo-card">
-              <h3>DatePicker &amp; Slider</h3>
-              <p class="demo-subtitle">Two real, form-associated Custom Elements built on accessible native inputs.</p>
+              <h3>Date &amp; time fields</h3>
+              <p class="demo-subtitle">Form-associated date, time, inclusive range and slider controls.</p>
               <form id="wc-utility-form" class="cu-web-form">
                 <cu-date-picker label="Project start date" name="startDate" required
                   min="2020-01-01" max="2035-12-31" hint="Uses the browser's localized date picker"></cu-date-picker>
+                <cu-time-picker label="Meeting time" name="meetingTime" value="09:00" min="08:00" max="18:00" step="900" required hint="15-minute intervals"></cu-time-picker>
+                <cu-date-range-picker label="Project period" name="period" value="2026-11-26/2026-12-04" min="2020-01-01" max="2035-12-31" required hint="End date must not precede start date."></cu-date-range-picker>
                 <cu-slider label="Volume" name="volume" min="0" max="100" step="5"
                   value="35" hint="Use arrow keys to change the value"></cu-slider>
                 <cu-button type="submit" variant="accent">Read form values</cu-button>

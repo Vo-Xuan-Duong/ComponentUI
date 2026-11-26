@@ -375,6 +375,20 @@ export declare class CuDatePicker extends HTMLElement {
   checkValidity(): boolean;
   reportValidity(): boolean;
 }
+export declare class CuTimePicker extends CuDatePicker {}
+export declare function splitDateRange(value:unknown):{start:string;end:string};
+export declare function dateRangeValidity(start:string,end:string,options?:{required?:boolean;min?:string;max?:string}):{flags:ValidityStateFlags;message:string;field:"start"|"end"};
+export declare class CuDateRangePicker extends HTMLElement {
+  static formAssociated:boolean;
+  value:string;
+  start:string;
+  end:string;
+  disabled:boolean;
+  required:boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -551,6 +565,8 @@ declare global {
     "cu-tooltip": CuTooltip;
     "cu-popover": CuPopover;
     "cu-date-picker": CuDatePicker;
+    "cu-time-picker": CuTimePicker;
+    "cu-date-range-picker": CuDateRangePicker;
     "cu-slider": CuSlider;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;

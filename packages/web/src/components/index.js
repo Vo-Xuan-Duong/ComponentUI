@@ -46,6 +46,8 @@ export { CuTooltip } from "./tooltip.js";
 export { CuPopover } from "./popover.js";
 
 export { CuDatePicker } from "./date-picker.js";
+export { CuTimePicker } from "./time-picker.js";
+export { CuDateRangePicker, splitDateRange, dateRangeValidity } from "./date-range-picker.js";
 export { CuSlider } from "./slider.js";
 export { CuProgressBar } from "./progress-bar.js";
 export { CuProgressRing, normalizeRingProgress } from "./progress-ring.js";

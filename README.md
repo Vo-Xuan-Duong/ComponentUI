@@ -207,3 +207,5 @@ Fluent Calm draws inspiration from Windows 11 but is not an official Microsoft D
 No package has been published. Licensing and third-party attribution policy must be finalized before any external release.
 
 **v0.4.3 UI consistency:** Select and vertical Tabs no longer display left-edge accent bars in hover/active rows. Native-first UI feedback uses full-row backgrounds and clear text instead.
+
+**Temporal controls milestone:** TimePicker and DateRangePicker add two native form-associated components with standalone exports and React wrappers. The catalog now has 59 previews, 70 planned, zero production-ready; the React factory exposes 70 wrappers. See [Temporal controls](docs/TEMPORAL_CONTROLS.md).

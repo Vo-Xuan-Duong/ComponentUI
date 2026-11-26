@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "TimePicker",
+  "tag": "cu-time-picker",
+  "status": "preview",
+  "kind": "form-input",
+  "description": "Localized time input without timezone conversion.",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "value": "HH:mm or HH:mm:ss",
+    "min": "time",
+    "max": "time",
+    "step": "seconds or any",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true,
+    "nativeElement": "input[type=time]",
+    "keyboard": "Native browser behavior",
+    "validation": "ElementInternals and native input validity"
+  }
+}

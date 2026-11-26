@@ -457,7 +457,7 @@ wcUtilityForm.addEventListener("submit",event => {
   event.preventDefault();
   document.getElementById("wc-utility-result").textContent =
     JSON.stringify(Object.fromEntries(new FormData(wcUtilityForm).entries()),null,2);
-  showToast("Form values collected","DatePicker and Slider participated in native FormData.");
+  showToast("Form values collected","Date, time, range and slider controls participated in native FormData.");
 });
 const wcProgress = document.getElementById("wc-progress");
 document.getElementById("wc-progress-step").addEventListener("cu-press",() => {

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "DateRangePicker",
+  "tag": "cu-date-range-picker",
+  "status": "preview",
+  "kind": "form-input",
+  "description": "Inclusive date interval using two native date inputs.",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "value": "YYYY-MM-DD/YYYY-MM-DD",
+    "min": "YYYY-MM-DD",
+    "max": "YYYY-MM-DD",
+    "start-label": "string",
+    "end-label": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true,
+    "nativeElement": "fieldset and two input[type=date]",
+    "keyboard": "Native browser behavior",
+    "validation": "ElementInternals; complete interval and ordered bounds"
+  }
+}

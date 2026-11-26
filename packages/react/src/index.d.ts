@@ -36,8 +36,8 @@ export interface CuEventDetails {
   condition?: {field:string;operator:string;value:string}|null;
   width?: number;
   height?: number;
-  start?: number;
-  end?: number;
+  start?: number | string;
+  end?: number | string;
   pageSize?: number;
   selectedIds?: string[];
   row?: Record<string,unknown>;
@@ -81,8 +81,11 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   required?: boolean;
   open?: boolean;
   active?: number;
-  max?: number;
+  max?: number | string;
   min?: number | string;
+  readonly?: boolean;
+  "start-label"?: string;
+  "end-label"?: string;
   step?: number | string;
   variant?: string;
   size?: string | number;
@@ -172,7 +175,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "Slider" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Slider" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

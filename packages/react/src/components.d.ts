@@ -42,6 +42,8 @@ export declare const Tabs: ReactCuComponent;
 export declare const Tooltip: ReactCuComponent;
 export declare const Popover: ReactCuComponent;
 export declare const DatePicker: ReactCuComponent;
+export declare const TimePicker: ReactCuComponent;
+export declare const DateRangePicker: ReactCuComponent;
 export declare const Slider: ReactCuComponent;
 export declare const ProgressBar: ReactCuComponent;
 export declare const Badge: ReactCuComponent;

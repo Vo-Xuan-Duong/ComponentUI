@@ -260,6 +260,14 @@
     "./components/infinite-scroll": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/infinite-scroll.js"
+    },
+    "./components/time-picker": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/time-picker.js"
+    },
+    "./components/date-range-picker": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/date-range-picker.js"
     }
   },
   "files": [
