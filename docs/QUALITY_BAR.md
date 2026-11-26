@@ -139,3 +139,19 @@ No GitHub Actions workflows are needed for these local checks.
 
 The goal is mature **design quality and developer experience**, not
 duplicating HeroUI's exact visuals or depending on HeroUI packages.
+
+
+## Second milestone: overlay interaction quality
+
+Anchored Select, Combobox, Menu, Popover and ContextMenu now share
+viewport positioning, stack ownership and focus helpers. Native Dialog
+and Drawer retain modal semantics while restoring initiator focus.
+Additional improvements include ComboBox Home/End, topmost-only Escape,
+Menu/Popover trigger-to-panel `aria-controls`, and reduced-motion
+entry animations. Pure regression cases cover geometry, nested
+ownership, keyboard and source-state contracts.
+
+See [Overlay Quality](OVERLAY_QUALITY.md). Clipping ancestors and
+full top-layer positioning, browser/screen-reader verification and
+installed-package smoke tests remain prerequisites before any
+`preview` component can be marked production-ready.
