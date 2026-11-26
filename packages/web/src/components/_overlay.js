@@ -52,11 +52,13 @@ export function placeAnchoredOverlay(anchor,panel,options={}){
   if(!view)return null;
   const viewport=view.visualViewport;
   const rect=anchor.getBoundingClientRect();
+  // Measure the natural width again so a popup can grow after viewport expansion.
+  panel.style.width="";panel.style.minWidth="";
   const bounds=panel.getBoundingClientRect();
   const computed=view.getComputedStyle?.(panel);
   const borders=(parseFloat(computed?.borderTopWidth)||0)+(parseFloat(computed?.borderBottomWidth)||0);
   // scrollHeight remains useful after the previous placement constrained height.
-  const size={width:options.matchWidth?rect.width:Math.max(bounds.width, panel.scrollWidth||0),
+  const size={width:options.matchWidth?rect.width:bounds.width,
     height:Math.max(bounds.height,(panel.scrollHeight||0)+borders)};
   const result=overlayGeometry(rect,size,{
     left:viewport?.offsetLeft??0,top:viewport?.offsetTop??0,
