@@ -825,7 +825,7 @@ export class CuDataTable extends BrowserElement {
     }
     for(const column of columns){
       const h=document.createElement("th");h.scope="col";
-      this._bindHeaderMenu(h,column);
+      if(!busy&&!failure)this._bindHeaderMenu(h,column);
       h.dataset.filtered=String(this._columnFilters.has(column.key));
       if(column.sortable!==false){
         const b=document.createElement("button");b.type="button";
@@ -874,7 +874,7 @@ export class CuDataTable extends BrowserElement {
       const state=document.createElement("div");state.className="state";
       state.dataset.kind=busy?"loading":failure?"error":"empty";
       const symbol=document.createElement("cu-icon");
-      symbol.setAttribute("name",busy?"loader-circle":failure?"circle-alert":"inbox");
+      symbol.setAttribute("name",busy?"info":failure?"info":"folder-open");
       symbol.setAttribute("size","24");symbol.setAttribute("aria-hidden","true");
       const message=document.createElement("span");
       message.textContent=busy?"Loading records…":failure||
