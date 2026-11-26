@@ -1,7 +1,7 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
 import "./icon.js";
-import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay } from "./_overlay.js";
+import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay, isTopOverlay } from "./_overlay.js";
 
 /**
  * Fluent Calm select-only combobox.
@@ -452,7 +452,9 @@ export class CuSelect extends BrowserElement {
   _onKeydown(event) {
     if (this._isDisabled()) return;
     const key = event.key;
-    if (key === "Escape" && this._open) {event.preventDefault();event.stopPropagation();this.hide();return;}
+    if (key === "Escape" && this._open && isTopOverlay(this)) {
+      event.preventDefault();event.stopPropagation();this.hide();return;
+    }
     const enabled = this._enabledIndices();
     if (!enabled.length) return;
     if (key === "Tab") {this.hide();return;}
