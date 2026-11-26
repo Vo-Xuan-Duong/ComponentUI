@@ -29,8 +29,8 @@ test("NumberField step logic handles decimals, empty value, min/max and negative
 
 test("TextArea includes counter, reduced motion, validation, form reset and auto sizing",async()=>{
   const code=await read("../packages/web/src/components/text-area.js");
-  for(const term of ["formResetCallback","formStateRestoreCallback","setFormValue",
-    "setValidity","auto-resize","show-count","maxlength","minlength","aria-labelledby",
+  for(const term of ["formResetCallback","formStateRestoreCallback","syncFieldValidity",
+    "wireFieldValidation","auto-resize","show-count","maxlength","minlength","aria-labelledby",
     "prefers-reduced-motion","aria-invalid"])
     assert.ok(code.includes(term),term);
   assert.match(code,/notify\(this,"cu-input"/);
@@ -43,8 +43,8 @@ test("NumberField uses native number validation and Lucide step icons",async()=>
   assert.match(code,/stepUp/);
   assert.match(code,/name="minus"/);
   assert.match(code,/name="plus"/);
-  assert.match(code,/setFormValue/);
-  assert.match(code,/setValidity/);
+  assert.match(code,/syncFieldValidity/);
+  assert.match(code,/wireFieldValidation/);
   assert.match(code,/aria-label/);
   assert.match(code,/prefers-reduced-motion/);
 });
@@ -58,7 +58,7 @@ test("SearchBox can clear, submit, reset and provides search-specific keyboard a
   assert.match(code,/event\.key==="Enter"/);
   assert.match(code,/notify\(this,"cu-search"/);
   assert.match(code,/formResetCallback/);
-  assert.match(code,/setFormValue/);
+  assert.match(code,/syncFieldValidity/);
 });
 
 test("new controls are exported to independently built packages and React adapters",async()=>{
