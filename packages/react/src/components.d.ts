@@ -53,6 +53,8 @@ export declare const Rating: ReactCuComponent;
 export declare const Slider: ReactCuComponent;
 export declare const RangeSlider: ReactCuComponent;
 export declare const OTPInput: ReactCuComponent;
+export declare const ColorPicker: ReactCuComponent;
+export declare const TagInput: ReactCuComponent;
 export declare const ProgressBar: ReactCuComponent;
 export declare const Badge: ReactCuComponent;
 export declare const Chip: ReactCuComponent;

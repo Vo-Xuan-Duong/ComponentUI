@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "TagInput",
+  "tag": "cu-tag-input",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "JSON string array",
+    "label": "string",
+    "name": "string",
+    "hint": "string",
+    "error": "string",
+    "placeholder": "string",
+    "max-tags": "number",
+    "max-tag-length": "number",
+    "case-sensitive": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean",
+    "required": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

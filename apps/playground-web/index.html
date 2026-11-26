@@ -627,6 +627,16 @@
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
             <article class="cu-surface demo-card">
+              <h3>ColorPicker &amp; TagInput</h3>
+              <p class="demo-subtitle">Color formats, opacity, presets and editable tags with native form integration.</p>
+              <form class="cu-web-form" id="wc-color-tags-form">
+                <cu-color-picker name="accent" label="Accent color" value="#0067c0" alpha required hint="Choose a preset or enter HEX, RGB or HSL."></cu-color-picker>
+                <cu-tag-input name="tags" label="Project tags" value='["Design","Frontend"]' max-tags="5" max-tag-length="30" required hint="Enter or comma to add; paste a comma-separated list."></cu-tag-input>
+                <div class="demo-row"><cu-button type="submit" variant="accent">Read form values</cu-button><cu-button type="reset">Reset</cu-button></div>
+              </form>
+              <pre class="cu-web-result" id="wc-color-tags-result" role="status">Choose a color and tags.</pre>
+            </article>
+            <article class="cu-surface demo-card">
               <h3>RangeSlider &amp; OTPInput</h3>
               <p class="demo-subtitle">Dual-thumb range and segmented numeric code with native form integration.</p>
               <form id="wc-range-otp-form" class="cu-web-form">

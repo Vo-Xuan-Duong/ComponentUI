@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "ColorPicker",
+  "tag": "cu-color-picker",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "HEX, RGB or HSL",
+    "format": "hex | rgb | hsl",
+    "alpha": "boolean",
+    "label": "string",
+    "name": "string",
+    "hint": "string",
+    "error": "string",
+    "disabled": "boolean",
+    "readonly": "boolean",
+    "required": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

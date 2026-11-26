@@ -116,6 +116,13 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcColorTagsForm=document.getElementById("wc-color-tags-form");
+wcColorTagsForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  const data=new FormData(wcColorTagsForm);
+  document.getElementById("wc-color-tags-result").textContent=JSON.stringify({accent:data.get("accent"),tags:data.getAll("tags")},null,2);
+});
+wcColorTagsForm.addEventListener("reset",()=>{document.getElementById("wc-color-tags-result").textContent="Form reset.";});
 const wcRangeOtpForm=document.getElementById("wc-range-otp-form");
 wcRangeOtpForm.addEventListener("submit",event=>{
   event.preventDefault();

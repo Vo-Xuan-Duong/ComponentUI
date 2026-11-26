@@ -480,6 +480,30 @@ export declare class CuOTPInput extends HTMLElement {
   checkValidity():boolean;
   reportValidity():boolean;
 }
+export interface CuRGBA {r:number;g:number;b:number;a:number;}
+export declare function parseColor(value:unknown):CuRGBA|null;
+export declare function formatColor(color:CuRGBA,format?:"hex"|"rgb"|"hsl",alpha?:boolean):string;
+export declare class CuColorPicker extends HTMLElement {
+  static formAssociated:boolean;
+  value:string;
+  disabled:boolean;
+  required:boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
+export declare function normalizeTags(value:unknown,options?:{max?:number;maxLength?:number;caseSensitive?:boolean}):string[];
+export declare class CuTagInput extends HTMLElement {
+  static formAssociated:boolean;
+  value:string[];
+  disabled:boolean;
+  required:boolean;
+  addTag(value:string):boolean;
+  removeTag(value:string):boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -667,6 +691,8 @@ declare global {
     "cu-slider": CuSlider;
     "cu-range-slider": CuRangeSlider;
     "cu-otp-input": CuOTPInput;
+    "cu-color-picker": CuColorPicker;
+    "cu-tag-input": CuTagInput;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;
     "cu-avatar": CuAvatar;

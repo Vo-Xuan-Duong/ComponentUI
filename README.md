@@ -216,4 +216,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **AutoComplete and NotificationCenter milestone:** 130 catalog entries, 65 preview, 65 planned, zero production-ready; 76 React wrappers. AutoComplete supports free text and property-driven suggestions, while NotificationCenter manages an in-memory notification list. See [AutoComplete and NotificationCenter](docs/AUTOCOMPLETE_NOTIFICATIONS.md).
 
-**Current milestone — RangeSlider and OTPInput:** 130 catalog entries, 67 preview, 63 planned, zero production-ready; 78 React wrappers. See [RangeSlider and OTPInput](docs/RANGE_OTP.md).
+**RangeSlider and OTPInput milestone:** 130 catalog entries, 67 preview, 63 planned, zero production-ready; 78 React wrappers. See [RangeSlider and OTPInput](docs/RANGE_OTP.md).
+
+**Current milestone — ColorPicker and TagInput:** 130 catalog entries, 69 preview, 61 planned, zero production-ready; 80 React wrappers. See [ColorPicker and TagInput](docs/COLOR_TAGS.md).

@@ -81,6 +81,6 @@ test("third-wave catalog remains preview-only", async () => {
   for (const name of ["DatePicker","Slider","ProgressBar","Badge","Avatar","Menu"])
     assert.equal(byName.get(name),"preview");
   assert.equal(components.length,130);
-  assert.equal(components.filter(item => item.status === "preview").length,67);
+  assert.equal(components.filter(item => item.status === "preview").length,69);
   assert.equal(components.filter(item => item.status === "ready").length,0);
 });
