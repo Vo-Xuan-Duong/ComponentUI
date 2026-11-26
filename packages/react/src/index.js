@@ -41,6 +41,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
   onCuLoadMore:"cu-load-more",
+  onCuRetry:"cu-retry",
   onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action", onCuResize:"cu-resize"
 });
 
@@ -88,10 +89,10 @@ const PROPERTY_MAP = Object.freeze({
   "cu-menu":["open"],
   "cu-menu-item":["disabled"],
   "cu-icon":["name"],
-  "cu-data-table":["rows","columns","rowActions","headerActions","columnFilters","page"],
+  "cu-data-table":["rows","columns","rowActions","headerActions","columnFilters","page","loading","error"],
   "cu-tree-view":["value"],
   "cu-tree-list":["items","value","expandedValues","itemHeight","overscan"],
-  "cu-infinite-scroll":["hasMore","loading","threshold"],
+  "cu-infinite-scroll":["hasMore","loading","threshold","error"],
   "cu-listbox":["value","disabled","required"],
   "cu-combobox":["value","disabled"]
 });
