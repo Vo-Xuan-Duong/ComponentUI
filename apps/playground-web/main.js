@@ -63,6 +63,31 @@ syncActiveNavigation();
 
 // Visual Quality Lab: event feedback keeps each active control demonstrable.
 const qualityResult=document.getElementById("quality-result");
+const qualityForm=document.getElementById("quality-form");
+const qualityFormResult=document.getElementById("quality-form-result");
+qualityForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  qualityFormResult.textContent="Valid form: "+Array.from(new FormData(qualityForm).keys()).join(", ");
+});
+qualityForm.addEventListener("invalid",()=>{
+  qualityFormResult.textContent="Check the highlighted fields.";
+},true);
+qualityForm.addEventListener("reset",()=>{
+  qualityFormResult.textContent="Form reset.";
+});
+const qualityTable=document.getElementById("quality-data-table");
+qualityTable.columns=[{key:"name",label:"Name"},{key:"state",label:"Status"}];
+const qualityRows=[{id:"1",name:"Workspace",state:"Ready"},{id:"2",name:"Design system",state:"Active"}];
+function setQualityData(state){
+  qualityTable.error=state==="error"?"Could not load records.":"";
+  qualityTable.loading=state==="loading";
+  qualityTable.rows=state==="empty"?[]:qualityRows;
+}
+for(const state of ["loading","error","empty","ready"])
+  document.getElementById("quality-data-"+state).addEventListener("cu-press",()=>setQualityData(state));
+qualityTable.addEventListener("cu-retry",()=>setQualityData("ready"));
+setQualityData("ready");
+
 for(const [id,label] of [
   ["quality-primary","Primary action"],
   ["quality-standard","Secondary action"],
