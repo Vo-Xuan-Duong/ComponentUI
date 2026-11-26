@@ -106,31 +106,41 @@ export class CuFilePicker extends BrowserElement{
     this._selectionError="";
     this._input.addEventListener("change",()=>{
       this._select(this._input.files);
+      this._input.value=""; // Allow choosing the same file again; host owns the selection.
     });
-    this._browse.addEventListener("click",()=>this._input.click());
+    this._browse.addEventListener("click",()=>{if(!this.disabled&&!this._formDisabled)this._input.click();});
+    const reveal=()=>{this._validationRevealed=true;this._syncForm();};
+    this._browse.addEventListener("blur",reveal);
+    this.addEventListener("invalid",reveal);
     this._clear.addEventListener("click",()=>{
       this.clear();this._browse.focus();
     });
     this._drop.addEventListener("dragenter",event=>{
-      if(this.disabled)return;event.preventDefault();this._drop.dataset.dragging="true";
+      if(!Array.from(event.dataTransfer?.types??[]).includes("Files"))return;
+      event.preventDefault();
+      if(this.disabled||this._formDisabled)return;
+      this._drop.dataset.dragging="true";
     });
     this._drop.addEventListener("dragover",event=>{
-      if(this.disabled)return;event.preventDefault();event.dataTransfer.dropEffect="copy";
+      if(!Array.from(event.dataTransfer?.types??[]).includes("Files"))return;
+      event.preventDefault();
+      if(event.dataTransfer)event.dataTransfer.dropEffect=this.disabled||this._formDisabled?"none":"copy";
     });
     this._drop.addEventListener("dragleave",event=>{
       if(!this._drop.contains(event.relatedTarget))delete this._drop.dataset.dragging;
     });
     this._drop.addEventListener("drop",event=>{
-      if(this.disabled)return;
+      if(!event.dataTransfer?.files?.length)return;
       event.preventDefault();delete this._drop.dataset.dragging;
-      if(event.dataTransfer?.files?.length)this._select(event.dataTransfer.files);
+      if(this.disabled||this._formDisabled)return;
+      this._select(event.dataTransfer.files);
     });
   }
   connectedCallback(){this._sync();}
   attributeChangedCallback(){this._sync();}
   formDisabledCallback(disabled){this._formDisabled=disabled;this._sync();}
-  formResetCallback(){this.clear(false);}
-  formStateRestoreCallback(){this.clear(false);}
+  formResetCallback(){this._validationRevealed=false;this.clear(false);}
+  formStateRestoreCallback(){this._validationRevealed=false;this.clear(false);}
   get files(){return [...this._files];}
   get disabled(){return this.hasAttribute("disabled");}
   set disabled(value){this.toggleAttribute("disabled",Boolean(value));}
@@ -145,6 +155,8 @@ export class CuFilePicker extends BrowserElement{
   checkValidity(){return this._internals?.checkValidity()??!this._invalid();}
   reportValidity(){if(this._internals)return this._internals.reportValidity();if(this._invalid())this.focus();return !this._invalid();}
   clear(emit=true){
+    if(emit&&(this.disabled||this._formDisabled))return;
+    if(emit)this._validationRevealed=true;
     const hadFiles=this._files.length>0;
     this._files=[];this._input.value="";this._selectionError="";
     this._syncForm();
@@ -152,6 +164,7 @@ export class CuFilePicker extends BrowserElement{
   }
   _select(files){
     if(this.disabled||this._formDisabled)return;
+    this._validationRevealed=true;
     this._files=Array.from(files??[]);
     this._selectionError="";
     this._syncForm();
@@ -182,6 +195,7 @@ export class CuFilePicker extends BrowserElement{
     if(described.length)this._browse.setAttribute("aria-describedby",described.join(" "));
     else this._browse.removeAttribute("aria-describedby");
     this._drop.dataset.disabled=String(disabled);
+    if(disabled)delete this._drop.dataset.dragging;
     this._syncForm();
   }
   _syncForm(){
@@ -195,16 +209,18 @@ export class CuFilePicker extends BrowserElement{
       this._files.map(x=>x.name).join(", ");
     this._clear.hidden=!count||this.disabled||Boolean(this._formDisabled);
     this._clear.disabled=this.disabled||Boolean(this._formDisabled);
-    this._drop.dataset.invalid=String(Boolean(invalid));
-    this._browse.setAttribute("aria-invalid",String(Boolean(invalid)));
-    this._error.textContent=String(invalid||"");
+    const visibleError=invalid&&(this._validationRevealed||this.getAttribute("error")||count>0)?invalid:"";
+    this._drop.dataset.invalid=String(Boolean(visibleError));
+    this._browse.setAttribute("aria-invalid",String(Boolean(visibleError)));
+    this._error.textContent=String(visibleError);
     // Keep the native Browse button's description in sync as errors change.
     const described=[];
     if(this._hint.textContent)described.push(this._hint.id);
     if(this._error.textContent)described.push(this._error.id);
     if(described.length)this._browse.setAttribute("aria-describedby",described.join(" "));
     else this._browse.removeAttribute("aria-describedby");
-    this._internals?.setValidity(invalid?{customError:true}:{},String(invalid||""),this._browse);
+    if(invalid)this._internals?.setValidity({customError:true},String(invalid),this._browse);
+    else this._internals?.setValidity({});
     const name=this.getAttribute("name");
     if(this.disabled||this._formDisabled||!count||!name){
       this._internals?.setFormValue(null);return;
