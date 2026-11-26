@@ -110,7 +110,13 @@ const css=[
   "button:focus-visible,input:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "input[type=checkbox]{accent-color:var(--cu-accent,#0067c0);width:16px;height:16px;}",
   ".sort{font-size:11px;color:var(--cu-text-muted,#616161);}",
-  ".empty{text-align:center;padding:24px 14px;color:var(--cu-text-muted,#616161);}",
+  ".empty{text-align:center;padding:28px 14px;color:var(--cu-text-muted,#616161);}",
+  ".state{display:grid;justify-items:center;gap:10px;max-width:420px;margin:auto;}",
+  ".state[data-kind=error]{color:var(--cu-danger,#c42b1c);}",
+  ".state button{border:1px solid var(--cu-border-strong,#d1d1d1);min-height:32px;padding-inline:12px;}",
+  ".state button:hover{background:color-mix(in srgb,var(--cu-accent,#0067c0) 10%,var(--cu-surface,#fff));}",
+  ".state cu-icon{color:inherit;}",
+  ".pages[hidden]{display:none!important;}",
   ".footer{display:flex;gap:10px;justify-content:space-between;align-items:center;",
   "flex-wrap:wrap;padding:9px 12px;border-top:1px solid var(--cu-border,#e5e5e5);",
   "color:var(--cu-text-muted,#616161);font-size:12px;}",
@@ -123,7 +129,7 @@ const css=[
 
 export class CuDataTable extends BrowserElement {
   static get observedAttributes(){
-    return ["caption","page-size","selectable","row-action","loading","empty-text"];
+    return ["caption","aria-label","page-size","selectable","row-action","loading","empty-text","error"];
   }
   constructor(){
     super();
@@ -170,6 +176,7 @@ export class CuDataTable extends BrowserElement {
     this._footer=root.querySelector(".footer");
     this._summary=root.querySelector(".summary");
     this._current=root.querySelector(".current");
+    this._pages=root.querySelector(".pages");
     this._prev=root.querySelector(".prev");
     this._next=root.querySelector(".next");
     this._menu=root.querySelector(".row-menu");
@@ -346,6 +353,10 @@ export class CuDataTable extends BrowserElement {
     window.removeEventListener("scroll",this._filterViewport,true);
   }
   attributeChangedCallback(){this._render();}
+  get loading(){return this.hasAttribute("loading");}
+  set loading(v){this.toggleAttribute("loading",Boolean(v));}
+  get error(){return this.getAttribute("error")||"";}
+  set error(v){if(v)this.setAttribute("error",String(v));else this.removeAttribute("error");}
   get rows(){return this._rows;}
   set rows(value){
     if(value===this._rows)return; // stable reference across React rerenders
@@ -786,10 +797,12 @@ export class CuDataTable extends BrowserElement {
     this._table.setAttribute("aria-label",this.getAttribute("aria-label")||
       this._caption.textContent||"Data table");
     const columns=this._columns.filter(column=>!this._hiddenColumns.has(column.key));
-    const busy=this.hasAttribute("loading");
+    const busy=this.loading;
+    const failure=busy?"":this.error;
+    const filtered=Boolean(this._columnFilters.size||String(this._externalQuery??"").trim()||Object.keys(this._externalConditions??{}).length);
     const page=paginateRows(this._getSortedRows(),this._page,this._pageSize());
     this._page=page.page;
-    this._visiblePageRows=busy||!columns.length?[]:page.rows;
+    this._visiblePageRows=busy||failure||!columns.length?[]:page.rows;
     this._head.replaceChildren();
     const header=document.createElement("tr");
     if(this.hasAttribute("selectable")){
@@ -817,6 +830,7 @@ export class CuDataTable extends BrowserElement {
       if(column.sortable!==false){
         const b=document.createElement("button");b.type="button";
         b.textContent=String(column.label??column.key);
+        b.disabled=Boolean(busy||failure);
         b.addEventListener("click",()=>{
           this._sort(column.key);
           this._focusColumn(column.key);
@@ -834,6 +848,7 @@ export class CuDataTable extends BrowserElement {
       if(column.filterable!==false){
         const trigger=document.createElement("button");
         trigger.type="button";trigger.className="filter-trigger";
+        trigger.disabled=Boolean(busy||failure);
         trigger.title="Filter "+String(column.label??column.key);
         trigger.setAttribute("aria-label",trigger.title);
         trigger.setAttribute("aria-haspopup","dialog");
@@ -853,12 +868,25 @@ export class CuDataTable extends BrowserElement {
     this._syncSelectAll();
     this._body.replaceChildren();
     this._table.setAttribute("aria-busy",String(busy));
-    if(busy || !columns.length || !page.rows.length){
-      const tr=document.createElement("tr"),td=this._makeCell(
-        busy?"Loading…":this._columnFilters.size?"No matching records":
-        this.getAttribute("empty-text")||"No records","td");
+    if(busy || failure || !columns.length || !page.rows.length){
+      const tr=document.createElement("tr"),td=document.createElement("td");
       td.className="empty";td.colSpan=columns.length+(this.hasAttribute("selectable")?1:0)||1;
-      tr.append(td);this._body.append(tr);
+      const state=document.createElement("div");state.className="state";
+      state.dataset.kind=busy?"loading":failure?"error":"empty";
+      const symbol=document.createElement("cu-icon");
+      symbol.setAttribute("name",busy?"loader-circle":failure?"circle-alert":"inbox");
+      symbol.setAttribute("size","24");symbol.setAttribute("aria-hidden","true");
+      const message=document.createElement("span");
+      message.textContent=busy?"Loading records…":failure||
+        (!columns.length?"No columns configured":filtered?"No matching records":
+          this.getAttribute("empty-text")||"No records");
+      state.append(symbol,message);
+      if(failure){
+        const retry=document.createElement("button");retry.type="button";
+        retry.textContent="Retry";retry.addEventListener("click",()=>notify(this,"cu-retry",{}));
+        state.append(retry);
+      }
+      td.append(state);tr.append(td);this._body.append(tr);
     }else{
       page.rows.forEach((row,localIndex)=>{
         const absolute=(page.page-1)*this._pageSize()+localIndex;
@@ -898,12 +926,13 @@ export class CuDataTable extends BrowserElement {
         this._body.append(tr);
       });
     }
-    this._summary.textContent=busy?"Loading rows":this._columnFilters.size?
+    this._summary.textContent=busy?"Loading rows":failure?"Unable to load records":filtered?
       page.total+" of "+this._rows.length+" rows":page.total+" row"+(page.total===1?"":"s");
     this._current.textContent=page.page+" / "+page.totalPages;
-    this._prev.disabled=busy||page.page<=1;
-    this._next.disabled=busy||page.page>=page.totalPages;
-    this._footer.hidden=busy||!this._rows.length;
+    this._prev.disabled=Boolean(busy||failure||page.page<=1);
+    this._next.disabled=Boolean(busy||failure||page.page>=page.totalPages);
+    this._pages.hidden=Boolean(busy||failure||!this._rows.length);
+    this._footer.hidden=false;
   }
 }
 define("cu-data-table",CuDataTable);
