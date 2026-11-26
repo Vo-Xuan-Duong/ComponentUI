@@ -65,7 +65,7 @@ const css = [
   ".option:hover:not([aria-disabled=true]),",
   ".option[data-active=true]:not([aria-disabled=true]){",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 20%,var(--cu-surface-elevated,#fff));",
-  "font-weight:600;}",
+  "}",
   ".option[data-selected=true]:not([aria-disabled=true]){font-weight:600;}",
   // Selection is persistent and quieter than active/hovered row highlighting.
   ".option[data-selected=true]:not([data-active=true]):not(:hover):not([aria-disabled=true]){",
