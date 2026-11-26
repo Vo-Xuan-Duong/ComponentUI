@@ -627,6 +627,17 @@
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
             <article class="cu-surface demo-card">
+              <h3>Calendar &amp; Rating</h3>
+              <p class="demo-subtitle">Inline calendar and accessible star rating with native form integration.</p>
+              <form id="wc-calendar-rating-form" class="cu-web-form">
+                <cu-calendar name="date" label="Appointment date" value="2026-11-26" week-start="1" min="2020-01-01" max="2035-12-31" required hint="Use arrow keys to move, Enter to select."></cu-calendar>
+                <cu-rating name="rating" label="Experience rating" value="4" max="5" required></cu-rating>
+                <cu-rating label="Read-only rating" value="3" readonly></cu-rating>
+                <div class="demo-row"><cu-button type="submit" variant="accent">Read form values</cu-button><cu-button type="reset">Reset</cu-button></div>
+              </form>
+              <pre class="cu-web-result" role="status" id="wc-calendar-rating-result">Choose a date and rating.</pre>
+            </article>
+            <article class="cu-surface demo-card">
               <h3>ProgressBar</h3>
               <p class="demo-subtitle">Determinate and indeterminate progress, with native semantics.</p>
               <div class="cu-web-form">

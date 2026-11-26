@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "57 experimental catalogued browser Custom Elements; 59 catalog preview entries, 70 planned, 0 production-ready.",
+  "summary": "59 experimental catalogued browser Custom Elements; 61 catalog preview entries, 68 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -244,7 +244,7 @@
         {
           "name": "Rating",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -623,7 +623,7 @@
         {
           "name": "Calendar",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

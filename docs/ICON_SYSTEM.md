@@ -88,3 +88,5 @@ The curated Lucide `minus` SVG is added alongside `plus` for `cu-number-field` s
 The curated Lucide set adds `eye`, `eye-off`, `upload` and `file`
 for PasswordField and FilePicker. Each icon uses upstream SVG nodes
 and ships with the preserved Lucide/Feather license notices.
+
+The Calendar and Rating milestone adds the bundled `star` icon (30 icons total), rendered through the same `cu-icon` primitive. Calendar navigation reuses `chevron-right`.

@@ -389,6 +389,29 @@ export declare class CuDateRangePicker extends HTMLElement {
   checkValidity():boolean;
   reportValidity():boolean;
 }
+export interface CuCalendarDay {value:string;day:number;inMonth:boolean;}
+export declare function calendarDays(month:string,weekStart?:number):CuCalendarDay[];
+export declare function moveCalendarDate(value:string,amount:number,unit?:"day"|"month"|"year"):string;
+export declare class CuCalendar extends HTMLElement {
+  static formAssociated:boolean;
+  value:string;
+  disabled:boolean;
+  required:boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
+export declare function normalizeRating(value:unknown,max?:unknown):{value:number;max:number};
+export declare class CuRating extends HTMLElement {
+  static formAssociated:boolean;
+  value:number;
+  max:number;
+  disabled:boolean;
+  required:boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -567,6 +590,8 @@ declare global {
     "cu-date-picker": CuDatePicker;
     "cu-time-picker": CuTimePicker;
     "cu-date-range-picker": CuDateRangePicker;
+    "cu-calendar": CuCalendar;
+    "cu-rating": CuRating;
     "cu-slider": CuSlider;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;

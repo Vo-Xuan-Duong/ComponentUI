@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **70 planned**, **59 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **68 planned**, **61 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -129,3 +129,7 @@ increase the 129-entry catalog. Current catalog totals: **57 preview,
 ## Temporal form controls
 
 TimePicker and DateRangePicker move to preview. Current inventory: 129 catalog entries, 59 preview, 70 planned, 0 ready. See [Date and time controls](TEMPORAL_CONTROLS.md).
+
+## Calendar and rating controls
+
+Calendar and Rating move to preview. Current inventory: 129 catalog entries, 61 preview, 68 planned, 0 ready. See [Calendar and rating](CALENDAR_RATING.md).

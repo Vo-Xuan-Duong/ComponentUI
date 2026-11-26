@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "Calendar",
+  "tag": "cu-calendar",
+  "status": "preview",
+  "kind": "form-input",
+  "description": "Inline Gregorian month grid, localized display and ISO date selection.",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "value": "YYYY-MM-DD",
+    "min": "YYYY-MM-DD",
+    "max": "YYYY-MM-DD",
+    "locale": "BCP 47",
+    "week-start": "0-6",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true,
+    "keyboard": "Arrow keys, Home/End, PageUp/PageDown, Shift+PageUp/PageDown, Enter/Space"
+  }
+}

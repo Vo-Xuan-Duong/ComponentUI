@@ -209,3 +209,5 @@ No package has been published. Licensing and third-party attribution policy must
 **v0.4.3 UI consistency:** Select and vertical Tabs no longer display left-edge accent bars in hover/active rows. Native-first UI feedback uses full-row backgrounds and clear text instead.
 
 **Temporal controls milestone:** TimePicker and DateRangePicker add two native form-associated components with standalone exports and React wrappers. The catalog now has 59 previews, 70 planned, zero production-ready; the React factory exposes 70 wrappers. See [Temporal controls](docs/TEMPORAL_CONTROLS.md).
+
+**Calendar and rating milestone:** A custom inline Calendar and native-radio Rating are available as preview Web Components, with standalone imports and React wrappers. The 129-entry catalog now has 61 previews, 68 planned, zero production-ready; the React factory exposes 72 wrappers. See [Calendar and rating](docs/CALENDAR_RATING.md).

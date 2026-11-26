@@ -77,13 +77,13 @@ test("new components and icons are exported by the distribution manifests",async
       "./dist/components/"+p+".js");
   for(const n of ["eye","eye-off","upload","file"])
     assert.ok(getIconNodes(n)?.length, n);
-  assert.equal(ICON_NAMES.length,29);
+  assert.equal(ICON_NAMES.length,30);
   assert.equal(REACT_TAGS.PasswordField,"cu-password-field");
   assert.equal(REACT_TAGS.FilePicker,"cu-file-picker");
   assert.equal(REACT_TAGS.AppShell,"cu-app-shell");
   assert.equal(REACT_EVENT_PROPS.onCuVisibilityChange,"cu-visibility-change");
   assert.equal(REACT_EVENT_PROPS.onCuNavigationToggle,"cu-navigation-toggle");
-  assert.equal(Object.keys(REACT_TAGS).length,70);
+  assert.equal(Object.keys(REACT_TAGS).length,72);
 });
 
 test("all package versions remain aligned and privately packable",async()=>{
@@ -121,7 +121,7 @@ test("new catalog entries are previews but none are certified production-ready",
   for(const name of ["PasswordField","FilePicker","AppShell"])
     assert.equal(lookup.get(name),"preview");
   assert.equal(components.length,129);
-  assert.equal(components.filter(c=>c.status==="preview").length,59);
-  assert.equal(components.filter(c=>c.status==="planned").length,70);
+  assert.equal(components.filter(c=>c.status==="preview").length,61);
+  assert.equal(components.filter(c=>c.status==="planned").length,68);
   assert.equal(components.filter(c=>c.status==="ready").length,0);
 });

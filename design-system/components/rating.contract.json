@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "Rating",
+  "tag": "cu-rating",
+  "status": "preview",
+  "kind": "form-input",
+  "description": "Integer star rating backed by native radios.",
+  "attributes": {
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "value": "0 to max",
+    "max": "1 to 10",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true,
+    "keyboard": "Native radio navigation and optional clear button"
+  }
+}

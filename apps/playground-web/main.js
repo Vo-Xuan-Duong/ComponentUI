@@ -459,6 +459,15 @@ wcUtilityForm.addEventListener("submit",event => {
     JSON.stringify(Object.fromEntries(new FormData(wcUtilityForm).entries()),null,2);
   showToast("Form values collected","Date, time, range and slider controls participated in native FormData.");
 });
+const wcCalendarRatingForm=document.getElementById("wc-calendar-rating-form");
+wcCalendarRatingForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  document.getElementById("wc-calendar-rating-result").textContent=
+    JSON.stringify(Object.fromEntries(new FormData(wcCalendarRatingForm).entries()),null,2);
+});
+wcCalendarRatingForm.addEventListener("reset",()=>{
+  document.getElementById("wc-calendar-rating-result").textContent="Form reset.";
+});
 const wcProgress = document.getElementById("wc-progress");
 document.getElementById("wc-progress-step").addEventListener("cu-press",() => {
   wcProgress.value = Math.min(100,(wcProgress.value ?? 0)+15);
