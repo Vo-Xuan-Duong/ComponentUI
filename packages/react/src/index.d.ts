@@ -132,6 +132,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   iconName?: IconName;
   selected?: boolean;
   selectable?: boolean;
+  selectedIds?: string[];
+  "preserve-selection"?: boolean;
   removable?: boolean;
   linear?: boolean;
   orientation?: "horizontal" | "vertical";

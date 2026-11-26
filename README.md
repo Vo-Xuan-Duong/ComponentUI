@@ -247,3 +247,5 @@ No package has been published. Licensing and third-party attribution policy must
 **Stabilization pass 1:** interaction and state fixes plus expanded package verification. The catalog stays at 132 preview entries. See [release acceptance](docs/RELEASE_ACCEPTANCE.md#stabilization-pass-1).
 
 **Stabilization pass 2:** unified Fluent Calm semantic interaction states, improved token contrast and visual QA examples. See [release acceptance](docs/RELEASE_ACCEPTANCE.md#stabilization-pass-2--fluent-calm-visual-foundation).
+
+**Stabilization pass 3:** DataTable filter and selection hardening, DataGrid edit lifecycle, TreeTable hierarchy search/sorting/context menus. See [release acceptance](docs/RELEASE_ACCEPTANCE.md#stabilization-pass-3--data-components).

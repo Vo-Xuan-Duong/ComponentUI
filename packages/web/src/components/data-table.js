@@ -1,10 +1,11 @@
 
-import { BrowserElement, mount, notify, define } from "./_shared.js";
+import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
 import "./icon.js";
 import "./spinner.js";
 import "./select.js";
 import { clampMenuPosition } from "./context-menu.js";
-import { tableFilterValueKey, tableFilterValueLabel, TABLE_FILTER_OPERATORS, isTableFilterCondition, matchTableFilterCondition, normalizeTableFilterSpec, filterTableRows, uniqueTableFilterValues, applyFilterBar } from "./filter-utils.js";
+import {registerOverlay,unregisterOverlay,isTopOverlay} from "./_overlay.js";
+import { tableFilterValueKey, tableFilterValueLabel, TABLE_FILTER_OPERATORS, NUMERIC_FILTER_OPERATORS, isTableFilterCondition, matchTableFilterCondition, normalizeTableFilterSpec, filterTableRows, uniqueTableFilterValues, applyFilterBar } from "./filter-utils.js";
 export { tableFilterValueKey, tableFilterValueLabel, TABLE_FILTER_OPERATORS, isTableFilterCondition, matchTableFilterCondition, normalizeTableFilterSpec, filterTableRows, uniqueTableFilterValues, applyFilterBar } from "./filter-utils.js";
 
 export function sortTableRows(rows, key, direction = "asc") {
@@ -15,7 +16,7 @@ export function sortTableRows(rows, key, direction = "asc") {
     if (av == null && bv == null) return a.index-b.index;
     if (av == null) return 1;
     if (bv == null) return -1;
-    const numeric=typeof av==="number" && typeof bv==="number";
+    const numeric=typeof av==="number" && typeof bv==="number" && Number.isFinite(av) && Number.isFinite(bv);
     const compare=numeric ? av-bv :
       String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:"base"});
     return factor*compare || a.index-b.index;
@@ -44,14 +45,14 @@ const css=[
   "th{font-size:12px;font-weight:650;color:var(--cu-text-muted,#616161);",
   "background:var(--cu-surface-alt,#fafafa);white-space:nowrap;}",
   "tbody tr:last-child td{border-bottom:0;}",
-  "tbody tr:hover{background:color-mix(in srgb,var(--cu-accent,#0067c0) 7%,var(--cu-surface,#fff));}",
-  "tbody tr[data-selected=true]{background:color-mix(in srgb,var(--cu-accent,#0067c0) 12%,var(--cu-surface,#fff));}",
-  "tbody tr[data-context=true]{background:color-mix(in srgb,var(--cu-accent,#0067c0) 17%,var(--cu-surface,#fff));}",
+  "tbody tr:hover{background:var(--cu-state-hover);}",
+  "tbody tr[data-selected=true]{background:var(--cu-state-selected);}",
+  "tbody tr[data-context=true]{background:var(--cu-state-active);}",
   "tbody tr[data-actionable=true]{cursor:context-menu;}",
   "tbody tr:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
   ".row-menu,.header-menu{position:fixed;width:0;height:0;}",
   "thead th[data-filtered=true]{color:var(--cu-accent,#0067c0);}",
-  ".filter-trigger{margin-left:5px;min-width:27px;min-height:27px;padding:5px;vertical-align:middle;}",
+  ".filter-trigger{margin-inline-start:5px;min-width:27px;min-height:27px;padding:5px;vertical-align:middle;}",
   ".filter-trigger cu-icon{width:14px;height:14px;}",
   "thead th[data-filtered=true] .filter-trigger{color:var(--cu-accent,#0067c0);",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 13%,transparent);}",
@@ -89,7 +90,7 @@ const css=[
   ".filter-options label{display:flex;align-items:center;gap:9px;padding:7px 8px;",
   "border-radius:var(--cu-radius-md,6px);cursor:pointer;}",
   ".filter-options label:hover,.filter-options label:focus-within{",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 12%,var(--cu-surface,#fff));}",
+  "background:var(--cu-state-selected);}",
   ".filter-options .filter-value{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}",
   ".filter-options .filter-count,.filter-summary{color:var(--cu-text-muted,#616161);font-size:12px;}",
   ".filter-empty{padding:12px;color:var(--cu-text-muted,#616161);}",
@@ -126,12 +127,13 @@ const css=[
   ".pages button{border:1px solid var(--cu-border,#e5e5e5);}",
   ".pages .prev cu-icon{transform:rotate(180deg);}",
   ".sort cu-icon{width:13px;height:13px;}",
-  "@media(forced-colors:active){.frame{border-color:CanvasText;}tr[data-selected=true]{outline:1px solid Highlight;}}"
+  "@media(forced-colors:active){.frame{border-color:CanvasText;}tr[data-selected=true]{outline:1px solid Highlight;}}",
+  ".filter-more{align-self:flex-start;} .filter-more[hidden]{display:none!important;} .filter-panel{overflow:auto;overscroll-behavior:contain;}",focusStyle
 ].join("");
 
 export class CuDataTable extends BrowserElement {
   static get observedAttributes(){
-    return ["caption","aria-label","page-size","selectable","row-action","loading","empty-text","error"];
+    return ["caption","aria-label","page-size","selectable","row-action","loading","empty-text","error","preserve-selection"];
   }
   constructor(){
     super();
@@ -152,7 +154,7 @@ export class CuDataTable extends BrowserElement {
       '<input class="filter-search" type="search" placeholder="Search values..." aria-label="Search filter values">' +
       '<label class="filter-select-all"><input type="checkbox" class="filter-all"><span>Select all matching</span></label>' +
       '<div class="filter-options" role="group" aria-label="Available filter values"></div>' +
-      '<div class="filter-summary" role="status"></div></div>' +
+      '<button type="button" class="filter-more" hidden>Show more values</button><div class="filter-summary" role="status"></div></div>' +
       '<div class="filter-conditions-view" id="cu-filter-conditions" role="tabpanel" aria-labelledby="cu-filter-conditions-tab" hidden>' +
       '<cu-select class="filter-operator" aria-label="Filter condition">' +
       '<option value="contains">Contains</option><option value="not-contains">Does not contain</option>' +
@@ -189,6 +191,7 @@ export class CuDataTable extends BrowserElement {
     this._filterAll=root.querySelector(".filter-all");
     this._filterOptions=root.querySelector(".filter-options");
     this._filterSummary=root.querySelector(".filter-summary");
+    this._filterMore=root.querySelector(".filter-more");
     this._filterValuesView=root.querySelector(".filter-values-view");
     this._filterConditionsView=root.querySelector(".filter-conditions-view");
     this._filterModeValues=root.querySelector(".filter-mode-values");
@@ -254,13 +257,14 @@ export class CuDataTable extends BrowserElement {
         case "clear-filter": this.clearColumnFilter(key);break;
         case "clear-all-filters": this.clearAllFilters();break;
       }
+      if(selected.value!=="filter-values")this._focusColumn(key);
       notify(this,"cu-header-action",{
         action:selected.value,label:selected.label,key,column:context.column
       });
-      if(selected.value!=="filter-values")this._focusColumn(key);
     });
     this._headerMenu.addEventListener("cu-close",()=>this._clearContextHeader());
-    this._filterSearch.addEventListener("input",()=>this._renderFilterOptions());
+    this._filterSearch.addEventListener("input",()=>{if(this._filterEditor)this._filterEditor.limit=200;this._renderFilterOptions();});
+    this._filterMore.addEventListener("click",()=>{if(!this._filterEditor)return;const previous=this._filterEditor.limit;this._filterEditor.limit+=200;this._renderFilterOptions();this._filterOptions.querySelectorAll("input")[previous]?.focus();});
     this._filterModeValues.addEventListener("click",()=>this._setFilterMode("values",true));
     this._filterModeConditions.addEventListener("click",()=>this._setFilterMode("conditions",true));
     this._filterOperator.addEventListener("cu-change",()=>this._syncFilterConditionInputs());
@@ -304,6 +308,7 @@ export class CuDataTable extends BrowserElement {
             this._filterConditionValue:this._filterConditionValue2,"Enter valid numeric values.");
           return;
         }
+        if(operator==="between"&&Number(first)>Number(second)){this._showFilterConditionError(this._filterConditionValue2,"Upper bound must be at least the lower bound.");return;}
         spec={operator,value:noValue?"":first,value2:operator==="between"?second:""};
       }else{
         const all=editor.options.every(option=>editor.selected.has(option.key));
@@ -324,7 +329,8 @@ export class CuDataTable extends BrowserElement {
     root.querySelector(".filter-cancel").addEventListener("click",()=>
       this._hideFilterPanel(true));
     this._filterPanel.addEventListener("keydown",event=>{
-      if(event.key==="Escape"){event.preventDefault();this._hideFilterPanel(true);return;}
+      if(event.defaultPrevented)return;
+      if(event.key==="Escape"&&isTopOverlay(this)){event.preventDefault();event.stopPropagation();this._hideFilterPanel(true);return;}
       if((event.key==="ArrowLeft"||event.key==="ArrowRight")&&
         (event.target===this._filterModeValues||event.target===this._filterModeConditions)){
         event.preventDefault();
@@ -346,16 +352,17 @@ export class CuDataTable extends BrowserElement {
   }
   connectedCallback(){
     this._render();
-    document.addEventListener("pointerdown",this._filterOutside);
-    window.addEventListener("resize",this._filterViewport);
-    window.addEventListener("scroll",this._filterViewport,true);
+    this._doc=this.ownerDocument;this._view=this._doc.defaultView;
+    this._doc.addEventListener("pointerdown",this._filterOutside);
+    this._view?.addEventListener("resize",this._filterViewport);
+    this._view?.addEventListener("scroll",this._filterViewport,true);
   }
   disconnectedCallback(){
     this.unbindFilterBar();
     this._hideFilterPanel(false);
-    document.removeEventListener("pointerdown",this._filterOutside);
-    window.removeEventListener("resize",this._filterViewport);
-    window.removeEventListener("scroll",this._filterViewport,true);
+    this._doc?.removeEventListener("pointerdown",this._filterOutside);
+    this._view?.removeEventListener("resize",this._filterViewport);
+    this._view?.removeEventListener("scroll",this._filterViewport,true);
   }
   attributeChangedCallback(){this._render();}
   get loading(){return this.hasAttribute("loading");}
@@ -365,6 +372,8 @@ export class CuDataTable extends BrowserElement {
   get rows(){return this._rows;}
   set rows(value){
     if(value===this._rows)return; // stable reference across React rerenders
+    const previous=this.selectedIds;
+    const retain=this.hasAttribute("preserve-selection")?new Set(this._rows.filter(r=>r?.id!=null&&this._selected.has(String(r.id))).map(r=>String(r.id))):new Set();
     this._rows=Array.isArray(value)?value:[];
     this._rowIndex=new WeakMap();
     this._rows.forEach((row,index)=>{
@@ -372,14 +381,16 @@ export class CuDataTable extends BrowserElement {
         this._rowIndex.set(row,index);
     });
     this._invalidateView();
-    this._page=1;this._selected.clear();this._render();
+    this._page=1;const counts=new Map();for(const row of this._rows)if(row?.id!=null){const id=String(row.id);counts.set(id,(counts.get(id)||0)+1);}
+    this._selected=new Set([...retain].filter(id=>counts.get(id)===1));this._render();
+    if(previous.length!==this._selected.size||previous.some(id=>!this._selected.has(id)))this._notifySelection();
   }
   get columns(){return this._columnInput;}
   set columns(value){
     if(value===this._columnInput)return;
     this._columnInput=value;
-    this._columns=Array.isArray(value)?value.filter(c=>c && typeof c.key==="string"
-      && /^[a-zA-Z_$][\w$-]*$/.test(c.key)).map(c=>({...c})):[];
+    const seen=new Set();this._columns=Array.isArray(value)?value.filter(c=>c && typeof c.key==="string"
+      && /^[a-zA-Z_$][\w$-]*$/.test(c.key)&&!seen.has(c.key)&&seen.add(c.key)).map(c=>({...c})):[];
     this._hiddenColumns=new Set([...this._hiddenColumns].filter(key=>
       this._columns.some(column=>column.key===key)));
     if(this._columns.length && this._hiddenColumns.size>=this._columns.length)
@@ -515,7 +526,8 @@ export class CuDataTable extends BrowserElement {
   get sortKey(){return this._sortKey;}
   get sortDirection(){return this._direction;}
   get selectedIds(){return [...this._selected];}
-  clearSelection(){this._selected.clear();this._render();this._notifySelection();}
+  set selectedIds(values){const available=new Set(this._rows.map((row,index)=>this._rowId(row,index)));const next=new Set((Array.isArray(values)?values:[]).map(String).filter(id=>available.has(id)));if(next.size===this._selected.size&&[...next].every(id=>this._selected.has(id)))return;this._selected=next;this._render();}
+  clearSelection(){if(!this._selected.size)return;this._selected.clear();this._render();this._notifySelection();}
   _syncSelectAll(){
     const input=this._head?.querySelector(".select-all");
     if(!input)return;
@@ -545,7 +557,7 @@ export class CuDataTable extends BrowserElement {
     this._setSort(key,direction);
   }
   _setSort(key,direction){
-    if(key && !this._columns.some(col=>col.key===key&&col.sortable!==false))return;
+    if(!["asc","desc"].includes(direction)|| (key && !this._columns.some(col=>col.key===key&&col.sortable!==false)))return;
     if(this._sortKey===key&&this._direction===direction)return;
     this._sortKey=key??"";
     this._direction=direction;
@@ -558,7 +570,7 @@ export class CuDataTable extends BrowserElement {
     if(!this.visibleColumnKeys.includes(key)||this.visibleColumnKeys.length<=1)return;
     this._hiddenColumns.add(key);
     if(this._sortKey===key){
-      this._sortKey="";this._direction="asc";
+      this._sortKey="";this._direction="asc";this._sortedCache=null;this._page=1;
       notify(this,"cu-sort",{key:"",direction:"asc"});
     }
     this._render();
@@ -641,32 +653,34 @@ export class CuDataTable extends BrowserElement {
   _matchingFilterOptions(){
     const editor=this._filterEditor;
     if(!editor)return [];
-    const query=this._filterSearch.value.trim().toLocaleLowerCase();
-    return editor.options.filter(option=>
-      option.label.toLocaleLowerCase().includes(query));
+    const fold=value=>String(value).normalize("NFD").replace(/\p{M}/gu,"").toLowerCase().replace(/đ/g,"d");
+    const query=fold(this._filterSearch.value.trim());
+    return editor.options.filter(option=>fold(option.label).includes(query));
   }
   _renderFilterOptions(){
     const editor=this._filterEditor;
     if(!editor)return;
     const matching=this._matchingFilterOptions();
     this._filterOptions.replaceChildren();
-    for(const option of matching){
-      const label=document.createElement("label");
-      const input=document.createElement("input");
+    for(const option of matching.slice(0,editor.limit??200)){
+      const label=this.ownerDocument.createElement("label");
+      const input=this.ownerDocument.createElement("input");
       input.type="checkbox";input.dataset.valueKey=option.key;
       input.checked=editor.selected.has(option.key);
       input.setAttribute("aria-label",option.label);
-      const name=document.createElement("span");name.className="filter-value";
+      const name=this.ownerDocument.createElement("span");name.className="filter-value";
       name.textContent=option.label;name.title=option.label;
-      const count=document.createElement("span");count.className="filter-count";
+      const count=this.ownerDocument.createElement("span");count.className="filter-count";
       count.textContent=String(option.count);
       label.append(input,name,count);this._filterOptions.append(label);
     }
     if(!matching.length){
-      const empty=document.createElement("div");
+      const empty=this.ownerDocument.createElement("div");
       empty.className="filter-empty";empty.textContent="No matching values";
       this._filterOptions.append(empty);
     }
+    this._filterMore.hidden=matching.length<=(editor.limit??200);
+    this._filterMore.textContent="Show more ("+Math.max(0,matching.length-(editor.limit??200))+" remaining)";
     this._syncFilterCheckboxes();
   }
   _syncFilterCheckboxes(){
@@ -685,7 +699,7 @@ export class CuDataTable extends BrowserElement {
   _showFilterPanel(column,header,focusTarget=null){
     if(!column||column.filterable===false)return;
     this._menu.hide();this._headerMenu.hide();this._hideFilterPanel(false);
-    const source=filterTableRows(this._rows,this._columnFilters,column.key);
+    const source=applyFilterBar(filterTableRows(this._rows,this._columnFilters,column.key),this._externalQuery,this._externalConditions,this._externalSearchKeys);
     const options=uniqueTableFilterValues(source,column.key);
     const existing=this._columnFilters.get(column.key);
     const byKey=new Map(options.map(item=>[item.key,item]));
@@ -698,7 +712,7 @@ export class CuDataTable extends BrowserElement {
     const condition=isTableFilterCondition(existing)?existing:null;
     this._filterEditor={column,header,focusTarget:focusTarget??header.querySelector(".filter-trigger")??header.querySelector("button")??header,
       options:all,selected:new Set((Array.isArray(existing)?existing:
-        all.map(item=>item.value)).map(tableFilterValueKey)),mode:"values"};
+        all.map(item=>item.value)).map(tableFilterValueKey)),mode:"values",limit:200};
     this._filterOperator.value=condition?.operator??"contains";
     this._filterConditionValue.value=String(condition?.value??"");
     this._filterConditionValue2.value=String(condition?.value2??"");
@@ -708,13 +722,13 @@ export class CuDataTable extends BrowserElement {
     this._filterPanel.setAttribute("aria-label",this._filterTitle.textContent);
     this._filterSearch.value="";
     this._renderFilterOptions();
-    this._filterPanel.hidden=false;
+    this._filterPanel.hidden=false;registerOverlay(this);
     if(this._filterEditor.focusTarget?.setAttribute)
       this._filterEditor.focusTarget.setAttribute("aria-expanded","true");
     const rect=header.getBoundingClientRect();
     const bounds=this._filterPanel.getBoundingClientRect();
     const pos=clampMenuPosition(rect.left,rect.bottom+4,bounds.width,bounds.height,
-      window.innerWidth,window.innerHeight);
+      this.ownerDocument.defaultView?.innerWidth??1024,this.ownerDocument.defaultView?.innerHeight??768);
     this._filterPanel.style.left=pos.x+"px";
     this._filterPanel.style.top=pos.y+"px";
     (condition?this._filterOperator:this._filterSearch).focus();
@@ -722,7 +736,7 @@ export class CuDataTable extends BrowserElement {
   _hideFilterPanel(restore=false){
     const editor=this._filterEditor;
     if(!editor)return;
-    this._filterEditor=null;this._filterPanel.hidden=true;
+    this._filterOperator.hide?.();this._filterEditor=null;this._filterPanel.hidden=true;unregisterOverlay(this);
     if(editor.focusTarget?.setAttribute)
       editor.focusTarget.setAttribute("aria-expanded","false");
     if(restore){
@@ -799,7 +813,7 @@ export class CuDataTable extends BrowserElement {
   }
   _renderDataCell(row,column,id){return this._makeCell(row?.[column.key]);}
   _makeCell(text,tag="td"){
-    const cell=document.createElement(tag);
+    const cell=this.ownerDocument.createElement(tag);
     cell.textContent=String(text??"");
     return cell;
   }
@@ -821,10 +835,10 @@ export class CuDataTable extends BrowserElement {
     this._page=page.page;
     this._visiblePageRows=busy||failure||!columns.length?[]:page.rows;
     this._head.replaceChildren();
-    const header=document.createElement("tr");
+    const header=this.ownerDocument.createElement("tr");
     if(this.hasAttribute("selectable")){
-      const h=document.createElement("th");h.scope="col";
-      const checkbox=document.createElement("input");
+      const h=this.ownerDocument.createElement("th");h.scope="col";
+      const checkbox=this.ownerDocument.createElement("input");
       checkbox.className="select-all";checkbox.type="checkbox";
       checkbox.setAttribute("aria-label","Select all rows on this page");
       checkbox.addEventListener("change",()=>{
@@ -841,11 +855,11 @@ export class CuDataTable extends BrowserElement {
       h.append(checkbox);header.append(h);
     }
     for(const column of columns){
-      const h=document.createElement("th");h.scope="col";
+      const h=this.ownerDocument.createElement("th");h.scope="col";
       if(!busy&&!failure)this._bindHeaderMenu(h,column);
       h.dataset.filtered=String(this._columnFilters.has(column.key));
       if(column.sortable!==false){
-        const b=document.createElement("button");b.type="button";
+        const b=this.ownerDocument.createElement("button");b.type="button";
         b.textContent=String(column.label??column.key);
         b.disabled=Boolean(busy||failure);
         b.addEventListener("click",()=>{
@@ -854,8 +868,8 @@ export class CuDataTable extends BrowserElement {
         });
         if(this._sortKey===column.key){
           h.setAttribute("aria-sort",this._direction==="asc"?"ascending":"descending");
-          const sort=document.createElement("span");sort.className="sort";
-          const icon=document.createElement("cu-icon");icon.name="chevron-down";
+          const sort=this.ownerDocument.createElement("span");sort.className="sort";
+          const icon=this.ownerDocument.createElement("cu-icon");icon.name="chevron-down";
           icon.setAttribute("size","13");
           if(this._direction==="asc")icon.style.transform="rotate(180deg)";
           sort.append(icon);sort.setAttribute("aria-hidden","true");b.append(sort);
@@ -863,14 +877,14 @@ export class CuDataTable extends BrowserElement {
         h.append(b);
       }else h.textContent=String(column.label??column.key);
       if(column.filterable!==false){
-        const trigger=document.createElement("button");
+        const trigger=this.ownerDocument.createElement("button");
         trigger.type="button";trigger.className="filter-trigger";
         trigger.disabled=Boolean(busy||failure);
         trigger.title="Filter "+String(column.label??column.key);
         trigger.setAttribute("aria-label",trigger.title);
         trigger.setAttribute("aria-haspopup","dialog");
         trigger.setAttribute("aria-expanded","false");
-        const icon=document.createElement("cu-icon");
+        const icon=this.ownerDocument.createElement("cu-icon");
         icon.name="sliders-horizontal";icon.setAttribute("size","14");
         trigger.append(icon);
         trigger.addEventListener("click",event=>{
@@ -886,20 +900,20 @@ export class CuDataTable extends BrowserElement {
     this._body.replaceChildren();
     this._table.setAttribute("aria-busy",String(busy));
     if(busy || failure || !columns.length || !page.rows.length){
-      const tr=document.createElement("tr"),td=document.createElement("td");
+      const tr=this.ownerDocument.createElement("tr"),td=this.ownerDocument.createElement("td");
       td.className="empty";td.colSpan=columns.length+(this.hasAttribute("selectable")?1:0)||1;
-      const state=document.createElement("div");state.className="state";
+      const state=this.ownerDocument.createElement("div");state.className="state";
       state.dataset.kind=busy?"loading":failure?"error":"empty";
-      const symbol=document.createElement(busy?"cu-spinner":"cu-icon");
+      const symbol=this.ownerDocument.createElement(busy?"cu-spinner":"cu-icon");
       if(!busy)symbol.setAttribute("name",failure?"info":"folder-open");
       symbol.setAttribute("size",busy?"lg":"24");symbol.setAttribute("aria-hidden","true");
-      const message=document.createElement("span");
+      const message=this.ownerDocument.createElement("span");
       message.textContent=busy?"Loading records…":failure||
         (!columns.length?"No columns configured":filtered?"No matching records":
           this.getAttribute("empty-text")||"No records");
       state.append(symbol,message);
       if(failure){
-        const retry=document.createElement("button");retry.type="button";
+        const retry=this.ownerDocument.createElement("button");retry.type="button";
         retry.textContent="Retry";retry.addEventListener("click",()=>notify(this,"cu-retry",{}));
         state.append(retry);
       }
@@ -908,7 +922,7 @@ export class CuDataTable extends BrowserElement {
       page.rows.forEach((row,localIndex)=>{
         const absolute=(page.page-1)*this._pageSize()+localIndex;
         const id=this._rowId(row,absolute);
-        const tr=document.createElement("tr");
+        const tr=this.ownerDocument.createElement("tr");
         tr.dataset.selected=String(this._selected.has(id));
         if(this._actionsFor(row).length){
           tr.tabIndex=0;
@@ -927,8 +941,8 @@ export class CuDataTable extends BrowserElement {
           });
         }
         if(this.hasAttribute("selectable")){
-          const td=document.createElement("td");
-          const checkbox=document.createElement("input");
+          const td=this.ownerDocument.createElement("td");
+          const checkbox=this.ownerDocument.createElement("input");
           checkbox.type="checkbox";checkbox.checked=this._selected.has(id);
           checkbox.setAttribute("aria-label","Select row "+id);
           checkbox.addEventListener("change",()=>{

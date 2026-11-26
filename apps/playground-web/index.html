@@ -640,8 +640,11 @@
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
             <article class="cu-surface demo-card full-span">
-              <h3>TreeTable</h3><p class="demo-subtitle">Expand hierarchical records while preserving their table columns.</p>
+              <h3>TreeTable</h3><p class="demo-subtitle">Search nested records, sort siblings and use header/row context menus.</p>
+              <cu-text-field id="wc-tree-table-query" label="Search hierarchy" placeholder="Try Platform or Forms"></cu-text-field>
+              <div class="demo-row"><cu-button id="wc-tree-expand" size="sm">Expand all</cu-button><cu-button id="wc-tree-collapse" size="sm">Collapse all</cu-button><cu-button id="wc-tree-clear-sort" size="sm">Clear sorting</cu-button></div>
               <cu-tree-table id="wc-tree-table" label="Project"></cu-tree-table>
+              <p id="wc-tree-table-result" role="status" class="cu-helper">Right-click a header or row for actions.</p>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>Masonry</h3><p class="demo-subtitle">CSS column-based layout for variable-height cards.</p>
@@ -821,8 +824,8 @@
               <p id="wc-file-explorer-result" class="cu-helper" role="status">Open a folder or file.</p>
             </article>
             <article class="cu-surface demo-card full-span">
-              <h3>DataGrid</h3><p class="demo-subtitle">Editable cells, Excel-style filters and row/header context menus. Right-click a cell, double-click or press F2 to edit.</p>
-              <cu-data-grid id="wc-data-grid" caption="Inventory editor" page-size="5" selectable></cu-data-grid>
+              <h3>DataGrid</h3><p class="cu-helper">Enter saves text and number edits; Tab saves and moves to the next editable cell when available. Escape or leaving an unsaved text editor cancels.</p><p class="demo-subtitle">Editable cells, Excel-style filters and row/header context menus. Right-click a cell, double-click or press F2 to edit.</p>
+              <cu-data-grid id="wc-data-grid" caption="Inventory editor" page-size="5" selectable preserve-selection></cu-data-grid>
               <pre id="wc-data-grid-result" class="cu-web-result" role="status">Edit a cell.</pre>
             </article>
             <article class="cu-surface demo-card">

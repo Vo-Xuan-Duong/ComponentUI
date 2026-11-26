@@ -108,8 +108,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-menu":["open"],
   "cu-menu-item":["disabled"],
   "cu-icon":["name"],
-  "cu-data-table":["rows","columns","rowActions","headerActions","columnFilters","page","loading","error"],
-  "cu-data-grid":["rows","columns","rowActions","headerActions","columnFilters","page","loading","error","readonly"],
+  "cu-data-table":["rows","columns","rowActions","headerActions","columnFilters","page","loading","error","selectedIds"],
+  "cu-data-grid":["rows","columns","rowActions","headerActions","columnFilters","page","loading","error","readonly","selectedIds"],
   "cu-file-explorer":["items","folderId","query","actions"],
   "cu-title-bar":["maximized","draggableRegion"],
   "cu-window-controls":["maximized","disabled","minimizable","maximizable","closable"],
@@ -119,7 +119,7 @@ const PROPERTY_MAP = Object.freeze({
   "cu-rich-text-editor":["value","disabled","readonly","required"],
   "cu-chart-container":["items"],
   "cu-description-list":["items"],
-  "cu-tree-table":["items","columns","expandedValues"],
+  "cu-tree-table":["items","columns","expandedValues","query","rowActions"],
   "cu-task-panel":["items","readonly"],
   "cu-command-surface":["commands","maxVisible","disabled"],
   "cu-window-pane":["collapsed"],
@@ -194,7 +194,7 @@ export function assignCuProperties(element, tagName, props = {}) {
           (tagName==="cu-statistic"&&name==="series") ||
           (tagName==="cu-dock-layout"&&name==="layout") ||
           (tagName==="cu-kanban-board"&&name==="lanes") ||
-          (tagName==="cu-tree-table"&&(name==="columns"||name==="expandedValues")) ||
+          (tagName==="cu-tree-table"&&(name==="columns"||name==="expandedValues"||name==="rowActions")) ||
           (tagName==="cu-data-grid"&&name==="rows") ||
           (["cu-avatar-group","cu-segmented-control","cu-timeline","cu-carousel","cu-property-grid","cu-file-explorer","cu-status-bar","cu-kanban-board","cu-chart-container","cu-description-list","cu-tree-table","cu-task-panel","cu-message-list","cu-search-results","cu-upload-manager"].includes(tagName)&&name==="items") ||
           (tagName==="cu-virtual-list"&&name==="items") ||

@@ -136,7 +136,7 @@ export { CuTeachingTip } from "./teaching-tip.js";
 export { CuCallout } from "./callout.js";
 export { CuBanner } from "./banner.js";
 
-export { CuTreeTable, normalizeTreeTableItems, visibleTreeTableRows } from "./tree-table.js";
+export { CuTreeTable, normalizeTreeTableItems, visibleTreeTableRows, filterTreeTableItems, sortTreeTableItems } from "./tree-table.js";
 export { CuMasonry } from "./masonry.js";
 export { CuTaskPanel, normalizeTasks } from "./task-panel.js";
 export { CuCommandSurface } from "./command-surface.js";

@@ -1,17 +1,37 @@
 {
   "version": 1,
   "name": "TreeTable",
-  "tag": "tree-table",
+  "tag": "cu-tree-table",
   "status": "preview",
   "kind": "component",
   "attributes": {
     "label": "string",
-    "empty-text": "string"
+    "empty-text": "string",
+    "query": "string; accent-insensitive keyword search"
   },
   "events": [
-    "cu-toggle"
+    "cu-toggle",
+    "cu-sort",
+    "cu-row-action"
   ],
   "accessibility": {
-    "formAssociated": false
-  }
+    "formAssociated": false,
+    "table": "Native table, header sort controls, row and header context menus with Shift+F10. Search expands matching ancestors without altering normal expansion state."
+  },
+  "properties": {
+    "items": "hierarchical records",
+    "columns": "key/label/sortable",
+    "expandedValues": "string[]",
+    "query": "string",
+    "rowActions": "custom context menu actions",
+    "sortKey": "readonly string|null; empty string selects label",
+    "sortDirection": "readonly asc|desc"
+  },
+  "methods": [
+    "toggle(id)",
+    "expandAll()",
+    "collapseAll()",
+    "sortBy(key,direction)",
+    "clearSort()"
+  ]
 }

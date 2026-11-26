@@ -68,25 +68,32 @@ export class CuDataGrid extends CuDataTable{
     }
     control.setAttribute("aria-label","Edit "+String(column.label??key));error.className="grid-error";error.setAttribute("role","status");
     const cancel=(restore=true)=>{cell.dataset.editing="false";cell.textContent=String(row[key]??"");delete cell._gridCancel;if(restore)cell.focus({preventScroll:true});};
-    const commit=()=>{
-      if(cell.dataset.editing!=="true"||!cell.isConnected)return;
+    const commit=(restore=true,target=null)=>{
+      if(cell.dataset.editing!=="true"||!cell.isConnected)return false;
       const parsed=coerceGridValue(column,column.type==="boolean"?control.checked:control.value,row[key]);
-      if(!parsed.valid){control.setAttribute("aria-invalid","true");error.textContent=parsed.message;return;}
-      this.setCellValue(id,key,parsed.value);this._cell(id,key)?.focus({preventScroll:true});
+      if(!parsed.valid){control.setAttribute("aria-invalid","true");error.textContent=parsed.message;return false;}
+      cell.dataset.editing="false";delete cell._gridCancel;
+      if(!this._applyCellValue(id,key,parsed.value,target??(restore?{id,key}:null))){cancel(restore);return false;}
+      return true;
     };
     cell._gridCancel=cancel;cell.dataset.editing="true";cell.replaceChildren(control,error);
     control.addEventListener("keydown",event=>{
       if(event.isComposing)return;
       if(event.key==="Escape"){event.preventDefault();event.stopPropagation();cancel();}
       else if(event.key==="Enter"){event.preventDefault();event.stopPropagation();commit();}
+      else if(event.key==="Tab"){const cells=[...this.shadowRoot.querySelectorAll("td[data-editable=true]")],index=cells.indexOf(cell),next=cells[index+(event.shiftKey?-1:1)];if(!next)return;event.preventDefault();event.stopPropagation();const target={id:next.dataset.rowId,key:next.dataset.columnKey};commit(false,target);}
       else if(event.key==="ContextMenu"||(event.shiftKey&&event.key==="F10"))event.stopPropagation();
     });
-    control.addEventListener("change",commit);
-    control.addEventListener("blur",()=>{if(cell.isConnected&&cell.dataset.editing==="true"&&control.getAttribute("aria-invalid")!=="true")commit();});
+    control.addEventListener("input",()=>{control.removeAttribute("aria-invalid");error.textContent="";});
+    if(column.type==="select"||column.type==="boolean"||column.type==="color")control.addEventListener("change",()=>commit());
+    // Text/number edits commit explicitly with Enter or internal Tab. Leaving
+    // the editor otherwise cancels, avoiding a render that steals click focus.
+    control.addEventListener("blur",()=>{if(cell.isConnected&&cell.dataset.editing==="true")cancel(false);});
     control.addEventListener("contextmenu",event=>event.stopPropagation());
     control.focus({preventScroll:true});if(control.type==="text")control.select();return true;
   }
-  setCellValue(id,key,value){
+  setCellValue(id,key,value){return this._applyCellValue(id,key,value);}
+  _applyCellValue(id,key,value,focusTarget=null){
     const row=this._rows.find(r=>r?.id!=null&&String(r.id)===String(id)),column=this._columns.find(c=>c.key===key);
     if(!this._canEdit(column,row))return false;
     const parsed=coerceGridValue(column,value,row[key]);if(!parsed.valid)return false;
@@ -97,6 +104,7 @@ export class CuDataGrid extends CuDataTable{
       this._invalidateView();
     }
     this._render();
+    if(focusTarget)this._cell(focusTarget.id,focusTarget.key)?.focus({preventScroll:true});
     if(previousCellValue!==parsed.value)notify(this,"cu-cell-change",{id:String(id),key,cellValue:parsed.value,previousCellValue,row:next});
     return true;
   }

@@ -10,7 +10,7 @@
     "page": "number",
     "sortKey": "readonly string",
     "sortDirection": "asc|desc",
-    "selectedIds": "readonly string[]",
+    "selectedIds": "string[]; programmatic assignment replaces selection without emitting user change",
     "rowActions": "{value,label?,disabled?:boolean|(row)=>boolean}[] via JS property",
     "headerActions": "{value,label?,disabled?:boolean|(column)=>boolean}[] via JS property; appends custom header items",
     "hiddenColumnKeys": "readonly string[]",
@@ -24,7 +24,9 @@
     "selectable": "boolean",
     "row-action": "deprecated legacy label; provides single action in right-click menu",
     "loading": "boolean",
-    "empty-text": "string"
+    "empty-text": "string",
+    "preserve-selection": "boolean; retain selected unique explicit IDs when rows are replaced",
+    "error": "string"
   },
   "events": [
     "cu-sort",
@@ -53,6 +55,6 @@
     "action": "right-click context menu, row keyboard target with Shift+F10/ContextMenu, menuitems, disabled handling and focus restoration",
     "responsive": "horizontal scroll",
     "headerMenu": "right-click/Shift+F10/ContextMenu on column header; sortable headers keep native buttons; non-sortable headers focusable; sorting + column visibility menus",
-    "filtering": "header filter trigger opens dialog with Values/Conditions tabs, CuSelect operator, text or number input, multi-value checkboxes, select all matching, count, Clear/Cancel/Apply and Escape; independent column state"
+    "filtering": "header filter trigger opens dialog with Values/Conditions tabs, CuSelect operator, text or number input, multi-value checkboxes, select all matching, count, Clear/Cancel/Apply and Escape; independent column state; external FilterBar scope, diacritic-insensitive search and incremental 200-value rendering"
   }
 }

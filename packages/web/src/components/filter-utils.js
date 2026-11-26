@@ -15,7 +15,7 @@ export const TABLE_FILTER_OPERATORS=Object.freeze([
   "greater-than","greater-or-equal","less-than","less-or-equal","between",
   "is-blank","is-not-blank"
 ]);
-const NUMERIC_FILTER_OPERATORS=new Set([
+export const NUMERIC_FILTER_OPERATORS=new Set([
   "greater-than","greater-or-equal","less-than","less-or-equal","between"
 ]);
 export function isTableFilterCondition(spec) {

@@ -119,6 +119,12 @@ function showToast(title, message = "ComponentUI interaction preview.") {
 const wcTreeTable=document.getElementById("wc-tree-table");
 wcTreeTable.columns=[{key:"status",label:"Status"},{key:"owner",label:"Owner"}];
 wcTreeTable.items=[{id:"web",label:"Web Components",values:{status:"Preview",owner:"UI"},expanded:true,children:[{id:"forms",label:"Forms",values:{status:"Preview",owner:"UI"}},{id:"data",label:"Data display",values:{status:"Preview",owner:"UI"}}]},{id:"desktop",label:"Desktop patterns",values:{status:"Preview",owner:"Platform"},children:[{id:"dock",label:"Dock layout",values:{status:"Preview",owner:"Platform"}}]}];
+wcTreeTable.rowActions=[{value:"details",label:"View details"},{value:"copy-id",label:"Show identifier"}];
+document.getElementById("wc-tree-table-query").addEventListener("cu-input",e=>{wcTreeTable.query=e.detail.value;});
+document.getElementById("wc-tree-expand").addEventListener("cu-press",()=>wcTreeTable.expandAll());
+document.getElementById("wc-tree-collapse").addEventListener("cu-press",()=>wcTreeTable.collapseAll());
+document.getElementById("wc-tree-clear-sort").addEventListener("cu-press",()=>wcTreeTable.clearSort());
+wcTreeTable.addEventListener("cu-row-action",e=>{document.getElementById("wc-tree-table-result").textContent=e.detail.action+": "+e.detail.row.label+" ("+e.detail.id+")";});
 const wcTaskPanel=document.getElementById("wc-task-panel");
 wcTaskPanel.items=[{id:"contracts",label:"Register component contracts",completed:true},{id:"browser",label:"Verify browser interactions"},{id:"packages",label:"Verify installed packages"}];
 const wcCommandSurface=document.getElementById("wc-command-surface");

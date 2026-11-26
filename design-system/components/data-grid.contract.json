@@ -10,7 +10,8 @@
     "selectable": "boolean",
     "readonly": "boolean",
     "loading": "boolean",
-    "error": "string"
+    "error": "string",
+    "preserve-selection": "boolean"
   },
   "events": [
     "cu-cell-change",
@@ -22,6 +23,7 @@
     "cu-selection-change"
   ],
   "accessibility": {
-    "formAssociated": false
+    "formAssociated": false,
+    "editing": "F2/Enter opens cell editor. Enter commits. Tab commits to an adjacent editable cell on the current page; Escape or leaving unsaved text/number editor cancels. Select/checkbox/color change commits. Invalid input remains editable until cancelled."
   }
 }

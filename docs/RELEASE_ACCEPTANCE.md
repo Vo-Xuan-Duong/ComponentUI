@@ -70,3 +70,32 @@ options. Check blue/purple/green accents, light/dark, all densities,
 reduced motion and forced colors. Run `node --test tests/visual-quality.test.mjs`,
 `npm run tokens:check`, and the full local checks. No catalog entries
 have been promoted to ready.
+
+## Stabilization pass 3 — data components
+
+DataTable now imports the shared numeric filter operator set, invalidates
+cached sorting when hiding the sorted column, scopes filter facets to the
+external FilterBar and other column filters, rejects inverted ranges, and
+renders filter options in batches of 200. Search and Select all matching
+operate over all matching options, not just the rendered batch. A scoped
+overlay registration coordinates nested condition selectors. The
+preserve-selection attribute retains selected explicit unique row IDs
+when data changes; the default still clears selection. selectedIds is
+writable for controlled integrations. Use unique explicit row IDs to
+avoid ambiguous selection and editing.
+
+DataGrid text/number editors commit on Enter or Tab to another editable
+cell on the page; unsaved values are discarded on blur or Escape.
+Select, checkbox and color controls commit on change. The deliberate
+change from blur-to-save prevents destructive rerenders during pointer
+focus changes. Invalid entries remain in the editor on failed commit.
+TreeTable supports sibling sorting, accent-insensitive local search
+that preserves matching ancestor paths, expand/collapse all and row/header
+context menus. Searching does not modify stored expansion state.
+TreeTable is not a virtualized treegrid and does not implement the full
+Excel checkbox filter UI. No action column is introduced.
+
+Run `node --test tests/data-components-stability.test.mjs` and the full
+local acceptance checks. Verify nested Escape handling, 1,000 distinct
+filter values, external FilterBar scope, controlled selection, cell
+editing and focus, and filtered TreeTable row actions.

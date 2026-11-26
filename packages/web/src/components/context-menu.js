@@ -55,8 +55,12 @@ export class CuContextMenu extends BrowserElement {
     this._menu.addEventListener("click",event=>{
       const button=event.target.closest('[role="menuitem"]');
       if(!button||button.disabled)return;
-      notify(this,"cu-select",{value:button.dataset.value,label:button.textContent});
-      this.hide(true);
+      const detail={value:button.dataset.value,label:button.textContent};
+      // Restore before dispatch so a consumer can move focus into a new editor/dialog.
+      const session=this._session;
+      restoreOverlayFocus(this._restoreFocus);
+      notify(this,"cu-select",detail);
+      if(this._session===session)this.hide(false);
     });
     this._menu.addEventListener("keydown",event=>{
       if(event.key==="Escape"&&isTopOverlay(this)){event.preventDefault();event.stopPropagation();this.hide(true);return;}
@@ -146,7 +150,7 @@ export class CuContextMenu extends BrowserElement {
     if(!this.isConnected)return;
     this._render();
     this._restoreFocus=focusTarget??this._target.assignedElements({flatten:true})[0]??null;
-    this._menu.hidden=false;this._open=true;registerOverlay(this);this._syncTargets();
+    this._session={};this._menu.hidden=false;this._open=true;registerOverlay(this);this._syncTargets();
     const bounds=this._menu.getBoundingClientRect();
     const pos=clampMenuPosition(x,y,bounds.width,bounds.height,window.innerWidth,window.innerHeight);
     this._menu.style.left=pos.x+"px";

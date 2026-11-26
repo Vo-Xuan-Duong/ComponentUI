@@ -701,7 +701,15 @@ export declare class CuBanner extends CuInfoBar {}
 export interface CuTreeTableItem {id:string;label:string;values?:Record<string,unknown>;children?:CuTreeTableItem[];expanded?:boolean;}
 export declare function normalizeTreeTableItems(value:unknown):CuTreeTableItem[];
 export declare function visibleTreeTableRows(items:CuTreeTableItem[],expanded:Set<string>|string[]):{item:CuTreeTableItem;depth:number}[];
-export declare class CuTreeTable extends HTMLElement {items:CuTreeTableItem[];columns:CuTableColumn[];expandedValues:string[];toggle(id:string):boolean;}
+export declare function filterTreeTableItems(items:CuTreeTableItem[],query?:string):CuTreeTableItem[];
+export declare function sortTreeTableItems(items:CuTreeTableItem[],key:string|null,direction?:"asc"|"desc"):CuTreeTableItem[];
+export declare class CuTreeTable extends HTMLElement {
+  items:CuTreeTableItem[];columns:CuTableColumn[];expandedValues:string[];query:string;
+  rowActions:{value:string;label?:string;disabled?:boolean|((item:CuTreeTableItem)=>boolean)}[];
+  readonly sortKey:string|null;readonly sortDirection:"asc"|"desc";
+  toggle(id:string):boolean;expandAll():void;collapseAll():void;
+  sortBy(key:string,direction?:"asc"|"desc"):boolean;clearSort():void;
+}
 export declare class CuMasonry extends HTMLElement {}
 export interface CuTaskItem {id:string;label:string;completed?:boolean;disabled?:boolean;}
 export declare function normalizeTasks(value:unknown):Required<CuTaskItem>[];
@@ -807,7 +815,7 @@ export declare class CuDataTable extends HTMLElement {
   page:number;
   readonly sortKey:string;
   readonly sortDirection:"asc"|"desc";
-  readonly selectedIds:string[];
+  selectedIds:string[];
   clearSelection():void;
   setColumnFilter(key:string,filter:CuTableFilterSpec|null):void;
   setColumnCondition(key:string,operator:CuTableFilterOperator,value?:string|number,value2?:string|number):void;
