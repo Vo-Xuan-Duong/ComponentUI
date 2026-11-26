@@ -19,6 +19,7 @@ const css=[
   ":host([open]){z-index:90;}",
   ".label{display:block;margin-bottom:7px;font-weight:650;}",
   ".label:empty{display:none;}",
+  ".anchor{position:relative;min-width:0;}",
   "input{box-sizing:border-box;width:100%;height:var(--cu-control-height,40px);",
   "padding:0 12px;border:1px solid var(--cu-border-strong,#d1d1d1);",
   "border-bottom-width:2px;border-radius:var(--cu-radius-md,6px);",
@@ -54,7 +55,7 @@ export class CuCombobox extends BrowserElement {
     super();
     this._internals=this.attachInternals?.()??null;
     const root=mount(this,css,
-      '<label class="label" part="label"></label><div class="anchor" style="position:relative"><input part="input" role="combobox" '+
+      '<label class="label" part="label"></label><div class="anchor"><input part="input" role="combobox" '+
       'autocomplete="off" aria-autocomplete="list" aria-expanded="false" '+
       'aria-haspopup="listbox"><div class="popup" part="popup" role="listbox" hidden></div></div><slot></slot>');
     this._label=root.querySelector(".label");
@@ -63,6 +64,7 @@ export class CuCombobox extends BrowserElement {
     this._anchor=root.querySelector(".anchor");
     this._popup.id="cu-combo-"+ ++idCounter;
     this._label.id=this._popup.id+"-label";
+    this._input.id=this._popup.id+"-input";this._label.htmlFor=this._input.id;
     this._input.setAttribute("aria-controls",this._popup.id);
     this._options=[];this._visible=[];
     this._value="";this._query="";this._active=-1;this._open=false;
@@ -150,7 +152,8 @@ export class CuCombobox extends BrowserElement {
     if(!this._initialized){
       this._initial=this.getAttribute("value")??this._options.find(o=>o.selected&&!o.disabled)?.value??"";
       this._initialized=true;this.value=this._initial;
-    }else this.value=this._value;
+    }else if(this._open&&!this._value){this._renderOptions();this._syncForm();}
+    else this.value=this._value;
   }
   _sync(){
     if(!this._input)return;
@@ -177,6 +180,7 @@ export class CuCombobox extends BrowserElement {
     this._popup.replaceChildren();
     this._visible.forEach((opt,i)=>{
       const node=document.createElement("div");
+      node.className="option";
       node.setAttribute("role","option");node.dataset.index=String(i);
       node.id=this._popup.id+"-option-"+i;node.textContent=opt.label;
       node.setAttribute("aria-selected",String(opt.value===this._value&&this._value!==""));
