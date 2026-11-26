@@ -1,6 +1,7 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
 import "./icon.js";
+import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay } from "./_overlay.js";
 
 /**
  * Fluent Calm select-only combobox.
@@ -228,16 +229,15 @@ export class CuSelect extends BrowserElement {
       });
     }
     document.addEventListener("pointerdown",this._onDocumentPointer);
-    window.addEventListener("resize",this._onViewportChange);
-    window.addEventListener("scroll",this._onViewportChange,true);
+    this._stopViewport=watchOverlayViewport(this,this._onViewportChange);
     this._control.addEventListener("blur",this._onBlur);
   }
   disconnectedCallback() {
     this._observer?.disconnect();
     this._observer = null;
     document.removeEventListener("pointerdown",this._onDocumentPointer);
-    window.removeEventListener("resize",this._onViewportChange);
-    window.removeEventListener("scroll",this._onViewportChange,true);
+    this._stopViewport?.();this._stopViewport=null;
+    this.hide();unregisterOverlay(this);
     this._control.removeEventListener("blur",this._onBlur);
   }
   attributeChangedCallback(name) {
@@ -273,6 +273,7 @@ export class CuSelect extends BrowserElement {
   show() {
     if (this._isDisabled() || !this._options.length || this._open) return;
     this._open = true;
+    registerOverlay(this);
     this.toggleAttribute("open",true);
     this._popup.hidden = false;
     this._control.setAttribute("aria-expanded","true");
@@ -285,6 +286,7 @@ export class CuSelect extends BrowserElement {
   hide() {
     if (!this._open) return;
     this._open = false;
+    unregisterOverlay(this);
     this.toggleAttribute("open",false);
     this._popup.hidden = true;
     this._control.setAttribute("aria-expanded","false");
@@ -449,10 +451,10 @@ export class CuSelect extends BrowserElement {
   }
   _onKeydown(event) {
     if (this._isDisabled()) return;
+    const key = event.key;
+    if (key === "Escape" && this._open) {event.preventDefault();event.stopPropagation();this.hide();return;}
     const enabled = this._enabledIndices();
     if (!enabled.length) return;
-    const key = event.key;
-    if (key === "Escape" && this._open) {event.preventDefault();this.hide();return;}
     if (key === "Tab") {this.hide();return;}
     if (key === "Enter" || key === " ") {
       event.preventDefault();
@@ -493,14 +495,8 @@ export class CuSelect extends BrowserElement {
   }
   _placePopup() {
     if (!this._open) return;
-    const rect = this._control.getBoundingClientRect();
-    const availableBelow = window.innerHeight-rect.bottom-12;
-    const availableAbove = rect.top-12;
-    const needed = Math.min(this._popup.scrollHeight+12,264);
-    const above = availableBelow < Math.min(needed,160) && availableAbove > availableBelow;
-    this._anchor.dataset.placement = above ? "top" : "bottom";
-    this._popup.style.maxHeight = Math.max(100,
-      Math.min(264,above ? availableAbove-8 : availableBelow-8))+"px";
+    const result=placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:264,gap:5});
+    if(result)this._anchor.dataset.placement=result.placement;
   }
 }
 
