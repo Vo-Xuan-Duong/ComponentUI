@@ -422,6 +422,19 @@
                 </div>
               </div>
             </div>
+            <div class="quality-semantic-states" id="quality-semantic-states">
+              <div class="preview-label">Semantic state palette</div>
+              <div class="quality-state-swatches">
+                <div class="quality-state" data-state="hover">Hover</div>
+                <div class="quality-state" data-state="selected">Selected</div>
+                <div class="quality-state" data-state="pressed">Pressed</div>
+                <div class="quality-state" data-state="active">Active option</div>
+              </div>
+              <div class="demo-row"><cu-button variant="accent">Accent</cu-button><cu-toggle-button pressed>Selected</cu-toggle-button><cu-icon-button name="settings" label="Settings" variant="outline"></cu-icon-button><cu-badge tone="warning">Warning</cu-badge><cu-badge tone="success">Success</cu-badge></div>
+              <div class="quality-scoped-state" style="--cu-state-hover:var(--cu-state-active);--cu-state-selected:var(--cu-state-active)">
+                <div class="preview-label">Scoped state override</div><cu-button>Hover this button</cu-button><cu-toggle-button pressed>Selected</cu-toggle-button>
+              </div>
+            </div>
             <div class="quality-lab-grid" id="form-quality-demo" style="margin-top:16px">
               <div class="quality-lab-cell">
                 <div class="preview-label">Native validation</div>

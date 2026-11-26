@@ -135,6 +135,28 @@
           ],
           "hex": "#454545"
         }
+      },
+      "controlLight": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.537255,
+            0.537255,
+            0.537255
+          ],
+          "hex": "#898989"
+        }
+      },
+      "controlDark": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.521569,
+            0.521569,
+            0.521569
+          ],
+          "hex": "#858585"
+        }
       }
     },
     "blue": {
@@ -192,6 +214,28 @@
           ],
           "hex": "#004578"
         }
+      },
+      "hoverDark": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.545098,
+            0.85098,
+            1
+          ],
+          "hex": "#8BD9FF"
+        }
+      },
+      "pressedDark": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.258824,
+            0.721569,
+            0.94902
+          ],
+          "hex": "#42B8F2"
+        }
       }
     },
     "green": {
@@ -241,6 +285,17 @@
           "hex": "#9A6700"
         }
       },
+      "70": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.521569,
+            0.34902,
+            0
+          ],
+          "hex": "#855900"
+        }
+      },
       "light": {
         "$value": {
           "colorSpace": "srgb",
@@ -274,6 +329,28 @@
             0.109804
           ],
           "hex": "#C42B1C"
+        }
+      },
+      "70": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.647059,
+            0.12549,
+            0.082353
+          ],
+          "hex": "#A52015"
+        }
+      },
+      "90": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.52549,
+            0.101961,
+            0.066667
+          ],
+          "hex": "#861A11"
         }
       },
       "light": {
@@ -589,7 +666,7 @@
         "$value": "{palette.green.light}"
       },
       "warning": {
-        "$value": "{palette.yellow.60}"
+        "$value": "{palette.yellow.70}"
       },
       "warningSurface": {
         "$value": "{palette.yellow.light}"
@@ -599,6 +676,24 @@
       },
       "dangerSurface": {
         "$value": "{palette.red.light}"
+      },
+      "accentPressed": {
+        "$value": "{palette.blue.90}"
+      },
+      "controlBorder": {
+        "$value": "{palette.neutral.controlLight}"
+      },
+      "dangerActionBg": {
+        "$value": "{palette.red.60}"
+      },
+      "dangerActionHover": {
+        "$value": "{palette.red.70}"
+      },
+      "dangerActionPressed": {
+        "$value": "{palette.red.90}"
+      },
+      "dangerActionText": {
+        "$value": "{palette.neutral.0}"
       }
     },
     "dark": {
@@ -631,7 +726,7 @@
         "$value": "{palette.blue.20}"
       },
       "accentHover": {
-        "$value": "{palette.blue.40}"
+        "$value": "{palette.blue.hoverDark}"
       },
       "accentText": {
         "$value": "{palette.neutral.90}"
@@ -656,6 +751,24 @@
       },
       "dangerSurface": {
         "$value": "{palette.neutral.100}"
+      },
+      "accentPressed": {
+        "$value": "{palette.blue.pressedDark}"
+      },
+      "controlBorder": {
+        "$value": "{palette.neutral.controlDark}"
+      },
+      "dangerActionBg": {
+        "$value": "{palette.red.60}"
+      },
+      "dangerActionHover": {
+        "$value": "{palette.red.70}"
+      },
+      "dangerActionPressed": {
+        "$value": "{palette.red.90}"
+      },
+      "dangerActionText": {
+        "$value": "{palette.neutral.0}"
       }
     }
   }

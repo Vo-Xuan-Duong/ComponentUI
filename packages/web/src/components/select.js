@@ -20,7 +20,7 @@ const css = [
   ".anchor{position:relative;min-width:0;}",
   ".control{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;",
   "gap:12px;width:100%;min-height:var(--cu-control-height,40px);padding:0 12px;",
-  "border:1px solid var(--cu-border-strong,#d1d1d1);border-bottom-width:2px;",
+  "border:1px solid var(--cu-control-border,var(--cu-border-strong,#898989));border-bottom-width:2px;",
   "border-radius:var(--cu-radius-md,6px);",
   "background:var(--cu-surface,#fff);color:var(--cu-text,#242424);",
   "font:400 14px var(--cu-font-body,system-ui);cursor:pointer;outline:none;",
@@ -65,7 +65,7 @@ const css = [
   // Strong accent tint differentiates active pointer and keyboard rows in Light/Dark.
   ".option:hover:not([aria-disabled=true]),",
   ".option[data-active=true]:not([aria-disabled=true]){",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 20%,var(--cu-surface-elevated,#fff));",
+  "background:var(--cu-state-active,color-mix(in srgb,var(--cu-accent,#0067c0) 20%,var(--cu-surface-elevated,#fff)));",
   "}",
   ".option[data-selected=true]:not([aria-disabled=true]){font-weight:600;}",
   // Selection is persistent and quieter than active/hovered row highlighting.

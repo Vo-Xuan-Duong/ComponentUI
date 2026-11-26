@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import {checkQuality,QUALITY_CHECKS} from "../scripts/check-quality.mjs";
+import {withStateFallbacks,mount} from "../packages/web/src/components/_shared.js";
 const read=p=>readFile(new URL(p,import.meta.url),"utf8");
 
 function luminance(hex){
@@ -94,4 +95,51 @@ test("Playground uses horizontal top navigation and real component state matrix"
   assert.match(css,/@media\(max-width: 700px\)/);
   assert.match(js,/getElementById\("quality-select"\)\.addEventListener\("cu-change"/);
   assert.match(js,/getElementById\("quality-field"\)\.addEventListener\("cu-input"/);
+});
+
+test("Action states and feedback colors meet AA token contrast in both modes",async()=>{
+  const css=await read("../packages/theme/src/tokens.css");
+  for(const mode of ["light","dark"]){
+    const section=css.match(new RegExp(':root\\[data-cu-theme="'+mode+'"\\]\\s*\\{([^}]+)\\}'))[1];
+    for(const pair of [["accent-text","accent"],["accent-text","accent-hover"],["accent-text","accent-pressed"],
+      ["danger-action-text","danger-action-bg"],["danger-action-text","danger-action-hover"],["danger-action-text","danger-action-pressed"],
+      ["success","success-surface"],["warning","warning-surface"],["danger","danger-surface"]]){
+      assert.ok(ratio(token(section,pair[0]),token(section,pair[1]))>=4.5,mode+" "+pair.join(" / "));
+    }
+    for(const surface of ["surface","surface-alt","surface-elevated"]){
+      assert.ok(ratio(token(section,"control-border"),token(section,surface))>=3,mode+" control boundary "+surface);
+    }
+  }
+});
+
+test("Purple and green accent action states preserve text contrast",async()=>{
+  const css=await read("../packages/theme/src/components.css");
+  for(const accent of ["purple","green"])for(const mode of ["light","dark"]){
+    const selector=mode==="dark"?':root[data-cu-theme="dark"][data-cu-accent="'+accent+'"]':':root[data-cu-accent="'+accent+'"]';
+    const section=css.slice(css.indexOf(selector)+selector.length).split("}")[0];
+    for(const state of ["accent","accent-hover","accent-pressed"])
+      assert.ok(ratio(mode==="dark"?"#202020":"#FFFFFF",token(section,state))>=4.5,mode+" "+accent+" "+state);
+  }
+});
+
+test("Shadow state fallbacks preserve public scoped variables and explicit fallbacks",()=>{
+  const input=".option:hover{background:var(--cu-state-active);color:var(--cu-text)}";
+  const output=withStateFallbacks(input);
+  assert.ok(output.includes("var(--cu-state-active,color-mix("));
+  assert.ok(output.includes("color:var(--cu-text)"));
+  assert.equal(withStateFallbacks("var(--cu-state-hover,red)"),"var(--cu-state-hover,red)");
+  const root={innerHTML:""};
+  mount({attachShadow:()=>root},input,"<slot></slot>");
+  assert.ok(root.innerHTML.includes(output));
+  assert.doesNotMatch(root.innerHTML,/:host\{--cu-state-/);
+});
+
+test("Native and HTML state previews share active option and scoped overrides",async()=>{
+  const html=await read("../apps/playground-web/index.html");
+  assert.ok(html.includes('id="quality-semantic-states"'));
+  assert.ok(html.includes("--cu-state-hover:var(--cu-state-active)"));
+  for(const name of ["select","autocomplete","multi-select","command-palette"]){
+    const source=await read("../packages/web/src/components/"+name+".js");
+    assert.ok(source.includes("--cu-state-active"),name);
+  }
 });

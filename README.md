@@ -245,3 +245,5 @@ No package has been published. Licensing and third-party attribution policy must
 **Current milestone — Full catalog preview coverage:** 132 catalog entries, 132 preview, zero planned, zero production-ready; 143 React wrappers. See [Advanced patterns](docs/ADVANCED_PATTERNS.md) and [Release acceptance](docs/RELEASE_ACCEPTANCE.md).
 
 **Stabilization pass 1:** interaction and state fixes plus expanded package verification. The catalog stays at 132 preview entries. See [release acceptance](docs/RELEASE_ACCEPTANCE.md#stabilization-pass-1).
+
+**Stabilization pass 2:** unified Fluent Calm semantic interaction states, improved token contrast and visual QA examples. See [release acceptance](docs/RELEASE_ACCEPTANCE.md#stabilization-pass-2--fluent-calm-visual-foundation).

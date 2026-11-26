@@ -42,3 +42,31 @@ Local focused test: `node --test tests/stabilization-pass-one.test.mjs`.
 Then run the complete checks above. Verify menu selection that opens a
 dialog, OTP paste followed by blur, nested tab content updates, disabled
 wizard steps, and Toast max-visible changes in the real browser.
+
+## Stabilization pass 2 — Fluent Calm visual foundation
+
+Semantic state tokens are generated in tokens.css. Hover (9%), selected
+(13%), pressed (16%) and active option (20%) use the accent tint; active
+option uses the elevated surface. Shadow styles use fallback values at
+the point of use rather than overriding public variables on the host.
+Application overrides of --cu-state-hover, --cu-state-selected,
+--cu-state-pressed and --cu-state-active are inherited. When overriding
+accent locally, also override the desired state tokens in that scope:
+root-derived CSS variables otherwise retain the computed root palette.
+
+Accent normal/hover/pressed and destructive action colors have explicit
+theme tokens. Light warning foreground is darker; dark accent hover is
+lighter. --cu-control-border strengthens control boundaries while
+--cu-border continues to represent decorative dividers. Existing
+compact/comfortable/touch density settings are retained; autocomplete
+and multiselect input heights now respect the control height.
+
+Token-level contrast calculations cover normal text, action states,
+feedback foreground/surface pairs and control boundaries; these do not
+establish visual or WCAG conformance for rendered components. Open the
+Quality Lab and compare the semantic state swatches, the scoped state
+override, focus rings, disabled states, and keyboard-active vs selected
+options. Check blue/purple/green accents, light/dark, all densities,
+reduced motion and forced colors. Run `node --test tests/visual-quality.test.mjs`,
+`npm run tokens:check`, and the full local checks. No catalog entries
+have been promoted to ready.

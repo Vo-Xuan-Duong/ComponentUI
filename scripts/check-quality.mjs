@@ -49,7 +49,7 @@ export const QUALITY_CHECKS = Object.freeze([
   {
     path:"packages/theme/src/tokens.css",
     markers:["--cu-control-sm","--cu-control-md","--cu-control-lg",
-      "--cu-control-xl","--cu-accent","--cu-focus",
+      "--cu-control-xl","--cu-accent","--cu-focus","--cu-accent-pressed","--cu-control-border","--cu-state-active","--cu-danger-action-hover",
       'data-cu-theme="dark"','data-cu-theme="light"',
       "prefers-reduced-motion: reduce"]
   },
@@ -58,7 +58,7 @@ export const QUALITY_CHECKS = Object.freeze([
     markers:['<header class="sidebar"','id="quality-lab"','id="quality-result"',
       'href="#quality-lab"','id="quality-primary"','id="quality-loading"',
       'id="quality-disabled"','id="quality-invalid"','id="quality-select"',
-      'id="quality-field"']
+      'id="quality-field"','id="quality-semantic-states"']
   },
   {
     path:"apps/playground-web/styles.css",

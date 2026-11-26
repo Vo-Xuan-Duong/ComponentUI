@@ -8,18 +8,19 @@ const css=[
   "height:var(--cu-control-height,40px);border:1px solid transparent;border-radius:var(--cu-radius-md,6px);",
   "background:transparent;color:inherit;cursor:pointer;",
   "transition:background var(--cu-motion-fast,100ms),border-color var(--cu-motion-fast,100ms);}",
-  "button:hover:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 10%,var(--cu-surface,#fff));}",
-  "button:active:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 17%,var(--cu-surface,#fff));}",
+  "button:hover:not(:disabled){background:var(--cu-state-hover);}",
+  "button:active:not(:disabled){background:var(--cu-state-pressed);}",
   "button:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "button:disabled{opacity:.45;cursor:not-allowed;}",
-  ":host([variant=outline]) button{border-color:var(--cu-border-strong,#d1d1d1);}",
+  ":host([variant=outline]) button{border-color:var(--cu-control-border,var(--cu-border-strong,#898989));}",
   ":host([variant=filled]) button{background:var(--cu-surface-alt,#fafafa);border-color:var(--cu-border,#e5e5e5);}",
   ":host([variant=accent]) button{background:var(--cu-accent,#0067c0);color:var(--cu-accent-text,#fff);}",
   ":host([variant=accent]) button:hover:not(:disabled){background:var(--cu-accent-hover,#005a9e);}",
-  ":host([variant=filled]) button:hover:not(:disabled),:host([variant=outline]) button:hover:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 10%,var(--cu-surface,#fff));}",
-  ":host([variant=filled]) button:active:not(:disabled),:host([variant=outline]) button:active:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 17%,var(--cu-surface,#fff));}",
+  ":host([variant=accent]) button:active:not(:disabled){background:var(--cu-accent-pressed,#004578);}",
+  ":host([variant=filled]) button:hover:not(:disabled),:host([variant=outline]) button:hover:not(:disabled){background:var(--cu-state-hover);}",
+  ":host([variant=filled]) button:active:not(:disabled),:host([variant=outline]) button:active:not(:disabled){background:var(--cu-state-pressed);}",
   ":host([pressed]) button{color:var(--cu-accent,#0067c0);border-color:var(--cu-accent,#0067c0);",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 13%,var(--cu-surface,#fff));}",
+  "background:var(--cu-state-selected);}",
   ":host([size=sm]) button{width:var(--cu-control-sm,28px);height:var(--cu-control-sm,28px);}",
   ":host([size=lg]) button{width:var(--cu-control-lg,40px);height:var(--cu-control-lg,40px);}",
   ":host([size=xl]) button{width:var(--cu-control-xl,48px);height:var(--cu-control-xl,48px);}",
@@ -29,7 +30,7 @@ const css=[
   "@keyframes cu-icon-spin{to{transform:rotate(360deg);}}",
   "@media(prefers-reduced-motion:reduce){button{transition:none;}.spinner{animation:none;}}",
   "@media(forced-colors:active){button:focus-visible{outline-color:Highlight;}",
-  ":host([pressed]) button{border-color:Highlight;color:Highlight;}}"
+  ":host([pressed]) button{border-color:Highlight;color:Highlight;outline:1px solid Highlight;outline-offset:-3px;}}"
 ].join("");
 
 export class CuIconButton extends BrowserElement {
