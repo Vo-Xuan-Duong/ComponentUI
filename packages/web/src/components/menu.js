@@ -52,7 +52,7 @@ export class CuMenu extends BrowserElement {
       if (event.key === "Escape" && isTopOverlay(this)) {
         event.preventDefault();event.stopPropagation();
         this.hide(true);
-      } else if (event.key === "Tab") this.hide();
+      } else if (event.key === "Tab") this.hide(true);
       else {
         const items = this._enabledItems();
         const index = items.indexOf(event.target);
@@ -120,6 +120,9 @@ export class CuMenu extends BrowserElement {
   }
   _render() {
     if (!this._menu) return;
+    const previous=this.shadowRoot?.activeElement;
+    const wasFocused=this._menu.contains(previous);
+    const previousValue=wasFocused?previous.dataset.value:null;
     this._menu.replaceChildren();
     for (const item of this.children) {
       if (item.localName !== "cu-menu-item") continue;
@@ -133,11 +136,13 @@ export class CuMenu extends BrowserElement {
       this._menu.append(button);
     }
     this._sync();
+    if(wasFocused&&this.open){const items=this._enabledItems();
+      (items.find(item=>item.dataset.value===previousValue)??items[0])?.focus();}
   }
   _sync() {
     if (!this._menu) return;
     this._menu.hidden = !this.open;
-    if(this.open){if(!this._registered){registerOverlay(this);this._registered=true;}this._placeMenu();}
+    if(this.open&&this.isConnected){if(!this._registered){registerOverlay(this);this._registered=true;}this._placeMenu();}
     else{unregisterOverlay(this);this._registered=false;}
     this._menu.setAttribute("aria-label",this.getAttribute("aria-label") || "Actions");
     this._syncTrigger();
