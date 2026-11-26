@@ -1,5 +1,6 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
+import { deepActiveElement, restoreOverlayFocus } from "./_overlay.js";
 
 const css=[
   ":host{display:contents;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}",
@@ -26,7 +27,9 @@ const css=[
   "footer{padding:14px 20px;border-top:1px solid var(--cu-border,#e5e5e5);}",
   "footer[hidden]{display:none!important;}",
   "@media(max-width:420px){dialog{width:100vw;}}",
-  "@media(prefers-reduced-motion:reduce){dialog{scroll-behavior:auto;}}",
+  "dialog[open]{animation:cu-drawer-enter var(--cu-motion-normal,160ms) ease both;}",
+  "@keyframes cu-drawer-enter{from{opacity:.55}to{opacity:1}}",
+  "@media(prefers-reduced-motion:reduce){dialog{scroll-behavior:auto;animation:none;}}",
   "@media(forced-colors:active){dialog{border:1px solid CanvasText;}",
   ".close:focus-visible{outline-color:Highlight;}}"
 ].join("");
@@ -50,9 +53,11 @@ export class CuDrawer extends BrowserElement {
     this._actions.addEventListener("slotchange",()=>this._syncFooter());
     this._trigger=null;
     this._dialog.addEventListener("close",()=>{
+      if(this._dialog.open)return;
       if(this.hasAttribute("open"))this.removeAttribute("open");
+      const trigger=this._trigger;this._trigger=null;
+      restoreOverlayFocus(trigger);
       notify(this,"cu-close",{returnValue:this._dialog.returnValue});
-      this._trigger?.focus?.();this._trigger=null;
     });
     this._dialog.addEventListener("cancel",event=>{
       if(this.hasAttribute("dismissible")===false)event.preventDefault();
@@ -86,7 +91,7 @@ export class CuDrawer extends BrowserElement {
     this._close.hidden=!this.dismissible;
     if(!this.isConnected)return;
     if(this.open&&!this._dialog.open){
-      this._trigger=globalThis.document?.activeElement??null;
+      this._trigger=deepActiveElement(this.ownerDocument);
       this._dialog.returnValue="";
       this._dialog.showModal();
       notify(this,"cu-open",{});
