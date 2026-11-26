@@ -7,6 +7,8 @@ export interface CuEventDetails {
   folderId?: string;
   entry?: {id:string;name:string;kind:"file"|"folder";parentId?:string|null;size?:number;modified?:string};
   previousCellValue?: unknown;
+  maximized?: boolean;
+  pointerEvent?: PointerEvent;
   cellValue?: unknown;
   propertyValue?: string | number | boolean;
   previousPropertyValue?: string | number | boolean;
@@ -158,6 +160,13 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   fullwidth?: boolean;
   reverse?: boolean;
   loop?: boolean;
+  maximized?: boolean;
+  draggableRegion?: boolean;
+  minimizable?: boolean;
+  maximizable?: boolean;
+  closable?: boolean;
+  "no-controls"?: boolean;
+  "native-drag"?: boolean;
   searchable?: boolean;
   "hide-indicators"?: boolean;
   scrollbar?: "auto" | "thin" | "hidden";
@@ -220,6 +229,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuRetry?: (event: CuEvent) => void;
   onCuScroll?: (event: CuEvent) => void;
   onCuCellChange?: (event: CuEvent) => void;
+  onCuWindowAction?: (event: CuEvent) => void;
+  onCuWindowDrag?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
@@ -240,7 +251,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

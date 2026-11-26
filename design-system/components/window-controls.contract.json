@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "WindowControls",
+  "tag": "cu-window-controls",
+  "status": "preview",
+  "kind": "desktop",
+  "attributes": {
+    "maximized": "boolean",
+    "disabled": "boolean",
+    "no-minimize": "boolean",
+    "no-maximize": "boolean",
+    "no-close": "boolean"
+  },
+  "events": [
+    "cu-window-action"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

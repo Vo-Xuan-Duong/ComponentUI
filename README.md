@@ -230,4 +230,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **Carousel and PropertyGrid milestone:** 131 catalog entries, 77 preview, 54 planned, zero production-ready; 90 React wrappers. See [Carousel and PropertyGrid](docs/CAROUSEL_PROPERTY.md).
 
-**Current milestone — FileExplorer and DataGrid:** 131 catalog entries, 79 preview, 52 planned, zero production-ready; 92 React wrappers. See [FileExplorer and DataGrid](docs/FILE_GRID.md).
+**FileExplorer and DataGrid milestone:** 131 catalog entries, 79 preview, 52 planned, zero production-ready; 92 React wrappers. See [FileExplorer and DataGrid](docs/FILE_GRID.md).
+
+**Current milestone — Desktop window chrome:** 131 catalog entries, 82 preview, 49 planned, zero production-ready; 95 React wrappers. See [Desktop window chrome](docs/DESKTOP_CHROME.md).

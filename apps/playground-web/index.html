@@ -627,6 +627,21 @@
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
             <article class="cu-surface demo-card full-span">
+              <h3>Desktop window chrome</h3><p class="demo-subtitle">TitleBar, WindowControls and StatusBar. Window actions are simulated in the browser.</p>
+              <div id="wc-desktop-shell" style="border:1px solid var(--cu-border);border-radius:8px;overflow:hidden">
+                <cu-title-bar id="wc-title-bar" title="ComponentUI Studio" subtitle="Workspace" icon="panel-left" draggable-region>
+                  <cu-button slot="actions" size="sm" variant="subtle" id="wc-desktop-settings">Settings</cu-button>
+                </cu-title-bar>
+                <div id="wc-desktop-content" style="padding:20px;min-height:140px">
+                  <strong>Desktop workspace</strong><p>Native hosts can listen for window actions and report their actual maximized state.</p>
+                  <p id="wc-desktop-result" class="cu-helper" role="status">Ready</p>
+                </div>
+                <cu-status-bar id="wc-status-bar" label="Workspace status"></cu-status-bar>
+              </div>
+              <div class="demo-row"><cu-button id="wc-desktop-restore" size="sm">Reset simulated window</cu-button><cu-button id="wc-desktop-status" size="sm">Update status</cu-button></div>
+              <div class="demo-row"><span class="cu-helper">Standalone controls</span><cu-window-controls id="wc-window-controls" no-minimize></cu-window-controls></div>
+            </article>
+            <article class="cu-surface demo-card full-span">
               <h3>FileExplorer</h3><p class="demo-subtitle">Browse folder contents, search names and use the right-click menu.</p>
               <cu-file-explorer id="wc-file-explorer" label="Project files"></cu-file-explorer>
               <p id="wc-file-explorer-result" class="cu-helper" role="status">Open a folder or file.</p>

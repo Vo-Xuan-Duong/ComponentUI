@@ -116,6 +116,44 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcTitleBar=document.getElementById("wc-title-bar");
+const wcWindowControls=document.getElementById("wc-window-controls");
+const wcStatusBar=document.getElementById("wc-status-bar");
+const wcDesktopContent=document.getElementById("wc-desktop-content");
+const wcDesktopResult=document.getElementById("wc-desktop-result");
+function applyDesktopAction(event){
+  const action=event.detail.action;
+  if(action==="maximize"||action==="restore"){
+    const maximized=action==="maximize";
+    wcTitleBar.maximized=maximized;wcWindowControls.maximized=maximized;
+    wcDesktopContent.style.minHeight=maximized?"240px":"140px";
+    wcDesktopContent.hidden=false;
+  }else if(action==="minimize"||action==="close"){
+    wcDesktopContent.hidden=true;
+  }
+  wcDesktopResult.textContent="Simulated window action: "+action;
+  showToast("Window action",action+" (browser simulation)");
+}
+wcTitleBar.addEventListener("cu-window-action",applyDesktopAction);
+wcWindowControls.addEventListener("cu-window-action",applyDesktopAction);
+wcTitleBar.addEventListener("cu-window-drag",()=>{wcDesktopResult.textContent="Drag request (native host required).";});
+document.getElementById("wc-desktop-restore").addEventListener("cu-press",()=>{
+  wcTitleBar.maximized=false;wcWindowControls.maximized=false;wcDesktopContent.hidden=false;wcDesktopContent.style.minHeight="140px";wcDesktopResult.textContent="Ready";
+});
+document.getElementById("wc-desktop-settings").addEventListener("cu-press",()=>showToast("Settings","Desktop action (demo only)"));
+const desktopStatusItems=[
+  {id:"connection",label:"Connected",icon:"circle-check",tone:"success"},
+  {id:"branch",label:"Branch",value:"main",icon:"folder"},
+  {id:"encoding",label:"UTF-8",align:"end"},
+  {id:"language",label:"JavaScript",align:"end",action:"language"}
+];
+wcStatusBar.items=desktopStatusItems;
+wcStatusBar.addEventListener("cu-action",event=>showToast("Status action",event.detail.action));
+document.getElementById("wc-desktop-status").addEventListener("cu-press",()=>{
+  const connected=wcStatusBar.items.find(x=>x.id==="connection")?.tone==="success";
+  wcStatusBar.items=desktopStatusItems.map(x=>x.id==="connection"?{...x,label:connected?"Offline":"Connected",tone:connected?"warning":"success",icon:connected?"info":"circle-check"}:x);
+  wcStatusBar.setAttribute("announcement",connected?"Workspace offline":"Workspace connected");
+});
 const wcFileExplorer=document.getElementById("wc-file-explorer");
 wcFileExplorer.items=[
   {id:"src",kind:"folder",name:"src"},

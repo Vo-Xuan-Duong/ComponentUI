@@ -593,6 +593,24 @@ export declare class CuPropertyGrid extends HTMLElement {
   disabled:boolean;
   setValue(key:string,value:CuPropertyValue):boolean;
 }
+export type CuWindowAction="minimize"|"maximize"|"restore"|"close";
+export interface CuWindowControlOptions {maximized?:boolean;minimizable?:boolean;maximizable?:boolean;closable?:boolean;}
+export declare function windowControlActions(options?:CuWindowControlOptions):{action:CuWindowAction;label:string;disabled:boolean}[];
+export declare function isTitleBarDragTarget(path:unknown[],region:unknown):boolean;
+export declare class CuTitleBar extends HTMLElement {
+  maximized:boolean;
+  draggableRegion:boolean;
+}
+export declare class CuWindowControls extends HTMLElement {
+  maximized:boolean;
+  disabled:boolean;
+  minimizable:boolean;
+  maximizable:boolean;
+  closable:boolean;
+}
+export interface CuStatusItem {id:string;label:string;value?:string;icon?:string;tone?:"neutral"|"success"|"warning"|"danger"|"info";align?:"start"|"end";action?:string;disabled?:boolean;}
+export declare function normalizeStatusItems(items:unknown):Required<CuStatusItem>[];
+export declare class CuStatusBar extends HTMLElement {items:CuStatusItem[];}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -830,6 +848,9 @@ declare global {
     "cu-breadcrumb-item": CuBreadcrumbItem;
     "cu-data-table": CuDataTable;
     "cu-data-grid": CuDataGrid;
+    "cu-title-bar": CuTitleBar;
+    "cu-window-controls": CuWindowControls;
+    "cu-status-bar": CuStatusBar;
     "cu-file-explorer": CuFileExplorer;
     "cu-tree-view": CuTreeView;
     "cu-tree-item": CuTreeItem;

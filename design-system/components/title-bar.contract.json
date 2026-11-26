@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "TitleBar",
+  "tag": "cu-title-bar",
+  "status": "preview",
+  "kind": "desktop",
+  "attributes": {
+    "title": "string",
+    "subtitle": "string",
+    "icon": "string",
+    "maximized": "boolean",
+    "draggable-region": "boolean",
+    "native-drag": "boolean",
+    "no-controls": "boolean",
+    "no-minimize": "boolean",
+    "no-maximize": "boolean",
+    "no-close": "boolean",
+    "inactive": "boolean"
+  },
+  "events": [
+    "cu-window-action",
+    "cu-window-drag"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

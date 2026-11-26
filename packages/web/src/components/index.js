@@ -71,6 +71,9 @@ export { CuCarousel, normalizeCarouselItems, carouselIndex } from "./carousel.js
 export { CuPropertyGrid, normalizePropertyItems, coercePropertyValue, filterPropertyItems } from "./property-grid.js";
 export { CuFileExplorer, normalizeFileEntries, fileExplorerPath, listFileEntries } from "./file-explorer.js";
 export { CuDataGrid, coerceGridValue } from "./data-grid.js";
+export { CuTitleBar, isTitleBarDragTarget } from "./title-bar.js";
+export { CuWindowControls, windowControlActions } from "./window-controls.js";
+export { CuStatusBar, normalizeStatusItems } from "./status-bar.js";
 export { CuProgressBar } from "./progress-bar.js";
 export { CuProgressRing, normalizeRingProgress } from "./progress-ring.js";
 export { CuChip } from "./chip.js";

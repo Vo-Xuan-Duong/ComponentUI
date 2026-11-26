@@ -109,7 +109,7 @@ test("package exports and React wrappers expose all three elements",async()=>{
   assert.equal(REACT_TAGS.Chip,"cu-chip");
   assert.equal(REACT_TAGS.Tag,"cu-tag");
   assert.equal(REACT_TAGS.ProgressRing,"cu-progress-ring");
-  assert.equal(Object.keys(REACT_TAGS).length,92);
+  assert.equal(Object.keys(REACT_TAGS).length,95);
   assert.equal(REACT_EVENT_PROPS.onCuRemove,"cu-remove");
   const chip={value:"",selected:false,removable:false,selectable:false,disabled:false};
   assignCuProperties(chip,"cu-chip",
@@ -144,7 +144,7 @@ test("Playground has interactive previews and catalog has 43 experimental compon
   for(const name of ["Chip","Tag","ProgressRing"])
     assert.equal(entries.find(item=>item.name===name)?.status,"preview");
   assert.equal(entries.length,131);
-  assert.equal(entries.filter(item=>item.status==="preview").length,79);
-  assert.equal(entries.filter(item=>item.status==="planned").length,52);
+  assert.equal(entries.filter(item=>item.status==="preview").length,82);
+  assert.equal(entries.filter(item=>item.status==="planned").length,49);
   assert.equal(entries.filter(item=>item.status==="ready").length,0);
 });

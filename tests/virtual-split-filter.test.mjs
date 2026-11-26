@@ -16,7 +16,7 @@ test("SplitView and VirtualList are import-safe native Custom Elements",()=>{
   assert.ok(CuVirtualList.observedAttributes.includes("item-height"));
   assert.equal(REACT_TAGS.SplitView,"cu-split-view");
   assert.equal(REACT_TAGS.VirtualList,"cu-virtual-list");
-  assert.equal(Object.keys(REACT_TAGS).length,92);
+  assert.equal(Object.keys(REACT_TAGS).length,95);
 });
 
 test("VirtualList range bounds large datasets to a small DOM window",()=>{
@@ -336,6 +336,6 @@ test("Playground, manifests, types and catalog include the two preview component
   for(const name of ["SplitView","VirtualList"])
     assert.equal(catalog.find(item=>item.name===name)?.status,"preview");
   assert.equal(catalog.length,131);
-  assert.equal(catalog.filter(item=>item.status==="preview").length,79);
-  assert.equal(catalog.filter(item=>item.status==="planned").length,52);
+  assert.equal(catalog.filter(item=>item.status==="preview").length,82);
+  assert.equal(catalog.filter(item=>item.status==="planned").length,49);
 });

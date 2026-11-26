@@ -356,6 +356,18 @@
     "./components/data-grid": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/data-grid.js"
+    },
+    "./components/title-bar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/title-bar.js"
+    },
+    "./components/window-controls": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/window-controls.js"
+    },
+    "./components/status-bar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/status-bar.js"
     }
   },
   "files": [

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "StatusBar",
+  "tag": "cu-status-bar",
+  "status": "preview",
+  "kind": "desktop",
+  "attributes": {
+    "label": "string",
+    "announcement": "string",
+    "size": "sm | md"
+  },
+  "events": [
+    "cu-action"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
