@@ -27,6 +27,7 @@ const css = [
   "button[role=menuitem]:hover:not(:disabled),button[role=menuitem]:focus-visible{",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 12%,var(--cu-surface,#fff));}",
   "button[role=menuitem]:disabled{opacity:.5;cursor:not-allowed;}",
+  "@media(forced-colors:active){.menu{border-color:CanvasText;}}",
   focusStyle
 ].join("");
 
