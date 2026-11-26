@@ -204,7 +204,7 @@ test("Native Dialog and Drawer preserve focus and native modal semantics",async(
     assert.match(source,/deepActiveElement/);
     assert.match(source,/restoreOverlayFocus/);
     assert.match(source,/returnValue/);
-    assert.match(source,/prefers-reduced-motion:reduce/);
+    assert.match(source,/prefers-reduced-motion\s*:\s*reduce/);
     assert.match(source,/forced-colors:active/);
   }
   assert.match(drawer,/event\.preventDefault\(\)/);
