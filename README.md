@@ -102,6 +102,17 @@ native Web Components** are implemented, alongside the auxiliary
 InfiniteScroll control. The React factory exposes **68 wrappers**.
 See [Large Data Components](docs/LARGE_DATA_COMPONENTS.md).
 
+**Visual quality milestone:** ComponentUI is now targeting the
+interaction and documentation standards of mature libraries like HeroUI,
+while retaining its own Fluent Calm styling and framework-neutral
+architecture. Shared controls have consistent hover/press/focus states,
+Select distinguishes hover from selection, and the Playground now uses
+a full-width top navigation with a live **Visual Quality Lab**.
+`npm run quality:check` and `tests/visual-quality.test.mjs` add
+source-state and baseline contrast regressions. This is an initial
+polish pass, **not a claim of visual, browser or production parity**.
+See the [Quality Bar and acceptance matrix](docs/QUALITY_BAR.md).
+
 ## Preview locally
 
 Requires Node.js 20+ (no third-party runtime dependencies in this milestone).
@@ -160,7 +171,7 @@ pnpm-workspace.yaml                   # Future monorepo package boundaries
 | `npm run packages:verify` | Verify public exports, imports and Node ESM evaluation |
 | `npm run pack:local` | Build, verify and create local tarballs in `artifacts/` |
 
-The pnpm workspace now also contains `packages/web` with reusable progressive-enhancement controllers. Future production Web Components, React/Vue adapters and native renderers remain planned. They are **not implemented yet**. Web Components work across DOM-based frameworks; Flutter, React Native and SwiftUI require separate platform renderers.
+The npm workspace contains experimental native Web Components and React/Vue/Svelte adapters. They have not completed cross-browser, accessibility or installed-package certification. Web Components work across DOM-based frameworks; Flutter, React Native and SwiftUI require separate platform renderers.
 
 ## Documentation
 
@@ -179,6 +190,7 @@ The pnpm workspace now also contains `packages/web` with reusable progressive-en
 - [Splitter, ResizablePanel, FilterBar and DataFilter](docs/LAYOUT_FILTERS.md)
 - [SplitView, VirtualList and connected DataTable filters](docs/VIRTUALIZED_WORKSPACE.md)
 - [TreeList, InfiniteScroll and DataTable performance](docs/LARGE_DATA_COMPONENTS.md)
+- [Interaction Quality Bar and visual acceptance](docs/QUALITY_BAR.md)
 - [Data, tree, list and menu component APIs](docs/DATA_COMPONENTS.md)
 - [Form controls and Fluent Calm UI refinement](docs/FORM_CONTROLS.md)
 - [Advanced controls and responsive AppShell](docs/ADVANCED_UI.md)
