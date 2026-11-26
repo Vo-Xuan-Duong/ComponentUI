@@ -70,6 +70,7 @@ export function placeAnchoredOverlay(anchor,panel,options={}){
     bottom:result.placement==="top"?"calc(100% + "+result.gap+"px)":"auto",
     minWidth:"0",width:result.width+"px",maxHeight:result.maxHeight+"px"
   });
+  if(options.allowOverflow)panel.style.overflow=size.height<=result.maxHeight?"visible":"auto";
   panel.dataset.placement=result.placement;
   return result;
 }
