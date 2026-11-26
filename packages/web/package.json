@@ -316,6 +316,14 @@
     "./components/empty-state": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/empty-state.js"
+    },
+    "./components/statistic": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/statistic.js"
+    },
+    "./components/loading-overlay": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/loading-overlay.js"
     }
   },
   "files": [

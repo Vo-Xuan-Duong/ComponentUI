@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **61 planned**, **69 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **59 planned**, **71 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -153,3 +153,7 @@ Both move from planned to preview. Current inventory: 130 entries, 69 preview, 6
 ## CommandPalette and EmptyState
 
 These existing preview catalog entries now have native Web Component implementations. Catalog totals remain 130 entries: 69 preview, 61 planned, 0 ready. There are 69 catalogued experimental Web Components and 82 React wrappers. See [CommandPalette and EmptyState](COMMAND_EMPTY.md).
+
+## Statistic and LoadingOverlay
+
+Both move from planned to preview. Current inventory: 130 entries, 71 preview, 59 planned, 0 ready. See [Statistic and LoadingOverlay](STATISTIC_LOADING.md).

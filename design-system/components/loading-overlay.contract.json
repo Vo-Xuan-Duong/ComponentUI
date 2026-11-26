@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "LoadingOverlay",
+  "tag": "cu-loading-overlay",
+  "status": "preview",
+  "kind": "feedback",
+  "attributes": {
+    "loading": "boolean",
+    "fullscreen": "boolean",
+    "label": "string",
+    "description": "string"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

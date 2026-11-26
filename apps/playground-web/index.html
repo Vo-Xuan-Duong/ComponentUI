@@ -626,6 +626,25 @@
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Statistic</h3><p class="demo-subtitle">Dashboard metrics with locale-aware formatting, comparison and optional sparklines.</p>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px">
+                <cu-statistic id="wc-stat-revenue" label="Revenue" value="48250" previous="43200" format="currency" currency="USD" locale="en-US" precision="0" description="vs. previous period" icon="arrow-up-right"></cu-statistic>
+                <cu-statistic id="wc-stat-users" label="Active users" value="12840" previous="12000" locale="en-US" description="vs. previous period" icon="info"></cu-statistic>
+                <cu-statistic id="wc-stat-latency" label="Latency" value="126" previous="150" suffix=" ms" trend-tone="inverse" description="Lower is better"></cu-statistic>
+              </div>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>LoadingOverlay</h3><p class="demo-subtitle">Block only a busy region, or display a modal while the application is busy.</p>
+              <div class="demo-row"><cu-button id="wc-loading-toggle">Toggle regional loading</cu-button><cu-button id="wc-loading-full">Simulate full-screen loading</cu-button></div>
+              <cu-loading-overlay id="wc-loading-region" label="Refreshing workspace" description="Please wait for the local example.">
+                <div style="display:grid;gap:10px;padding:16px;border:1px solid var(--cu-border);border-radius:8px">
+                  <strong>Workspace</strong><p>Only this content becomes inert while the region is loading.</p>
+                  <cu-button id="wc-loading-content">Workspace action</cu-button>
+                </div>
+              </cu-loading-overlay>
+              <cu-loading-overlay id="wc-loading-global" fullscreen label="Synchronizing" description="This simulated request finishes automatically."></cu-loading-overlay>
+            </article>
             <article class="cu-surface demo-card">
               <h3>ColorPicker &amp; TagInput</h3>
               <p class="demo-subtitle">Color formats, opacity, presets and editable tags with native form integration.</p>

@@ -116,6 +116,17 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+document.getElementById("wc-stat-revenue").series=[31000,36500,34100,40900,43200,48250];
+document.getElementById("wc-stat-users").series=[10200,11100,10800,11600,12000,12840];
+document.getElementById("wc-stat-latency").series=[181,160,174,150,144,126];
+const wcLoadingRegion=document.getElementById("wc-loading-region");
+const wcLoadingGlobal=document.getElementById("wc-loading-global");
+document.getElementById("wc-loading-toggle").addEventListener("cu-press",()=>{wcLoadingRegion.loading=!wcLoadingRegion.loading;});
+document.getElementById("wc-loading-full").addEventListener("cu-press",()=>{
+  wcLoadingGlobal.show();
+  setTimeout(()=>wcLoadingGlobal.hide(),1500);
+});
+document.getElementById("wc-loading-content").addEventListener("cu-press",()=>showToast("Workspace action","The region is interactive."));
 const wcColorTagsForm=document.getElementById("wc-color-tags-form");
 wcColorTagsForm.addEventListener("submit",event=>{
   event.preventDefault();

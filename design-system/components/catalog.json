@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "69 experimental catalogued browser Custom Elements; 69 catalog preview entries, 61 planned, 0 production-ready.",
+  "summary": "71 experimental catalogued browser Custom Elements; 71 catalog preview entries, 59 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -668,7 +668,7 @@
         {
           "name": "Statistic",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -898,7 +898,7 @@
         {
           "name": "LoadingOverlay",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

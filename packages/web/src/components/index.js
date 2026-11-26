@@ -61,6 +61,8 @@ export { CuColorPicker, parseColor, formatColor } from "./color-picker.js";
 export { CuTagInput, normalizeTags } from "./tag-input.js";
 export { CuCommandPalette, normalizePaletteCommands, searchPaletteCommands } from "./command-palette.js";
 export { CuEmptyState } from "./empty-state.js";
+export { CuStatistic, formatStatistic, statisticTrend, sparklinePoints } from "./statistic.js";
+export { CuLoadingOverlay } from "./loading-overlay.js";
 export { CuProgressBar } from "./progress-bar.js";
 export { CuProgressRing, normalizeRingProgress } from "./progress-ring.js";
 export { CuChip } from "./chip.js";

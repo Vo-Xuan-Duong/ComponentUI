@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "Statistic",
+  "tag": "cu-statistic",
+  "status": "preview",
+  "kind": "display",
+  "attributes": {
+    "value": "number",
+    "previous": "number",
+    "label": "string",
+    "description": "string",
+    "format": "decimal | currency | percent",
+    "currency": "ISO 4217",
+    "locale": "string",
+    "precision": "0-6",
+    "compact": "boolean",
+    "trend-tone": "auto | inverse | neutral",
+    "icon": "string",
+    "prefix": "string",
+    "suffix": "string"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -514,6 +514,21 @@ export declare class CuCommandPalette extends HTMLElement {
   close(reason?:string):void;
 }
 export declare class CuEmptyState extends HTMLElement {}
+export interface CuStatisticFormat {locale?:string;format?:"decimal"|"currency"|"percent";currency?:string;precision?:number;compact?:boolean;}
+export declare function formatStatistic(value:unknown,options?:CuStatisticFormat):string;
+export declare function statisticTrend(value:unknown,previous:unknown):{delta:number|null;percent:number|null;direction:"up"|"down"|"flat"|"none"};
+export declare function sparklinePoints(values:unknown,width?:number,height?:number):string;
+export declare class CuStatistic extends HTMLElement {
+  value:number|null;
+  previous:number|null;
+  series:number[];
+}
+export declare class CuLoadingOverlay extends HTMLElement {
+  loading:boolean;
+  fullscreen:boolean;
+  show():void;
+  hide():void;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -705,6 +720,8 @@ declare global {
     "cu-tag-input": CuTagInput;
     "cu-command-palette": CuCommandPalette;
     "cu-empty-state": CuEmptyState;
+    "cu-statistic": CuStatistic;
+    "cu-loading-overlay": CuLoadingOverlay;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;
     "cu-avatar": CuAvatar;

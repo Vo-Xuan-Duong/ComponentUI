@@ -220,4 +220,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **ColorPicker and TagInput milestone:** 130 catalog entries, 69 preview, 61 planned, zero production-ready; 80 React wrappers. See [ColorPicker and TagInput](docs/COLOR_TAGS.md).
 
-**Current milestone — CommandPalette and EmptyState:** both previously preview-only HTML patterns are now standalone Web Components. 69 catalogued implementations, 69 preview entries, 61 planned, 0 production-ready, 82 React wrappers. See [CommandPalette and EmptyState](docs/COMMAND_EMPTY.md).
+**CommandPalette and EmptyState milestone:** both previously preview-only HTML patterns are now standalone Web Components. 69 catalogued implementations, 69 preview entries, 61 planned, 0 production-ready, 82 React wrappers. See [CommandPalette and EmptyState](docs/COMMAND_EMPTY.md).
+
+**Current milestone — Statistic and LoadingOverlay:** 130 catalog entries, 71 preview, 59 planned, zero production-ready; 84 React wrappers. See [Statistic and LoadingOverlay](docs/STATISTIC_LOADING.md).
