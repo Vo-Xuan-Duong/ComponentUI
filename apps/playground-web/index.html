@@ -422,6 +422,27 @@
                 </div>
               </div>
             </div>
+            <div class="demo-row" id="overlay-quality-demo">
+              <cu-popover id="quality-nested-popover" title="Nested overlay test" placement="end">
+                <cu-button slot="trigger" variant="outline">Nested overlay test</cu-button>
+                <div slot="content">
+                  <p>Open the Select or Menu inside this popover. Escape should close the child first.</p>
+                  <cu-select label="Environment" value="local">
+                    <option value="local">Local</option><option value="staging">Staging</option>
+                    <option value="production">Production</option><option disabled>Unavailable</option>
+                  </cu-select>
+                  <div class="demo-row">
+                    <cu-menu aria-label="Nested actions">
+                      <cu-button slot="trigger" variant="subtle">Actions</cu-button>
+                      <cu-menu-item value="duplicate">Duplicate</cu-menu-item>
+                      <cu-menu-item value="rename">Rename</cu-menu-item>
+                      <cu-menu-item disabled>Unavailable</cu-menu-item>
+                    </cu-menu>
+                  </div>
+                </div>
+              </cu-popover>
+              <span class="cu-helper">Try near the viewport edge, then test Escape, Tab and outside clicks.</span>
+            </div>
             <p class="cu-helper quality-lab-footer">Test hover vs selected rows, keyboard focus, loading, disabled, validation, light/dark, compact/touch and reduced motion.</p>
             <p class="cu-helper" id="quality-result" role="status" aria-live="polite">Interact with the controls to see their events.</p>
           </div>
