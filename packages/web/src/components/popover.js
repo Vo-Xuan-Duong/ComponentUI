@@ -73,7 +73,7 @@ export class CuPopover extends BrowserElement {
       trigger.setAttribute("aria-haspopup", "dialog");
     }
   }
-  _placePanel(){if(this.open)placeAnchoredOverlay(this,this._panel,{maxHeight:360,gap:8,align:this.getAttribute("placement")==="end"?"end":"start"});}
+  _placePanel(){if(this.open)placeAnchoredOverlay(this,this._panel,{maxHeight:360,gap:8,allowOverflow:true,align:this.getAttribute("placement")==="end"?"end":"start"});}
   _sync() {
     this._panel.hidden = !this.open;
     if(this.open&&this.isConnected){if(!this._registered){registerOverlay(this);this._registered=true;}this._placePanel();}
