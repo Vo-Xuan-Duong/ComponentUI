@@ -14,7 +14,7 @@
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
   <div class="app-layout">
-    <aside class="sidebar" aria-label="ComponentUI navigation">
+    <header class="sidebar" aria-label="ComponentUI site navigation">
       <a class="brand" href="#overview" aria-label="ComponentUI home">
         <span class="brand-logo" aria-hidden="true"><cu-icon name="sparkles" size="22"></cu-icon></span>
         <span><strong>ComponentUI</strong><small>Fluent Calm · v0.12 preview</small></span>
@@ -30,6 +30,7 @@
         <a class="side-link" href="#feedback">Feedback</a>
         <a class="side-link" href="#patterns">More components</a>
         <a class="side-link" href="#web-components">Web Components</a>
+        <a class="side-link" href="#quality-lab">Quality Lab</a>
         <a class="side-link" href="#frameworks">Framework adapters</a>
         <div class="nav-group-label">Documentation</div>
         <a class="side-link" href="#catalog">Component catalog</a>
@@ -38,7 +39,7 @@
         <span>Personal UI system · Web Components in preview</span>
         <a href="https://github.com/Vo-Xuan-Duong/ComponentUI" rel="noopener noreferrer" target="_blank">View GitHub repository ↗</a>
       </div>
-    </aside>
+    </header>
 
     <div class="main-content">
       <header class="toolbar">
@@ -64,9 +65,9 @@
       <main id="content" class="content">
         <section class="hero" id="overview" aria-labelledby="hero-title">
           
-          <span class="eyebrow">ComponentUI design system · v0.12.0</span>
-          <h1 id="hero-title">Build once. Keep your UI consistent.</h1>
-          <p>A reusable Fluent Calm design system for web apps and desktop webviews. Explore real components, adjust themes and densities, and use the same UI across React, Vue, Svelte, Electron and Tauri.</p>
+          <span class="eyebrow">ComponentUI · Fluent Calm design system</span>
+          <h1 id="hero-title">One design language.<br>Every framework.</h1>
+          <p>Beautiful by default, consistent in every state. Explore Fluent Calm components designed for React, Vue, Svelte and lightweight desktop webviews, with accessibility and customization built into the foundation.</p>
           <div class="hero-footer">
             <a class="cu-btn" data-variant="accent" href="#controls">Explore components <cu-icon name="arrow-up-right" size="16"></cu-icon></a>
             <a class="cu-btn" data-variant="outline" href="#catalog">Browse catalog</a>
@@ -375,6 +376,53 @@
           <div class="section-heading">
             <div><h2 id="web-heading">Real Web Components</h2><p>Native Custom Elements with Shadow DOM and form support. Explore reusable browser-native components, separate from CSS-only previews.</p></div>
             <span class="section-flag">Web Components · Experimental</span>
+          </div>
+          <div class="cu-surface quality-lab" id="quality-lab" aria-labelledby="quality-lab-heading">
+            <div class="quality-lab-head">
+              <div>
+                <span class="quality-eyebrow">Interaction QA · Fluent Calm</span>
+                <h3 id="quality-lab-heading">Every state should feel intentional.</h3>
+                <p>Compare real Shadow DOM controls in the current theme and density. Tab through controls to inspect keyboard focus.</p>
+              </div>
+              <span class="cu-badge" data-tone="accent">Visual state matrix</span>
+            </div>
+            <div class="quality-lab-grid">
+              <div class="quality-lab-cell">
+                <div class="preview-label">Actions</div>
+                <div class="demo-row">
+                  <cu-button id="quality-primary" variant="accent">Primary action</cu-button>
+                  <cu-button id="quality-standard">Secondary</cu-button>
+                  <cu-button id="quality-outline" variant="outline">Outline</cu-button>
+                </div>
+                <div class="demo-row">
+                  <cu-button id="quality-loading" loading>Loading</cu-button>
+                  <cu-button id="quality-disabled" disabled>Disabled</cu-button>
+                  <cu-button id="quality-danger" variant="danger">Destructive</cu-button>
+                </div>
+              </div>
+              <div class="quality-lab-cell">
+                <div class="preview-label">Inputs &amp; validation</div>
+                <cu-text-field id="quality-field" label="Workspace name"
+                  placeholder="Enter a workspace name" hint="A helpful description"></cu-text-field>
+                <cu-text-field id="quality-invalid" label="Invalid name" value="Invalid value"
+                  error="Use a name without special characters"></cu-text-field>
+              </div>
+              <div class="quality-lab-cell">
+                <div class="preview-label">Selection &amp; disabled options</div>
+                <cu-select id="quality-select" label="Framework" value="react">
+                  <option value="react">React</option>
+                  <option value="vue">Vue</option>
+                  <option value="svelte">Svelte</option>
+                  <option value="disabled" disabled>Unavailable option</option>
+                </cu-select>
+                <div class="demo-row">
+                  <cu-checkbox checked>Checked</cu-checkbox>
+                  <cu-checkbox disabled>Disabled</cu-checkbox>
+                  <cu-switch checked>Enabled</cu-switch>
+                </div>
+              </div>
+            </div>
+            <p class="cu-helper quality-lab-footer">Test hover vs selected rows, keyboard focus, loading, disabled, validation, light/dark, compact/touch and reduced motion.</p>
           </div>
           <div class="demo-grid">
             <article class="cu-surface demo-card">
