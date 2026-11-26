@@ -565,6 +565,34 @@ export declare class CuSegmentedControl extends HTMLElement {
 export interface CuTimelineItem {id:string;title:string;description?:string;time?:string;datetime?:string;status?:"neutral"|"success"|"warning"|"danger"|"active";icon?:string;action?:string;}
 export declare function normalizeTimelineItems(items:unknown):Required<CuTimelineItem>[];
 export declare class CuTimeline extends HTMLElement {items:CuTimelineItem[];}
+export interface CuCarouselItem {id:string;title?:string;description?:string;src?:string;alt?:string;}
+export declare function normalizeCarouselItems(items:unknown):Required<CuCarouselItem>[];
+export declare function carouselIndex(index:unknown,count:number,loop?:boolean):number;
+export declare class CuCarousel extends HTMLElement {
+  items:CuCarouselItem[];
+  active:number;
+  loop:boolean;
+  next():boolean;
+  previous():boolean;
+  goTo(index:number):boolean;
+}
+export type CuPropertyValue=string|number|boolean;
+export interface CuPropertyItem {
+  key:string;label?:string;group?:string;description?:string;type?:"text"|"number"|"boolean"|"select"|"color";
+  value?:CuPropertyValue;readonly?:boolean;disabled?:boolean;required?:boolean;
+  min?:number;max?:number;step?:number;options?:{value:string;label?:string;disabled?:boolean}[];
+}
+export declare function normalizePropertyItems(items:unknown):CuPropertyItem[];
+export declare function coercePropertyValue(item:CuPropertyItem,value:unknown):{valid:boolean;value:CuPropertyValue;message:string};
+export declare function filterPropertyItems(items:CuPropertyItem[],query:string):CuPropertyItem[];
+export declare class CuPropertyGrid extends HTMLElement {
+  items:CuPropertyItem[];
+  readonly values:Record<string,CuPropertyValue>;
+  query:string;
+  readonly:boolean;
+  disabled:boolean;
+  setValue(key:string,value:CuPropertyValue):boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -762,6 +790,8 @@ declare global {
     "cu-avatar-group": CuAvatarGroup;
     "cu-segmented-control": CuSegmentedControl;
     "cu-timeline": CuTimeline;
+    "cu-carousel": CuCarousel;
+    "cu-property-grid": CuPropertyGrid;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;
     "cu-avatar": CuAvatar;

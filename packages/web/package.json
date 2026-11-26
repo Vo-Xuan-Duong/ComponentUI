@@ -340,6 +340,14 @@
     "./components/timeline": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/timeline.js"
+    },
+    "./components/carousel": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/carousel.js"
+    },
+    "./components/property-grid": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/property-grid.js"
     }
   },
   "files": [

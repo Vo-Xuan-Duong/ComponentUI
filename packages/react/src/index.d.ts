@@ -2,7 +2,10 @@ import type * as React from "react";
 import type { IconName } from "@componentui/icons";
 
 export interface CuEventDetails {
-  value?: string | number | string[] | [number,number];
+  value?: string | number | boolean | string[] | [number,number];
+  property?: string;
+  propertyValue?: string | number | boolean;
+  previousPropertyValue?: string | number | boolean;
   complete?: boolean;
   loading?: boolean;
   scrollTop?: number;
@@ -150,6 +153,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   axis?: "vertical" | "horizontal" | "both";
   fullwidth?: boolean;
   reverse?: boolean;
+  loop?: boolean;
+  searchable?: boolean;
+  "hide-indicators"?: boolean;
   scrollbar?: "auto" | "thin" | "hidden";
   expanded?: boolean;
   "min-chars"?: number | string;
@@ -228,7 +234,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

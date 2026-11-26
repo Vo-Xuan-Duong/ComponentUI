@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **56 planned**, **75 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **54 planned**, **77 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -165,3 +165,7 @@ Both move from planned to preview. Current inventory: 130 entries, 73 preview, 5
 ## SegmentedControl and Timeline
 
 SegmentedControl is a new catalog entry; Timeline moves from planned to preview. Current inventory: 131 entries, 75 preview, 56 planned, 0 ready. See [SegmentedControl and Timeline](SEGMENT_TIMELINE.md).
+
+## Carousel and PropertyGrid
+
+Both move from planned to preview. Current inventory: 131 entries, 77 preview, 54 planned, 0 ready. See [Carousel and PropertyGrid](CAROUSEL_PROPERTY.md).

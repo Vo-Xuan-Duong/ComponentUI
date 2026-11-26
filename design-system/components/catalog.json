@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "75 experimental catalogued browser Custom Elements; 75 catalog preview entries, 56 planned, 0 production-ready.",
+  "summary": "77 experimental catalogued browser Custom Elements; 77 catalog preview entries, 54 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -749,7 +749,7 @@
         {
           "name": "Carousel",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1079,7 +1079,7 @@
         {
           "name": "PropertyGrid",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

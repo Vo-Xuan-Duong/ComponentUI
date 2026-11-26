@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "Carousel",
+  "tag": "cu-carousel",
+  "status": "preview",
+  "kind": "display",
+  "attributes": {
+    "label": "string",
+    "active": "index",
+    "loop": "boolean",
+    "hide-indicators": "boolean",
+    "empty-text": "string"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

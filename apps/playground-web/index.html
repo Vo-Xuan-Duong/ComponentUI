@@ -627,6 +627,20 @@
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
             <article class="cu-surface demo-card">
+              <h3>Carousel</h3><p class="demo-subtitle">Manual navigation, slide indicators and custom slide content.</p>
+              <cu-carousel id="wc-carousel" label="ComponentUI highlights" loop>
+                <div slot="slide-layout" style="padding:20px;display:grid;gap:10px">
+                  <cu-icon name="panel-left" size="28"></cu-icon><strong>Flexible workspace layouts</strong><p>Build responsive panels and navigation surfaces.</p>
+                </div>
+              </cu-carousel>
+              <p id="wc-carousel-result" class="cu-helper" role="status">Slide 1 of 3</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>PropertyGrid</h3><p class="demo-subtitle">Grouped typed editors, search and validation.</p>
+              <cu-property-grid id="wc-property-grid" label="Workspace properties" searchable></cu-property-grid>
+              <pre class="cu-web-result" id="wc-property-result" role="status">Change a property.</pre>
+            </article>
+            <article class="cu-surface demo-card">
               <h3>SegmentedControl</h3><p class="demo-subtitle">Single-choice segmented inputs with native radio behavior and form support.</p>
               <form class="cu-web-form" id="wc-segment-form">
                 <cu-segmented-control id="wc-segment-view" name="view" label="Workspace view" value="grid" fullwidth required hint="Use arrow keys to change the selection."></cu-segmented-control>

@@ -116,6 +116,27 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcCarousel=document.getElementById("wc-carousel");
+wcCarousel.items=[
+  {id:"layout",title:"Workspace layouts"},
+  {id:"forms",title:"Form controls",description:"Native form-associated controls with validation and keyboard support."},
+  {id:"data",title:"Data display",description:"DataTable, Timeline and Statistic for information-rich applications."}
+];
+wcCarousel.addEventListener("cu-change",event=>{
+  document.getElementById("wc-carousel-result").textContent="Slide "+(event.detail.index+1)+" of "+wcCarousel.items.length;
+});
+const wcPropertyGrid=document.getElementById("wc-property-grid");
+wcPropertyGrid.items=[
+  {key:"name",group:"General",label:"Workspace name",type:"text",value:"ComponentUI",required:true},
+  {key:"version",group:"General",label:"Version",type:"text",value:"Preview",readonly:true},
+  {key:"theme",group:"Appearance",label:"Theme",type:"select",value:"system",options:[{value:"system",label:"System"},{value:"light",label:"Light"},{value:"dark",label:"Dark"}]},
+  {key:"accent",group:"Appearance",label:"Accent color",type:"color",value:"#0067c0"},
+  {key:"density",group:"Appearance",label:"Compact density",type:"boolean",value:false},
+  {key:"width",group:"Layout",label:"Panel width",description:"Range: 200–600 px",type:"number",value:320,min:200,max:600,step:10}
+];
+wcPropertyGrid.addEventListener("cu-change",()=>{
+  document.getElementById("wc-property-result").textContent=JSON.stringify(wcPropertyGrid.values,null,2);
+});
 const wcSegmentView=document.getElementById("wc-segment-view");
 wcSegmentView.items=[{value:"grid",label:"Grid",icon:"panel-left"},{value:"list",label:"List",icon:"menu"},{value:"details",label:"Details",icon:"info"}];
 document.getElementById("wc-segment-density").items=[{value:"compact",label:"Compact"},{value:"comfortable",label:"Comfortable"},{value:"spacious",label:"Spacious",disabled:true}];

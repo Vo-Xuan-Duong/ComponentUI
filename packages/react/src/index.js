@@ -15,7 +15,7 @@ export const REACT_TAGS = Object.freeze({
   Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast", AutoComplete:"cu-autocomplete", NotificationCenter:"cu-notification-center",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
-  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline",
+  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group", SegmentedControl:"cu-segmented-control", Timeline:"cu-timeline", Carousel:"cu-carousel", PropertyGrid:"cu-property-grid",
   ProgressBar:"cu-progress-bar", ProgressRing:"cu-progress-ring", Badge:"cu-badge", Chip:"cu-chip", Tag:"cu-tag",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
@@ -100,6 +100,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-avatar-group":["items","maxVisible","expanded"],
   "cu-segmented-control":["items","value","disabled","readonly","required"],
   "cu-timeline":["items"],
+  "cu-carousel":["items","active","loop"],
+  "cu-property-grid":["items","query","disabled","readonly"],
   "cu-progress-bar":["value","max"],
   "cu-progress-ring":["value","max"],
   "cu-chip":["value","selected","selectable","removable","disabled"],
@@ -154,7 +156,7 @@ export function assignCuProperties(element, tagName, props = {}) {
           ((tagName==="cu-autocomplete"||tagName==="cu-notification-center")&&name==="items") ||
           ((tagName==="cu-command-bar"||tagName==="cu-command-palette")&&name==="commands") ||
           (tagName==="cu-statistic"&&name==="series") ||
-          (["cu-avatar-group","cu-segmented-control","cu-timeline"].includes(tagName)&&name==="items") ||
+          (["cu-avatar-group","cu-segmented-control","cu-timeline","cu-carousel","cu-property-grid"].includes(tagName)&&name==="items") ||
           (tagName==="cu-virtual-list"&&name==="items") ||
           (tagName==="cu-tree-list"&&(name==="items"||name==="expandedValues")) ||
           (tagName==="cu-accordion"&&name==="values"&&Array.isArray(value)) ||

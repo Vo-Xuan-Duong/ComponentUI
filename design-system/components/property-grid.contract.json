@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "PropertyGrid",
+  "tag": "cu-property-grid",
+  "status": "preview",
+  "kind": "editor",
+  "attributes": {
+    "label": "string",
+    "searchable": "boolean",
+    "query": "string",
+    "readonly": "boolean",
+    "disabled": "boolean",
+    "empty-text": "string"
+  },
+  "events": [
+    "cu-change",
+    "cu-search"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

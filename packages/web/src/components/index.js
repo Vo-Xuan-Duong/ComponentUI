@@ -67,6 +67,8 @@ export { CuScrollArea, scrollAreaMetrics } from "./scroll-area.js";
 export { CuAvatarGroup, normalizeAvatarMembers, splitAvatarMembers } from "./avatar-group.js";
 export { CuSegmentedControl, normalizeSegmentOptions, resolveSegmentValue } from "./segmented-control.js";
 export { CuTimeline, normalizeTimelineItems } from "./timeline.js";
+export { CuCarousel, normalizeCarouselItems, carouselIndex } from "./carousel.js";
+export { CuPropertyGrid, normalizePropertyItems, coercePropertyValue, filterPropertyItems } from "./property-grid.js";
 export { CuProgressBar } from "./progress-bar.js";
 export { CuProgressRing, normalizeRingProgress } from "./progress-ring.js";
 export { CuChip } from "./chip.js";
