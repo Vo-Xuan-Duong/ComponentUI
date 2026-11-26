@@ -47,7 +47,7 @@ test("Select preserves distinct active, selected and disabled treatment",async()
   assert.match(select,/\.option:hover:not\(\[aria-disabled=true\]\)/);
   assert.match(select,/\.option\[data-active=true\]:not\(\[aria-disabled=true\]\)/);
   assert.match(select,/\.option\[data-selected=true\]:not\(\[data-active=true\]\)/);
-  assert.match(select,/\.option\[data-selected=true\]\.check/);
+  assert.match(select,/\.option\[data-selected=true\]\s+\.check/);
   assert.match(select,/node\.dataset\.selected/);
   assert.match(select,/node\.dataset\.active/);
   assert.match(select,/aria-activedescendant/);
