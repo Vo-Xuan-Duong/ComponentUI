@@ -91,6 +91,7 @@ export class CuColorPicker extends BrowserElement{
   get value(){return this._color&&!this._draftInvalid?formatColor(this._color,"hex",this.alpha):"";}
   set value(v){this._assigned=true;this._color=parseColor(v);this._draftInvalid=Boolean(String(v??"").trim()&&!this._color);this._text.value=this._draftInvalid?String(v):"";this._sync();}
   get alpha(){return this.hasAttribute("alpha");}set alpha(v){this.toggleAttribute("alpha",Boolean(v));}
+  get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   get required(){return this.hasAttribute("required");}set required(v){this.toggleAttribute("required",Boolean(v));}
   _locked(){return this.disabled||Boolean(this._formDisabled)||this.hasAttribute("readonly");}

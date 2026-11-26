@@ -82,6 +82,7 @@ export class CuMultiSelect extends BrowserElement{
   set items(items){this._propertyItems=true;this._items=normalizeMultiOptions(items);this._sync();}
   get value(){return [...this._value];}
   set value(value){this._assigned=true;this._value=Array.isArray(value)?[...value]:[];if(this._initialized||this._items.length)this._value=normalizeMultiValue(this._value,this._items,this._max());this._sync();}
+  get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   get disabled(){return this.hasAttribute("disabled");}
   set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   get required(){return this.hasAttribute("required");}

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "PageHeader",
+  "tag": "page-header",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "title": "string",
+    "description": "string"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

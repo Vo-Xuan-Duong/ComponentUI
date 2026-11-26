@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "ChartContainer",
+  "tag": "chart-container",
+  "status": "preview",
+  "kind": "display",
+  "attributes": {
+    "title": "string",
+    "description": "string",
+    "chart-type": "bar | line",
+    "show-table": "boolean",
+    "locale": "string"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -376,6 +376,38 @@
     "./components/kanban-board": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/kanban-board.js"
+    },
+    "./components/container": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/container.js"
+    },
+    "./components/stack": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/stack.js"
+    },
+    "./components/grid": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/grid.js"
+    },
+    "./components/flex": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/flex.js"
+    },
+    "./components/surface": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/surface.js"
+    },
+    "./components/page-header": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/page-header.js"
+    },
+    "./components/rich-text-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/rich-text-editor.js"
+    },
+    "./components/chart-container": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/chart-container.js"
     }
   },
   "files": [

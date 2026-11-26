@@ -22,9 +22,9 @@ const css=[
   ".fill{position:absolute;top:0;bottom:0;left:var(--low,0%);right:var(--high,0%);border-radius:inherit;background:var(--cu-accent,#0067c0);}",
   "input{appearance:none;-webkit-appearance:none;position:absolute;inset:0;margin:0;width:100%;height:44px;background:transparent;pointer-events:none;outline:none;}",
   "input::-webkit-slider-runnable-track{background:transparent;height:4px;}input::-moz-range-track{background:transparent;height:4px;}",
-  "input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;pointer-events:auto;cursor:grab;width:var(--thumb);height:var(--thumb);margin-top:-8px;border:2px solid var(--cu-accent,#0067c0);border-radius:50%;background:var(--cu-surface,#fff);}",
+  "input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;pointer-events:auto;cursor:grab;box-sizing:border-box;width:var(--thumb);height:var(--thumb);margin-top:-8px;border:2px solid var(--cu-accent,#0067c0);border-radius:50%;background:var(--cu-surface,#fff);}",
   "input::-moz-range-thumb{pointer-events:auto;cursor:grab;box-sizing:border-box;width:var(--thumb);height:var(--thumb);border:2px solid var(--cu-accent,#0067c0);border-radius:50%;background:var(--cu-surface,#fff);}",
-  "input:focus-visible{z-index:3;outline:2px solid var(--cu-focus,#0067c0);outline-offset:0;border-radius:8px;}",
+  "input:focus-visible,input[data-front=true]:focus-visible{z-index:3;outline:2px solid var(--cu-focus,#0067c0);outline-offset:0;border-radius:8px;}",
   "input[data-front=true]{z-index:2;}input:disabled::-webkit-slider-thumb{pointer-events:none;cursor:default;}input:disabled::-moz-range-thumb{pointer-events:none;cursor:default;}",
   ".track[data-locked=true]{opacity:.55;}.track[data-locked=true] .rail{cursor:default;}",
   ".hint{font-size:12px;color:var(--cu-text-muted,#616161);}.hint:empty{display:none;}",
@@ -63,6 +63,10 @@ export class CuRangeSlider extends BrowserElement{
   }
   get value(){return [...this._value];}
   set value(v){this._assigned=true;this._value=this._state(v).value;this._sync();}
+  get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
+  get min(){return this._state().min;}set min(v){if(v==null)this.removeAttribute("min");else this.setAttribute("min",String(v));}
+  get max(){return this._state().max;}set max(v){if(v==null)this.removeAttribute("max");else this.setAttribute("max",String(v));}
+  get step(){return this._state().step;}set step(v){if(v==null)this.removeAttribute("step");else this.setAttribute("step",String(v));}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   _locked(){return this.disabled||Boolean(this._formDisabled)||this.hasAttribute("readonly");}
   _state(v=this._value){return normalizeRange(v,this.getAttribute("min"),this.getAttribute("max"),this.getAttribute("step"));}

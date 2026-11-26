@@ -101,7 +101,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   message?: string;
   error?: string;
   placeholder?: string;
-  value?: string | string[] | [number,number] | number | null;
+  value?: string | string[] | [number,number] | number | boolean | null;
   length?: number | string;
   values?: string[];
   checked?: boolean;
@@ -147,7 +147,14 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   "empty-text"?: string;
   "no-icon"?: boolean;
   icon?: IconName;
-  align?: "start" | "center";
+  align?: "start" | "center" | "end" | "stretch" | "baseline";
+  justify?: "start" | "center" | "end" | "between" | "around" | "evenly";
+  gap?: number | string;
+  wrap?: boolean;
+  direction?: "row" | "column" | "row-reverse" | "column-reverse";
+  count?: number | string;
+  "chart-type"?: "bar" | "line";
+  "show-table"?: boolean;
   maxVisible?: number;
   "max-selected"?: number | string;
   "max-tags"?: number | string;
@@ -259,7 +266,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "Stack" | "Grid" | "Flex" | "Surface" | "PageHeader" | "RichTextEditor" | "ChartContainer" | "Container" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

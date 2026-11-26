@@ -53,6 +53,7 @@ export class CuOTPInput extends BrowserElement{
   get length(){return otpLength(this.getAttribute("length"));}set length(v){this.setAttribute("length",String(v));}
   get value(){return this._input.value;}
   set value(v){this._assigned=true;this._input.value=normalizeOTP(v,this.length);this._sync();}
+  get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   get required(){return this.hasAttribute("required");}set required(v){this.toggleAttribute("required",Boolean(v));}
   formDisabledCallback(v){this._formDisabled=v;this._sync();}

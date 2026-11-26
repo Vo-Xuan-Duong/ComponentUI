@@ -77,7 +77,7 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">132</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">57</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-previews">92</strong><span>Preview components</span></div>
           <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
@@ -625,6 +625,32 @@
                 <cu-button type="submit" variant="accent">Read form values</cu-button>
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Layout foundation</h3><p class="demo-subtitle">Responsive container, grid, flex and stack with theme-aware surfaces.</p>
+              <cu-container size="full" style="--cu-container-padding:0px">
+                <cu-page-header title="Workspace" description="Reusable application layout">
+                  <cu-button slot="actions" size="sm">Create project</cu-button>
+                </cu-page-header>
+                <cu-grid gap="3" style="--cu-grid-min-item-width:160px">
+                  <cu-surface variant="elevated"><cu-stack gap="2"><strong>Projects</strong><span>24 active</span></cu-stack></cu-surface>
+                  <cu-surface><cu-stack gap="2"><strong>Documents</strong><span>128 files</span></cu-stack></cu-surface>
+                  <cu-surface><cu-flex align="center" justify="between" gap="2" wrap><strong>System</strong><cu-badge>Ready</cu-badge></cu-flex></cu-surface>
+                </cu-grid>
+              </cu-container>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>RichTextEditor</h3><p class="demo-subtitle">Formatted text, list controls and form values using a restricted HTML subset.</p>
+              <form id="wc-rich-form" class="cu-web-form">
+                <cu-rich-text-editor id="wc-rich-editor" label="Description" name="description" required placeholder="Write project notes…" value="&lt;p&gt;ComponentUI &lt;strong&gt;workspace&lt;/strong&gt;&lt;/p&gt;"></cu-rich-text-editor>
+                <div class="demo-row"><cu-button type="submit" size="sm">Read value</cu-button><cu-button type="reset" size="sm">Reset</cu-button></div>
+              </form>
+              <pre id="wc-rich-result" class="cu-web-result" role="status">Edit the description.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ChartContainer</h3><p class="demo-subtitle">Responsive SVG charts and an accessible data table.</p>
+              <cu-chart-container id="wc-chart-container" title="Monthly balance" description="Illustrative data, including negative values."></cu-chart-container>
+              <cu-button id="wc-chart-toggle" size="sm">Switch bar / line</cu-button>
             </article>
             <article class="cu-surface demo-card full-span">
               <h3>DockLayout</h3><p class="demo-subtitle">Resize the panels using the dividers or arrow keys. Toggle optional regions without losing their content.</p>

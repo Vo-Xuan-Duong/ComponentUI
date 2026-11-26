@@ -54,6 +54,7 @@ export class CuAutoComplete extends BrowserElement{
   set items(v){this._items=normalizeSuggestions(v);this._active=-1;this._render();}
   get value(){return this._input.value;}
   set value(v){this._assigned=true;this._input.value=String(v??"");this._active=-1;this._sync();}
+  get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   get required(){return this.hasAttribute("required");}set required(v){this.toggleAttribute("required",Boolean(v));}
   get loading(){return this.hasAttribute("loading");}set loading(v){this.toggleAttribute("loading",Boolean(v));}

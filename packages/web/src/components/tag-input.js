@@ -54,6 +54,7 @@ export class CuTagInput extends BrowserElement{
   _options(){return {max:this._limit("max-tags"),maxLength:this._limit("max-tag-length"),caseSensitive:this.hasAttribute("case-sensitive")};}
   get value(){return [...this._value];}
   set value(v){this._assigned=true;this._value=normalizeTags(v,this._options());this._sync();}
+  get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   get required(){return this.hasAttribute("required");}set required(v){this.toggleAttribute("required",Boolean(v));}
   _locked(){return this.disabled||Boolean(this._formDisabled)||this.hasAttribute("readonly");}

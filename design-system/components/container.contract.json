@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "name": "Container",
+  "tag": "container",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "size": "sm | md | lg | full"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

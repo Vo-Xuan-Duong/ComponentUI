@@ -96,3 +96,12 @@ export declare const ListOption: ReactCuComponent;
 export declare const Combobox: ReactCuComponent;
 export declare const ComboOption: ReactCuComponent;
 export declare const ContextMenu: ReactCuComponent;
+
+export declare const Container: ReactCuComponent;
+export declare const Stack: ReactCuComponent;
+export declare const Grid: ReactCuComponent;
+export declare const Flex: ReactCuComponent;
+export declare const Surface: ReactCuComponent;
+export declare const PageHeader: ReactCuComponent;
+export declare const RichTextEditor: ReactCuComponent;
+export declare const ChartContainer: ReactCuComponent;

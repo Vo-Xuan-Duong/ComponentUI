@@ -116,6 +116,15 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcRichForm=document.getElementById("wc-rich-form");
+wcRichForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  document.getElementById("wc-rich-result").textContent=String(new FormData(wcRichForm).get("description")||"");
+});
+wcRichForm.addEventListener("reset",()=>{document.getElementById("wc-rich-result").textContent="Form reset.";});
+const wcChartContainer=document.getElementById("wc-chart-container");
+wcChartContainer.items=[{label:"Jan",value:18},{label:"Feb",value:24},{label:"Mar",value:-8},{label:"Apr",value:32},{label:"May",value:28},{label:"Jun",value:42}];
+document.getElementById("wc-chart-toggle").addEventListener("cu-press",()=>wcChartContainer.setAttribute("chart-type",wcChartContainer.getAttribute("chart-type")==="line"?"bar":"line"));
 const wcDockLayout=document.getElementById("wc-dock-layout");
 wcDockLayout.layout={start:23,end:24,bottom:26};
 for(const region of ["start","end","bottom"])

@@ -351,6 +351,7 @@ export declare class CuMultiSelect extends HTMLElement {
   items:CuMultiOption[];
   value:string[];
   disabled:boolean;
+  readonly:boolean;
   required:boolean;
   focus(options?:FocusOptions):void;
   show():void;
@@ -366,6 +367,7 @@ export declare class CuAutoComplete extends HTMLElement {
   items:CuSuggestion[];
   value:string;
   disabled:boolean;
+  readonly:boolean;
   required:boolean;
   loading:boolean;
   focus(options?:FocusOptions):void;
@@ -466,7 +468,9 @@ export declare function normalizeRange(value:unknown,min?:unknown,max?:unknown,s
 export declare class CuRangeSlider extends HTMLElement {
   static formAssociated:boolean;
   value:[number,number];
+  min:number;max:number;step:number;
   disabled:boolean;
+  readonly:boolean;
   focus(options?:FocusOptions):void;
 }
 export declare function normalizeOTP(value:unknown,length?:unknown):string;
@@ -475,6 +479,7 @@ export declare class CuOTPInput extends HTMLElement {
   value:string;
   length:number;
   disabled:boolean;
+  readonly:boolean;
   required:boolean;
   focus(options?:FocusOptions):void;
   checkValidity():boolean;
@@ -486,7 +491,9 @@ export declare function formatColor(color:CuRGBA,format?:"hex"|"rgb"|"hsl",alpha
 export declare class CuColorPicker extends HTMLElement {
   static formAssociated:boolean;
   value:string;
+  alpha:boolean;
   disabled:boolean;
+  readonly:boolean;
   required:boolean;
   focus(options?:FocusOptions):void;
   checkValidity():boolean;
@@ -497,6 +504,7 @@ export declare class CuTagInput extends HTMLElement {
   static formAssociated:boolean;
   value:string[];
   disabled:boolean;
+  readonly:boolean;
   required:boolean;
   addTag(value:string):boolean;
   removeTag(value:string):boolean;
@@ -631,6 +639,24 @@ export declare class CuKanbanBoard extends HTMLElement {
   items:CuKanbanItem[];
   readonly:boolean;
   moveItem(id:string,laneId:string,beforeId?:string|null):boolean;
+}
+export declare class CuContainer extends HTMLElement {}
+export declare class CuStack extends HTMLElement {}
+export declare class CuGrid extends HTMLElement {}
+export declare class CuFlex extends HTMLElement {}
+export declare class CuSurface extends HTMLElement {}
+export declare class CuPageHeader extends HTMLElement {}
+export interface CuChartItem {label:string;value:number;}
+export declare function normalizeChartItems(value:unknown):CuChartItem[];
+export declare function chartDomain(items:CuChartItem[]):{min:number;max:number};
+export declare class CuChartContainer extends HTMLElement {items:CuChartItem[];}
+export declare function sanitizeRichText(value:unknown,doc?:Document):string;
+export declare class CuRichTextEditor extends HTMLElement {
+  static formAssociated:boolean;
+  value:string; disabled:boolean; readonly:boolean; required:boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
 }
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
@@ -874,6 +900,14 @@ declare global {
     "cu-status-bar": CuStatusBar;
     "cu-dock-layout": CuDockLayout;
     "cu-kanban-board": CuKanbanBoard;
+    "cu-chart-container": CuChartContainer;
+    "cu-rich-text-editor": CuRichTextEditor;
+    "cu-page-header": CuPageHeader;
+    "cu-surface": CuSurface;
+    "cu-flex": CuFlex;
+    "cu-grid": CuGrid;
+    "cu-stack": CuStack;
+    "cu-container": CuContainer;
     "cu-file-explorer": CuFileExplorer;
     "cu-tree-view": CuTreeView;
     "cu-tree-item": CuTreeItem;

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "Grid",
+  "tag": "grid",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "count": "1-12",
+    "gap": "0-8"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

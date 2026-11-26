@@ -234,4 +234,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **Desktop window chrome milestone:** 131 catalog entries, 82 preview, 49 planned, zero production-ready; 95 React wrappers. See [Desktop window chrome](docs/DESKTOP_CHROME.md).
 
-**Current milestone — DockLayout and KanbanBoard:** 132 catalog entries, 84 preview, 48 planned, zero production-ready; 97 React wrappers. See [DockLayout and KanbanBoard](docs/DOCK_KANBAN.md).
+**DockLayout and KanbanBoard milestone:** 132 catalog entries, 84 preview, 48 planned, zero production-ready; 97 React wrappers. See [DockLayout and KanbanBoard](docs/DOCK_KANBAN.md).
+
+**Current milestone — Layout foundation, editor and charts:** 132 catalog entries, 92 preview, 40 planned, zero production-ready; 105 React wrappers. See [Layout and editor foundation](docs/LAYOUT_EDITOR_CHART.md).

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "name": "RichTextEditor",
+  "tag": "rich-text-editor",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "sanitized HTML",
+    "label": "string",
+    "name": "string",
+    "placeholder": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

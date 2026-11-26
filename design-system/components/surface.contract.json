@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "Surface",
+  "tag": "surface",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "variant": "flat | elevated | default",
+    "size": "sm | md | lg"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

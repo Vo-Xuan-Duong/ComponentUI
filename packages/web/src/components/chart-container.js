@@ -1,0 +1,27 @@
+import {BrowserElement,mount,define} from "./_shared.js";
+export function normalizeChartItems(value){
+  return (Array.isArray(value)?value:[]).filter(x=>x&&typeof x.label==="string"&&x.label.trim()&&typeof x.value==="number"&&Number.isFinite(x.value)&&Math.abs(x.value)<=1e100).slice(0,100).map(x=>({label:x.label,value:x.value}));
+}
+export function chartDomain(items){const values=items.map(x=>x.value);const min=Math.min(0,...values),max=Math.max(0,...values);return min===max?{min:0,max:1}:{min,max};}
+const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}.frame{box-sizing:border-box;border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface,#fff);padding:16px;display:grid;gap:12px;}.title{font-weight:650;font-size:15px;}.description,.empty{font-size:12px;color:var(--cu-text-muted,#616161);}.description:empty,.empty[hidden],svg[hidden]{display:none!important;}svg{display:block;width:100%;height:auto;color:var(--cu-text-muted,#616161);overflow:visible;}.mark{fill:var(--cu-accent,#0067c0);}.line{stroke:var(--cu-accent,#0067c0);fill:none;stroke-width:2;}.axis{stroke:var(--cu-border-strong,#d1d1d1);}.labels{font:10px system-ui;fill:currentColor;}.data{font-size:12px;}.data[hidden]{display:none!important;}table{width:100%;border-collapse:collapse;}th,td{padding:6px;text-align:start;border-bottom:1px solid var(--cu-border,#e5e5e5);}td:last-child{text-align:end;font-variant-numeric:tabular-nums;}summary{cursor:pointer;}@media(forced-colors:active){.mark{fill:Highlight;}.line{stroke:Highlight;}}";
+const ns="http://www.w3.org/2000/svg";
+export class CuChartContainer extends BrowserElement{
+  static get observedAttributes(){return ["title","description","chart-type","show-table","locale","empty-text"];}
+  constructor(){super();this._items=[];const root=mount(this,css,'<section class="frame" part="frame"><div class="title"></div><div class="description"></div><svg viewBox="0 0 560 250" aria-hidden="true"></svg><p class="empty" hidden></p><details class="data"><summary>View chart data</summary><table><thead><tr><th scope="col">Label</th><th scope="col">Value</th></tr></thead><tbody></tbody></table></details></section>');this._title=root.querySelector(".title");this._description=root.querySelector(".description");this._svg=root.querySelector("svg");this._empty=root.querySelector(".empty");this._details=root.querySelector("details");this._body=root.querySelector("tbody");}
+  connectedCallback(){this._render();}
+  attributeChangedCallback(name){if(name==="show-table"&&this._details)this._details.open=this.hasAttribute("show-table");this._render();}
+  get items(){return this._items.map(x=>({...x}));}set items(v){this._items=normalizeChartItems(v);this._render();}
+  _render(){if(!this._svg)return;const doc=this.ownerDocument,items=this._items;this._title.textContent=this.getAttribute("title")||"Chart";this._description.textContent=this.getAttribute("description")||"";this._svg.replaceChildren();this._svg.toggleAttribute("hidden",!items.length);this._empty.hidden=Boolean(items.length);this._empty.textContent=this.getAttribute("empty-text")||"No chart data.";this._details.hidden=!items.length;if(this.hasAttribute("show-table"))this._details.open=true;
+    let formatter;try{formatter=new Intl.NumberFormat(this.getAttribute("locale")||undefined,{maximumFractionDigits:2,notation:"compact"});}catch{formatter=new Intl.NumberFormat("en",{maximumFractionDigits:2,notation:"compact"});}
+    this._body.replaceChildren(...items.map(item=>{const tr=doc.createElement("tr"),th=doc.createElement("th"),td=doc.createElement("td");th.scope="row";th.textContent=item.label;td.textContent=String(item.value);tr.append(th,td);return tr;}));
+    if(!items.length)return;
+    const {min,max}=chartDomain(items),left=56,right=548,top=12,bottom=208,w=right-left,h=bottom-top,slot=w/items.length,y=v=>bottom-(v-min)/(max-min)*h;
+    const shape=(tag,attrs,text)=>{const el=doc.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));if(text!==undefined)el.textContent=text;this._svg.append(el);return el;};
+    for(let i=0;i<=4;i++){const v=min+(max-min)*i/4,yy=y(v);shape("line",{x1:left,x2:right,y1:yy,y2:yy,class:"axis",opacity:.4});shape("text",{x:left-6,y:yy+3,"text-anchor":"end",class:"labels"},formatter.format(v));}
+    shape("line",{x1:left,x2:right,y1:y(0),y2:y(0),class:"axis"});
+    const line=this.getAttribute("chart-type")==="line",points=items.map((item,i)=>[left+(i+.5)*slot,y(item.value)]);
+    if(line)shape("polyline",{points:points.map(p=>p.join(",")).join(" "),class:"line"});
+    items.forEach((item,i)=>{const [x,yy]=points[i];const mark=line?shape("circle",{cx:x,cy:yy,r:Math.max(1,Math.min(4,slot/3)),class:"mark"}):shape("rect",{x:x-slot*.32,y:Math.min(yy,y(0)),width:slot*.64,height:Math.max(1,Math.abs(yy-y(0))),rx:2,class:"mark"});const tip=doc.createElementNS(ns,"title");tip.textContent=item.label+": "+item.value;mark.append(tip);if(i%Math.max(1,Math.ceil(items.length/8))===0){const label=item.label.length>14?item.label.slice(0,13)+"…":item.label;shape("text",{x,y:bottom+16,"text-anchor":"middle",class:"labels"},label);}});
+  }
+}
+define("cu-chart-container",CuChartContainer);

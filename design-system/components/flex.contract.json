@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "Flex",
+  "tag": "flex",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "direction": "row | column | row-reverse | column-reverse",
+    "gap": "0-8",
+    "wrap": "boolean",
+    "align": "string",
+    "justify": "string"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

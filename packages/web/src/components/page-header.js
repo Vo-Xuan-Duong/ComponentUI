@@ -1,0 +1,10 @@
+import {BrowserElement,mount,define} from "./_shared.js";
+const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}.header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:8px 16px;}.copy{min-width:0;flex:1 1 220px;}.title{font-size:clamp(20px,3vw,28px);line-height:1.3;font-weight:650;letter-spacing:-.025em;margin:0;overflow-wrap:anywhere;}.description{color:var(--cu-text-muted,#616161);line-height:1.6;margin:6px 0 0;}.description[hidden]{display:none!important;}.actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}.crumbs{margin-bottom:8px;}.crumbs[hidden]{display:none!important;}";
+export class CuPageHeader extends BrowserElement{
+  static get observedAttributes(){return ["title","description"];}
+  constructor(){super();const root=mount(this,css,'<header part="header"><div class="crumbs" hidden><slot name="breadcrumbs"></slot></div><div class="header"><div class="copy"><h1 class="title"><slot name="title"><span class="title-text"></span></slot></h1><div class="description"><slot name="description"><span class="description-text"></span></slot></div></div><div class="actions"><slot name="actions"></slot></div></div></header>');this._title=root.querySelector(".title-text");this._description=root.querySelector(".description-text");this._crumbs=root.querySelector(".crumbs");this._desc=root.querySelector(".description");for(const slot of root.querySelectorAll("slot"))slot.addEventListener("slotchange",()=>this._sync());}
+  connectedCallback(){this._sync();}
+  attributeChangedCallback(){this._sync();}
+  _sync(){if(!this._title)return;this._title.textContent=this.getAttribute("title")||"";this._description.textContent=this.getAttribute("description")||"";this._crumbs.hidden=!this._crumbs.querySelector("slot").assignedNodes().length;this._desc.hidden=!this._description.textContent&&!this._desc.querySelector("slot").assignedNodes().length;}
+}
+define("cu-page-header",CuPageHeader);

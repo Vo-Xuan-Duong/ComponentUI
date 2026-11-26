@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "Stack",
+  "tag": "stack",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "orientation": "horizontal | vertical",
+    "gap": "0-8",
+    "wrap": "boolean",
+    "align": "string",
+    "justify": "string"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
