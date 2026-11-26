@@ -394,7 +394,7 @@ export declare class CuToast extends HTMLElement {
   dismiss(id:string,reason?:string):boolean;
   clear():void;
 }
-export declare class CuRadio extends HTMLElement {}
+export declare class CuRadio extends HTMLElement {disabled:boolean;checked:boolean;}
 export declare class CuRadioGroup extends HTMLElement {
   static formAssociated: boolean;
   value: string;
@@ -404,7 +404,7 @@ export declare class CuRadioGroup extends HTMLElement {
   checkValidity(): boolean;
   reportValidity(): boolean;
 }
-export declare class CuTab extends HTMLElement {}
+export declare class CuTab extends HTMLElement {disabled:boolean;}
 export declare class CuTabs extends HTMLElement {
   active: number;
 }
@@ -751,7 +751,7 @@ export declare class CuMenu extends HTMLElement {
   hide(restoreFocus?: boolean): void;
   toggle(): void;
 }
-export declare class CuMenuItem extends HTMLElement {}
+export declare class CuMenuItem extends HTMLElement {disabled:boolean;}
 export declare function initialsFromName(name: string): string;
 
 

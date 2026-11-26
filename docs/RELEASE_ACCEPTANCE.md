@@ -27,3 +27,18 @@ Preview coverage includes intentionally compositional variants, not 132
 independent interaction engines. Advanced components have explicit scope
 limits; review contracts and documentation before use. GitHub Actions
 are not run as part of this development milestone.
+
+## Stabilization pass 1
+
+The first hardening pass addresses dynamic tab content, RTL keyboard navigation,
+disabled steps, notification capacity changes, OTP commit deduplication,
+menu focus restoration, radio child state, command palette touch scrolling,
+empty description spacing, and color alpha preservation. The package verifier
+now checks each of the 143 React tag mappings against its native class,
+standalone built module and TypeScript declarations. These are source-level
+changes and regression tests, not evidence of browser acceptance.
+
+Local focused test: `node --test tests/stabilization-pass-one.test.mjs`.
+Then run the complete checks above. Verify menu selection that opens a
+dialog, OTP paste followed by blur, nested tab content updates, disabled
+wizard steps, and Toast max-visible changes in the real browser.

@@ -15,7 +15,7 @@ export function normalizeSteps(value){
 }
 export function canVisitStep(steps,index,currentIndex,linear=false){
   if(!Number.isInteger(index)||index<0||index>=steps.length||steps[index].disabled)return false;
-  return !linear||index<=currentIndex+1;
+  return !linear||index<=currentIndex||index===steps.findIndex((step,i)=>i>currentIndex&&!step.disabled);
 }
 
 const css=[
@@ -95,7 +95,7 @@ export class CuStepper extends BrowserElement {
     this._focusIndex=Math.max(0,Math.min(this._focusIndex,this._steps.length-1));
     this._render();
   }
-  get value(){return this.getAttribute("value")||this._steps[0]?.value||"";}
+  get value(){const requested=this.getAttribute("value");return this._steps.some(step=>step.value===requested&&!step.disabled)?requested:this._steps.find(step=>!step.disabled)?.value||"";}
   set value(next){
     const value=String(next??"");
     const index=this._steps.findIndex(step=>step.value===value);
@@ -105,7 +105,7 @@ export class CuStepper extends BrowserElement {
   get currentIndex(){return this._steps.findIndex(step=>step.value===this.value);}
   get linear(){return this.hasAttribute("linear");}
   set linear(next){this.toggleAttribute("linear",Boolean(next));}
-  _canVisit(index){return canVisitStep(this._steps,index,Math.max(0,this.currentIndex),this.linear);}
+  _canVisit(index){return canVisitStep(this._steps,index,this.currentIndex,this.linear);}
   goTo(input){
     const index=typeof input==="number"?input:this._steps.findIndex(step=>step.value===input);
     if(!this._canVisit(index))return false;
@@ -117,8 +117,8 @@ export class CuStepper extends BrowserElement {
     notify(this,"cu-change",{value:this.value,index,previousValue});
     return true;
   }
-  next(){return this.goTo(this.currentIndex+1);}
-  previous(){return this.goTo(this.currentIndex-1);}
+  next(){const current=this.currentIndex;return this.goTo(this._steps.findIndex((step,i)=>i>current&&!step.disabled));}
+  previous(){for(let i=this.currentIndex-1;i>=0;i--)if(!this._steps[i].disabled)return this.goTo(i);return false;}
   _focusStep(index){
     this._focusIndex=index;
     const buttons=[...this._list.querySelectorAll("button[data-step]")];
@@ -127,7 +127,8 @@ export class CuStepper extends BrowserElement {
   }
   _render(){
     if(!this._list)return;
-    const index=Math.max(0,this.currentIndex);
+    const index=this.currentIndex;
+    const restoreFocus=this._list.contains(this.shadowRoot?.activeElement);
     if(!this._canVisit(this._focusIndex)){
       this._focusIndex=this._canVisit(index)?index:
         this._steps.findIndex((_,i)=>this._canVisit(i));
@@ -156,6 +157,7 @@ export class CuStepper extends BrowserElement {
       copy.append(label,description);button.append(circle,copy);item.append(button);
       this._list.append(item);
     }
+    if(restoreFocus&&this._focusIndex>=0)this._focusStep(this._focusIndex);
   }
 }
 define("cu-stepper",CuStepper);

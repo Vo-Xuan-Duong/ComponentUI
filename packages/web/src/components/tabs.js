@@ -5,7 +5,10 @@ import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js"
  * Data-only slotted panels:
  * <cu-tabs><cu-tab label="Overview">Content</cu-tab>...</cu-tabs>
  */
-export class CuTab extends BrowserElement {}
+export class CuTab extends BrowserElement {
+  get disabled(){return this.hasAttribute("disabled");}
+  set disabled(value){this.toggleAttribute("disabled",Boolean(value));}
+}
 define("cu-tab", CuTab);
 
 const css = [
@@ -44,8 +47,9 @@ export class CuTabs extends BrowserElement {
       const current = tabs.indexOf(event.target);
       if (current < 0 || !tabs.length) return;
       const vertical = this.getAttribute("orientation") === "vertical";
-      const next = vertical ? "ArrowDown" : "ArrowRight";
-      const previous = vertical ? "ArrowUp" : "ArrowLeft";
+      const rtl = !vertical && this.ownerDocument.defaultView?.getComputedStyle(this).direction === "rtl";
+      const next = vertical ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight";
+      const previous = vertical ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft";
       let target;
       if (event.key === next) target = tabs[(current + 1) % tabs.length];
       if (event.key === previous) target = tabs[(current - 1 + tabs.length) % tabs.length];
@@ -65,8 +69,9 @@ export class CuTabs extends BrowserElement {
   connectedCallback() {
     this._render();
     this._observer = new MutationObserver(records => {
-      if (records.some(r => r.type === "childList" ||
-          ["label","disabled"].includes(r.attributeName))) this._render();
+      if (records.some(r => (r.type === "childList" && r.target === this) ||
+          (r.type === "attributes" && r.target.parentElement === this &&
+            r.target.localName === "cu-tab"))) this._render();
     });
     this._observer.observe(this, {childList:true,subtree:true,attributes:true,
       attributeFilter:["label","disabled"]});
@@ -79,15 +84,17 @@ export class CuTabs extends BrowserElement {
   }
 
   get active() { return this._active; }
-  set active(value) { this._activate(Number(value)); }
+  set active(value) { const next=Number(value);if(!this._tablist.children.length){this._active=Number.isFinite(next)?Math.trunc(next):0;this.setAttribute("active",String(this._active));return;}this._activate(next); }
 
   _render() {
     const items = [...this.children].filter(child => child.localName === "cu-tab");
+    const focused=this.shadowRoot.activeElement;
+    const restoreTabFocus=this._tablist.contains(focused);
     this._tablist.replaceChildren();
     this._panels.replaceChildren();
     const base = this._id ?? (this._id = "cu-tabs-" + ++CuTabs._nextId);
     items.forEach((item, index) => {
-      const button = document.createElement("button");
+      const button = this.ownerDocument.createElement("button");
       button.type = "button";
       button.dataset.index = String(index);
       button.id = base + "-tab-" + index;
@@ -95,12 +102,12 @@ export class CuTabs extends BrowserElement {
       button.setAttribute("aria-controls", base + "-panel-" + index);
       button.disabled = item.hasAttribute("disabled");
       button.textContent = item.getAttribute("label") || "Tab " + (index + 1);
-      const panel = document.createElement("section");
+      const panel = this.ownerDocument.createElement("section");
       panel.id = base + "-panel-" + index;
       panel.setAttribute("role", "tabpanel");
       panel.setAttribute("aria-labelledby", button.id);
       panel.tabIndex = 0;
-      const slot = document.createElement("slot");
+      const slot = this.ownerDocument.createElement("slot");
       const slotName = base + "-content-" + index;
       slot.name = slotName;
       // Do not watch slot mutations: this is internal distribution metadata.
@@ -109,7 +116,7 @@ export class CuTabs extends BrowserElement {
       this._tablist.append(button);
       this._panels.append(panel);
     });
-    this._activate(Number(this.getAttribute("active") ?? this._active));
+    this._activate(Number(this.getAttribute("active") ?? this._active),{focus:restoreTabFocus});
   }
 
   _activate(requested, {focus=false,emit=false} = {}) {

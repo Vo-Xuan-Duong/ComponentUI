@@ -7,6 +7,10 @@ import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js"
  */
 export class CuRadio extends BrowserElement {
   static get observedAttributes() { return ["value","disabled","checked"]; }
+  get disabled(){return this.hasAttribute("disabled");}
+  set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
+  get checked(){return this.hasAttribute("checked");}
+  set checked(v){this.toggleAttribute("checked",Boolean(v));}
 }
 define("cu-radio", CuRadio);
 
@@ -49,8 +53,15 @@ export class CuRadioGroup extends BrowserElement {
     this._render();
     this._sync();
     this._observer = new MutationObserver(records => {
-      if (records.some(r => r.type === "childList" ||
-        ["value","disabled","checked"].includes(r.attributeName))) this._render();
+      const relevant=records.filter(r=>(r.type==="childList"&&(r.target===this||r.target.closest?.("cu-radio")?.parentElement===this))||
+        (r.type==="attributes"&&r.target.parentElement===this&&r.target.localName==="cu-radio"));
+      if(!relevant.length)return;
+      const selection=[...relevant].reverse().find(r=>r.attributeName==="checked"&&r.target.hasAttribute("checked"));
+      const removed=relevant.some(r=>r.attributeName==="checked"&&!r.target.hasAttribute("checked")&&
+        (r.target.getAttribute("value")??String([...this.children].filter(x=>x.localName==="cu-radio").indexOf(r.target)))===this.value);
+      this._render();
+      if(selection){const index=[...this.children].filter(x=>x.localName==="cu-radio").indexOf(selection.target);this.value=selection.target.getAttribute("value")??String(index);}
+      else if(removed)this.value="";
     });
     this._observer.observe(this, {childList:true,subtree:true,attributes:true,
       attributeFilter:["value","disabled","checked"]});
@@ -85,6 +96,8 @@ export class CuRadioGroup extends BrowserElement {
   _render() {
     if (!this._options) return;
     const previous = this._initialized ? this.value : null;
+    const focused=this.shadowRoot?.activeElement;
+    const focusedValue=this._options.contains(focused)?focused.value:null;
     const items = [...this.children].filter(node => node.localName === "cu-radio");
     this._options.replaceChildren();
     items.forEach((item, index) => {
@@ -113,6 +126,7 @@ export class CuRadioGroup extends BrowserElement {
       this._initialized = true;
     } else this.value = previous;
     this._sync();
+    if(focusedValue!==null){const inputs=[...this._options.querySelectorAll("input:not(:disabled)")];(inputs.find(x=>x.value===focusedValue)||inputs.find(x=>x.checked)||inputs[0])?.focus({preventScroll:true});}
   }
   _sync() {
     if (!this._fieldset) return;

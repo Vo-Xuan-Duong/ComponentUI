@@ -5,6 +5,8 @@ import { registerOverlay, unregisterOverlay, isTopOverlay, placeAnchoredOverlay,
 /** Declarative option only: used as a child of <cu-menu>. */
 export class CuMenuItem extends BrowserElement {
   static get observedAttributes() { return ["value","disabled","label"]; }
+  get disabled(){return this.hasAttribute("disabled");}
+  set disabled(value){this.toggleAttribute("disabled",Boolean(value));}
 }
 define("cu-menu-item",CuMenuItem);
 
@@ -71,10 +73,9 @@ export class CuMenu extends BrowserElement {
     this._menu.addEventListener("click",event => {
       const button = event.target.closest('[role="menuitem"]');
       if (!button || button.disabled) return;
-      notify(this,"cu-select",{
-        value:button.dataset.value,label:button.textContent
-      });
+      const detail={value:button.dataset.value,label:button.textContent};
       this.hide(true);
+      notify(this,"cu-select",detail);
     });
     this._outside = event => {
       if (this.open && !event.composedPath().includes(this)) this.hide();
@@ -115,8 +116,9 @@ export class CuMenu extends BrowserElement {
   get open() { return this.hasAttribute("open"); }
   set open(value) { this.toggleAttribute("open",Boolean(value)); }
   _enabledItems() { return [...this._menu.querySelectorAll('[role="menuitem"]:not(:disabled)')]; }
+  _triggerElements(){return this._trigger.assignedElements({flatten:true});}
   _syncTrigger() {
-    for (const trigger of this._trigger.assignedElements({flatten:true})) {
+    for (const trigger of this._triggerElements()) {
       trigger.setAttribute("aria-haspopup","menu");
       trigger.setAttribute("aria-controls",this._menu.id);
       trigger.setAttribute("aria-expanded",String(this.open));
@@ -160,7 +162,7 @@ export class CuMenu extends BrowserElement {
   }
   hide(restoreFocus=false) {
     if (this.open) this.open = false;
-    if (restoreFocus) restoreOverlayFocus(this._trigger.assignedElements({flatten:true})[0]);
+    if (restoreFocus) restoreOverlayFocus(this._triggerElements()[0]);
   }
   toggle() { this.open ? this.hide() : this.show(); }
 }

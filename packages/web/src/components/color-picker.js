@@ -114,7 +114,7 @@ export class CuColorPicker extends BrowserElement{
     this._text.setAttribute("aria-label",this._label.textContent+" value");this._text.setAttribute("aria-required",String(this.required));
     this._hint.textContent=this.getAttribute("hint")||"";
     this._select.value=this._format;this._opacity.hidden=!this.alpha;
-    const color=this._color??parseColor("#0067c0");if(!this.alpha&&this._color)this._color={...this._color,a:1};
+    const color=this._color??parseColor("#0067c0");
     if(updateText&&!this._draftInvalid)this._text.value=this._color?formatColor(this._color,this._format,this.alpha):"";
     this._sample.style.backgroundColor=this._color?formatColor(this._color,"rgb",this.alpha):"transparent";
     this._native.value=formatColor(color);this._alpha.value=String(Math.round(color.a*100));this._output.textContent=this._alpha.value+"%";

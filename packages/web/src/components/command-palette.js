@@ -65,7 +65,7 @@ export class CuCommandPalette extends BrowserElement{
       const copy=doc.createElement("span");copy.className="copy";const label=doc.createElement("span");label.className="name";label.textContent=item.label;copy.append(label);
       if(item.description){const desc=doc.createElement("span");desc.className="description";desc.textContent=item.description;copy.append(desc);}el.append(copy);
       if(item.shortcut){const key=doc.createElement("kbd");key.textContent=item.shortcut;el.append(key);}
-      el.addEventListener("pointerdown",e=>e.preventDefault());el.addEventListener("pointermove",e=>{if(e.pointerType!=="touch"&&!item.disabled&&this._active!==i){this._active=i;this._mark();}});el.addEventListener("click",()=>this._commit(i));
+      el.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse")e.preventDefault();});el.addEventListener("pointermove",e=>{if(e.pointerType!=="touch"&&!item.disabled&&this._active!==i){this._active=i;this._mark();}});el.addEventListener("click",()=>this._commit(i));
       this._rows.push(el);nodes.push(el);
     });
     if(!nodes.length){const empty=doc.createElement("div");empty.className="empty";empty.setAttribute("role","presentation");empty.textContent=this.getAttribute("empty-text")||"No matching commands";nodes.push(empty);}

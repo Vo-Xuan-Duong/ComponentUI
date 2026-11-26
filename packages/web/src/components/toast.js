@@ -43,8 +43,16 @@ export class CuToast extends BrowserElement{
   }
   _drain(){
     if(!this._stack||!this.isConnected)return;
+    const limit=this._limit();
+    // Keep the FIFO order when the visible capacity shrinks. Paused entries
+    // retain remaining time and are remounted only when capacity returns.
+    const visibleEntries=this._entries.filter(e=>e.node);
+    for(const entry of visibleEntries.slice(limit)){
+      this._pause(entry,"capacity");
+      entry.node.remove();entry.node=null;entry.paused.clear();
+    }
     let visible=this._entries.filter(e=>e.node).length;
-    for(const entry of this._entries){if(visible>=this._limit())break;if(entry.node)continue;this._mountToast(entry);visible++;}
+    for(const entry of this._entries){if(visible>=limit)break;if(entry.node)continue;this._mountToast(entry);visible++;}
   }
   _mountToast(entry){
     const doc=this.ownerDocument,data=entry.data,node=doc.createElement("div");
@@ -67,7 +75,7 @@ export class CuToast extends BrowserElement{
     this._schedule(entry);
   }
   _schedule(entry){
-    if(entry.data.duration===0||entry.paused.size||entry.timer!==null)return;
+    if(!entry.node||entry.data.duration===0||entry.paused.size||entry.timer!==null)return;
     entry.started=Date.now();
     entry.timer=setTimeout(()=>{entry.timer=null;this.dismiss(entry.data.id,"timeout");},entry.remaining);
   }

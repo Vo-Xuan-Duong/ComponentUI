@@ -79,5 +79,21 @@ if(failures.length){
   if(typeof web.CuButton!=="function"||typeof react.createReactComponents!=="function"||
      typeof vue.isComponentUIElement!=="function"||typeof svelte.cuModel!=="function")
     throw new Error("One or more ESM entry points could not be imported");
+  // Ensure each public React tag has a native class, a DOM declaration,
+  // and an importable standalone subpath in the built Web package.
+  const webManifest=JSON.parse(await readFile(join(ROOT,"packages/web/package.json"),"utf8"));
+  const domTypes=await readFile(join(ROOT,"packages/web/dist/components/index.d.ts"),"utf8");
+  const wrapperTypes=await readFile(join(ROOT,"packages/react/dist/components.d.ts"),"utf8");
+  const tags=Object.entries(react.REACT_TAGS);
+  for(const [name,tag] of tags){
+    if(typeof web["Cu"+name]!=="function")throw new Error("Missing native class: "+name);
+    if(!domTypes.includes('"'+tag+'":'))throw new Error("Missing DOM type: "+tag);
+    if(!wrapperTypes.includes("const "+name+":"))throw new Error("Missing React wrapper type: "+name);
+    const entry=webManifest.exports["./components/"+tag.slice(3)];
+    if(!entry?.default)throw new Error("Missing component export: "+tag);
+    const module=await import(pathToFileURL(join(ROOT,"packages/web",entry.default)).href);
+    if(module["Cu"+name]!==web["Cu"+name])throw new Error("Standalone class mismatch: "+tag);
+  }
+  console.log("Verified "+tags.length+" native component exports and TypeScript mappings.");
   console.log("Independent dist checks and Node ESM import smoke checks passed.");
 }

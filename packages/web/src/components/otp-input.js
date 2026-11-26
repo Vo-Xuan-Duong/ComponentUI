@@ -23,11 +23,14 @@ export class CuOTPInput extends BrowserElement{
     for(const [k,q] of Object.entries({label:".label",control:".control",cells:".cells",input:"input",hint:".hint",error:".error"}))this["_"+k]=root.querySelector(q);
     this._input.addEventListener("input",e=>{if(!e.isComposing)this._edited();});
     this._input.addEventListener("compositionend",()=>this._edited());
-    this._input.addEventListener("change",()=>notify(this,"cu-change",{value:this.value,complete:this.value.length===this.length}));
+    this._input.addEventListener("focus",()=>{this._lastCommitted=this.value;this._lastInput=this.value;});
+    this._input.addEventListener("change",()=>this._commit());
+    this._input.addEventListener("blur",()=>this._commit());
     this._input.addEventListener("paste",e=>{
       if(this._input.disabled||this._input.readOnly||!e.clipboardData)return;
       const text=e.clipboardData.getData("text");if(!text)return;e.preventDefault();
-      const digits=normalizeOTP(text,this.length),start=this._input.selectionStart??this.value.length,end=this._input.selectionEnd??start;
+      const digits=normalizeOTP(text,this.length);if(!digits)return;
+      const start=this._input.selectionStart??this.value.length,end=this._input.selectionEnd??start;
       this._input.value=digits.length===this.length?digits:this.value.slice(0,start)+digits+this.value.slice(end);
       const cursor=digits.length===this.length?this.length:Math.min(this.length,start+digits.length);
       this._input.setSelectionRange(cursor,cursor);this._edited();
@@ -43,7 +46,7 @@ export class CuOTPInput extends BrowserElement{
   }
   connectedCallback(){
     if(!this._initialized){this._default=this.getAttribute("value")??"";if(!this._assigned)this._input.value=normalizeOTP(this._default,this.length);this._initialized=true;}
-    this._sync();
+    this._sync();this._lastInput=this.value;this._lastCommitted=this.value;
   }
   attributeChangedCallback(name){
     if(!this._input)return;
@@ -52,7 +55,7 @@ export class CuOTPInput extends BrowserElement{
   }
   get length(){return otpLength(this.getAttribute("length"));}set length(v){this.setAttribute("length",String(v));}
   get value(){return this._input.value;}
-  set value(v){this._assigned=true;this._input.value=normalizeOTP(v,this.length);this._sync();}
+  set value(v){this._assigned=true;const next=normalizeOTP(v,this.length);if(next!==this.value){this._input.value=next;this._lastInput=next;this._lastCommitted=next;}this._sync();}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   get required(){return this.hasAttribute("required");}set required(v){this.toggleAttribute("required",Boolean(v));}
@@ -68,8 +71,9 @@ export class CuOTPInput extends BrowserElement{
     const next=normalizeOTP(this.value,this.length);
     if(next!==this.value){this._input.value=next;this._input.setSelectionRange(cursor,cursor);}
     this._syncForm();this._paint();
-    notify(this,"cu-input",{value:this.value,complete:this.value.length===this.length});
+    if(this.value!==this._lastInput){this._lastInput=this.value;notify(this,"cu-input",{value:this.value,complete:this.value.length===this.length});}
   }
+  _commit(){if(this.value===this._lastCommitted)return;this._lastCommitted=this.value;notify(this,"cu-change",{value:this.value,complete:this.value.length===this.length});}
   _paint(){
     const a=this._input.selectionStart??this.value.length,b=this._input.selectionEnd??a;
     const active=Math.min(a,this.length-1);

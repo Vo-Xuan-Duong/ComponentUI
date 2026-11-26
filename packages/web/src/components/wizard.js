@@ -1,6 +1,5 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
-import {normalizeSteps} from "./stepper.js";
-import "./stepper.js";
+import {normalizeSteps,canVisitStep} from "./stepper.js";
 const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}.frame{display:grid;gap:16px;border:1px solid var(--cu-border,#e5e5e5);border-radius:8px;padding:16px;background:var(--cu-surface,#fff);}.content{min-height:80px;}.footer{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--cu-border,#e5e5e5);padding-top:12px;}button{min-height:34px;padding:0 14px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:6px;background:var(--cu-surface,#fff);color:inherit;font:600 13px var(--cu-font-body,system-ui);cursor:pointer;}button:hover:not(:disabled){background:var(--cu-state-hover);}button:disabled{opacity:.5;cursor:default;}.next{background:var(--cu-accent,#0067c0);color:var(--cu-accent-text,#fff);border-color:var(--cu-accent,#0067c0);}.next:hover:not(:disabled){background:var(--cu-accent-hover,#005a9e);}"+focusStyle;
 export class CuWizard extends BrowserElement{
  static get observedAttributes(){return ["value","linear","finish-label","label"];}
@@ -10,7 +9,7 @@ export class CuWizard extends BrowserElement{
  get value(){const requested=this.getAttribute("value");return this._steps.some(x=>x.value===requested&&!x.disabled)?requested:this._steps.find(x=>!x.disabled)?.value||"";}set value(v){this.setAttribute("value",String(v??""));}
  get linear(){return this.hasAttribute("linear");}set linear(v){this.toggleAttribute("linear",Boolean(v));}
  _index(){return this._steps.findIndex(x=>x.value===this.value);}
- _canVisit(index,current){return Number.isInteger(index)&&index>=0&&index<this._steps.length&&!this._steps[index].disabled&&(!this.linear||index<=current||index===this._steps.findIndex((x,i)=>i>current&&!x.disabled));}
+ _canVisit(index,current){return canVisitStep(this._steps,index,current,this.linear);}
  goTo(value){const index=typeof value==="number"?value:this._steps.findIndex(x=>x.value===value),current=this._index();if(!this._canVisit(index,current)||index===current){this._sync();return false;}const previousValue=this.value;this.value=this._steps[index].value;notify(this,"cu-change",{value:this.value,previousValue,index});return true;}
  next(){const current=this._index();if(current<0)return false;const next=this._steps.findIndex((x,i)=>i>current&&!x.disabled);if(next<0){notify(this,"cu-finish",{value:this.value,index:current});return true;}return this.goTo(next);}
  previous(){const current=this._index();for(let i=current-1;i>=0;i--)if(!this._steps[i].disabled)return this.goTo(i);return false;}
