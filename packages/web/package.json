@@ -292,6 +292,14 @@
     "./components/notification-center": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/notification-center.js"
+    },
+    "./components/range-slider": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/range-slider.js"
+    },
+    "./components/otp-input": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/otp-input.js"
     }
   },
   "files": [

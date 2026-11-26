@@ -116,6 +116,14 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcRangeOtpForm=document.getElementById("wc-range-otp-form");
+wcRangeOtpForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  const data=new FormData(wcRangeOtpForm);
+  document.getElementById("wc-range-otp-result").textContent=
+    JSON.stringify({budget:data.getAll("budget"),codeComplete:String(data.get("code")??"").length===6},null,2);
+});
+wcRangeOtpForm.addEventListener("reset",()=>{document.getElementById("wc-range-otp-result").textContent="Form reset.";});
 const wcAutocomplete=document.getElementById("wc-autocomplete");
 wcAutocomplete.items=[
   {value:"React",description:"UI library"},

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "RangeSlider",
+  "tag": "cu-range-slider",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "JSON number pair",
+    "min": "number",
+    "max": "number",
+    "step": "positive number",
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "disabled": "boolean",
+    "readonly": "boolean",
+    "lower-label": "string",
+    "upper-label": "string"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

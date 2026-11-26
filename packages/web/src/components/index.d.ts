@@ -461,6 +461,25 @@ export declare class CuRating extends HTMLElement {
   checkValidity():boolean;
   reportValidity():boolean;
 }
+export interface CuRangeState {min:number;max:number;step:number;value:[number,number];}
+export declare function normalizeRange(value:unknown,min?:unknown,max?:unknown,step?:unknown):CuRangeState;
+export declare class CuRangeSlider extends HTMLElement {
+  static formAssociated:boolean;
+  value:[number,number];
+  disabled:boolean;
+  focus(options?:FocusOptions):void;
+}
+export declare function normalizeOTP(value:unknown,length?:unknown):string;
+export declare class CuOTPInput extends HTMLElement {
+  static formAssociated:boolean;
+  value:string;
+  length:number;
+  disabled:boolean;
+  required:boolean;
+  focus(options?:FocusOptions):void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -646,6 +665,8 @@ declare global {
     "cu-calendar": CuCalendar;
     "cu-rating": CuRating;
     "cu-slider": CuSlider;
+    "cu-range-slider": CuRangeSlider;
+    "cu-otp-input": CuOTPInput;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;
     "cu-avatar": CuAvatar;

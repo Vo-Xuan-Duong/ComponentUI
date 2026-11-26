@@ -55,6 +55,8 @@ export { CuDateRangePicker, splitDateRange, dateRangeValidity } from "./date-ran
 export { CuCalendar, calendarDays, moveCalendarDate } from "./calendar.js";
 export { CuRating, normalizeRating } from "./rating.js";
 export { CuSlider } from "./slider.js";
+export { CuRangeSlider, normalizeRange } from "./range-slider.js";
+export { CuOTPInput, normalizeOTP } from "./otp-input.js";
 export { CuProgressBar } from "./progress-bar.js";
 export { CuProgressRing, normalizeRingProgress } from "./progress-ring.js";
 export { CuChip } from "./chip.js";

@@ -214,4 +214,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **MultiSelect and Toast milestone:** the catalog now contains 130 entries, 63 preview, 67 planned, zero production-ready. The React factory exposes 74 wrappers. MultiSelect adds a searchable multi-value form control; Toast replaces the old Playground-only notification implementation with a reusable queue. See [MultiSelect and Toast](docs/MULTISELECT_TOAST.md).
 
-**Current milestone — AutoComplete and NotificationCenter:** 130 catalog entries, 65 preview, 65 planned, zero production-ready; 76 React wrappers. AutoComplete supports free text and property-driven suggestions, while NotificationCenter manages an in-memory notification list. See [AutoComplete and NotificationCenter](docs/AUTOCOMPLETE_NOTIFICATIONS.md).
+**AutoComplete and NotificationCenter milestone:** 130 catalog entries, 65 preview, 65 planned, zero production-ready; 76 React wrappers. AutoComplete supports free text and property-driven suggestions, while NotificationCenter manages an in-memory notification list. See [AutoComplete and NotificationCenter](docs/AUTOCOMPLETE_NOTIFICATIONS.md).
+
+**Current milestone — RangeSlider and OTPInput:** 130 catalog entries, 67 preview, 63 planned, zero production-ready; 78 React wrappers. See [RangeSlider and OTPInput](docs/RANGE_OTP.md).

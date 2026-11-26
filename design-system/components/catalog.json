@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "63 experimental catalogued browser Custom Elements; 65 catalog preview entries, 65 planned, 0 production-ready.",
+  "summary": "65 experimental catalogued browser Custom Elements; 67 catalog preview entries, 63 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -244,7 +244,7 @@
         {
           "name": "RangeSlider",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -316,7 +316,7 @@
         {
           "name": "OTPInput",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

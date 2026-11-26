@@ -627,6 +627,16 @@
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
             <article class="cu-surface demo-card">
+              <h3>RangeSlider &amp; OTPInput</h3>
+              <p class="demo-subtitle">Dual-thumb range and segmented numeric code with native form integration.</p>
+              <form id="wc-range-otp-form" class="cu-web-form">
+                <cu-range-slider name="budget" label="Budget range" min="0" max="1000" step="25" value="[200,750]" hint="Use either thumb or arrow keys."></cu-range-slider>
+                <cu-otp-input name="code" label="Example verification code" length="6" required hint="Use a fictitious six-digit code."></cu-otp-input>
+                <div class="demo-row"><cu-button type="submit" variant="accent">Validate example</cu-button><cu-button type="reset">Reset</cu-button></div>
+              </form>
+              <pre class="cu-web-result" id="wc-range-otp-result" role="status">Choose a range and enter an example code.</pre>
+            </article>
+            <article class="cu-surface demo-card">
               <h3>AutoComplete</h3>
               <p class="demo-subtitle">Search suggestions with descriptions or enter a custom value.</p>
               <form id="wc-autocomplete-form" class="cu-web-form">

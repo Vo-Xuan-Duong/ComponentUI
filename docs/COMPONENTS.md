@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **65 planned**, **65 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **63 planned**, **67 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -141,3 +141,7 @@ MultiSelect is a new catalog entry and Toast moves to preview. Current inventory
 ## AutoComplete and NotificationCenter
 
 Both move from planned to preview. Current inventory: 130 entries, 65 preview, 65 planned, 0 ready. See [AutoComplete and NotificationCenter](AUTOCOMPLETE_NOTIFICATIONS.md).
+
+## RangeSlider and OTPInput
+
+Both move from planned to preview. Current inventory: 130 entries, 67 preview, 63 planned, 0 ready. See [RangeSlider and OTPInput](RANGE_OTP.md).

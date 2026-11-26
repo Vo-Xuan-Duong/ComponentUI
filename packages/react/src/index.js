@@ -15,7 +15,7 @@ export const REACT_TAGS = Object.freeze({
   Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast", AutoComplete:"cu-autocomplete", NotificationCenter:"cu-notification-center",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
-  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider",
+  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input",
   ProgressBar:"cu-progress-bar", ProgressRing:"cu-progress-ring", Badge:"cu-badge", Chip:"cu-chip", Tag:"cu-tag",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
@@ -90,6 +90,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-calendar":["value","required","disabled","readonly"],
   "cu-rating":["max","value","required","disabled","readonly"],
   "cu-slider":["value","disabled"],
+  "cu-range-slider":["min","max","step","value","disabled","readonly"],
+  "cu-otp-input":["length","value","required","disabled","readonly"],
   "cu-progress-bar":["value","max"],
   "cu-progress-ring":["value","max"],
   "cu-chip":["value","selected","selectable","removable","disabled"],
@@ -140,6 +142,7 @@ export function assignCuProperties(element, tagName, props = {}) {
       if ((tagName==="cu-split-button"&&name==="actions") ||
           (tagName==="cu-stepper"&&name==="steps") ||
           (tagName==="cu-multi-select"&&(name==="items"||name==="value")) ||
+          (tagName==="cu-range-slider"&&name==="value") ||
           ((tagName==="cu-autocomplete"||tagName==="cu-notification-center")&&name==="items") ||
           (tagName==="cu-command-bar"&&name==="commands") ||
           (tagName==="cu-virtual-list"&&name==="items") ||

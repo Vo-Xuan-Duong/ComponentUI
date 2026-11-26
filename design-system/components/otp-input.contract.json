@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "OTPInput",
+  "tag": "cu-otp-input",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "numeric string",
+    "length": "1-12",
+    "name": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

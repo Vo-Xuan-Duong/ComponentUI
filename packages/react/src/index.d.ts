@@ -2,7 +2,9 @@ import type * as React from "react";
 import type { IconName } from "@componentui/icons";
 
 export interface CuEventDetails {
-  value?: string | number | string[];
+  value?: string | number | string[] | [number,number];
+  complete?: boolean;
+  thumb?: "lower" | "upper";
   id?: string;
   tone?: string;
   unreadCount?: number;
@@ -74,7 +76,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   message?: string;
   error?: string;
   placeholder?: string;
-  value?: string | string[] | number | null;
+  value?: string | string[] | [number,number] | number | null;
+  length?: number | string;
   values?: string[];
   checked?: boolean;
   disabled?: boolean;
@@ -115,6 +118,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   maxVisible?: number;
   "max-selected"?: number | string;
   "min-chars"?: number | string;
+  "lower-label"?: string;
+  "upper-label"?: string;
   "max-results"?: number | string;
   "manual-filter"?: boolean;
   "max-visible"?: number | string;
@@ -187,7 +192,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;
