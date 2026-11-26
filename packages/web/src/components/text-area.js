@@ -1,4 +1,5 @@
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import { syncFieldValidity, wireFieldValidation } from "./_field.js";
 
 const css = [
   ":host{display:block;min-width:0;color:var(--cu-text,#242424);font-family:var(--cu-font-body,system-ui);}",
@@ -55,11 +56,12 @@ export class CuTextArea extends BrowserElement {
       this._update();
       notify(this,"cu-change",{value:this.value});
     });
+    wireFieldValidation(this,this._control,()=>this._update());
   }
   connectedCallback(){
     if(!this._initialized){
       this._defaultValue=this.getAttribute("value")??"";
-      this._control.value=this._defaultValue;
+      if(!this._valueAssigned)this._control.value=this._defaultValue;
       this._initialized=true;
     }
     this._sync();
@@ -72,10 +74,10 @@ export class CuTextArea extends BrowserElement {
     }else this._sync();
   }
   formDisabledCallback(value){this._formDisabled=value;this._sync();}
-  formResetCallback(){this.value=this._defaultValue??"";}
+  formResetCallback(){this._validationRevealed=false;this.value=this._defaultValue??"";}
   formStateRestoreCallback(value){this.value=String(value??"");}
   get value(){return this._control.value;}
-  set value(value){this._control.value=String(value??"");this._update();}
+  set value(value){this._valueAssigned=true;this._control.value=String(value??"");this._update();}
   get disabled(){return this.hasAttribute("disabled");}
   set disabled(value){this.toggleAttribute("disabled",Boolean(value));}
   get required(){return this.hasAttribute("required");}
@@ -104,7 +106,7 @@ export class CuTextArea extends BrowserElement {
     this._control.id=this._control.id||this._label.id+"-input";
     this._label.htmlFor=this._control.id;
     input.setAttribute("aria-labelledby",this._label.id);
-    if(!this._label.textContent)input.removeAttribute("aria-labelledby");
+    if(!this._label.textContent||this.getAttribute("aria-label"))input.removeAttribute("aria-labelledby");
     this._update();
   }
   _update(){
@@ -117,15 +119,7 @@ export class CuTextArea extends BrowserElement {
       this._control.style.height="auto";
       this._control.style.height=Math.max(this._control.scrollHeight,88)+"px";
     }else this._control.style.removeProperty("height");
-    this._internals?.setFormValue(this.disabled||this._formDisabled?null:value);
-    const error=this.getAttribute("error");
-    if(this._internals){
-      if(error)this._internals.setValidity({customError:true},error,this._control);
-      else if(!this._control.checkValidity())
-        this._internals.setValidity(this._control.validity,this._control.validationMessage,this._control);
-      else this._internals.setValidity({});
-    }
-    this._control.setAttribute("aria-invalid",String(Boolean(error)||!this._control.checkValidity()));
+    syncFieldValidity(this,this._control);
   }
 }
 CuTextArea._labelId=0;
