@@ -37,7 +37,8 @@ export const focusStyle = [
   "--cu-motion-ease:cubic-bezier(.2,.8,.2,1);}",
   ":focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:3px;}",
   "@media(forced-colors:active){:focus-visible{outline:2px solid Highlight;}}",
-  "@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}"
+  "@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}",
+  "button:active{transform:none!important;}}"
 ].join("");
 
 export const buttonStyle = [
