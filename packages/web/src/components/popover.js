@@ -25,14 +25,14 @@ export class CuPopover extends BrowserElement {
   constructor() {
     super();
     const root = mount(this, css,
-      '<slot name="trigger"></slot><div class="panel" part="panel" role="dialog" aria-modal="false" hidden>' +
+      '<slot name="trigger"></slot><div class="panel" part="panel" role="dialog" aria-modal="false" tabindex="-1" hidden>' +
       '<slot name="content"></slot></div>');
     this._trigger = root.querySelector('slot[name="trigger"]');
     this._panel = root.querySelector(".panel");
     this._trigger.addEventListener("slotchange", () => this._syncTrigger());
     this._trigger.addEventListener("click", event => {
       if (event.defaultPrevented) return;
-      this.toggle();
+      if(this.open)this.hide();else{this.show();this._panel.focus({preventScroll:true});}
     });
     this._onDocumentPointer = event => {
       if (this.open && !event.composedPath().includes(this)) this.hide();
@@ -76,7 +76,7 @@ export class CuPopover extends BrowserElement {
   _placePanel(){if(this.open)placeAnchoredOverlay(this,this._panel,{maxHeight:360,gap:8,align:this.getAttribute("placement")==="end"?"end":"start"});}
   _sync() {
     this._panel.hidden = !this.open;
-    if(this.open){if(!this._registered){registerOverlay(this);this._registered=true;}this._placePanel();}
+    if(this.open&&this.isConnected){if(!this._registered){registerOverlay(this);this._registered=true;}this._placePanel();}
     else{unregisterOverlay(this);this._registered=false;}
     this._panel.setAttribute("aria-label",this.getAttribute("title") || "Popover");
     this._syncTrigger();
