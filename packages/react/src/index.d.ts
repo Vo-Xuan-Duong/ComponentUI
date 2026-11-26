@@ -5,6 +5,16 @@ export interface CuEventDetails {
   value?: string | number | string[] | [number,number];
   complete?: boolean;
   loading?: boolean;
+  scrollTop?: number;
+  scrollLeft?: number;
+  maxScrollTop?: number;
+  maxScrollLeft?: number;
+  atTop?: boolean;
+  atBottom?: boolean;
+  atStart?: boolean;
+  atEnd?: boolean;
+  canScrollX?: boolean;
+  canScrollY?: boolean;
   thumb?: "lower" | "upper";
   id?: string;
   tone?: string;
@@ -137,6 +147,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   compact?: boolean;
   fullscreen?: boolean;
   "trend-tone"?: "auto" | "neutral" | "inverse";
+  axis?: "vertical" | "horizontal" | "both";
+  scrollbar?: "auto" | "thin" | "hidden";
+  expanded?: boolean;
   "min-chars"?: number | string;
   "lower-label"?: string;
   "upper-label"?: string;
@@ -192,6 +205,7 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuResize?: (event: CuEvent) => void;
   onCuLoadMore?: (event: CuEvent) => void;
   onCuRetry?: (event: CuEvent) => void;
+  onCuScroll?: (event: CuEvent) => void;
 };
 export type ReactCuComponent = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<ComponentUIProps> & React.RefAttributes<HTMLElement>
@@ -212,7 +226,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

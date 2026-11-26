@@ -1,6 +1,6 @@
 # Component inventory
 
-The catalog currently has **59 planned**, **71 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
+The catalog currently has **57 planned**, **73 preview**, and **0 production-ready** entries. Preview includes both reference HTML/CSS examples and real but experimental browser Custom Elements. The [Fluent Calm gallery](../apps/playground-web/) contains both; none are certified production packages.
 
 - **P0 — 41:** core primitives required by most personal projects
 - **P1 — 81:** expanded workflows and productivity controls
@@ -157,3 +157,7 @@ These existing preview catalog entries now have native Web Component implementat
 ## Statistic and LoadingOverlay
 
 Both move from planned to preview. Current inventory: 130 entries, 71 preview, 59 planned, 0 ready. See [Statistic and LoadingOverlay](STATISTIC_LOADING.md).
+
+## ScrollArea and AvatarGroup
+
+Both move from planned to preview. Current inventory: 130 entries, 73 preview, 57 planned, 0 ready. See [ScrollArea and AvatarGroup](SCROLL_AVATAR.md).

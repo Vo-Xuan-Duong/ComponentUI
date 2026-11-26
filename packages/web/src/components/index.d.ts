@@ -529,6 +529,24 @@ export declare class CuLoadingOverlay extends HTMLElement {
   show():void;
   hide():void;
 }
+export interface CuScrollMetrics {scrollTop:number;scrollLeft:number;maxScrollTop:number;maxScrollLeft:number;atTop:boolean;atBottom:boolean;atStart:boolean;atEnd:boolean;canScrollX:boolean;canScrollY:boolean;}
+export declare function scrollAreaMetrics(metrics:{scrollTop:number;scrollLeft:number;scrollHeight:number;scrollWidth:number;clientHeight:number;clientWidth:number;rtl?:boolean}):CuScrollMetrics;
+export declare class CuScrollArea extends HTMLElement {
+  readonly metrics:CuScrollMetrics;
+  scrollTo(options?:ScrollToOptions):void;
+  scrollTo(x:number,y:number):void;
+  scrollBy(options?:ScrollToOptions):void;
+  scrollBy(x:number,y:number):void;
+  focus(options?:FocusOptions):void;
+}
+export interface CuAvatarMember {id?:string;name:string;src?:string;alt?:string;}
+export declare function normalizeAvatarMembers(items:unknown):CuAvatarMember[];
+export declare function splitAvatarMembers(items:CuAvatarMember[],max?:number):{visible:CuAvatarMember[];overflow:CuAvatarMember[]};
+export declare class CuAvatarGroup extends HTMLElement {
+  items:CuAvatarMember[];
+  maxVisible:number;
+  expanded:boolean;
+}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -722,6 +740,8 @@ declare global {
     "cu-empty-state": CuEmptyState;
     "cu-statistic": CuStatistic;
     "cu-loading-overlay": CuLoadingOverlay;
+    "cu-scroll-area": CuScrollArea;
+    "cu-avatar-group": CuAvatarGroup;
     "cu-progress-bar": CuProgressBar;
     "cu-badge": CuBadge;
     "cu-avatar": CuAvatar;

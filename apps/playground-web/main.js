@@ -116,6 +116,28 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcScrollArea=document.getElementById("wc-scroll-area");
+const wcScrollRows=document.getElementById("wc-scroll-rows");
+for(let i=1;i<=16;i++){
+  const row=document.createElement("div");
+  row.textContent="Workspace activity "+String(i).padStart(2,"0");
+  row.style.padding="10px";row.style.borderBottom="1px solid var(--cu-border)";
+  wcScrollRows.append(row);
+}
+wcScrollArea.addEventListener("cu-scroll",event=>{
+  const m=event.detail;
+  document.getElementById("wc-scroll-result").textContent="Scroll position: "+Math.round(m.scrollTop)+" / "+Math.round(m.maxScrollTop)+(m.atBottom?" · End reached":"");
+});
+document.getElementById("wc-scroll-top").addEventListener("cu-press",()=>wcScrollArea.scrollTo({top:0}));
+document.getElementById("wc-scroll-bottom").addEventListener("cu-press",()=>wcScrollArea.scrollTo({top:wcScrollArea.metrics.maxScrollTop}));
+const wcAvatarGroup=document.getElementById("wc-avatar-group");
+const wcAvatarMembers=["Alex Nguyen","Mai Tran","Linh Pham","Sam Wilson","Jordan Lee","Taylor Kim","Minh Vo"].map((name,i)=>({id:String(i+1),name}));
+wcAvatarGroup.items=wcAvatarMembers;
+document.getElementById("wc-avatar-group-compact").items=wcAvatarMembers.slice(0,5);
+wcAvatarGroup.addEventListener("cu-toggle",event=>{
+  document.getElementById("wc-avatar-group-result").textContent=event.detail.expanded?"Additional members expanded":"Additional members collapsed";
+});
+document.getElementById("wc-avatar-limit").addEventListener("cu-press",()=>{wcAvatarGroup.maxVisible=wcAvatarGroup.maxVisible===4?2:4;});
 document.getElementById("wc-stat-revenue").series=[31000,36500,34100,40900,43200,48250];
 document.getElementById("wc-stat-users").series=[10200,11100,10800,11600,12000,12840];
 document.getElementById("wc-stat-latency").series=[181,160,174,150,144,126];

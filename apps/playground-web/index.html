@@ -626,6 +626,26 @@
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
+            <article class="cu-surface demo-card">
+              <h3>ScrollArea</h3><p class="demo-subtitle">Native scroll behavior with themed scrollbars and edge metrics.</p>
+              <cu-scroll-area id="wc-scroll-area" label="Recent workspace activity" scrollbar="thin" variant="outlined" style="--cu-scroll-max-height:180px">
+                <div id="wc-scroll-rows" style="display:grid;gap:8px;padding:12px"></div>
+              </cu-scroll-area>
+              <div class="demo-row"><cu-button id="wc-scroll-top">Top</cu-button><cu-button id="wc-scroll-bottom">Bottom</cu-button></div>
+              <p class="cu-helper" id="wc-scroll-result">Scroll position: 0</p>
+              <cu-scroll-area axis="horizontal" label="Horizontal example" scrollbar="thin" variant="outlined">
+                <div style="display:flex;gap:8px;padding:12px;width:max-content">
+                  <cu-badge>Overview</cu-badge><cu-badge>Projects</cu-badge><cu-badge>Development</cu-badge><cu-badge>Documentation</cu-badge><cu-badge>Release management</cu-badge><cu-badge>Integrations</cu-badge><cu-badge>Preferences</cu-badge><cu-badge>Archive</cu-badge>
+                </div>
+              </cu-scroll-area>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>AvatarGroup</h3><p class="demo-subtitle">Display team members and expand the overflow list.</p>
+              <cu-avatar-group id="wc-avatar-group" label="Project contributors" max-visible="4"></cu-avatar-group>
+              <cu-avatar-group id="wc-avatar-group-compact" label="Reviewers" max-visible="3" size="sm" variant="spaced"></cu-avatar-group>
+              <div class="demo-row"><cu-button id="wc-avatar-limit">Toggle visible limit</cu-button></div>
+              <p class="cu-helper" id="wc-avatar-group-result" role="status">Team members</p>
+            </article>
             <article class="cu-surface demo-card full-span">
               <h3>Statistic</h3><p class="demo-subtitle">Dashboard metrics with locale-aware formatting, comparison and optional sparklines.</p>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px">

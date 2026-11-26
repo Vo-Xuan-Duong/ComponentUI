@@ -15,7 +15,7 @@ export const REACT_TAGS = Object.freeze({
   Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast", AutoComplete:"cu-autocomplete", NotificationCenter:"cu-notification-center",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
-  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay",
+  DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider", RangeSlider:"cu-range-slider", OTPInput:"cu-otp-input", ColorPicker:"cu-color-picker", TagInput:"cu-tag-input", CommandPalette:"cu-command-palette", EmptyState:"cu-empty-state", Statistic:"cu-statistic", LoadingOverlay:"cu-loading-overlay", ScrollArea:"cu-scroll-area", AvatarGroup:"cu-avatar-group",
   ProgressBar:"cu-progress-bar", ProgressRing:"cu-progress-ring", Badge:"cu-badge", Chip:"cu-chip", Tag:"cu-tag",
   Avatar:"cu-avatar", Menu:"cu-menu", MenuItem:"cu-menu-item",
   Icon:"cu-icon", Card:"cu-card", Divider:"cu-divider",
@@ -41,7 +41,7 @@ export const REACT_EVENT_PROPS = Object.freeze({
   onCuColumnVisibilityChange:"cu-column-visibility-change",
   onCuFilterChange:"cu-filter-change",
   onCuLoadMore:"cu-load-more",
-  onCuRetry:"cu-retry",
+  onCuRetry:"cu-retry", onCuScroll:"cu-scroll",
   onCuToggle:"cu-toggle", onCuDismiss:"cu-dismiss", onCuRemove:"cu-remove", onCuAction:"cu-action", onCuResize:"cu-resize"
 });
 
@@ -97,6 +97,7 @@ const PROPERTY_MAP = Object.freeze({
   "cu-command-palette":["commands","open"],
   "cu-statistic":["value","previous","series"],
   "cu-loading-overlay":["fullscreen","loading"],
+  "cu-avatar-group":["items","maxVisible","expanded"],
   "cu-progress-bar":["value","max"],
   "cu-progress-ring":["value","max"],
   "cu-chip":["value","selected","selectable","removable","disabled"],
@@ -151,6 +152,7 @@ export function assignCuProperties(element, tagName, props = {}) {
           ((tagName==="cu-autocomplete"||tagName==="cu-notification-center")&&name==="items") ||
           ((tagName==="cu-command-bar"||tagName==="cu-command-palette")&&name==="commands") ||
           (tagName==="cu-statistic"&&name==="series") ||
+          (tagName==="cu-avatar-group"&&name==="items") ||
           (tagName==="cu-virtual-list"&&name==="items") ||
           (tagName==="cu-tree-list"&&(name==="items"||name==="expandedValues")) ||
           (tagName==="cu-accordion"&&name==="values"&&Array.isArray(value)) ||

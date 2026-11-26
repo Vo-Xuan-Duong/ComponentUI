@@ -222,4 +222,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **CommandPalette and EmptyState milestone:** both previously preview-only HTML patterns are now standalone Web Components. 69 catalogued implementations, 69 preview entries, 61 planned, 0 production-ready, 82 React wrappers. See [CommandPalette and EmptyState](docs/COMMAND_EMPTY.md).
 
-**Current milestone — Statistic and LoadingOverlay:** 130 catalog entries, 71 preview, 59 planned, zero production-ready; 84 React wrappers. See [Statistic and LoadingOverlay](docs/STATISTIC_LOADING.md).
+**Statistic and LoadingOverlay milestone:** 130 catalog entries, 71 preview, 59 planned, zero production-ready; 84 React wrappers. See [Statistic and LoadingOverlay](docs/STATISTIC_LOADING.md).
+
+**Current milestone — ScrollArea and AvatarGroup:** 130 catalog entries, 73 preview, 57 planned, zero production-ready; 86 React wrappers. See [ScrollArea and AvatarGroup](docs/SCROLL_AVATAR.md).

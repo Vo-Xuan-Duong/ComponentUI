@@ -63,6 +63,8 @@ export { CuCommandPalette, normalizePaletteCommands, searchPaletteCommands } fro
 export { CuEmptyState } from "./empty-state.js";
 export { CuStatistic, formatStatistic, statisticTrend, sparklinePoints } from "./statistic.js";
 export { CuLoadingOverlay } from "./loading-overlay.js";
+export { CuScrollArea, scrollAreaMetrics } from "./scroll-area.js";
+export { CuAvatarGroup, normalizeAvatarMembers, splitAvatarMembers } from "./avatar-group.js";
 export { CuProgressBar } from "./progress-bar.js";
 export { CuProgressRing, normalizeRingProgress } from "./progress-ring.js";
 export { CuChip } from "./chip.js";

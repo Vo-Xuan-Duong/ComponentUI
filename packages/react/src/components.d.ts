@@ -59,6 +59,8 @@ export declare const CommandPalette: ReactCuComponent;
 export declare const EmptyState: ReactCuComponent;
 export declare const Statistic: ReactCuComponent;
 export declare const LoadingOverlay: ReactCuComponent;
+export declare const ScrollArea: ReactCuComponent;
+export declare const AvatarGroup: ReactCuComponent;
 export declare const ProgressBar: ReactCuComponent;
 export declare const Badge: ReactCuComponent;
 export declare const Chip: ReactCuComponent;

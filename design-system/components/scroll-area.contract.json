@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "ScrollArea",
+  "tag": "cu-scroll-area",
+  "status": "preview",
+  "kind": "layout",
+  "attributes": {
+    "axis": "vertical | horizontal | both",
+    "scrollbar": "auto | thin | hidden",
+    "label": "string",
+    "variant": "plain | outlined"
+  },
+  "events": [
+    "cu-scroll"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

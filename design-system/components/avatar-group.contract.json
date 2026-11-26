@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "name": "AvatarGroup",
+  "tag": "cu-avatar-group",
+  "status": "preview",
+  "kind": "display",
+  "attributes": {
+    "label": "string",
+    "max-visible": "0-100",
+    "size": "sm | md | lg | xl",
+    "shape": "circle | square",
+    "variant": "overlap | spaced",
+    "expanded": "boolean"
+  },
+  "events": [
+    "cu-toggle"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "71 experimental catalogued browser Custom Elements; 71 catalog preview entries, 59 planned, 0 production-ready.",
+  "summary": "73 experimental catalogued browser Custom Elements; 73 catalog preview entries, 57 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -614,7 +614,7 @@
         {
           "name": "AvatarGroup",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -713,7 +713,7 @@
         {
           "name": "ScrollArea",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
