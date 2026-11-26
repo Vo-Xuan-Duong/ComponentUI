@@ -17,7 +17,7 @@ test("new data components are import-safe without browser globals",()=>{
   assert.equal(REACT_TAGS.TreeList,"cu-tree-list");
   assert.equal(REACT_TAGS.InfiniteScroll,"cu-infinite-scroll");
   assert.equal(REACT_EVENT_PROPS.onCuLoadMore,"cu-load-more");
-  assert.equal(Object.keys(REACT_TAGS).length,74);
+  assert.equal(Object.keys(REACT_TAGS).length,76);
 });
 
 test("TreeList pure helper flattens only expanded branches with correct semantics",()=>{
@@ -292,8 +292,8 @@ test("Source, package and playground integrate native controls",async()=>{
   const catalog=JSON.parse(json).groups.flatMap(x=>x.components);
   assert.equal(catalog.length,130);
   assert.equal(catalog.find(x=>x.name==="TreeList")?.status,"preview");
-  assert.equal(catalog.filter(x=>x.status==="preview").length,63);
-  assert.equal(catalog.filter(x=>x.status==="planned").length,67);
+  assert.equal(catalog.filter(x=>x.status==="preview").length,65);
+  assert.equal(catalog.filter(x=>x.status==="planned").length,65);
 });
 
 test("React property bridge keeps tree arrays stable across rerenders",()=>{

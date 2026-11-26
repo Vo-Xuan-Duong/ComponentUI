@@ -116,6 +116,35 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcAutocomplete=document.getElementById("wc-autocomplete");
+wcAutocomplete.items=[
+  {value:"React",description:"UI library"},
+  {value:"Vue",description:"Progressive framework"},
+  {value:"Svelte",description:"Compiled UI framework"},
+  {value:"Rust",description:"Systems programming"},
+  {value:"TypeScript",description:"Typed JavaScript"},
+  {value:"Electron",description:"Desktop application runtime"},
+  {value:"Tauri",description:"Native desktop shell"}
+];
+const wcAutocompleteForm=document.getElementById("wc-autocomplete-form");
+wcAutocompleteForm.addEventListener("submit",event=>{
+  event.preventDefault();
+  document.getElementById("wc-autocomplete-result").textContent=
+    JSON.stringify(Object.fromEntries(new FormData(wcAutocompleteForm)),null,2);
+});
+wcAutocompleteForm.addEventListener("reset",()=>{document.getElementById("wc-autocomplete-result").textContent="Form reset.";});
+const wcNotificationCenter=document.getElementById("wc-notification-center");
+wcNotificationCenter.items=[
+  {id:"build",title:"Build completed",message:"The workspace is ready.",tone:"success"},
+  {id:"review",title:"Review requested",message:"A local example requires review.",tone:"info",action:"Review"},
+  {id:"storage",title:"Storage warning",message:"Review your workspace usage.",tone:"warning",read:true}
+];
+let wcNotificationSequence=0;
+document.getElementById("wc-notification-add").addEventListener("cu-press",()=>{
+  wcNotificationCenter.add({id:"local-"+(++wcNotificationSequence),title:"Workspace updated",message:"A new local notification.",tone:"success"});
+});
+document.getElementById("wc-notification-clear").addEventListener("cu-press",()=>wcNotificationCenter.clear());
+wcNotificationCenter.addEventListener("cu-action",event=>showToast("Notification action",event.detail.action));
 const wcMultiForm=document.getElementById("wc-multi-form");
 wcMultiForm.addEventListener("submit",event=>{
   event.preventDefault();

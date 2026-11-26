@@ -284,6 +284,14 @@
     "./components/toast": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/toast.js"
+    },
+    "./components/autocomplete": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/autocomplete.js"
+    },
+    "./components/notification-center": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/notification-center.js"
     }
   },
   "files": [

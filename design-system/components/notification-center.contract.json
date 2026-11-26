@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "NotificationCenter",
+  "tag": "cu-notification-center",
+  "status": "preview",
+  "kind": "feedback",
+  "attributes": {
+    "label": "string"
+  },
+  "events": [
+    "cu-change",
+    "cu-dismiss",
+    "cu-action"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

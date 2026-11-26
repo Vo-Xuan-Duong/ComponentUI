@@ -212,4 +212,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **Calendar and rating milestone:** A custom inline Calendar and native-radio Rating are available as preview Web Components, with standalone imports and React wrappers. The 129-entry catalog now has 61 previews, 68 planned, zero production-ready; the React factory exposes 72 wrappers. See [Calendar and rating](docs/CALENDAR_RATING.md).
 
-**Current milestone — MultiSelect and Toast:** the catalog now contains 130 entries, 63 preview, 67 planned, zero production-ready. The React factory exposes 74 wrappers. MultiSelect adds a searchable multi-value form control; Toast replaces the old Playground-only notification implementation with a reusable queue. See [MultiSelect and Toast](docs/MULTISELECT_TOAST.md).
+**MultiSelect and Toast milestone:** the catalog now contains 130 entries, 63 preview, 67 planned, zero production-ready. The React factory exposes 74 wrappers. MultiSelect adds a searchable multi-value form control; Toast replaces the old Playground-only notification implementation with a reusable queue. See [MultiSelect and Toast](docs/MULTISELECT_TOAST.md).
+
+**Current milestone — AutoComplete and NotificationCenter:** 130 catalog entries, 65 preview, 65 planned, zero production-ready; 76 React wrappers. AutoComplete supports free text and property-driven suggestions, while NotificationCenter manages an in-memory notification list. See [AutoComplete and NotificationCenter](docs/AUTOCOMPLETE_NOTIFICATIONS.md).

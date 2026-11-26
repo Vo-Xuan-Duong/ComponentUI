@@ -12,7 +12,7 @@ export const REACT_TAGS = Object.freeze({
   NavigationView:"cu-navigation-view", SettingsPage:"cu-settings-page",
   SettingsGroup:"cu-settings-group", SettingsItem:"cu-settings-item", TextArea:"cu-textarea",
   NumberField:"cu-number-field", SearchBox:"cu-search-box", Checkbox:"cu-checkbox",
-  Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast",
+  Switch:"cu-switch", Dialog:"cu-dialog", Drawer:"cu-drawer", Accordion:"cu-accordion", AccordionItem:"cu-accordion-item", Disclosure:"cu-disclosure", Pagination:"cu-pagination", Select:"cu-select", MultiSelect:"cu-multi-select", Toast:"cu-toast", AutoComplete:"cu-autocomplete", NotificationCenter:"cu-notification-center",
   Radio:"cu-radio", RadioGroup:"cu-radio-group", Tab:"cu-tab",
   Tabs:"cu-tabs", Tooltip:"cu-tooltip", Popover:"cu-popover",
   DatePicker:"cu-date-picker", TimePicker:"cu-time-picker", DateRangePicker:"cu-date-range-picker", Calendar:"cu-calendar", Rating:"cu-rating", Slider:"cu-slider",
@@ -77,6 +77,8 @@ const PROPERTY_MAP = Object.freeze({
   "cu-data-filter":["field","operator","value","disabled"],
   "cu-select":["value","required","disabled"],
   "cu-multi-select":["items","value","required","disabled","readonly"],
+  "cu-autocomplete":["items","value","required","disabled","readonly","loading"],
+  "cu-notification-center":["items"],
   "cu-radio":["disabled","checked"],
   "cu-radio-group":["value","required","disabled"],
   "cu-tab":["disabled"],
@@ -138,6 +140,7 @@ export function assignCuProperties(element, tagName, props = {}) {
       if ((tagName==="cu-split-button"&&name==="actions") ||
           (tagName==="cu-stepper"&&name==="steps") ||
           (tagName==="cu-multi-select"&&(name==="items"||name==="value")) ||
+          ((tagName==="cu-autocomplete"||tagName==="cu-notification-center")&&name==="items") ||
           (tagName==="cu-command-bar"&&name==="commands") ||
           (tagName==="cu-virtual-list"&&name==="items") ||
           (tagName==="cu-tree-list"&&(name==="items"||name==="expandedValues")) ||

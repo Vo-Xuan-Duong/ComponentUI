@@ -5,6 +5,9 @@ export interface CuEventDetails {
   value?: string | number | string[];
   id?: string;
   tone?: string;
+  unreadCount?: number;
+  read?: boolean;
+  notifications?: {id:string;title:string;message?:string;tone?:string;read?:boolean;action?:string}[];
   valueAsNumber?: number;
   checked?: boolean;
   selected?: boolean;
@@ -111,6 +114,9 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   commands?: {value:string;label?:string;icon?:string;disabled?:boolean}[];
   maxVisible?: number;
   "max-selected"?: number | string;
+  "min-chars"?: number | string;
+  "max-results"?: number | string;
+  "manual-filter"?: boolean;
   "max-visible"?: number | string;
   pageSize?: number;
   total?: number;
@@ -180,7 +186,7 @@ export declare function createReactComponents(React: typeof import("react")):
   Record<"TreeList" | "InfiniteScroll" | "SplitView" | "VirtualList" | "Splitter" | "ResizablePanel" | "FilterBar" | "DataFilter" | "Accordion" | "AccordionItem" | "Disclosure" | "Pagination" | "Drawer" | "Button" | "IconButton" | "ToggleButtonGroup" | "Toolbar" | "CommandBar" | "SplitButton" | "Stepper" | "InfoBar" | "TextField" | "Checkbox" | "Switch" | "Dialog" |
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
-  "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
+  "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
   "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |

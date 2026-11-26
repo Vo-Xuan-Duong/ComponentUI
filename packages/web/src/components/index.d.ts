@@ -358,6 +358,33 @@ export declare class CuMultiSelect extends HTMLElement {
   checkValidity():boolean;
   reportValidity():boolean;
 }
+export interface CuSuggestion {value:string;label?:string;description?:string;disabled?:boolean;}
+export declare function normalizeSuggestions(items:unknown):Required<CuSuggestion>[];
+export declare function filterSuggestions(items:CuSuggestion[],query:string,max?:number):CuSuggestion[];
+export declare class CuAutoComplete extends HTMLElement {
+  static formAssociated:boolean;
+  items:CuSuggestion[];
+  value:string;
+  disabled:boolean;
+  required:boolean;
+  loading:boolean;
+  focus(options?:FocusOptions):void;
+  show():void;
+  hide():void;
+  checkValidity():boolean;
+  reportValidity():boolean;
+}
+export interface CuNotification {id:string;title:string;message?:string;tone?:"info"|"success"|"warning"|"danger";read?:boolean;action?:string;}
+export declare function normalizeNotifications(items:unknown):Required<CuNotification>[];
+export declare class CuNotificationCenter extends HTMLElement {
+  items:CuNotification[];
+  readonly unreadCount:number;
+  add(item:CuNotification):boolean;
+  markRead(id:string,read?:boolean):boolean;
+  markAllRead():void;
+  dismiss(id:string):boolean;
+  clear():void;
+}
 export interface CuToastOptions {id?:string;title?:string;message?:string;tone?:"info"|"success"|"warning"|"danger";duration?:number;action?:string;}
 export declare function normalizeToast(options?:CuToastOptions):Required<CuToastOptions>;
 export declare class CuToast extends HTMLElement {
@@ -605,6 +632,8 @@ declare global {
     "cu-select": CuSelect;
     "cu-multi-select": CuMultiSelect;
     "cu-toast": CuToast;
+    "cu-autocomplete": CuAutoComplete;
+    "cu-notification-center": CuNotificationCenter;
     "cu-radio": CuRadio;
     "cu-radio-group": CuRadioGroup;
     "cu-tab": CuTab;

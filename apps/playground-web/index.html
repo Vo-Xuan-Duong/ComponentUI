@@ -627,6 +627,21 @@
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
             </article>
             <article class="cu-surface demo-card">
+              <h3>AutoComplete</h3>
+              <p class="demo-subtitle">Search suggestions with descriptions or enter a custom value.</p>
+              <form id="wc-autocomplete-form" class="cu-web-form">
+                <cu-autocomplete id="wc-autocomplete" name="technology" label="Technology" placeholder="Search React, Vue, Rust..." min-chars="0" max-results="6" hint="Choose a suggestion or type your own value." required></cu-autocomplete>
+                <div class="demo-row"><cu-button type="submit" variant="accent">Read form value</cu-button><cu-button type="reset">Reset</cu-button></div>
+              </form>
+              <pre class="cu-web-result" id="wc-autocomplete-result" role="status">Enter a technology.</pre>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>NotificationCenter</h3>
+              <p class="demo-subtitle">Persistent in-memory notification history with unread filtering and actions.</p>
+              <cu-notification-center id="wc-notification-center" label="Workspace notifications"></cu-notification-center>
+              <div class="demo-row"><cu-button id="wc-notification-add">Add notification</cu-button><cu-button id="wc-notification-clear">Clear history</cu-button></div>
+            </article>
+            <article class="cu-surface demo-card">
               <h3>MultiSelect &amp; Toast</h3>
               <p class="demo-subtitle">Search, select and remove multiple values. Try queued notifications.</p>
               <form class="cu-web-form" id="wc-multi-form">

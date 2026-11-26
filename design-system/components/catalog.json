@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "61 experimental catalogued browser Custom Elements; 63 catalog preview entries, 67 planned, 0 production-ready.",
+  "summary": "63 experimental catalogued browser Custom Elements; 65 catalog preview entries, 65 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -190,7 +190,7 @@
         {
           "name": "AutoComplete",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -817,7 +817,7 @@
         {
           "name": "NotificationCenter",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

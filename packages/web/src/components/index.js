@@ -42,6 +42,8 @@ export { CuInfiniteScroll, shouldLoadMore } from "./infinite-scroll.js";
 export { CuSelect } from "./select.js";
 export { CuMultiSelect, normalizeMultiOptions, normalizeMultiValue } from "./multi-select.js";
 export { CuToast, normalizeToast } from "./toast.js";
+export { CuAutoComplete, filterSuggestions, normalizeSuggestions } from "./autocomplete.js";
+export { CuNotificationCenter, normalizeNotifications } from "./notification-center.js";
 export { CuRadio, CuRadioGroup } from "./radio-group.js";
 export { CuTab, CuTabs } from "./tabs.js";
 export { CuTooltip } from "./tooltip.js";

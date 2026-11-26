@@ -24,7 +24,7 @@ export class CuToast extends BrowserElement{
     this._stack=mount(this,css,'<div class="stack" part="stack" aria-label="Notifications"></div>').querySelector(".stack");
   }
   connectedCallback(){this._drain();}
-  disconnectedCallback(){for(const entry of this._entries){clearTimeout(entry.timer);entry.timer=null;entry.node?.remove();entry.node=null;entry.paused.clear();}}
+  disconnectedCallback(){for(const entry of this._entries){this._pause(entry,"disconnect");entry.node?.remove();entry.node=null;entry.paused.clear();}}
   attributeChangedCallback(){this._drain();}
   _limit(){const raw=this.getAttribute("max-visible");const n=raw===null?3:Number(raw);return Number.isFinite(n)?Math.max(1,Math.min(10,Math.floor(n))):3;}
   show(options={}){

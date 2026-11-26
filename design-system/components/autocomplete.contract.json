@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "AutoComplete",
+  "tag": "cu-autocomplete",
+  "status": "preview",
+  "kind": "form-input",
+  "attributes": {
+    "value": "string",
+    "name": "string",
+    "label": "string",
+    "min-chars": "number",
+    "max-results": "number",
+    "manual-filter": "boolean",
+    "loading": "boolean",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-search",
+    "cu-select"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  }
+}

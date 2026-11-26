@@ -58,7 +58,7 @@ export class CuMultiSelect extends BrowserElement{
     }
     this._sync();
     this._observer=new MutationObserver(()=>{this._loadOptions();this._sync();});
-    this._observer.observe(this,{childList:true,subtree:true,attributes:true,characterData:true});
+    this._observer.observe(this,{childList:true,subtree:true,attributes:true,characterData:true,attributeFilter:["value","label","selected","disabled"]});
     this._doc=this.ownerDocument;this._doc.addEventListener("pointerdown",this._outside);
     this._stopViewport=watchOverlayViewport(this,()=>this._place());
   }
@@ -76,7 +76,7 @@ export class CuMultiSelect extends BrowserElement{
   _loadOptions(){
     if(this._propertyItems)return;
     this._items=normalizeMultiOptions([...this.querySelectorAll("option")].map(n=>({value:n.value,label:n.label||n.textContent.trim(),disabled:n.disabled||Boolean(n.closest("optgroup")?.disabled)})));
-    this._value=normalizeMultiValue(this._value,this._items,this._max());
+    if(this._initialized||this._items.length)this._value=normalizeMultiValue(this._value,this._items,this._max());
   }
   get items(){return this._items.map(x=>({...x}));}
   set items(items){this._propertyItems=true;this._items=normalizeMultiOptions(items);this._sync();}
