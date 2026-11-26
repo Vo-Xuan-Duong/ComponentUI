@@ -16,10 +16,12 @@ const css = [
   ".panel[hidden]{display:none!important;}",
   ".panel:not([hidden]){animation:cu-popover-enter var(--cu-motion-normal,160ms) ease both;}",
   "@keyframes cu-popover-enter{from{opacity:.5}to{opacity:1}}",
+  "@media(prefers-reduced-motion:reduce){.panel:not([hidden]){animation:none;}}",
   ":host([placement=end]) .panel{left:auto;right:0;}",
   focusStyle
 ].join("");
 
+let popoverInstanceId=0;
 export class CuPopover extends BrowserElement {
   static get observedAttributes() { return ["open","title","placement"]; }
   constructor() {
@@ -29,6 +31,7 @@ export class CuPopover extends BrowserElement {
       '<slot name="content"></slot></div>');
     this._trigger = root.querySelector('slot[name="trigger"]');
     this._panel = root.querySelector(".panel");
+    this._panel.id="cu-popover-"+(++popoverInstanceId);
     this._trigger.addEventListener("slotchange", () => this._syncTrigger());
     this._trigger.addEventListener("click", event => {
       if (event.defaultPrevented) return;
@@ -71,6 +74,7 @@ export class CuPopover extends BrowserElement {
     for (const trigger of this._trigger.assignedElements({flatten:true})) {
       trigger.setAttribute("aria-expanded", String(this.open));
       trigger.setAttribute("aria-haspopup", "dialog");
+      trigger.setAttribute("aria-controls",this._panel.id);
     }
   }
   _placePanel(){if(this.open)placeAnchoredOverlay(this,this._panel,{maxHeight:360,gap:8,allowOverflow:true,align:this.getAttribute("placement")==="end"?"end":"start"});}
