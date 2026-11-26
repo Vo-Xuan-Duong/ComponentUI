@@ -1,5 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
+import { registerOverlay, unregisterOverlay, isTopOverlay, placeAnchoredOverlay, watchOverlayViewport, restoreOverlayFocus } from "./_overlay.js";
 
 /** Declarative option only: used as a child of <cu-menu>. */
 export class CuMenuItem extends BrowserElement {
@@ -15,11 +16,15 @@ const css = [
   "min-width:190px;max-width:min(330px,calc(100vw - 28px));padding:6px;",
   "border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-lg,8px);",
   "background:var(--cu-surface-elevated,#fff);box-shadow:var(--cu-shadow-flyout,0 12px 28px rgb(0 0 0/.16));}",
+  ":host([open]){z-index:85;}",
+  ".menu{overflow-y:auto;overscroll-behavior:contain;}",
   ".menu[hidden],slot:not([name]){display:none!important;}",
+  ".menu:not([hidden]){animation:cu-menu-enter var(--cu-motion-normal,160ms) ease both;}",
+  "@keyframes cu-menu-enter{from{opacity:.5}to{opacity:1}}",
   "button[role=menuitem]{display:block;box-sizing:border-box;width:100%;text-align:left;",
   "border:0;border-radius:var(--cu-radius-sm,4px);padding:9px 11px;background:transparent;",
   "color:var(--cu-text,#242424);font:400 13px var(--cu-font-body,system-ui);cursor:pointer;}",
-  "button[role=menuitem]:hover,button[role=menuitem]:focus-visible{",
+  "button[role=menuitem]:hover:not(:disabled),button[role=menuitem]:focus-visible{",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 12%,var(--cu-surface,#fff));}",
   "button[role=menuitem]:disabled{opacity:.5;cursor:not-allowed;}",
   focusStyle
@@ -44,8 +49,8 @@ export class CuMenu extends BrowserElement {
       }
     });
     this._menu.addEventListener("keydown",event => {
-      if (event.key === "Escape") {
-        event.preventDefault();
+      if (event.key === "Escape" && isTopOverlay(this)) {
+        event.preventDefault();event.stopPropagation();
         this.hide(true);
       } else if (event.key === "Tab") this.hide();
       else {
@@ -72,7 +77,7 @@ export class CuMenu extends BrowserElement {
       if (this.open && !event.composedPath().includes(this)) this.hide();
     };
     this._escape = event => {
-      if (this.open && event.key === "Escape") {
+      if (this.open && event.key === "Escape" && !event.defaultPrevented && isTopOverlay(this)) {
         event.preventDefault();
         this.hide(true);
       }
@@ -83,6 +88,7 @@ export class CuMenu extends BrowserElement {
     this._render();
     document.addEventListener("pointerdown",this._outside);
     document.addEventListener("keydown",this._escape);
+    this._stopViewport=watchOverlayViewport(this,()=>this._placeMenu());
     this._observer = new MutationObserver(records => {
       if (records.some(r => r.type === "childList" ||
         ["value","disabled","label"].includes(r.attributeName))) this._render();
@@ -94,6 +100,7 @@ export class CuMenu extends BrowserElement {
   disconnectedCallback() {
     document.removeEventListener("pointerdown",this._outside);
     document.removeEventListener("keydown",this._escape);
+    this._stopViewport?.();this._stopViewport=null;this.hide();unregisterOverlay(this);
     this._observer?.disconnect();
     this._observer = null;
   }
@@ -130,9 +137,12 @@ export class CuMenu extends BrowserElement {
   _sync() {
     if (!this._menu) return;
     this._menu.hidden = !this.open;
+    if(this.open){if(!this._registered){registerOverlay(this);this._registered=true;}this._placeMenu();}
+    else{unregisterOverlay(this);this._registered=false;}
     this._menu.setAttribute("aria-label",this.getAttribute("aria-label") || "Actions");
     this._syncTrigger();
   }
+  _placeMenu(){if(this.open)placeAnchoredOverlay(this,this._menu,{maxHeight:320,gap:8});}
   show(focus="first") {
     if (!this.open) this.open = true;
     const items = this._enabledItems();
@@ -141,7 +151,7 @@ export class CuMenu extends BrowserElement {
   }
   hide(restoreFocus=false) {
     if (this.open) this.open = false;
-    if (restoreFocus) this._trigger.assignedElements({flatten:true})[0]?.focus();
+    if (restoreFocus) restoreOverlayFocus(this._trigger.assignedElements({flatten:true})[0]);
   }
   toggle() { this.open ? this.hide() : this.show(); }
 }
