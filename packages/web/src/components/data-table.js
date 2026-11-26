@@ -1,6 +1,7 @@
 
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
+import "./spinner.js";
 import "./select.js";
 import { clampMenuPosition } from "./context-menu.js";
 import { tableFilterValueKey, tableFilterValueLabel, TABLE_FILTER_OPERATORS, isTableFilterCondition, matchTableFilterCondition, normalizeTableFilterSpec, filterTableRows, uniqueTableFilterValues, applyFilterBar } from "./filter-utils.js";
@@ -873,9 +874,9 @@ export class CuDataTable extends BrowserElement {
       td.className="empty";td.colSpan=columns.length+(this.hasAttribute("selectable")?1:0)||1;
       const state=document.createElement("div");state.className="state";
       state.dataset.kind=busy?"loading":failure?"error":"empty";
-      const symbol=document.createElement("cu-icon");
-      symbol.setAttribute("name",busy?"info":failure?"info":"folder-open");
-      symbol.setAttribute("size","24");symbol.setAttribute("aria-hidden","true");
+      const symbol=document.createElement(busy?"cu-spinner":"cu-icon");
+      if(!busy)symbol.setAttribute("name",failure?"info":"folder-open");
+      symbol.setAttribute("size",busy?"lg":"24");symbol.setAttribute("aria-hidden","true");
       const message=document.createElement("span");
       message.textContent=busy?"Loading records…":failure||
         (!columns.length?"No columns configured":filtered?"No matching records":
