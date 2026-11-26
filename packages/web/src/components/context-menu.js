@@ -1,6 +1,7 @@
 
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./menu.js";
+import { registerOverlay, unregisterOverlay, isTopOverlay, restoreOverlayFocus } from "./_overlay.js";
 const css=[
   ":host{display:inline-block;max-width:100%;font:13px var(--cu-font-body,system-ui);",
   "color:var(--cu-text,#242424);}",
@@ -14,7 +15,7 @@ const css=[
   "button[role=menuitem]{display:block;width:100%;box-sizing:border-box;min-height:35px;",
   "text-align:left;padding:8px 11px;border:0;border-radius:var(--cu-radius-md,6px);",
   "background:transparent;color:inherit;cursor:pointer;font:inherit;}",
-  "button[role=menuitem]:hover,button[role=menuitem]:focus-visible{",
+  "button[role=menuitem]:hover:not(:disabled),button[role=menuitem]:focus-visible{",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 17%,var(--cu-surface,#fff));}",
   "button:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
   "button:disabled{opacity:.42;cursor:not-allowed;}",
@@ -58,7 +59,7 @@ export class CuContextMenu extends BrowserElement {
       this.hide(true);
     });
     this._menu.addEventListener("keydown",event=>{
-      if(event.key==="Escape"){event.preventDefault();this.hide(true);return;}
+      if(event.key==="Escape"&&isTopOverlay(this)){event.preventDefault();event.stopPropagation();this.hide(true);return;}
       if(event.key==="Tab"){this.hide();return;}
       const items=this._enabled();
       if(!items.length)return;
@@ -74,11 +75,11 @@ export class CuContextMenu extends BrowserElement {
       if(this._open&&!event.composedPath().includes(this))this.hide();
     };
     this._globalKey=event=>{
-      if(this._open&&event.key==="Escape"){
+      if(this._open&&event.key==="Escape"&&!event.defaultPrevented&&isTopOverlay(this)){
         event.preventDefault();this.hide(true);
       }
     };
-    this._scroll=()=>{if(this._open)this.hide();};
+    this._scroll=event=>{if(this._open&&!event?.composedPath?.().includes(this._menu))this.hide();};
   }
   connectedCallback(){
     this._render();
@@ -145,7 +146,7 @@ export class CuContextMenu extends BrowserElement {
     if(!this.isConnected)return;
     this._render();
     this._restoreFocus=focusTarget??this._target.assignedElements({flatten:true})[0]??null;
-    this._menu.hidden=false;this._open=true;this._syncTargets();
+    this._menu.hidden=false;this._open=true;registerOverlay(this);this._syncTargets();
     const bounds=this._menu.getBoundingClientRect();
     const pos=clampMenuPosition(x,y,bounds.width,bounds.height,window.innerWidth,window.innerHeight);
     this._menu.style.left=pos.x+"px";
@@ -155,8 +156,9 @@ export class CuContextMenu extends BrowserElement {
   }
   hide(restoreFocus=false){
     if(!this._open)return;
-    this._menu.hidden=true;this._open=false;this._syncTargets();
-    if(restoreFocus)this._restoreFocus?.focus?.();
+    this._menu.hidden=true;this._open=false;unregisterOverlay(this);this._syncTargets();
+    if(restoreFocus)restoreOverlayFocus(this._restoreFocus);
+    this._restoreFocus=null;
     notify(this,"cu-close",{});
   }
 }
