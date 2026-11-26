@@ -48,7 +48,7 @@ test("new components use native controls, semantic tokens and safe text renderin
   const menu = await read("../packages/web/src/components/menu.js");
   for (const file of [date,slider]) {
     assert.match(file,/attachInternals/);
-    assert.match(file,/setFormValue/);
+    assert.match(file,file===date?/syncFieldValidity/:/setFormValue/);
     assert.match(file,/formResetCallback/);
   }
   assert.match(date,/type="date"/);
