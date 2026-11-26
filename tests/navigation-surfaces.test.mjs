@@ -200,7 +200,7 @@ test("Navigation surfaces use accessible controls, native modal, and safe text",
   assert.match(drawer,/showModal\(\)/);
   assert.match(drawer,/aria-modal="true"/);
   assert.match(drawer,/assignedElements\(\{flatten:true\}\)/);
-  assert.match(drawer,/this\._trigger\?\.focus/);
+  assert.match(drawer,/restoreOverlayFocus\(trigger\)/);
   for(const source of [disclosure,pagination,drawer]){
     assert.match(source,/focus-visible/);
     assert.match(source,/forced-colors:active/);
