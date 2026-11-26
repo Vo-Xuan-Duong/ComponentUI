@@ -61,6 +61,26 @@ function syncActiveNavigation() {
 window.addEventListener("hashchange", syncActiveNavigation);
 syncActiveNavigation();
 
+// Visual Quality Lab: event feedback keeps each active control demonstrable.
+const qualityResult=document.getElementById("quality-result");
+for(const [id,label] of [
+  ["quality-primary","Primary action"],
+  ["quality-standard","Secondary action"],
+  ["quality-outline","Outline action"],
+  ["quality-danger","Destructive action"]
+]){
+  document.getElementById(id).addEventListener("cu-press",()=>{
+    qualityResult.textContent=label+" pressed";
+  });
+}
+document.getElementById("quality-select").addEventListener("cu-change",event=>{
+  qualityResult.textContent="Framework selected: "+event.detail.value;
+});
+document.getElementById("quality-field").addEventListener("cu-input",event=>{
+  qualityResult.textContent="Workspace name length: "+event.detail.value.length;
+});
+
+
 const dialog = document.getElementById("sample-dialog");
 document.getElementById("open-dialog").addEventListener("click", () => dialog.showModal());
 dialog.addEventListener("close", () => {
