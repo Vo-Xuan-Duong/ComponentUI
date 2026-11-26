@@ -27,13 +27,15 @@ const css=[
   "button:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "button[hidden],.status[hidden]{display:none!important;}",
   ".status{font-size:12px;}",
+  ".footer{flex-wrap:wrap;}",
+  ":host([error]) .status{color:var(--cu-danger,#c42b1c);}",
   "@media(forced-colors:active){.viewport,button{border-color:CanvasText;}",
   "button:focus-visible{outline-color:Highlight;}}"
 ].join("");
 
 export class CuInfiniteScroll extends BrowserElement {
   static get observedAttributes(){
-    return ["has-more","loading","threshold","label","aria-label","end-text"];
+    return ["has-more","loading","threshold","label","aria-label","end-text","error"];
   }
   constructor(){
     super();
@@ -42,10 +44,11 @@ export class CuInfiniteScroll extends BrowserElement {
       '<slot></slot><div class="sentinel" aria-hidden="true"></div>' +
       '<div class="footer" part="footer"><button class="load" type="button">' +
       '<cu-icon name="chevron-down" size="16" aria-hidden="true"></cu-icon>' +
-      'Load more</button><span class="status" role="status" aria-live="polite"></span></div></div>');
+      '<span class="load-label">Load more</span></button><span class="status" role="status" aria-live="polite"></span></div></div>');
     this._viewport=root.querySelector(".viewport");
     this._sentinel=root.querySelector(".sentinel");
     this._button=root.querySelector(".load");
+    this._buttonLabel=root.querySelector(".load-label");
     this._status=root.querySelector(".status");
     this._observer=null;
     this._requesting=false;
@@ -76,8 +79,14 @@ export class CuInfiniteScroll extends BrowserElement {
   }
   set threshold(value){this.setAttribute("threshold",String(value));}
   get page(){return this._page;}
+  get error(){return this.getAttribute("error")||"";}
+  set error(v){if(v)this.setAttribute("error",String(v));else this.removeAttribute("error");}
   requestMore(reason="manual"){
     if(!this.hasMore||this.loading||this._requesting)return false;
+    if(this.error){
+      if(reason==="intersection"||reason==="scroll")return false;
+      this.error="";
+    }
     this._requesting=true;
     this.loading=true;
     this._page++;
@@ -86,11 +95,20 @@ export class CuInfiniteScroll extends BrowserElement {
   }
   complete({hasMore}={}){
     if(typeof hasMore==="boolean")this.hasMore=hasMore;
+    if(this.error)this.error="";
     this._requesting=false;
     this.loading=false;
     this._sync();
   }
+  fail(message="Unable to load records."){
+    if(!this._requesting)return false;
+    this._page=Math.max(0,this._page-1);
+    this.error=String(message||"Unable to load records.");
+    this._requesting=false;this.loading=false;this._sync();
+    return true;
+  }
   reset(){
+    if(this.error)this.error="";
     this._page=0;this._requesting=false;this.loading=false;
     this._viewport.scrollTop=0;
     this._sync();
@@ -114,9 +132,11 @@ export class CuInfiniteScroll extends BrowserElement {
     this._viewport.setAttribute("aria-busy",String(this.loading));
     this._button.hidden=!this.hasMore||this.loading;
     this._button.disabled=this.loading;
-    this._status.textContent=this.loading?"Loading more records…":
-      this.hasMore?"":(this.getAttribute("end-text")||"All records loaded");
-    this._status.hidden=Boolean(this.hasMore&&!this.loading);
+    const error=this.error;
+    if(this._buttonLabel)this._buttonLabel.textContent=error?"Retry":"Load more";
+    this._status.textContent=this.loading?"Loading more records…":error||
+      (this.hasMore?"":(this.getAttribute("end-text")||"All records loaded"));
+    this._status.hidden=Boolean(this.hasMore&&!this.loading&&!error);
   }
 }
 define("cu-infinite-scroll",CuInfiniteScroll);
