@@ -99,7 +99,9 @@ export class CuPasswordField extends BrowserElement {
   }
   _setVisible(value){
     this._visible=Boolean(value);
+    const start=this._input.selectionStart,end=this._input.selectionEnd;
     this._input.type=this._visible?"text":"password";
+    if(start!==null&&end!==null)this._input.setSelectionRange?.(start,end);
     this._toggle.setAttribute("aria-pressed",String(this._visible));
     this._toggle.setAttribute("aria-label",this._visible?"Hide password":"Show password");
     this._icon.setAttribute("name",this._visible?"eye-off":"eye");
