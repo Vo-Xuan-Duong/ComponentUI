@@ -16,6 +16,8 @@ const css=[
   ":host([variant=filled]) button{background:var(--cu-surface-alt,#fafafa);border-color:var(--cu-border,#e5e5e5);}",
   ":host([variant=accent]) button{background:var(--cu-accent,#0067c0);color:var(--cu-accent-text,#fff);}",
   ":host([variant=accent]) button:hover:not(:disabled){background:var(--cu-accent-hover,#005a9e);}",
+  ":host([variant=filled]) button:hover:not(:disabled),:host([variant=outline]) button:hover:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 10%,var(--cu-surface,#fff));}",
+  ":host([variant=filled]) button:active:not(:disabled),:host([variant=outline]) button:active:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 17%,var(--cu-surface,#fff));}",
   ":host([pressed]) button{color:var(--cu-accent,#0067c0);border-color:var(--cu-accent,#0067c0);",
   "background:color-mix(in srgb,var(--cu-accent,#0067c0) 13%,var(--cu-surface,#fff));}",
   ":host([size=sm]) button{width:var(--cu-control-sm,28px);height:var(--cu-control-sm,28px);}",

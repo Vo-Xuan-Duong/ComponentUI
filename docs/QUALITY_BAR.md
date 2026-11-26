@@ -155,3 +155,13 @@ See [Overlay Quality](OVERLAY_QUALITY.md). Clipping ancestors and
 full top-layer positioning, browser/screen-reader verification and
 installed-package smoke tests remain prerequisites before any
 `preview` component can be marked production-ready.
+
+## Shared foundation refinement
+
+- Every custom element using `mount()` now respects the host `hidden` attribute even when its component stylesheet sets display explicitly.
+- Native and CSS Danger buttons use separate destructive-action background, text, hover and pressed colors rather than the semantic danger foreground (which is light pink in dark mode). Consumers may override `--cu-danger-action-bg`, `--cu-danger-action-text`, `--cu-danger-action-hover` and `--cu-danger-action-pressed` as a coordinated palette.
+- Subtle/outline Button and filled/outline IconButton explicitly preserve pointer feedback.
+- Checkbox and Switch suppress form values and required validity while disabled, including disabled fieldsets.
+- Shared overlay viewport watchers observe host resizing when ResizeObserver is available and disconnect on cleanup.
+
+These changes apply to the shared Web Component foundation used by framework adapters. They do not imply browser, visual, screen-reader or package integration acceptance. Verify using `npm run check` and `npm run check:packages` locally.

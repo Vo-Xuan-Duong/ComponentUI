@@ -83,7 +83,12 @@ export function watchOverlayViewport(host,callback){
   view.addEventListener("scroll",callback,true);
   view.visualViewport?.addEventListener("resize",callback);
   view.visualViewport?.addEventListener("scroll",callback);
+  // Layout changes can resize an anchor without a window resize (e.g. a split panel).
+  const Observer=view.ResizeObserver;
+  const observer=typeof Observer==="function"?new Observer(callback):null;
+  observer?.observe(host);
   return ()=>{
+    observer?.disconnect();
     view.removeEventListener("resize",callback);
     view.removeEventListener("scroll",callback,true);
     view.visualViewport?.removeEventListener("resize",callback);

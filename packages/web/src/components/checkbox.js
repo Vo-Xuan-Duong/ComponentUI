@@ -54,9 +54,9 @@ export class CuCheckbox extends BrowserElement {
     this._syncFormValue();
   }
   _syncFormValue() {
-    this._internals?.setFormValue(this.checked ? this.value : null);
+    this._internals?.setFormValue(!this._input.disabled && this.checked ? this.value : null);
     if (!this._internals) return;
-    if (this._input.required && !this.checked) {
+    if (!this._input.disabled && this._input.required && !this.checked) {
       this._internals.setValidity({valueMissing:true}, "Please select this option.", this._input);
     } else this._internals.setValidity({});
   }

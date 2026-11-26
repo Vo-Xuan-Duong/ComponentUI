@@ -8,7 +8,7 @@ export const BrowserElement = globalThis.HTMLElement ?? class {};
 
 export function mount(element, css, markup) {
   const root = element.attachShadow({mode: "open"});
-  root.innerHTML = "<style>" + css + "</style>" + markup;
+  root.innerHTML = "<style>" + css + ":host([hidden]){display:none!important;}</style>" + markup;
   return root;
 }
 
@@ -60,7 +60,12 @@ export const buttonStyle = [
   "border-color:var(--cu-accent-hover,#005a9e);}",
   ":host([variant=subtle]) button{background:transparent;border-color:transparent;}",
   ":host([variant=outline]) button{background:transparent;}",
-  ":host([variant=danger]) button{background:var(--cu-danger,#c42b1c);border-color:var(--cu-danger,#c42b1c);color:white;}",
+  ":host([variant=danger]) button{background:var(--cu-danger-action-bg,var(--cu-palette-red-60,#c42b1c));",
+  "border-color:var(--cu-danger-action-bg,var(--cu-palette-red-60,#c42b1c));color:var(--cu-danger-action-text,#fff);}",
+  ":host([variant=danger]) button:hover:not(:disabled){background:var(--cu-danger-action-hover,#a52015);border-color:var(--cu-danger-action-hover,#a52015);}",
+  ":host([variant=danger]) button:active:not(:disabled){background:var(--cu-danger-action-pressed,#861a11);border-color:var(--cu-danger-action-pressed,#861a11);}",
+  ":host([variant=subtle]) button:hover:not(:disabled),:host([variant=outline]) button:hover:not(:disabled){background:var(--cu-state-hover);}",
+  ":host([variant=subtle]) button:active:not(:disabled),:host([variant=outline]) button:active:not(:disabled){background:var(--cu-state-pressed);}",
   ":host([size=sm]) button{min-height:var(--cu-control-sm,28px);padding:0 12px;}",
   ":host([size=lg]) button{min-height:var(--cu-control-lg,40px);}",
   ":host([size=xl]) button{min-height:var(--cu-control-xl,48px);padding:0 20px;}",
