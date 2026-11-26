@@ -133,3 +133,16 @@ export declare const Flyout: ReactCuComponent;
 export declare const TeachingTip: ReactCuComponent;
 export declare const Callout: ReactCuComponent;
 export declare const Banner: ReactCuComponent;
+
+export declare const TreeTable: ReactCuComponent;
+export declare const Masonry: ReactCuComponent;
+export declare const TaskPanel: ReactCuComponent;
+export declare const CommandSurface: ReactCuComponent;
+export declare const WindowPane: ReactCuComponent;
+export declare const ChatComposer: ReactCuComponent;
+export declare const MessageList: ReactCuComponent;
+export declare const SearchResults: ReactCuComponent;
+export declare const MediaPlayer: ReactCuComponent;
+export declare const UploadManager: ReactCuComponent;
+export declare const Wizard: ReactCuComponent;
+export declare const DashboardShell: ReactCuComponent;

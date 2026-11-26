@@ -72,6 +72,6 @@ test("Preview status is separate from production readiness", async () => {
     assert.equal(status.get(name), "preview");
   }
   assert.equal(list.length, 132);
-  assert.equal(list.filter(item => item.status === "preview").length, 120);
+  assert.equal(list.filter(item => item.status === "preview").length, 132);
   assert.equal(list.filter(item => item.status === "ready").length, 0);
 });

@@ -116,6 +116,38 @@ const toastContainer = document.getElementById("toast-container");
 function showToast(title, message = "ComponentUI interaction preview.") {
   return toastContainer.show({title,message,duration:4500});
 }
+const wcTreeTable=document.getElementById("wc-tree-table");
+wcTreeTable.columns=[{key:"status",label:"Status"},{key:"owner",label:"Owner"}];
+wcTreeTable.items=[{id:"web",label:"Web Components",values:{status:"Preview",owner:"UI"},expanded:true,children:[{id:"forms",label:"Forms",values:{status:"Preview",owner:"UI"}},{id:"data",label:"Data display",values:{status:"Preview",owner:"UI"}}]},{id:"desktop",label:"Desktop patterns",values:{status:"Preview",owner:"Platform"},children:[{id:"dock",label:"Dock layout",values:{status:"Preview",owner:"Platform"}}]}];
+const wcTaskPanel=document.getElementById("wc-task-panel");
+wcTaskPanel.items=[{id:"contracts",label:"Register component contracts",completed:true},{id:"browser",label:"Verify browser interactions"},{id:"packages",label:"Verify installed packages"}];
+const wcCommandSurface=document.getElementById("wc-command-surface");
+wcCommandSurface.commands=[{value:"save",label:"Save",icon:"check"},{value:"refresh",label:"Refresh",icon:"refresh-cw"},{value:"settings",label:"Settings",icon:"settings"}];
+wcCommandSurface.addEventListener("cu-action",e=>showToast("Command",e.detail.label));
+const wcMessageList=document.getElementById("wc-message-list");
+const wcChatComposer=document.getElementById("wc-chat-composer");
+wcMessageList.items=[{id:"welcome",sender:"Workspace",text:"This local example demonstrates the message composer."}];
+let wcMessageSequence=0;
+wcChatComposer.addEventListener("cu-send",e=>{wcMessageList.items=[...wcMessageList.items,{id:"local-"+(++wcMessageSequence),sender:"You",text:e.detail.value,own:true}];});
+const wcSearchResults=document.getElementById("wc-search-results");
+wcSearchResults.items=[{id:"one",title:"Component contracts",description:"API definitions and component status",meta:"Docs"},{id:"two",title:"Desktop workspace",description:"Window chrome and dock layout",meta:"Components"},{id:"three",title:"Data display",description:"Tree tables and charts",meta:"Components"}];
+document.getElementById("wc-search-results-query").addEventListener("cu-input",e=>{wcSearchResults.query=e.detail.value;});
+wcSearchResults.addEventListener("cu-select",e=>showToast("Result",e.detail.item.title));
+const wcMediaPlayer=document.getElementById("wc-media-player");
+let wcMediaUrl=null;
+document.getElementById("wc-media-file").addEventListener("cu-change",e=>{
+  if(wcMediaUrl){URL.revokeObjectURL(wcMediaUrl);wcMediaUrl=null;}
+  wcMediaPlayer.removeAttribute("src");
+  if(e.detail.valid!==false&&e.detail.files?.[0]){wcMediaUrl=URL.createObjectURL(e.detail.files[0]);wcMediaPlayer.setAttribute("src",wcMediaUrl);}
+});
+window.addEventListener("pagehide",()=>{if(wcMediaUrl){URL.revokeObjectURL(wcMediaUrl);wcMediaUrl=null;wcMediaPlayer.removeAttribute("src");}});
+const wcUploadManager=document.getElementById("wc-upload-manager");
+wcUploadManager.items=[{id:"a",name:"design-tokens.json",status:"complete"},{id:"b",name:"workspace.zip",status:"uploading",progress:64},{id:"c",name:"report.pdf",status:"error",progress:12,error:"Sample connection error"}];
+wcUploadManager.addEventListener("cu-action",e=>{wcUploadManager.items=wcUploadManager.items.map(x=>x.id===e.detail.id?{...x,status:e.detail.action==="retry"?"queued":"cancelled",progress:0,error:""}:x);});
+const wcWizard=document.getElementById("wc-wizard");
+wcWizard.steps=[{value:"profile",label:"Profile"},{value:"theme",label:"Theme"},{value:"review",label:"Review"}];
+wcWizard.addEventListener("cu-change",e=>{if(e.target===wcWizard)document.getElementById("wc-wizard-result").textContent="Step "+(e.detail.index+1);});
+wcWizard.addEventListener("cu-finish",()=>{document.getElementById("wc-wizard-result").textContent="Setup finished (demo only).";});
 const wcSnackbar=document.getElementById("wc-snackbar");
 document.getElementById("wc-snackbar-show").addEventListener("cu-press",()=>wcSnackbar.show({message:"Workspace updated",tone:"success",action:"Dismiss"}));
 const wcConfirmDialog=document.getElementById("wc-confirm-dialog");

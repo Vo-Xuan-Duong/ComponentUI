@@ -698,6 +698,30 @@ export declare class CuFlyout extends CuPopover {}
 export declare class CuTeachingTip extends CuPopover {}
 export declare class CuCallout extends CuAlert {}
 export declare class CuBanner extends CuInfoBar {}
+export interface CuTreeTableItem {id:string;label:string;values?:Record<string,unknown>;children?:CuTreeTableItem[];expanded?:boolean;}
+export declare function normalizeTreeTableItems(value:unknown):CuTreeTableItem[];
+export declare function visibleTreeTableRows(items:CuTreeTableItem[],expanded:Set<string>|string[]):{item:CuTreeTableItem;depth:number}[];
+export declare class CuTreeTable extends HTMLElement {items:CuTreeTableItem[];columns:CuTableColumn[];expandedValues:string[];toggle(id:string):boolean;}
+export declare class CuMasonry extends HTMLElement {}
+export interface CuTaskItem {id:string;label:string;completed?:boolean;disabled?:boolean;}
+export declare function normalizeTasks(value:unknown):Required<CuTaskItem>[];
+export declare class CuTaskPanel extends HTMLElement {items:CuTaskItem[];readonly:boolean;toggle(id:string):boolean;}
+export declare class CuCommandSurface extends CuCommandBar {}
+export declare class CuWindowPane extends HTMLElement {collapsed:boolean;toggle():boolean;}
+export declare class CuChatComposer extends HTMLElement {value:string;disabled:boolean;send():boolean;focus(options?:FocusOptions):void;}
+export interface CuMessageItem {id:string;sender:string;text:string;time?:string;own?:boolean;}
+export declare function normalizeMessages(value:unknown):Required<CuMessageItem>[];
+export declare class CuMessageList extends HTMLElement {items:CuMessageItem[];scrollToEnd():void;}
+export interface CuSearchResult {id:string;title:string;description?:string;meta?:string;}
+export declare function normalizeSearchResults(value:unknown):Required<CuSearchResult>[];
+export declare function filterSearchResults(items:CuSearchResult[],query:string):CuSearchResult[];
+export declare class CuSearchResults extends HTMLElement {items:CuSearchResult[];query:string;}
+export declare class CuMediaPlayer extends HTMLElement {play():Promise<void>;pause():void;currentTime:number;readonly duration:number;}
+export interface CuUploadItem {id:string;name:string;size?:number;progress?:number;status?:"queued"|"uploading"|"complete"|"error"|"cancelled";error?:string;}
+export declare function normalizeUploadItems(value:unknown):CuUploadItem[];
+export declare class CuUploadManager extends HTMLElement {items:CuUploadItem[];}
+export declare class CuWizard extends HTMLElement {steps:CuStep[];value:string;linear:boolean;next():boolean;previous():boolean;goTo(value:string|number):boolean;}
+export declare class CuDashboardShell extends CuAppShell {}
 export declare class CuSlider extends HTMLElement {
   static formAssociated: boolean;
   value: number;
@@ -874,6 +898,29 @@ export declare function clampMenuPosition(
 
 declare global {
   interface HTMLElementTagNameMap {
+    "cu-icon-button": CuIconButton;
+    "cu-toggle-button-group": CuToggleButtonGroup;
+    "cu-toolbar": CuToolbar;
+    "cu-command-bar": CuCommandBar;
+    "cu-split-button": CuSplitButton;
+    "cu-stepper": CuStepper;
+    "cu-info-bar": CuInfoBar;
+    "cu-drawer": CuDrawer;
+    "cu-accordion": CuAccordion;
+    "cu-accordion-item": CuAccordionItem;
+    "cu-disclosure": CuDisclosure;
+    "cu-pagination": CuPagination;
+    "cu-progress-ring": CuProgressRing;
+    "cu-chip": CuChip;
+    "cu-tag": CuTag;
+    "cu-tree-list": CuTreeList;
+    "cu-infinite-scroll": CuInfiniteScroll;
+    "cu-split-view": CuSplitView;
+    "cu-virtual-list": CuVirtualList;
+    "cu-splitter": CuSplitter;
+    "cu-resizable-panel": CuResizablePanel;
+    "cu-filter-bar": CuFilterBar;
+    "cu-data-filter": CuDataFilter;
     "cu-button": CuButton;
     "cu-text-field": CuTextField;
     "cu-password-field": CuPasswordField;
@@ -940,6 +987,18 @@ declare global {
     "cu-status-bar": CuStatusBar;
     "cu-dock-layout": CuDockLayout;
     "cu-kanban-board": CuKanbanBoard;
+    "cu-dashboard-shell": CuDashboardShell;
+    "cu-wizard": CuWizard;
+    "cu-upload-manager": CuUploadManager;
+    "cu-media-player": CuMediaPlayer;
+    "cu-search-results": CuSearchResults;
+    "cu-message-list": CuMessageList;
+    "cu-chat-composer": CuChatComposer;
+    "cu-window-pane": CuWindowPane;
+    "cu-command-surface": CuCommandSurface;
+    "cu-task-panel": CuTaskPanel;
+    "cu-masonry": CuMasonry;
+    "cu-tree-table": CuTreeTable;
     "cu-banner": CuBanner;
     "cu-callout": CuCallout;
     "cu-teaching-tip": CuTeachingTip;

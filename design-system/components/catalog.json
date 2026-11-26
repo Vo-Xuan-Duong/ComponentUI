@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "120 catalogued experimental browser Custom Elements; 120 catalog preview entries, 12 planned, 0 production-ready.",
+  "summary": "132 catalogued experimental browser Custom Elements; 132 catalog preview entries, 0 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -569,7 +569,7 @@
         {
           "name": "TreeTable",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1029,7 +1029,7 @@
         {
           "name": "Masonry",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1088,7 +1088,7 @@
         {
           "name": "TaskPanel",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1115,7 +1115,7 @@
         {
           "name": "CommandSurface",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1124,7 +1124,7 @@
         {
           "name": "WindowPane",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1174,7 +1174,7 @@
         {
           "name": "ChatComposer",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1183,7 +1183,7 @@
         {
           "name": "MessageList",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1192,7 +1192,7 @@
         {
           "name": "SearchResults",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1201,7 +1201,7 @@
         {
           "name": "MediaPlayer",
           "priority": "P2",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1210,7 +1210,7 @@
         {
           "name": "UploadManager",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1219,7 +1219,7 @@
         {
           "name": "Wizard",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"
@@ -1228,7 +1228,7 @@
         {
           "name": "DashboardShell",
           "priority": "P1",
-          "status": "planned",
+          "status": "preview",
           "renderers": [
             "web",
             "native-as-needed"

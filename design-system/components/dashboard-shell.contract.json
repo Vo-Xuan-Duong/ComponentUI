@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "DashboardShell",
+  "tag": "dashboard-shell",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "with-navigation": "boolean",
+    "without-navigation": "boolean"
+  },
+  "events": [
+    "cu-navigation-toggle"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

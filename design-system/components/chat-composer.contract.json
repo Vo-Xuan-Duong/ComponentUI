@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "ChatComposer",
+  "tag": "chat-composer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "value": "string",
+    "placeholder": "string",
+    "disabled": "boolean",
+    "send-on-enter": "boolean"
+  },
+  "events": [
+    "cu-send",
+    "cu-input"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

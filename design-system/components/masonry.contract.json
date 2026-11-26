@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "name": "Masonry",
+  "tag": "masonry",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "count": "1-6"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

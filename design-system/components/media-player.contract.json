@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "MediaPlayer",
+  "tag": "media-player",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "src": "string",
+    "poster": "string",
+    "media-type": "audio | video",
+    "muted": "boolean",
+    "loop": "boolean",
+    "captions-src": "string",
+    "captions-language": "string"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

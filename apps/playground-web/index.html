@@ -77,7 +77,7 @@
 
         <div class="metrics" aria-label="ComponentUI project summary">
           <div class="metric"><strong id="metric-components">132</strong><span>Catalog entries</span></div>
-          <div class="metric"><strong id="metric-previews">120</strong><span>Preview components</span></div>
+          <div class="metric"><strong id="metric-previews">132</strong><span>Preview components</span></div>
           <div class="metric"><strong id="metric-native">55</strong><span>Native Web Components</span></div>
           <div class="metric"><strong>0</strong><span>Production-certified</span></div>
         </div>
@@ -625,6 +625,57 @@
                 <cu-button type="submit" variant="accent">Read form values</cu-button>
               </form>
               <pre class="cu-web-result" role="status" aria-live="polite" id="wc-utility-result">Choose a date and submit the form.</pre>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>TreeTable</h3><p class="demo-subtitle">Expand hierarchical records while preserving their table columns.</p>
+              <cu-tree-table id="wc-tree-table" label="Project"></cu-tree-table>
+            </article>
+            <article class="cu-surface demo-card full-span">
+              <h3>Masonry</h3><p class="demo-subtitle">CSS column-based layout for variable-height cards.</p>
+              <cu-masonry style="--cu-masonry-column-width:170px">
+                <cu-surface>Layout foundation</cu-surface><cu-surface><strong>Editor</strong><p>Reusable inputs and form controls.</p><p>Keyboard accessibility.</p></cu-surface>
+                <cu-surface>Desktop UI</cu-surface><cu-surface><strong>Data display</strong><p>Charts, tables and lists.</p></cu-surface>
+              </cu-masonry>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>TaskPanel and WindowPane</h3>
+              <cu-window-pane title="Project checklist" collapsible>
+                <cu-task-panel id="wc-task-panel" label="Release checklist"></cu-task-panel>
+              </cu-window-pane>
+              <cu-command-surface id="wc-command-surface" label="Workspace commands"></cu-command-surface>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>ChatComposer and MessageList</h3><p class="demo-subtitle">Plain-text conversation UI, no network requests.</p>
+              <cu-message-list id="wc-message-list" label="Local conversation" auto-scroll></cu-message-list>
+              <cu-chat-composer id="wc-chat-composer" send-on-enter></cu-chat-composer>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>SearchResults</h3>
+              <cu-text-field id="wc-search-results-query" label="Filter results"></cu-text-field>
+              <cu-search-results id="wc-search-results"></cu-search-results>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>MediaPlayer and UploadManager</h3><p class="demo-subtitle">Select a local audio file; upload state is simulated by the application.</p>
+              <cu-file-picker id="wc-media-file" label="Audio file" accept="audio/*"></cu-file-picker>
+              <cu-media-player id="wc-media-player" media-type="audio" label="Local audio"></cu-media-player>
+              <cu-upload-manager id="wc-upload-manager" label="Sample uploads"></cu-upload-manager>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>Wizard</h3>
+              <cu-wizard id="wc-wizard" label="Setup wizard" linear>
+                <div slot="step-profile"><cu-text-field label="Project name" value="ComponentUI"></cu-text-field></div>
+                <div slot="step-theme"><p>Choose your preferred application appearance.</p></div>
+                <div slot="step-review"><p>Review the configuration and finish.</p></div>
+              </cu-wizard>
+              <p id="wc-wizard-result" class="cu-helper" role="status">Step 1</p>
+            </article>
+            <article class="cu-surface demo-card">
+              <h3>DashboardShell</h3><p class="demo-subtitle">Content-first shell; navigation is opt-in.</p>
+              <cu-dashboard-shell style="--cu-appshell-min-height:200px">
+                <strong slot="header">Workspace overview</strong>
+                <cu-grid count="2" gap="2"><cu-surface>24 projects</cu-surface><cu-surface>128 files</cu-surface></cu-grid>
+                <span slot="footer">Ready</span>
+              </cu-dashboard-shell>
             </article>
             <article class="cu-surface demo-card">
               <h3>Action components</h3>

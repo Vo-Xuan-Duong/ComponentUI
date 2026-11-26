@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "CommandSurface",
+  "tag": "command-surface",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "disabled": "boolean",
+    "max-visible": "number"
+  },
+  "events": [
+    "cu-action"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

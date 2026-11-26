@@ -400,7 +400,7 @@ test("package entry points, React event handlers and Playground match new elemen
     assert.equal(manifest.exports["./components/"+name].default,
       "./dist/components/"+name+".js");
   }
-  assert.equal(Object.keys(REACT_TAGS).length,131);
+  assert.equal(Object.keys(REACT_TAGS).length,143);
   assert.equal(REACT_TAGS.ContextMenu,"cu-context-menu");
   assert.equal(REACT_TAGS.DataTable,"cu-data-table");
   assert.equal(REACT_EVENT_PROPS.onCuSort,"cu-sort");
@@ -422,7 +422,7 @@ test("catalog includes one new ListBox and five previews without ready releases"
     assert.equal(statuses.get(name),"preview");
   assert.equal(items.length,132);
   assert.equal(items.filter(x=>x.name==="ListBox").length,1);
-  assert.equal(items.filter(x=>x.status==="preview").length,120);
-  assert.equal(items.filter(x=>x.status==="planned").length,12);
+  assert.equal(items.filter(x=>x.status==="preview").length,132);
+  assert.equal(items.filter(x=>x.status==="planned").length,0);
   assert.equal(items.filter(x=>x.status==="ready").length,0);
 });

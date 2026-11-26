@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "Wizard",
+  "tag": "wizard",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "value": "string",
+    "linear": "boolean",
+    "finish-label": "string"
+  },
+  "events": [
+    "cu-change",
+    "cu-finish"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

@@ -512,6 +512,90 @@
     "./components/banner": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/banner.js"
+    },
+    "./components/tree-table": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/tree-table.js"
+    },
+    "./components/masonry": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/masonry.js"
+    },
+    "./components/task-panel": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/task-panel.js"
+    },
+    "./components/command-surface": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/command-surface.js"
+    },
+    "./components/window-pane": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/window-pane.js"
+    },
+    "./components/chat-composer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/chat-composer.js"
+    },
+    "./components/message-list": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/message-list.js"
+    },
+    "./components/search-results": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/search-results.js"
+    },
+    "./components/media-player": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/media-player.js"
+    },
+    "./components/upload-manager": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/upload-manager.js"
+    },
+    "./components/wizard": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/wizard.js"
+    },
+    "./components/dashboard-shell": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/dashboard-shell.js"
+    },
+    "./components/textarea": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/text-area.js"
+    },
+    "./components/accordion-item": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/disclosure.js"
+    },
+    "./components/radio": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/radio-group.js"
+    },
+    "./components/tab": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/tabs.js"
+    },
+    "./components/menu-item": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/menu.js"
+    },
+    "./components/breadcrumb-item": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/breadcrumb.js"
+    },
+    "./components/tree-item": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/tree-view.js"
+    },
+    "./components/list-option": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/listbox.js"
+    },
+    "./components/combo-option": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/combobox.js"
     }
   },
   "files": [

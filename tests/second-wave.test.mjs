@@ -81,6 +81,6 @@ test("catalog has 32 previews and none promoted prematurely", async () => {
     assert.equal(status.get(name), "preview");
   }
   assert.equal(components.length,132);
-  assert.equal(components.filter(c => c.status === "preview").length,120);
+  assert.equal(components.filter(c => c.status === "preview").length,132);
   assert.equal(components.filter(c => c.status === "ready").length,0);
 });

@@ -135,3 +135,16 @@ export { CuFlyout } from "./flyout.js";
 export { CuTeachingTip } from "./teaching-tip.js";
 export { CuCallout } from "./callout.js";
 export { CuBanner } from "./banner.js";
+
+export { CuTreeTable, normalizeTreeTableItems, visibleTreeTableRows } from "./tree-table.js";
+export { CuMasonry } from "./masonry.js";
+export { CuTaskPanel, normalizeTasks } from "./task-panel.js";
+export { CuCommandSurface } from "./command-surface.js";
+export { CuWindowPane } from "./window-pane.js";
+export { CuChatComposer } from "./chat-composer.js";
+export { CuMessageList, normalizeMessages } from "./message-list.js";
+export { CuSearchResults, normalizeSearchResults, filterSearchResults } from "./search-results.js";
+export { CuMediaPlayer } from "./media-player.js";
+export { CuUploadManager, normalizeUploadItems } from "./upload-manager.js";
+export { CuWizard } from "./wizard.js";
+export { CuDashboardShell } from "./dashboard-shell.js";

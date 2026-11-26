@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "MessageList",
+  "tag": "message-list",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "auto-scroll": "boolean",
+    "empty-text": "string"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

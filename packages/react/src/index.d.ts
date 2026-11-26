@@ -15,6 +15,8 @@ export interface CuEventDetails {
   maximized?: boolean;
   pointerEvent?: PointerEvent;
   cellValue?: unknown;
+  currentTime?: number;
+  duration?: number;
   propertyValue?: string | number | boolean;
   previousPropertyValue?: string | number | boolean;
   complete?: boolean;
@@ -171,6 +173,16 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   "confirm-label"?: string;
   "cancel-label"?: string;
   "danger-confirm"?: boolean;
+  "with-navigation"?: boolean;
+  "send-on-enter"?: boolean;
+  "auto-scroll"?: boolean;
+  "closeable"?: boolean;
+  "media-type"?: "audio" | "video";
+  poster?: string;
+  "captions-src"?: string;
+  "captions-language"?: string;
+  muted?: boolean;
+  "finish-label"?: string;
   maxVisible?: number;
   "max-selected"?: number | string;
   "max-tags"?: number | string;
@@ -258,6 +270,8 @@ export type ComponentUIProps = Omit<React.HTMLAttributes<HTMLElement>, "children
   onCuMove?: (event: CuEvent) => void;
   onCuUpload?: (event: CuEvent) => void;
   onCuSubmit?: (event: CuEvent) => void;
+  onCuSend?: (event: CuEvent) => void;
+  onCuFinish?: (event: CuEvent) => void;
   onCuReset?: (event: CuEvent) => void;
   onCuLoadMore?: (event: CuEvent) => void;
   onCuRetry?: (event: CuEvent) => void;
@@ -285,7 +299,7 @@ export declare function createReactComponents(React: typeof import("react")):
   "TextArea" | "NumberField" | "SearchBox" |
   "PasswordField" | "FilePicker" | "AppShell" |
   "NavigationView" | "SettingsPage" | "SettingsGroup" | "SettingsItem" | "Select" | "MultiSelect" | "Toast" | "AutoComplete" | "NotificationCenter" | "Radio" | "RadioGroup" | "Tab" | "Tabs" | "Tooltip" |
-  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "Stack" | "Grid" | "Flex" | "Surface" | "PageHeader" | "RichTextEditor" | "ChartContainer" | "List" | "ListItem" | "DescriptionList" | "Kbd" | "CodeBlock" | "Image" | "ScrollView" | "Collapsible" | "FileUpload" | "FormField" | "Form" | "ToggleButton" | "Hyperlink" | "MenuButton" | "FloatingActionButton" | "Sidebar" | "TopNav" | "VerticalTabs" | "BottomNavigation" | "TabView" | "Snackbar" | "ConfirmDialog" | "Flyout" | "TeachingTip" | "Callout" | "Banner" | "Container" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
+  "Popover" | "DatePicker" | "TimePicker" | "DateRangePicker" | "Calendar" | "Rating" | "Slider" | "RangeSlider" | "OTPInput" | "ColorPicker" | "TagInput" | "CommandPalette" | "EmptyState" | "Statistic" | "LoadingOverlay" | "ScrollArea" | "AvatarGroup" | "SegmentedControl" | "Timeline" | "Carousel" | "PropertyGrid" | "FileExplorer" | "DataGrid" | "TitleBar" | "WindowControls" | "StatusBar" | "DockLayout" | "KanbanBoard" | "Stack" | "Grid" | "Flex" | "Surface" | "PageHeader" | "RichTextEditor" | "ChartContainer" | "List" | "ListItem" | "DescriptionList" | "Kbd" | "CodeBlock" | "Image" | "ScrollView" | "Collapsible" | "FileUpload" | "FormField" | "Form" | "ToggleButton" | "Hyperlink" | "MenuButton" | "FloatingActionButton" | "Sidebar" | "TopNav" | "VerticalTabs" | "BottomNavigation" | "TabView" | "Snackbar" | "ConfirmDialog" | "Flyout" | "TeachingTip" | "Callout" | "Banner" | "TreeTable" | "Masonry" | "TaskPanel" | "CommandSurface" | "WindowPane" | "ChatComposer" | "MessageList" | "SearchResults" | "MediaPlayer" | "UploadManager" | "Wizard" | "DashboardShell" | "Container" | "ProgressBar" | "Badge" | "Chip" | "Tag" | "ProgressRing" |
   "Avatar" | "Menu" | "MenuItem" | "Icon" | "Card" | "Divider" |
   "Skeleton" | "Spinner" | "Alert" | "Breadcrumb" | "BreadcrumbItem" | "DataTable" | "TreeView" | "TreeItem" |
   "ListBox" | "ListOption" | "Combobox" | "ComboOption" | "ContextMenu", ReactCuComponent>;

@@ -240,4 +240,6 @@ No package has been published. Licensing and third-party attribution policy must
 
 **Forms and display utilities milestone:** 132 catalog entries, 105 preview, 27 planned, zero production-ready; 116 React wrappers. See [Forms and display utilities](docs/FORM_DISPLAY_UTILITIES.md).
 
-**Current milestone — Actions, navigation and feedback:** 132 catalog entries, 120 preview, 12 planned, zero production-ready; 131 React wrappers. See [Actions, navigation and feedback](docs/ACTION_NAV_FEEDBACK.md).
+**Actions, navigation and feedback milestone:** 132 catalog entries, 120 preview, 12 planned, zero production-ready; 131 React wrappers. See [Actions, navigation and feedback](docs/ACTION_NAV_FEEDBACK.md).
+
+**Current milestone — Full catalog preview coverage:** 132 catalog entries, 132 preview, zero planned, zero production-ready; 143 React wrappers. See [Advanced patterns](docs/ADVANCED_PATTERNS.md) and [Release acceptance](docs/RELEASE_ACCEPTANCE.md).

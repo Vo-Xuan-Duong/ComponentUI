@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "name": "SearchResults",
+  "tag": "search-results",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "query": "string",
+    "label": "string",
+    "empty-text": "string"
+  },
+  "events": [
+    "cu-select"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

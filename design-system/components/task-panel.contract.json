@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "TaskPanel",
+  "tag": "task-panel",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

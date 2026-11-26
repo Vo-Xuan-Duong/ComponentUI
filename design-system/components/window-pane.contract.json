@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "WindowPane",
+  "tag": "window-pane",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "title": "string",
+    "collapsed": "boolean",
+    "collapsible": "boolean",
+    "closeable": "boolean"
+  },
+  "events": [
+    "cu-toggle",
+    "cu-close"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}

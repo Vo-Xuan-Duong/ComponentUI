@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "UploadManager",
+  "tag": "upload-manager",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string"
+  },
+  "events": [
+    "cu-action"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
