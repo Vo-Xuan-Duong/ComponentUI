@@ -11,6 +11,7 @@ const css = [
   "padding:0;box-shadow:var(--cu-shadow-flyout,0 12px 28px rgb(0 0 0/.16));}",
   "dialog{max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain;}",
   "dialog[open]{animation:cu-dialog-enter var(--cu-motion-normal,160ms) ease both;}",
+  "@media(prefers-reduced-motion:reduce){dialog[open]{animation:none;}}",
   "@keyframes cu-dialog-enter{from{opacity:.6;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}",
   "dialog::backdrop{background:rgb(0 0 0/.42);backdrop-filter:blur(3px);}",
   "header{display:flex;align-items:start;justify-content:space-between;gap:16px;",
