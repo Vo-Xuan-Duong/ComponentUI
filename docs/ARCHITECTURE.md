@@ -119,3 +119,5 @@ Remaining audit candidates: CommandBar overflow and MenuButton triggers (keep na
 ComponentUI is a general-purpose UI library for web applications, desktop tools, dashboards, developer tools and productivity workflows, not an ERP-specific toolkit. LogViewer is a preview component built by composing shared controls; it does not fetch logs or own application logging infrastructure.
 
 JsonViewer composes TreeView, SearchBox, CodeBlock, SplitView and EmptyState. DiffViewer composes SplitView, CodeBlock and Badge. MarkdownEditor composes TextArea, SplitView, ScrollArea and CodeBlock. See [Developer tools](DEVELOPER_TOOLS.md) for the preview API and limits.
+
+ImageViewer composes Image, Slider, Button, ScrollArea and Icon. TransferList composes ListBox, SearchBox and Button. CurrencyInput extends NumberField, and MaskedInput extends TextField to preserve the native form contract and shared validation. See [Image and input components](IMAGE_INPUT_COMPONENTS.md).
