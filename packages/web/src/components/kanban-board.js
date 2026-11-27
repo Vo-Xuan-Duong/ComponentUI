@@ -1,5 +1,6 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
 import "./icon.js";
+import "./select.js";
 export function normalizeKanbanLanes(value){
   const seen=new Set();return (Array.isArray(value)?value:[]).flatMap(x=>{
     if(!x||typeof x.id!=="string"||!x.id.trim()||seen.has(x.id))return [];
@@ -28,7 +29,7 @@ const css=[
   ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
   ".board{display:flex;gap:12px;overflow-x:auto;overscroll-behavior-inline:contain;padding:2px 2px 8px;align-items:stretch;}.lane{box-sizing:border-box;flex:1 0 var(--cu-kanban-lane-width,230px);min-width:0;display:flex;flex-direction:column;border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface-alt,#fafafa);}.lane[data-drop=true]{outline:2px solid var(--cu-accent,#0067c0);outline-offset:-2px;}",
   ".heading{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;font-weight:650;overflow-wrap:anywhere;}.count{font-size:12px;color:var(--cu-text-muted,#616161);font-variant-numeric:tabular-nums;}.cards{display:grid;align-content:start;gap:8px;padding:0 8px 10px;min-height:80px;flex:1;}.card{display:grid;gap:7px;border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-md,6px);padding:11px;background:var(--cu-surface,#fff);min-width:0;overflow-wrap:anywhere;}.card[draggable=true]{cursor:grab;}.card[data-dragging=true]{opacity:.5;}.card[data-before=true]{box-shadow:0 -3px var(--cu-accent,#0067c0);}.card-title{font-weight:650;}.description,.tag,.empty{font-size:12px;color:var(--cu-text-muted,#616161);line-height:1.5;}.tag{justify-self:start;padding:2px 6px;background:var(--cu-state-hover);border-radius:4px;}.empty{padding:8px;}",
-  ".actions{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}.actions button,.actions select{box-sizing:border-box;min-height:28px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:5px;color:inherit;background:var(--cu-surface,#fff);font:12px var(--cu-font-body,system-ui);}.actions button{display:grid;place-items:center;min-width:28px;cursor:pointer;}.actions select{flex:1;min-width:85px;padding:3px;}.actions button:hover:not(:disabled){background:var(--cu-state-hover);}.actions :disabled{opacity:.5;cursor:default;}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}",
+  ".actions{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}.actions button{box-sizing:border-box;display:grid;place-items:center;min-width:28px;min-height:28px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:5px;color:inherit;background:var(--cu-surface,#fff);font:12px var(--cu-font-body,system-ui);cursor:pointer;}.actions cu-select{flex:1;min-width:85px;font-size:12px;}.actions cu-select::part(control){min-height:28px;padding-inline:7px;font-size:12px;}.actions button:hover:not(:disabled){background:var(--cu-state-hover);}.actions :disabled{opacity:.5;cursor:default;}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}",
   "@media(forced-colors:active){.card[data-before=true]{outline:2px solid Highlight;}}",focusStyle
 ].join("");
 export class CuKanbanBoard extends BrowserElement{
@@ -88,9 +89,9 @@ export class CuKanbanBoard extends BrowserElement{
           card.addEventListener("dragstart",e=>{this._dragId=item.id;card.dataset.dragging="true";if(e.dataTransfer){e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",item.id);}});
           card.addEventListener("dragend",()=>this._endDrag());
           const actions=doc.createElement("div");actions.className="actions";
-          const select=doc.createElement("select");select.dataset.control="lane";select.draggable=false;select.setAttribute("aria-label","Move "+item.title+" to lane");
-          for(const target of this._lanes){const o=doc.createElement("option");o.value=target.id;o.textContent=target.label;select.append(o);}select.value=lane.id;
-          select.addEventListener("change",()=>this.moveItem(item.id,select.value));actions.append(select);
+          const select=doc.createElement("cu-select");select.dataset.control="lane";select.draggable=false;select.setAttribute("aria-label","Move "+item.title+" to lane");
+          for(const target of this._lanes){const o=doc.createElement("option");o.value=target.id;o.textContent=target.label;o.toggleAttribute("selected",target.id===lane.id);select.append(o);}
+          select.addEventListener("cu-change",event=>this.moveItem(item.id,event.detail.value));actions.append(select);
           for(const [kind,delta] of [["up",-1],["down",1]]){
             const button=doc.createElement("button");button.type="button";button.dataset.control=kind;button.disabled=i+delta<0||i+delta>=items.length;button.setAttribute("aria-label","Move "+item.title+" "+kind);
             const icon=doc.createElement("cu-icon");icon.setAttribute("name","chevron-down");icon.setAttribute("size","14");icon.setAttribute("aria-hidden","true");if(kind==="up")icon.style.transform="rotate(180deg)";button.append(icon);

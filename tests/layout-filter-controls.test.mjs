@@ -314,7 +314,5 @@ test("Playground and catalog implement four new experimental components",async()
   assert.equal(records.filter(c=>c.status==="preview").length,132);
   assert.equal(records.filter(c=>c.status==="planned").length,0);
   assert.equal(records.filter(c=>c.status==="ready").length,0);
-  const syntax=JSON.parse(root).scripts["syntax:check"];
-  for(const n of ["splitter","resizable-panel","filter-bar","data-filter"])
-    assert.ok(syntax.includes("components/"+n+".js"));
+  assert.equal(JSON.parse(root).scripts["syntax:check"], "node scripts/check-syntax.mjs");
 });

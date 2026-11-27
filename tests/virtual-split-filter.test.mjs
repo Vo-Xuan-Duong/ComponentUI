@@ -330,8 +330,7 @@ test("Playground, manifests, types and catalog include the two preview component
   assert.match(types,/class CuVirtualList extends HTMLElement/);
   assert.match(types,/bindFilterBar\(bar:CuFilterBar/);
   assert.match(react,/SplitView, VirtualList/);
-  for(const name of ["split-view","virtual-list","filter-utils"])
-    assert.ok(JSON.parse(root).scripts["syntax:check"].includes("components/"+name+".js"));
+  assert.equal(JSON.parse(root).scripts["syntax:check"], "node scripts/check-syntax.mjs");
   const catalog=JSON.parse(json).groups.flatMap(group=>group.components);
   for(const name of ["SplitView","VirtualList"])
     assert.equal(catalog.find(item=>item.name===name)?.status,"preview");

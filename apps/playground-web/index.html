@@ -71,6 +71,7 @@
             <button class="accent-swatch" type="button" data-accent="blue" aria-label="Blue accent" aria-pressed="true"></button>
             <button class="accent-swatch" type="button" data-accent="purple" aria-label="Purple accent" aria-pressed="false"></button>
             <button class="accent-swatch" type="button" data-accent="green" aria-label="Green accent" aria-pressed="false"></button>
+            <label class="accent-custom" title="Choose a custom accent color"><input id="accent-custom" type="color" value="#0067c0" aria-label="Custom accent color"></label>
           </div></div>
         </div>
       </header>
@@ -772,7 +773,7 @@
             </article>
             <article class="cu-surface demo-card">
               <h3>Form, FormField and FileUpload</h3><p class="demo-subtitle">Native form semantics, file selection and host-owned upload requests.</p>
-              <cu-form id="wc-form" intercept-submit>
+              <cu-form id="wc-composed-form" intercept-submit>
                 <form>
                   <cu-form-field label="Project details" hint="Provide a name for this example.">
                     <cu-text-field name="project" label="Project name" required></cu-text-field>

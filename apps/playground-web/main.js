@@ -12,6 +12,9 @@ const prefsKey = "componentui.playground.preferences.v1";
 const themeControl = document.getElementById("theme-select");
 const densityControl = document.getElementById("density-select");
 const swatches = [...document.querySelectorAll(".accent-swatch")];
+const customAccent = document.getElementById("accent-custom");
+const isCustomAccent = value => typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value);
+let selectedAccent = "blue";
 
 function loadPreferences() {
   try {
@@ -20,7 +23,7 @@ function loadPreferences() {
     return {
       theme: THEME_OPTIONS.includes(value.theme) ? value.theme : "system",
       density: DENSITY_OPTIONS.includes(value.density) ? value.density : "comfortable",
-      accent: ACCENT_OPTIONS.includes(value.accent) ? value.accent : "blue"
+      accent: ACCENT_OPTIONS.includes(value.accent) || isCustomAccent(value.accent) ? value.accent : "blue"
     };
   } catch {
     return {};
@@ -28,7 +31,24 @@ function loadPreferences() {
 }
 
 function setPreferences(next) {
-  const state = applyPreferences(root, { ...readPreferences(root), ...next });
+  const accent = next.accent ?? selectedAccent;
+  const state = applyPreferences(root, { ...readPreferences(root), ...next, accent: isCustomAccent(accent) ? "blue" : accent });
+  selectedAccent = accent;
+  state.accent = accent;
+  for (const name of ["--cu-accent", "--cu-accent-hover", "--cu-accent-pressed", "--cu-accent-text", "--cu-focus"]) root.style.removeProperty(name);
+  if (isCustomAccent(accent)) {
+    const channels = [1, 3, 5].map(i => parseInt(accent.slice(i, i + 2), 16) / 255);
+    const luminance = channels.map(c => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
+      .reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
+    const text = luminance > 0.179 ? "#000000" : "#ffffff";
+    root.style.setProperty("--cu-accent", accent);
+    root.style.setProperty("--cu-accent-hover", `color-mix(in srgb, ${accent} 88%, ${text})`);
+    root.style.setProperty("--cu-accent-pressed", `color-mix(in srgb, ${accent} 76%, ${text})`);
+    root.style.setProperty("--cu-accent-text", text);
+    root.style.setProperty("--cu-focus", accent);
+    customAccent.value = accent;
+  }
+  customAccent.parentElement.classList.toggle("is-selected", isCustomAccent(accent));
   themeControl.value = state.theme;
   densityControl.value = state.density;
   swatches.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.accent === state.accent)));
@@ -44,6 +64,7 @@ densityControl.addEventListener("cu-change", event => setPreferences({ density: 
 swatches.forEach(button => {
   button.addEventListener("click", () => setPreferences({ accent: button.dataset.accent }));
 });
+customAccent.addEventListener("input", () => setPreferences({ accent: customAccent.value }));
 
 const navLinks = [...document.querySelectorAll(".side-link")];
 const sidebar = document.querySelector(".app-layout > .sidebar");
@@ -196,9 +217,9 @@ wcConfirmDialog.addEventListener("cu-close",event=>{document.getElementById("wc-
 document.getElementById("wc-description-list").items=[{label:"Branch",value:"main"},{label:"Status",value:"Preview"},{label:"Frameworks",value:"React / Vue / Svelte"}];
 document.getElementById("wc-list").addEventListener("cu-select",event=>{document.getElementById("wc-list-result").textContent="Selected: "+event.detail.label;});
 document.getElementById("wc-code-block").value='import "@componentui/web";\nconst ready = true;';
-const wcForm=document.getElementById("wc-form");
-wcForm.addEventListener("cu-submit",event=>{document.getElementById("wc-form-result").textContent="Project: "+String(event.detail.formData.get("project")||"")+" (local demo)";});
-wcForm.addEventListener("cu-reset",()=>{document.getElementById("wc-form-result").textContent="Form reset.";});
+const wcComposedForm=document.getElementById("wc-composed-form");
+wcComposedForm.addEventListener("cu-submit",event=>{document.getElementById("wc-form-result").textContent="Project: "+String(event.detail.formData.get("project")||"")+" (local demo)";});
+wcComposedForm.addEventListener("cu-reset",()=>{document.getElementById("wc-form-result").textContent="Form reset.";});
 document.getElementById("wc-file-upload").addEventListener("cu-upload",event=>{document.getElementById("wc-form-result").textContent=event.detail.count+" file(s) selected for upload; no network request.";});
 const wcRichForm=document.getElementById("wc-rich-form");
 wcRichForm.addEventListener("submit",event=>{

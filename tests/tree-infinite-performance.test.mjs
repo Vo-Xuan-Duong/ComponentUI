@@ -285,7 +285,7 @@ test("Source, package and playground integrate native controls",async()=>{
   for(const name of ["tree-list","infinite-scroll"]){
     assert.equal(JSON.parse(pkg).exports["./components/"+name].default,
       "./dist/components/"+name+".js");
-    assert.ok(JSON.parse(root).scripts["syntax:check"].includes("components/"+name+".js"));
+    assert.equal(JSON.parse(root).scripts["syntax:check"], "node scripts/check-syntax.mjs");
   }
   assert.match(webTypes,/class CuTreeList extends HTMLElement/);
   assert.match(webTypes,/class CuInfiniteScroll extends HTMLElement/);
