@@ -1000,6 +1000,7 @@ declare global {
     "cu-upload-manager": CuUploadManager;
     "cu-media-player": CuMediaPlayer;
     "cu-search-results": CuSearchResults;
+    "cu-log-viewer": CuLogViewer;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1055,3 +1056,9 @@ declare global {
 export declare class CuIcon extends HTMLElement {
   name: IconName;
 }
+
+export interface CuLogEntry {id:string;message:string;level?:"debug"|"info"|"warn"|"error";timestamp?:string;source?:string;}
+export declare const LOG_LEVELS: readonly ["debug","info","warn","error"];
+export declare function normalizeLogEntries(value:unknown):Required<CuLogEntry>[];
+export declare function filterLogEntries(items:Required<CuLogEntry>[],query?:string,level?:"all"|CuLogEntry["level"]):Required<CuLogEntry>[];
+export declare class CuLogViewer extends HTMLElement {items:CuLogEntry[];query:string;level:"all"|"debug"|"info"|"warn"|"error";readonly visibleItems:Required<CuLogEntry>[];resetFilters():boolean;}
