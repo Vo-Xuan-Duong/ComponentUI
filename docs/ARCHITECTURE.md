@@ -117,3 +117,5 @@ existing `cu-*` primitives rather than implement independent controls.
 Remaining audit candidates: CommandBar overflow and MenuButton triggers (keep native until popup ARIA is verified), FilePicker controls, menu/option row styles, and gallery reference HTML. These are not claimed to have been migrated yet.
 
 ComponentUI is a general-purpose UI library for web applications, desktop tools, dashboards, developer tools and productivity workflows, not an ERP-specific toolkit. LogViewer is a preview component built by composing shared controls; it does not fetch logs or own application logging infrastructure.
+
+JsonViewer composes TreeView, SearchBox, CodeBlock, SplitView and EmptyState. DiffViewer composes SplitView, CodeBlock and Badge. MarkdownEditor composes TextArea, SplitView, ScrollArea and CodeBlock. See [Developer tools](DEVELOPER_TOOLS.md) for the preview API and limits.
