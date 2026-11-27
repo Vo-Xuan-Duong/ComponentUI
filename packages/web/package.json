@@ -612,6 +612,22 @@
     "./components/markdown-editor": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/markdown-editor.js"
+    },
+    "./components/image-viewer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/image-viewer.js"
+    },
+    "./components/transfer-list": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/transfer-list.js"
+    },
+    "./components/currency-input": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/currency-input.js"
+    },
+    "./components/masked-input": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/masked-input.js"
     }
   },
   "files": [
