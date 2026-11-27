@@ -73,14 +73,17 @@ test("Shadow and global controls share state palette and keyboard focus ring",as
   assert.match(css,/\.cu-btn:active:not\(:disabled\)/);
 });
 
-test("Playground uses horizontal top navigation and real component state matrix",async()=>{
+test("Playground uses responsive left navigation and real component state matrix",async()=>{
   const [html,css,js]=await Promise.all([
     read("../apps/playground-web/index.html"),
     read("../apps/playground-web/styles.css"),
     read("../apps/playground-web/main.js")
   ]);
-  assert.match(html,/<header class="sidebar" aria-label="ComponentUI site navigation">/);
-  assert.doesNotMatch(html,/<aside class="sidebar"/);
+  assert.match(html,/<aside class="sidebar" aria-label="ComponentUI site navigation">/);
+  assert.match(html,/id="sidebar-toggle" aria-controls="sidebar-sections" aria-expanded="false" hidden/);
+  assert.match(html,/id="sidebar-sections"/);
+  assert.match(js,/sidebarToggle\.addEventListener\("click"/);
+  assert.match(js,/event\.key === "Escape"/);
   assert.match(html,/id="quality-lab"/);
   assert.match(html,/href="#quality-lab"/);
   for(const tag of ["cu-button","cu-text-field","cu-select","cu-checkbox","cu-switch"])
@@ -89,7 +92,8 @@ test("Playground uses horizontal top navigation and real component state matrix"
     "quality-invalid","quality-select","quality-result"]){
     assert.ok(html.includes('id="'+id+'"'),"Missing state example "+id);
   }
-  assert.match(css,/\.app-layout\s*\{\s*display:\s*block/);
+  assert.match(css,/grid-template-columns:\s*var\(--gallery-sidebar\)\s*minmax\(0,\s*1fr\)/);
+  assert.match(css,/\.sidebar\[data-mobile-expanded="false"\] \.sidebar-nav\s*\{\s*display:\s*none/);
   assert.match(css,/\.app-layout > \.sidebar/);
   assert.match(css,/\.quality-lab-grid/);
   assert.match(css,/@media\(max-width: 700px\)/);
