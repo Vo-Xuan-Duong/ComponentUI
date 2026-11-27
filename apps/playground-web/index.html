@@ -21,32 +21,36 @@
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
   <div class="app-layout">
-    <header class="sidebar" aria-label="ComponentUI site navigation">
+    <aside class="sidebar" aria-label="ComponentUI site navigation">
+      <div class="sidebar-heading">
       <a class="brand" href="#overview" aria-label="ComponentUI home">
         <span class="brand-logo" aria-hidden="true"><cu-icon name="sparkles" size="22"></cu-icon></span>
         <span><strong>ComponentUI</strong><small>Fluent Calm · v0.12 preview</small></span>
       </a>
-      <nav class="sidebar-nav" aria-label="Sections">
+      <button type="button" class="cu-btn sidebar-toggle" id="sidebar-toggle" aria-controls="sidebar-sections" aria-expanded="false" hidden> <cu-icon name="menu" size="18"></cu-icon> Menu</button>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-sections" aria-label="Sections">
         <div class="nav-group-label">Design system</div>
-        <a class="side-link is-active" href="#overview" aria-current="location">Overview</a>
-        <a class="side-link" href="#controls">Actions</a>
-        <a class="side-link" href="#icons">Iconography</a>
-        <a class="side-link" href="#forms">Forms &amp; inputs</a>
-        <a class="side-link" href="#navigation">Navigation</a>
-        <a class="side-link" href="#data">Data &amp; status</a>
-        <a class="side-link" href="#feedback">Feedback</a>
-        <a class="side-link" href="#patterns">More components</a>
-        <a class="side-link" href="#web-components">Web Components</a>
-        <a class="side-link" href="#quality-lab">Quality Lab</a>
-        <a class="side-link" href="#frameworks">Framework adapters</a>
+        <a class="side-link is-active" href="#overview" aria-current="location"><cu-icon name="folder-open" size="17" aria-hidden="true"></cu-icon><span>Overview</span></a>
+        <a class="side-link" href="#controls"><cu-icon name="plus" size="17" aria-hidden="true"></cu-icon><span>Actions</span></a>
+        <a class="side-link" href="#icons"><cu-icon name="palette" size="17" aria-hidden="true"></cu-icon><span>Iconography</span></a>
+        <a class="side-link" href="#forms"><cu-icon name="pencil" size="17" aria-hidden="true"></cu-icon><span>Forms &amp; inputs</span></a>
+        <a class="side-link" href="#navigation"><cu-icon name="menu" size="17" aria-hidden="true"></cu-icon><span>Navigation</span></a>
+        <a class="side-link" href="#data"><cu-icon name="sliders-horizontal" size="17" aria-hidden="true"></cu-icon><span>Data &amp; status</span></a>
+        <a class="side-link" href="#feedback"><cu-icon name="bell" size="17" aria-hidden="true"></cu-icon><span>Feedback</span></a>
+        <a class="side-link" href="#patterns"><cu-icon name="folder" size="17" aria-hidden="true"></cu-icon><span>More components</span></a>
+        <div class="nav-group-label">Development</div>
+        <a class="side-link" href="#web-components"><cu-icon name="folder-open" size="17" aria-hidden="true"></cu-icon><span>Web Components</span></a>
+        <a class="side-link" href="#quality-lab"><cu-icon name="shield-check" size="17" aria-hidden="true"></cu-icon><span>Quality Lab</span></a>
+        <a class="side-link" href="#frameworks"><cu-icon name="settings" size="17" aria-hidden="true"></cu-icon><span>Framework adapters</span></a>
         <div class="nav-group-label">Documentation</div>
-        <a class="side-link" href="#catalog">Component catalog</a>
+        <a class="side-link" href="#catalog"><cu-icon name="search" size="17" aria-hidden="true"></cu-icon><span>Component catalog</span></a>
       </nav>
       <div class="sidebar-footer">
         <span>Personal UI system · Web Components in preview</span>
         <a href="https://github.com/Vo-Xuan-Duong/ComponentUI" rel="noopener noreferrer" target="_blank">View GitHub repository ↗</a>
       </div>
-    </header>
+    </aside>
 
     <div class="main-content">
       <header class="toolbar">
