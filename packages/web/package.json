@@ -644,6 +644,14 @@
     "./components/formula-input": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/formula-input.js"
+    },
+    "./components/pivot-table": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/pivot-table.js"
+    },
+    "./components/spreadsheet": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/spreadsheet.js"
     }
   },
   "files": [
