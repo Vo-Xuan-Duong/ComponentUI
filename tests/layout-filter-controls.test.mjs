@@ -284,7 +284,7 @@ test("React adapter and Web package expose four new components",async()=>{
     assert.ok(types.includes("class Cu"+name+" extends HTMLElement"));
     assert.ok(react.includes(name));
   }
-  assert.equal(Object.keys(REACT_TAGS).length,143);
+  assert.equal(Object.keys(REACT_TAGS).length,144);
   assert.equal(REACT_EVENT_PROPS.onCuResize,"cu-resize");
   assert.equal(REACT_EVENT_PROPS.onCuFilterChange,"cu-filter-change");
   const split={position:50,min:10,max:90,disabled:false};
@@ -313,8 +313,8 @@ test("Playground and catalog implement four new experimental components",async()
   const records=JSON.parse(json).groups.flatMap(g=>g.components);
   for(const n of ["Splitter","ResizablePanel","FilterBar","DataFilter"])
     assert.equal(records.find(c=>c.name===n)?.status,"preview");
-  assert.equal(records.length,132);
-  assert.equal(records.filter(c=>c.status==="preview").length,132);
+  assert.equal(records.length,133);
+  assert.equal(records.filter(c=>c.status==="preview").length,133);
   assert.equal(records.filter(c=>c.status==="planned").length,0);
   assert.equal(records.filter(c=>c.status==="ready").length,0);
   assert.equal(JSON.parse(root).scripts["syntax:check"], "node scripts/check-syntax.mjs");
