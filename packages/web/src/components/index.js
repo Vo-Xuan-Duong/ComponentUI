@@ -150,3 +150,7 @@ export { CuWizard } from "./wizard.js";
 export { CuDashboardShell } from "./dashboard-shell.js";
 
 export { CuLogViewer, LOG_LEVELS, normalizeLogEntries, filterLogEntries } from "./log-viewer.js";
+
+export { CuJsonViewer, buildJsonTree, filterJsonTree } from "./json-viewer.js";
+export { CuDiffViewer, diffLines } from "./diff-viewer.js";
+export { CuMarkdownEditor, parseMarkdownBlocks } from "./markdown-editor.js";
