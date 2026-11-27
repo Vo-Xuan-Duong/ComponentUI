@@ -121,3 +121,5 @@ ComponentUI is a general-purpose UI library for web applications, desktop tools,
 JsonViewer composes TreeView, SearchBox, CodeBlock, SplitView and EmptyState. DiffViewer composes SplitView, CodeBlock and Badge. MarkdownEditor composes TextArea, SplitView, ScrollArea and CodeBlock. See [Developer tools](DEVELOPER_TOOLS.md) for the preview API and limits.
 
 ImageViewer composes Image, Slider, Button, ScrollArea and Icon. TransferList composes ListBox, SearchBox and Button. CurrencyInput extends NumberField, and MaskedInput extends TextField to preserve the native form contract and shared validation. See [Image and input components](IMAGE_INPUT_COMPONENTS.md).
+
+MentionInput extends AutoComplete and shares its suggestion overlay, keyboard handling and form lifecycle. PhoneInput and FormulaInput extend TextField and share the semantic validation hook in _field.js. QueryBuilder composes DataFilter, Select, Button, IconButton and EmptyState, and uses the same comparison engine as DataTable. See [Advanced inputs](ADVANCED_INPUTS.md).
