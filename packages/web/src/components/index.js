@@ -164,3 +164,6 @@ export { CuMentionInput, activeMention, insertMention } from "./mention-input.js
 export { CuPhoneInput, normalizePhoneNumber, isInternationalPhone } from "./phone-input.js";
 export { CuQueryBuilder, normalizeQueryFields, filterQueryRows } from "./query-builder.js";
 export { CuFormulaInput, evaluateFormula } from "./formula-input.js";
+
+export { CuPivotTable, PIVOT_AGGREGATES, buildPivotTable } from "./pivot-table.js";
+export { CuSpreadsheet, normalizeSheet, parseCellAddress, calculateSheet } from "./spreadsheet.js";
