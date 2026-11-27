@@ -109,10 +109,8 @@ export const buttonStyle = [
   ":host([size=lg]) button{min-height:var(--cu-control-lg,40px);}",
   ":host([size=xl]) button{min-height:var(--cu-control-xl,48px);padding:0 20px;}",
   ":host([loading]) button{cursor:wait;}",
-  ".spinner{width:12px;height:12px;border:2px solid currentColor;border-right-color:transparent;",
-  "border-radius:50%;animation:spin .75s linear infinite;}",
-  ".spinner[hidden]{display:none;}",
-  "@keyframes spin{to{transform:rotate(360deg);}}",
+  "cu-spinner.spinner{--cu-spinner-size:12px;color:inherit;flex:none;}",
+  ".spinner[hidden]{display:none!important;}",
   focusStyle
 ].join("");
 
