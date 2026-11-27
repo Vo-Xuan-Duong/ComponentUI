@@ -202,6 +202,15 @@ imageDemo.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w
 const transferDemo=document.getElementById("wc-transfer-list");transferDemo.items=[{value:"react",label:"React"},{value:"vue",label:"Vue"},{value:"svelte",label:"Svelte"},{value:"html",label:"HTML"},{value:"electron",label:"Electron"},{value:"tauri",label:"Tauri"},{value:"core",label:"Core (locked)",disabled:true}];transferDemo.value=["react","core"];
 const transferResult=document.getElementById("wc-transfer-result");transferResult.textContent=transferDemo.value.length+" selected";
 transferDemo.addEventListener("cu-change",e=>{transferResult.textContent=e.detail.value.length+" selected";});
+const mentionDemo=document.getElementById("wc-mention-input");
+mentionDemo.items=[{value:"alex",label:"Alex Morgan",description:"Design"},{value:"sam",label:"Sam Taylor",description:"Engineering"},{value:"linh",label:"Linh Nguyen",description:"Product"},{value:"minh",label:"Minh Tran",description:"Support"}];
+const queryDemo=document.getElementById("wc-query-builder");
+queryDemo.fields=[{value:"name",label:"Name"},{value:"status",label:"Status"},{value:"score",label:"Score"}];
+queryDemo.value={logic:"and",conditions:[{field:"status",operator:"equals",value:"active"}]};
+const {filterQueryRows}=await import("../../packages/web/src/components/query-builder.js");
+const queryRows=[{name:"Alpha",status:"active",score:80},{name:"Beta",status:"inactive",score:30},{name:"Gamma",status:"active",score:95}];
+function updateQueryDemo(){const matched=filterQueryRows(queryRows,queryDemo.value);document.getElementById("wc-query-result").textContent=matched.length+" of "+queryRows.length+" matching records";document.getElementById("wc-query-code").value=JSON.stringify(queryDemo.value,null,2);}
+queryDemo.addEventListener("cu-input",updateQueryDemo);queryDemo.addEventListener("cu-change",updateQueryDemo);updateQueryDemo();
 const wcLogViewer=document.getElementById("wc-log-viewer");
 wcLogViewer.items=Array.from({length:1000},(_,i)=>({id:"log-"+i,timestamp:"Event "+String(i+1).padStart(4,"0"),level:["info","debug","warn","error"][i%4],source:["Application","Storage","Network"][i%3],message:["Workspace initialized","Cache refreshed","Connection delayed","Operation failed; retry available"][i%4]}));
 wcLogViewer.addEventListener("cu-select",event=>{document.getElementById("wc-log-result").textContent="Selected: "+event.detail.item.id;});
