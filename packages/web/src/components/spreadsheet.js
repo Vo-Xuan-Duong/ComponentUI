@@ -31,7 +31,7 @@ export function calculateSheet(cells){
         const n=Number(item.value);if(!Number.isFinite(n)||String(item.value).trim()==="")throw Error("#VALUE!");return n;
       });
       visiting.delete(key);
-      const error=evaluation.valid?"":/^#[A-Z]+!$/.test(evaluation.error)?evaluation.error:evaluation.error==="Division by zero."?"#DIV/0!":"#ERROR!";
+      const error=evaluation.valid?"":/^#[A-Z0-9/]+!$/.test(evaluation.error)?evaluation.error:evaluation.error==="Division by zero."?"#DIV/0!":"#ERROR!";
       result={value:evaluation.valid?evaluation.result:error,error};
     }
     cache.set(key,result);return result;
