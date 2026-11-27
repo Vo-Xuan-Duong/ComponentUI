@@ -81,3 +81,37 @@ persistence. Both extend the shared browser Custom Elements package,
 work in AppShell's slots and are reusable through the existing
 React/Vue/Svelte adapters. The two catalog entries remain preview;
 SettingsGroup and SettingsItem are auxiliary compositional elements.
+
+
+## Component composition rule
+
+The native renderer is the single implementation used by HTML, React, Vue,
+Svelte and desktop webviews. Composite components should import and compose
+existing `cu-*` primitives rather than implement independent controls.
+
+| Primitive | Current composition |
+| --- | --- |
+| Spinner | Button, IconButton, SplitButton, LoadingOverlay, DataTable |
+| Button | FilterBar, FileUpload, UploadManager |
+| SearchBox | FilterBar |
+| ProgressBar | UploadManager |
+| ContextMenu | SplitButton, CommandBar, TreeTable |
+| Menu | MenuButton (extension) |
+| FilePicker | FileUpload (extension) |
+
+- Use direct relative imports for standalone registration. Do not import the
+  aggregate component index from inside a component.
+- Keep public events and properties stable. Consume internal `cu-*` events
+  when the parent exposes a different semantic event.
+- Forward CSS parts with `exportparts` where an existing public part moves
+  into a nested shadow root.
+- Reuse semantic tokens and shared helpers for low-level native controls
+  when composition would compromise ARIA relationships, form behavior,
+  focus management or virtualization. Do not nest interactive buttons.
+- Test composition, disabled/loading behavior, keyboard focus, density and
+  Light/Dark themes before certifying browser parity.
+
+Remaining audit candidates: CommandBar action controls, MenuButton trigger,
+DataFilter value input and clear action, SearchBox clear action, FilePicker
+controls, menu/option row styles, and gallery reference HTML. These are not
+claimed to have been migrated yet.
