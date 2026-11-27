@@ -123,3 +123,5 @@ JsonViewer composes TreeView, SearchBox, CodeBlock, SplitView and EmptyState. Di
 ImageViewer composes Image, Slider, Button, ScrollArea and Icon. TransferList composes ListBox, SearchBox and Button. CurrencyInput extends NumberField, and MaskedInput extends TextField to preserve the native form contract and shared validation. See [Image and input components](IMAGE_INPUT_COMPONENTS.md).
 
 MentionInput extends AutoComplete and shares its suggestion overlay, keyboard handling and form lifecycle. PhoneInput and FormulaInput extend TextField and share the semantic validation hook in _field.js. QueryBuilder composes DataFilter, Select, Button, IconButton and EmptyState, and uses the same comparison engine as DataTable. See [Advanced inputs](ADVANCED_INPUTS.md).
+
+PivotTable composes DataTable, Select and EmptyState, sharing QueryBuilder filtering and the canonical DataTable group identity utilities. Spreadsheet extends DataGrid, retaining its cell editing and context actions, and extends the existing FormulaInput arithmetic parser with a reference resolver. See [Data tools](DATA_TOOLS.md) for APIs and limits.
