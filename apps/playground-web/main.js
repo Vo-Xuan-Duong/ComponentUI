@@ -197,6 +197,11 @@ wcSearchResults.addEventListener("cu-select",e=>showToast("Result",e.detail.item
 document.getElementById("wc-json-viewer").value=JSON.stringify({name:"ComponentUI",themes:["light","dark"],features:{accessible:true,frameworks:["React","Vue","Svelte"]}},null,2);
 const diffDemo=document.getElementById("wc-diff-viewer");diffDemo.before="Theme: light\nDensity: comfortable\nAccent: blue";diffDemo.after="Theme: dark\nDensity: comfortable\nAccent: purple";
 document.getElementById("wc-markdown-editor").value="# ComponentUI\n\nA reusable design system.\n\n- Light and dark themes\n- Shared primitives\n\n> Build consistent interfaces.";
+const imageDemo=document.getElementById("wc-image-viewer");
+imageDemo.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400"><rect width="640" height="400" rx="24" fill="#183449"/><circle cx="485" cy="100" r="75" fill="#70c5ee"/><path d="M0 330L160 140L320 330L430 220L640 400H0Z" fill="#356c84"/><text x="40" y="70" font-family="system-ui" font-size="30" fill="white">ComponentUI</text></svg>');
+const transferDemo=document.getElementById("wc-transfer-list");transferDemo.items=[{value:"react",label:"React"},{value:"vue",label:"Vue"},{value:"svelte",label:"Svelte"},{value:"html",label:"HTML"},{value:"electron",label:"Electron"},{value:"tauri",label:"Tauri"},{value:"core",label:"Core (locked)",disabled:true}];transferDemo.value=["react","core"];
+const transferResult=document.getElementById("wc-transfer-result");transferResult.textContent=transferDemo.value.length+" selected";
+transferDemo.addEventListener("cu-change",e=>{transferResult.textContent=e.detail.value.length+" selected";});
 const wcLogViewer=document.getElementById("wc-log-viewer");
 wcLogViewer.items=Array.from({length:1000},(_,i)=>({id:"log-"+i,timestamp:"Event "+String(i+1).padStart(4,"0"),level:["info","debug","warn","error"][i%4],source:["Application","Storage","Network"][i%3],message:["Workspace initialized","Cache refreshed","Connection delayed","Operation failed; retry available"][i%4]}));
 wcLogViewer.addEventListener("cu-select",event=>{document.getElementById("wc-log-result").textContent="Selected: "+event.detail.item.id;});
