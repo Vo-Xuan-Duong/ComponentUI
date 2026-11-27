@@ -244,6 +244,7 @@ wcKanbanBoard.items=[
   {id:"editor",laneId:"todo",title:"RichTextEditor",description:"Reusable rich text controls",tag:"Inputs"},
   {id:"chart",laneId:"todo",title:"ChartContainer",description:"Responsive data visualization",tag:"Data display"},
   {id:"review",laneId:"doing",title:"Browser acceptance",description:"Validate keyboard and pointer interactions",tag:"Quality"},
+  {id:"keyboard",laneId:"doing",title:"Keyboard navigation",description:"Check arrow-key task reordering",tag:"Accessibility"},
   {id:"dock",laneId:"done",title:"DockLayout",tag:"Desktop"},
   {id:"kanban",laneId:"done",title:"KanbanBoard",tag:"Workflow"}
 ];
