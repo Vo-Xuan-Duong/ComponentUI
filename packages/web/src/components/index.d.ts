@@ -1004,6 +1004,10 @@ declare global {
     "cu-json-viewer": CuJsonViewer;
     "cu-diff-viewer": CuDiffViewer;
     "cu-markdown-editor": CuMarkdownEditor;
+    "cu-image-viewer": CuImageViewer;
+    "cu-transfer-list": CuTransferList;
+    "cu-currency-input": CuCurrencyInput;
+    "cu-masked-input": CuMaskedInput;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1074,3 +1078,15 @@ export declare function diffLines(before:string,after:string,limit?:number):{lim
 export declare class CuDiffViewer extends HTMLElement {before:string;after:string;}
 export declare function parseMarkdownBlocks(value:string):{kind:string;text:string;level?:number;language?:string}[];
 export declare class CuMarkdownEditor extends HTMLElement {value:string;disabled:boolean;focus(options?:FocusOptions):void;}
+
+export declare function normalizeImageTransform(zoom?:number,rotation?:number):{zoom:number;rotation:number};
+export declare class CuImageViewer extends HTMLElement {src:string;zoom:number;rotation:number;readonly transform:{zoom:number;rotation:number};}
+export interface CuTransferItem {value:string;label?:string;disabled?:boolean;}
+export declare function normalizeTransferItems(items:unknown):Required<CuTransferItem>[];
+export declare function transferValues(items:CuTransferItem[],values:string[],move:string[],direction:"add"|"remove"):string[];
+export declare class CuTransferList extends HTMLElement {items:CuTransferItem[];value:string[];disabled:boolean;move(action:"add"|"remove"|"add-all"|"remove-all"):boolean;}
+export declare function formatCurrencyValue(value:string|number,currency?:string,locale?:string):string;
+export declare class CuCurrencyInput extends CuNumberField {currency:string;locale:string;readonly formattedValue:string;}
+export declare function applyInputMask(value:string,mask:string):{value:string;rawValue:string;complete:boolean};
+export declare function inputMaskPattern(mask:string):string;
+export declare class CuMaskedInput extends CuTextField {mask:string;readonly rawValue:string;}
