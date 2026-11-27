@@ -1,17 +1,18 @@
 
 import { BrowserElement, mount, notify, define, buttonStyle } from "./_shared.js";
+import "./spinner.js";
 
 export class CuButton extends BrowserElement {
   static formAssociated = true;
   static get observedAttributes() {
-    return ["disabled", "loading", "variant", "size", "type"];
+    return ["disabled", "loading", "variant", "size", "type", "aria-label"];
   }
 
   constructor() {
     super();
     this._internals = this.attachInternals?.() ?? null;
     const root = mount(this, buttonStyle,
-      '<button part="button" type="button"><span class="spinner" part="spinner" hidden aria-hidden="true"></span><slot></slot></button>');
+      '<button part="button" type="button"><cu-spinner class="spinner" exportparts="spinner" hidden aria-hidden="true"></cu-spinner><slot></slot></button>');
     this._control = root.querySelector("button");
     this._spinner = root.querySelector(".spinner");
     this._control.addEventListener("click", event => {
@@ -51,6 +52,9 @@ export class CuButton extends BrowserElement {
     if (!this._control) return;
     this._control.disabled = this.disabled || this.loading || Boolean(this._formDisabled);
     this._control.setAttribute("aria-busy", String(this.loading));
+    const label = this.getAttribute("aria-label");
+    if (label) this._control.setAttribute("aria-label", label);
+    else this._control.removeAttribute("aria-label");
     this._spinner.hidden = !this.loading;
   }
 }
