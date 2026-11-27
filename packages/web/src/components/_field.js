@@ -25,11 +25,12 @@ export function syncFieldDescriptions(input,hint,error){
  * Explicit consumer-provided errors are shown immediately.
  * Native validity remains authoritative even before the message is revealed.
  */
-export function syncFieldValidity(host,input,{wrapper=null,hint=host._hint,errorNode=host._error}={}){
-  const error=host.getAttribute("error")||"";
+export function syncFieldValidity(host,input,{wrapper=null,hint=host._hint,errorNode=host._error,additionalError=""}={}){
+  const explicitError=host.getAttribute("error")||"";
+  const error=explicitError||additionalError;
   input.setCustomValidity?.(input.disabled||input.readOnly?"":error);
   const state=fieldValidity(input,error);
-  const revealed=state.invalid&&Boolean(error||host._validationRevealed);
+  const revealed=state.invalid&&Boolean(explicitError||host._validationRevealed);
   input.setAttribute("aria-invalid",String(revealed));
   if(wrapper)wrapper.dataset.invalid=String(revealed);
   if(errorNode){const message=revealed?state.message:"";if(errorNode.textContent!==message)errorNode.textContent=message;}
