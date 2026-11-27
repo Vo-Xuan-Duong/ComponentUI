@@ -159,3 +159,8 @@ export { CuImageViewer, normalizeImageTransform } from "./image-viewer.js";
 export { CuTransferList, normalizeTransferItems, transferValues } from "./transfer-list.js";
 export { CuCurrencyInput, formatCurrencyValue } from "./currency-input.js";
 export { CuMaskedInput, applyInputMask, inputMaskPattern } from "./masked-input.js";
+
+export { CuMentionInput, activeMention, insertMention } from "./mention-input.js";
+export { CuPhoneInput, normalizePhoneNumber, isInternationalPhone } from "./phone-input.js";
+export { CuQueryBuilder, normalizeQueryFields, filterQueryRows } from "./query-builder.js";
+export { CuFormulaInput, evaluateFormula } from "./formula-input.js";
