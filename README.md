@@ -251,3 +251,5 @@ No package has been published. Licensing and third-party attribution policy must
 **Stabilization pass 3:** DataTable filter and selection hardening, DataGrid edit lifecycle, TreeTable hierarchy search/sorting/context menus. See [release acceptance](docs/RELEASE_ACCEPTANCE.md#stabilization-pass-3--data-components).
 
 **Stabilization pass 4:** overlapping virtual row reuse, frame-coalesced scroll work, observer lifecycle guards, indexed tree lookup, progressive TreeTable rendering and local data benchmarks. See [release acceptance](docs/RELEASE_ACCEPTANCE.md#stabilization-pass-4--performance-and-lifecycle).
+
+**General-purpose composition:** LogViewer composes SearchBox, Select, Button, VirtualList and EmptyState. See [LogViewer](docs/LOG_VIEWER.md) for the preview API.
