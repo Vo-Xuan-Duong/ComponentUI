@@ -72,6 +72,7 @@ export class CuPivotTable extends BrowserElement{
       const value=this.config[{"row-field":"rowField","column-field":"columnField","value-field":"valueField"}[control.dataset.key]];
       control.replaceChildren(...options.map(f=>{const el=this.ownerDocument.createElement("option");el.value=f.value;el.textContent=f.label;el.selected=f.value===value;return el;}));
       control.setAttribute("value",value);
+      queueMicrotask(()=>{if(this.isConnected)control.value=this.config[{"row-field":"rowField","column-field":"columnField","value-field":"valueField"}[control.dataset.key]];});
     }
   }
   _render(){
