@@ -1008,6 +1008,10 @@ declare global {
     "cu-transfer-list": CuTransferList;
     "cu-currency-input": CuCurrencyInput;
     "cu-masked-input": CuMaskedInput;
+    "cu-mention-input": CuMentionInput;
+    "cu-phone-input": CuPhoneInput;
+    "cu-query-builder": CuQueryBuilder;
+    "cu-formula-input": CuFormulaInput;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1090,3 +1094,19 @@ export declare class CuCurrencyInput extends CuNumberField {currency:string;loca
 export declare function applyInputMask(value:string,mask:string):{value:string;rawValue:string;complete:boolean};
 export declare function inputMaskPattern(mask:string):string;
 export declare class CuMaskedInput extends CuTextField {mask:string;readonly rawValue:string;}
+
+export interface CuMentionRange {start:number;end:number;query:string;}
+export declare function activeMention(value:string,caret?:number):CuMentionRange|null;
+export declare function insertMention(value:string,range:CuMentionRange|null,handle:string):{value:string;caret:number}|null;
+export declare class CuMentionInput extends CuAutoComplete {}
+export declare function normalizePhoneNumber(value:string):string;
+export declare function isInternationalPhone(value:string):boolean;
+export declare class CuPhoneInput extends CuTextField {readonly normalizedValue:string;}
+export interface CuQueryField {value:string;label?:string;}
+export interface CuQueryValue {logic:"and"|"or";conditions:{field:string;operator:string;value:string}[];}
+export declare function normalizeQueryFields(fields:unknown):Required<CuQueryField>[];
+export declare function filterQueryRows<T extends object>(rows:T[],query:CuQueryValue):T[];
+export declare class CuQueryBuilder extends HTMLElement {fields:CuQueryField[];value:CuQueryValue;disabled:boolean;addCondition():boolean;removeCondition(index:number):boolean;}
+export interface CuFormulaEvaluation {valid:boolean;result:number|null;error:string;}
+export declare function evaluateFormula(value:string):CuFormulaEvaluation;
+export declare class CuFormulaInput extends CuTextField {readonly result:number|null;readonly evaluation:CuFormulaEvaluation;}
