@@ -92,8 +92,10 @@ existing `cu-*` primitives rather than implement independent controls.
 | Primitive | Current composition |
 | --- | --- |
 | Spinner | Button, IconButton, SplitButton, LoadingOverlay, DataTable |
-| Button | FilterBar, FileUpload, UploadManager |
+| Button | FilterBar, FileUpload, UploadManager, CommandBar visible actions |
 | SearchBox | FilterBar |
+| TextField | DataFilter |
+| IconButton | SearchBox, DataFilter |
 | ProgressBar | UploadManager |
 | ContextMenu | SplitButton, CommandBar, TreeTable |
 | Menu | MenuButton (extension) |
@@ -111,7 +113,4 @@ existing `cu-*` primitives rather than implement independent controls.
 - Test composition, disabled/loading behavior, keyboard focus, density and
   Light/Dark themes before certifying browser parity.
 
-Remaining audit candidates: CommandBar action controls, MenuButton trigger,
-DataFilter value input and clear action, SearchBox clear action, FilePicker
-controls, menu/option row styles, and gallery reference HTML. These are not
-claimed to have been migrated yet.
+Remaining audit candidates: CommandBar overflow and MenuButton triggers (keep native until popup ARIA is verified), FilePicker controls, menu/option row styles, and gallery reference HTML. These are not claimed to have been migrated yet.
