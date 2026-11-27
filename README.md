@@ -107,7 +107,7 @@ interaction and documentation standards of mature libraries like HeroUI,
 while retaining its own Fluent Calm styling and framework-neutral
 architecture. Shared controls have consistent hover/press/focus states,
 Select distinguishes hover from selection, and the Playground now uses
-a full-width top navigation with a live **Visual Quality Lab**.
+a responsive left navigation with a collapsible mobile menu and a live **Visual Quality Lab**.
 `npm run quality:check` and `tests/visual-quality.test.mjs` add
 source-state and baseline contrast regressions. This is an initial
 polish pass, **not a claim of visual, browser or production parity**.
