@@ -258,7 +258,9 @@ test("components declare accessible keyboard, input and focus patterns",async()=
   assert.match(bar,/this\.refresh\(\)/);
   assert.match(bar,/<cu-search-box class="search"/);
   assert.match(bar,/<cu-button exportparts="button:clear"/);
-  for(const src of [split,filter])assert.match(src,/focus-visible/);
+  assert.match(split,/focus-visible/);
+  assert.match(filter,/<cu-text-field class="value"/);
+  assert.match(filter,/<cu-icon-button class="clear"/);
   for(const src of [split,panel,filter,bar])assert.match(src,/forced-colors:active/);
 });
 
