@@ -41,8 +41,8 @@ implementation does not qualify it for production.
 - Select distinguishes hover/keyboard-active rows from its persistent
   selection, has visible invalid/disabled/focus states and uses a small
   CSS entry animation that is removed for reduced motion.
-- The Playground uses **top navigation**, without the old permanent
-  left navigation rail. This leaves more space for demonstrations.
+- The Playground uses a **left navigation rail** on desktop, with a collapsible
+  section menu on narrow screens and a separate preview preferences toolbar.
 - A real **Visual Quality Lab** demonstrates Button variants, loading,
   disabled, TextField validation, Select, Checkbox and Switch under
   existing theme, density and accent preferences.
