@@ -72,3 +72,29 @@ test("upload components reuse Button and ProgressBar and retain public events",a
   assert.ok(upload.includes('notify(this,"cu-upload"'));
   assert.doesNotMatch(manager,/createElement\("progress"\)/);
 });
+
+
+test("DataFilter and SearchBox reuse controls without leaking child custom events",async()=>{
+  const [filter,search]=await Promise.all(["data-filter","search-box"].map(read));
+  assert.ok(filter.includes('import "./text-field.js"'));
+  assert.ok(filter.includes('exportparts="input:value"'));
+  for(const source of [filter,search]){
+    assert.ok(source.includes('import "./icon-button.js"'));
+    assert.ok(source.includes('exportparts="button:clear"'));
+    assert.ok(source.includes('this._clear.addEventListener("cu-press"'));
+    assert.ok(source.includes('event.stopPropagation()'));
+    assert.doesNotMatch(source,/<button[^>]*class="clear"/);
+  }
+  assert.ok(filter.includes('this._input.addEventListener("cu-input"'));
+  assert.ok(filter.includes('this._input.addEventListener("cu-change"'));
+  assert.ok(search.includes('this._input.focus()'));
+});
+
+test("CommandBar and CommandSurface reuse Button for visible actions",async()=>{
+  const [bar,surface]=await Promise.all(["command-bar","command-surface"].map(read));
+  assert.ok(bar.includes('this.ownerDocument.createElement("cu-button")'));
+  assert.ok(bar.includes('this._actions.addEventListener("cu-press"'));
+  assert.ok(bar.includes('event.stopPropagation()'));
+  assert.ok(bar.includes('notify(this,"cu-action"'));
+  assert.ok(surface.includes('extends CuCommandBar'));
+});
