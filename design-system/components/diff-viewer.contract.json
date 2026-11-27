@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "DiffViewer",
+  "tag": "diff-viewer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "before": "string",
+    "after": "string"
+  },
+  "events": [],
+  "accessibility": {
+    "formAssociated": false
+  },
+  "composition": [
+    "SplitView",
+    "CodeBlock",
+    "Badge"
+  ]
+}
