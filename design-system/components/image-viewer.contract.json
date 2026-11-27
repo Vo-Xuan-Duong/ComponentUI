@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "ImageViewer",
+  "tag": "cu-image-viewer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "src": "string",
+    "alt": "string",
+    "zoom": "number",
+    "rotation": "number"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "Image",
+    "Slider",
+    "Button",
+    "ScrollArea",
+    "Icon"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
