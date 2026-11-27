@@ -102,10 +102,11 @@ export class CuAutoComplete extends BrowserElement{
     if(node){this._input.setAttribute("aria-activedescendant",node.id);if(scroll)node.scrollIntoView({block:"nearest"});}
     else this._input.removeAttribute("aria-activedescendant");
   }
+  _suggestions(limit){return this.hasAttribute("manual-filter")?this._items.slice(0,limit):filterSuggestions(this._items,this.value,limit);}
   _render(){
     if(!this._open)return;
     const limit=this._number("max-results",10,100);
-    this._visible=this.loading?[]:this.hasAttribute("manual-filter")?this._items.slice(0,limit):filterSuggestions(this._items,this.value,limit);
+    this._visible=this.loading?[]:this._suggestions(limit);
     const doc=this.ownerDocument;
     this._nodes=this._visible.map((item,i)=>{
       const el=doc.createElement("div");el.className="option";el.id="ac-option-"+i;el.setAttribute("role","option");el.setAttribute("aria-selected","false");el.setAttribute("aria-disabled",String(item.disabled));
