@@ -1,5 +1,6 @@
 import {CuTextField} from "./text-field.js";
 import {define} from "./_shared.js";
+import {syncFieldValidity} from "./_field.js";
 // Numeric expressions only; no eval, identifiers, calls or property access.
 export function evaluateFormula(value){
   const source=String(value??"").trim().replace(/^=\s*/,"");
@@ -29,9 +30,9 @@ export class CuFormulaInput extends CuTextField{
   _syncFormValue(){
     if(!this._input)return;
     const state=this.evaluation,hint=this.getAttribute("hint")||"";
-    const preview=this.value.trim()?(state.valid?"Result: "+state.result:state.error):"";
+    const preview=this.value.trim()&&state.valid?"Result: "+state.result:"";
     this._hint.textContent=[hint,preview].filter(Boolean).join(" · ");
-    super._syncFormValue();
+    syncFieldValidity(this,this._input,{additionalError:this.value&&!state.valid?state.error:""});
   }
 }
 define("cu-formula-input",CuFormulaInput);
