@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "TransferList",
+  "tag": "cu-transfer-list",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "ListBox",
+    "ListOption",
+    "SearchBox",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  },
+  "properties": {
+    "items": "CuTransferItem[]",
+    "value": "string[]"
+  }
+}
