@@ -33,7 +33,7 @@ export class CuTransferList extends BrowserElement{
   }
   connectedCallback(){this._render();}attributeChangedCallback(){this._render();}
   get items(){return this._items.map(x=>({...x}));}set items(v){this._items=normalizeTransferItems(v);this._render();}
-  get value(){return [...this._value];}set value(v){this._value=[...new Set((Array.isArray(v)?v:[]).filter(x=>typeof x==="string"))];this._render();}
+  get value(){const selected=new Set(this._value);return this._items.filter(x=>selected.has(x.value)).map(x=>x.value);}set value(v){this._value=[...new Set((Array.isArray(v)?v:[]).filter(x=>typeof x==="string"))];this._render();}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   _side(side){const selected=new Set(this._value),query=this._query[side].trim().toLowerCase();return this._items.filter(x=>selected.has(x.value)===(side==="chosen")&&x.label.toLowerCase().includes(query));}
   move(action){
