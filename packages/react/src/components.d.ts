@@ -152,3 +152,8 @@ export declare const LogViewer: ReactCuComponent;
 export declare const JsonViewer: ReactCuComponent;
 export declare const DiffViewer: ReactCuComponent;
 export declare const MarkdownEditor: ReactCuComponent;
+
+export declare const ImageViewer: ReactCuComponent;
+export declare const TransferList: ReactCuComponent;
+export declare const CurrencyInput: ReactCuComponent;
+export declare const MaskedInput: ReactCuComponent;
