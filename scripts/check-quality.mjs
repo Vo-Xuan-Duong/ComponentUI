@@ -55,7 +55,7 @@ export const QUALITY_CHECKS = Object.freeze([
   },
   {
     path:"apps/playground-web/index.html",
-    markers:['<header class="sidebar"','id="quality-lab"','id="quality-result"',
+    markers:['<aside class="sidebar"','id="quality-lab"','id="quality-result"',
       'href="#quality-lab"','id="quality-primary"','id="quality-loading"',
       'id="quality-disabled"','id="quality-invalid"','id="quality-select"',
       'id="quality-field"','id="quality-semantic-states"']
