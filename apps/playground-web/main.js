@@ -46,6 +46,36 @@ swatches.forEach(button => {
 });
 
 const navLinks = [...document.querySelectorAll(".side-link")];
+const sidebar = document.querySelector(".app-layout > .sidebar");
+const sidebarToggle = document.getElementById("sidebar-toggle");
+const mobileNavigation = window.matchMedia("(max-width: 800px)");
+function setNavigationExpanded(expanded) {
+  sidebar.dataset.mobileExpanded = String(expanded);
+  sidebarToggle.setAttribute("aria-expanded", String(expanded));
+}
+sidebarToggle.hidden = false;
+setNavigationExpanded(false);
+sidebarToggle.addEventListener("click", () => setNavigationExpanded(sidebarToggle.getAttribute("aria-expanded") !== "true"));
+mobileNavigation.addEventListener("change", () => {
+  if (mobileNavigation.matches && sidebar.querySelector(".sidebar-nav").contains(document.activeElement)) sidebarToggle.focus();
+  setNavigationExpanded(false);
+});
+sidebar.addEventListener("keydown", event => {
+  if (event.key === "Escape" && mobileNavigation.matches && sidebarToggle.getAttribute("aria-expanded") === "true") {
+    setNavigationExpanded(false);
+    sidebarToggle.focus();
+    event.preventDefault();
+  }
+});
+navLinks.forEach(link => link.addEventListener("click", () => {
+  if (!mobileNavigation.matches) return;
+  setNavigationExpanded(false);
+  const target = document.getElementById(link.hash.slice(1));
+  if (target) {
+    target.setAttribute("tabindex", "-1");
+    target.focus({preventScroll:true});
+  }
+}));
 function syncActiveNavigation() {
   const hash = location.hash || "#overview";
   navLinks.forEach(link => {
