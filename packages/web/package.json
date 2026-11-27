@@ -596,6 +596,10 @@
     "./components/combo-option": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/combobox.js"
+    },
+    "./components/log-viewer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/log-viewer.js"
     }
   },
   "files": [
