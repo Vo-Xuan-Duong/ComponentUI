@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "name": "Spreadsheet",
+  "tag": "cu-spreadsheet",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean",
+    "page-size": "number",
+    "caption": "string",
+    "loading": "boolean",
+    "error": "string"
+  },
+  "properties": {
+    "cells": "(string | number)[][]",
+    "computedCells": "(string | number)[][] (readonly)"
+  },
+  "events": [
+    "cu-cell-change"
+  ],
+  "composition": [
+    "DataGrid",
+    "DataTable",
+    "ContextMenu",
+    "FormulaInput parser"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
