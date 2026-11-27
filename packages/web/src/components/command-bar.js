@@ -1,5 +1,6 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
+import "./button.js";
 import "./context-menu.js";
 
 export function normalizeCommands(items){
@@ -26,6 +27,9 @@ const css=[
   "max-width:100%;min-width:0;padding:5px;border:1px solid var(--cu-border,#e5e5e5);",
   "border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface,#fff);}",
   ".actions{display:flex;align-items:center;min-width:0;gap:4px;}",
+  ".actions cu-button{flex:none;}",
+  ".actions cu-button::part(button){padding-inline:11px;white-space:nowrap;}",
+  ":host([size=sm]) .actions cu-button::part(button){padding-inline:8px;}",
   "button{display:inline-flex;align-items:center;justify-content:center;gap:7px;",
   "min-height:var(--cu-control-height,40px);padding:0 11px;",
   "border:1px solid transparent;border-radius:var(--cu-radius-md,6px);",
@@ -38,7 +42,7 @@ const css=[
   ".more[hidden]{display:none!important;}",
   "cu-context-menu{position:fixed;height:0;width:0;}",
   ":host([size=sm]) button{min-height:var(--cu-control-sm,28px);padding:0 8px;}",
-  "@media(max-width:520px){button .label{display:none;}button{padding:0 9px;}}",
+  "@media(max-width:520px){.actions cu-button[data-has-icon] .label{display:none;}.actions cu-button::part(button){padding-inline:9px;}button{padding:0 9px;}}",
   "@media(forced-colors:active){.bar{border-color:CanvasText;}",
   "button:focus-visible{outline-color:Highlight;}}"
 ].join("");
@@ -63,9 +67,10 @@ export class CuCommandBar extends BrowserElement {
     this._overflow=[];
     this._observer=null;
     this._lastCapacity=null;
-    this._actions.addEventListener("click",event=>{
-      const button=event.target.closest('button[data-command]');
+    this._actions.addEventListener("cu-press",event=>{
+      const button=event.target.closest('cu-button[data-command]');
       if(!button||button.disabled)return;
+      event.stopPropagation();
       this.activate(button.dataset.command);
     });
     this._more.addEventListener("pointerdown",event=>{
@@ -139,17 +144,20 @@ export class CuCommandBar extends BrowserElement {
     this._visible=visible;this._overflow=overflow;
     this._actions.replaceChildren();
     for(const action of visible){
-      const button=document.createElement("button");
-      button.type="button";button.dataset.command=action.value;
+      const button=this.ownerDocument.createElement("cu-button");
+      button.setAttribute("variant","subtle");
+      if(this.getAttribute("size")==="sm")button.setAttribute("size","sm");
+      button.dataset.command=action.value;
       button.disabled=this.disabled||action.disabled;
       button.setAttribute("aria-label",action.label);
       button.title=action.label;
       if(action.icon){
-        const icon=document.createElement("cu-icon");
+        button.setAttribute("data-has-icon","");
+        const icon=this.ownerDocument.createElement("cu-icon");
         icon.name=action.icon;icon.setAttribute("size","17");
         icon.setAttribute("aria-hidden","true");button.append(icon);
       }
-      const label=document.createElement("span");
+      const label=this.ownerDocument.createElement("span");
       label.className="label";label.textContent=action.label;
       button.append(label);this._actions.append(button);
     }
