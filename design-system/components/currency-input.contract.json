@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "name": "CurrencyInput",
+  "tag": "cu-currency-input",
+  "status": "preview",
+  "kind": "form",
+  "attributes": {
+    "currency": "string",
+    "locale": "string",
+    "name": "string",
+    "value": "number string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "min": "number",
+    "max": "number",
+    "step": "positive number | any",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "composition": [
+    "NumberField"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  },
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  }
+}
