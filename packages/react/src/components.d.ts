@@ -162,3 +162,6 @@ export declare const MentionInput: ReactCuComponent;
 export declare const PhoneInput: ReactCuComponent;
 export declare const QueryBuilder: ReactCuComponent;
 export declare const FormulaInput: ReactCuComponent;
+
+export declare const PivotTable: ReactCuComponent;
+export declare const Spreadsheet: ReactCuComponent;
