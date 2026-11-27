@@ -1012,6 +1012,8 @@ declare global {
     "cu-phone-input": CuPhoneInput;
     "cu-query-builder": CuQueryBuilder;
     "cu-formula-input": CuFormulaInput;
+    "cu-pivot-table": CuPivotTable;
+    "cu-spreadsheet": CuSpreadsheet;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1108,5 +1110,16 @@ export declare function normalizeQueryFields(fields:unknown):Required<CuQueryFie
 export declare function filterQueryRows<T extends object>(rows:T[],query:CuQueryValue):T[];
 export declare class CuQueryBuilder extends HTMLElement {fields:CuQueryField[];value:CuQueryValue;disabled:boolean;addCondition():boolean;removeCondition(index:number):boolean;}
 export interface CuFormulaEvaluation {valid:boolean;result:number|null;error:string;}
-export declare function evaluateFormula(value:string):CuFormulaEvaluation;
+export declare function evaluateFormula(value:string,resolveReference?:(address:string)=>number):CuFormulaEvaluation;
 export declare class CuFormulaInput extends CuTextField {readonly result:number|null;readonly evaluation:CuFormulaEvaluation;}
+
+export type CuPivotAggregate="count"|"sum"|"average"|"min"|"max";
+export interface CuPivotConfig {rowField?:string;columnField?:string;valueField?:string;aggregate?:CuPivotAggregate;}
+export interface CuPivotResult {columns:CuTableColumn[];rows:CuTableRecord[];total:number|null;count:number;error:string;}
+export declare const PIVOT_AGGREGATES:readonly CuPivotAggregate[];
+export declare function buildPivotTable(rows:object[],config?:CuPivotConfig):CuPivotResult;
+export declare class CuPivotTable extends HTMLElement {rows:object[];fields:CuQueryField[];query:CuQueryValue;rowField:string;columnField:string;valueField:string;aggregate:CuPivotAggregate;readonly config:Required<CuPivotConfig>;readonly result:CuPivotResult;}
+export declare function normalizeSheet(cells:unknown):string[][];
+export declare function parseCellAddress(address:string):{row:number;column:number}|null;
+export declare function calculateSheet(cells:unknown):(string|number)[][];
+export declare class CuSpreadsheet extends CuDataGrid {cells:(string|number)[][];readonly computedCells:(string|number)[][];getCell(address:string):string|null;getComputedCell(address:string):string|number|null;setCell(address:string,value:unknown):boolean;}
