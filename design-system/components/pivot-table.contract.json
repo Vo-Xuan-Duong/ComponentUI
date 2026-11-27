@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "PivotTable",
+  "tag": "cu-pivot-table",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "row-field": "string",
+    "column-field": "string",
+    "value-field": "string",
+    "aggregate": "count | sum | average | min | max"
+  },
+  "properties": {
+    "rows": "object[]",
+    "fields": "CuQueryField[]",
+    "query": "CuQueryValue",
+    "result": "CuPivotResult (readonly)"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "DataTable",
+    "Select",
+    "EmptyState",
+    "QueryBuilder filter utilities"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
