@@ -1,6 +1,7 @@
 
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
+import "./spinner.js";
 import "./context-menu.js";
 
 const css=[
@@ -32,15 +33,12 @@ const css=[
   ":host([size=lg]) button{min-height:var(--cu-control-lg,40px);}",
   ":host([size=lg]) .primary{padding:0 18px;}",
   ":host([size=lg]) .arrow{width:42px;}",
-  ".spinner{width:12px;height:12px;border:2px solid currentColor;",
-  "border-right-color:transparent;border-radius:50%;",
-  "animation:cu-split-spin .75s linear infinite;}",
+  "cu-spinner.spinner{--cu-spinner-size:12px;color:inherit;flex:none;}",
   ".spinner[hidden]{display:none!important;}",
-  "@keyframes cu-split-spin{to{transform:rotate(360deg);}}",
   ":host([loading]) .split{cursor:wait;}",
   ":host([disabled]) .split{opacity:.58;}",
   "cu-context-menu{position:fixed;width:0;height:0;}",
-  "@media(prefers-reduced-motion:reduce){.spinner{animation:none;}}",
+  "@media(prefers-reduced-motion:reduce){button{transition:none;}}",
   "@media(forced-colors:active){.split{border-color:ButtonText;}",
   ".arrow{border-color:ButtonText;}button:focus-visible{outline-color:Highlight;}}"
 ].join("");
@@ -60,7 +58,7 @@ export class CuSplitButton extends BrowserElement {
     super();
     const root=mount(this,css,
       '<span class="split" part="split"><button type="button" class="primary" part="primary">' +
-      '<span class="spinner" hidden aria-hidden="true"></span>' +
+      '<cu-spinner class="spinner" hidden aria-hidden="true"></cu-spinner>' +
       '<slot><span class="fallback"></span></slot></button>' +
       '<button type="button" class="arrow" part="toggle" aria-label="More actions" ' +
       'aria-haspopup="menu" aria-expanded="false">' +
