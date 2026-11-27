@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "LogViewer",
+  "tag": "log-viewer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "query": "string",
+    "level": "all | debug | info | warn | error",
+    "label": "string"
+  },
+  "properties": {
+    "items": "CuLogEntry[]",
+    "visibleItems": "readonly CuLogEntry[]"
+  },
+  "events": [
+    "cu-filter",
+    "cu-select"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  },
+  "composition": [
+    "SearchBox",
+    "Select",
+    "Button",
+    "VirtualList",
+    "EmptyState",
+    "Icon"
+  ]
+}
