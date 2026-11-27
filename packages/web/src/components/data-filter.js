@@ -53,6 +53,7 @@ export class CuDataFilter extends BrowserElement {
     this._select=root.querySelector("cu-select");
     this._input=root.querySelector("cu-text-field");
     this._clear=root.querySelector(".clear");
+    this._select.addEventListener("cu-input",event=>event.stopPropagation());
     this._select.addEventListener("cu-change",event=>{
       event.stopPropagation();
       this.operator=event.detail.value;
