@@ -1,6 +1,7 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./select.js";
-import "./icon.js";
+import "./text-field.js";
+import "./icon-button.js";
 import { TABLE_FILTER_OPERATORS } from "./filter-utils.js";
 
 export const DATA_FILTER_OPERATORS=Object.freeze(TABLE_FILTER_OPERATORS.filter(operator=>operator!=="between"));
@@ -22,20 +23,12 @@ const css=[
   "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);}",
   ".name{font-weight:650;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis;}",
   ".operator{width:148px;min-width:120px;flex:none;}",
-  "input{box-sizing:border-box;min-width:90px;max-width:180px;flex:1 1 90px;",
-  "height:32px;padding:0 9px;background:var(--cu-surface,#fff);color:inherit;",
-  "border:1px solid var(--cu-border-strong,#d1d1d1);",
-  "border-radius:var(--cu-radius-md,6px);font:inherit;}",
-  "input:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:1px;}",
-  "input[hidden],.clear[hidden]{display:none!important;}",
-  ".clear{display:grid;place-items:center;width:28px;height:28px;flex:none;",
-  "border:0;border-radius:var(--cu-radius-md,6px);background:transparent;",
-  "color:var(--cu-text-muted,#616161);cursor:pointer;}",
-  ".clear:hover:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 9%,transparent);}",
-  ".clear:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
-  ":host([disabled]) .filter{opacity:.55;}",
-  "@media(forced-colors:active){.filter,input{border-color:CanvasText;}",
-  "input:focus-visible,.clear:focus-visible{outline-color:Highlight;}}"
+  ".value{min-width:90px;max-width:180px;flex:1 1 90px;}",
+  ".filter{min-width:0;max-width:100%;}",
+  ".value[hidden],.clear[hidden]{display:none!important;}",
+  ".clear{flex:none;}",
+  ":host([disabled]) .filter{opacity:.75;}",
+  "@media(forced-colors:active){.filter{border-color:CanvasText;}}"
 ].join("");
 
 export class CuDataFilter extends BrowserElement {
@@ -54,24 +47,31 @@ export class CuDataFilter extends BrowserElement {
       '<div class="filter" part="filter"><span class="name" part="label"></span>' +
       '<cu-select class="operator" part="operator" aria-label="Filter comparison">' +
       options.map(([value,label])=>'<option value="'+value+'">'+label+'</option>').join("")+
-      '</cu-select><input part="value" type="text" autocomplete="off" aria-label="Filter value">' +
-      '<button type="button" class="clear" part="clear" aria-label="Clear filter" hidden>' +
-      '<cu-icon name="x" size="15" aria-hidden="true"></cu-icon></button></div>');
+      '</cu-select><cu-text-field class="value" exportparts="input:value" autocomplete="off" aria-label="Filter value"></cu-text-field>' +
+      '<cu-icon-button class="clear" exportparts="button:clear" name="x" size="sm" aria-label="Clear filter" hidden></cu-icon-button></div>');
     this._label=root.querySelector(".name");
     this._select=root.querySelector("cu-select");
-    this._input=root.querySelector("input");
+    this._input=root.querySelector("cu-text-field");
     this._clear=root.querySelector(".clear");
     this._select.addEventListener("cu-change",event=>{
       event.stopPropagation();
       this.operator=event.detail.value;
       this._emit("cu-change");
     });
-    this._input.addEventListener("input",()=>{
+    this._input.addEventListener("cu-input",event=>{
+      event.stopPropagation();
       this.value=this._input.value;
       this._emit("cu-input");
     });
-    this._input.addEventListener("change",()=>this._emit("cu-change"));
-    this._clear.addEventListener("click",()=>this.clear());
+    this._input.addEventListener("cu-change",event=>{
+      event.stopPropagation();
+      this.value=this._input.value;
+      this._emit("cu-change");
+    });
+    this._clear.addEventListener("cu-press",event=>{
+      event.stopPropagation();
+      if(this.clear())this._select.focus();
+    });
   }
   connectedCallback(){this._sync();}
   attributeChangedCallback(){this._sync();}
