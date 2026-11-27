@@ -194,6 +194,9 @@ const wcSearchResults=document.getElementById("wc-search-results");
 wcSearchResults.items=[{id:"one",title:"Component contracts",description:"API definitions and component status",meta:"Docs"},{id:"two",title:"Desktop workspace",description:"Window chrome and dock layout",meta:"Components"},{id:"three",title:"Data display",description:"Tree tables and charts",meta:"Components"}];
 document.getElementById("wc-search-results-query").addEventListener("cu-input",e=>{wcSearchResults.query=e.detail.value;});
 wcSearchResults.addEventListener("cu-select",e=>showToast("Result",e.detail.item.title));
+const wcLogViewer=document.getElementById("wc-log-viewer");
+wcLogViewer.items=Array.from({length:1000},(_,i)=>({id:"log-"+i,timestamp:"Event "+String(i+1).padStart(4,"0"),level:["info","debug","warn","error"][i%4],source:["Application","Storage","Network"][i%3],message:["Workspace initialized","Cache refreshed","Connection delayed","Operation failed; retry available"][i%4]}));
+wcLogViewer.addEventListener("cu-select",event=>{document.getElementById("wc-log-result").textContent="Selected: "+event.detail.item.id;});
 const wcMediaPlayer=document.getElementById("wc-media-player");
 let wcMediaUrl=null;
 document.getElementById("wc-media-file").addEventListener("cu-change",e=>{
