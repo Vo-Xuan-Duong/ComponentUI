@@ -1,9 +1,6 @@
-import "../../packages/web/src/components/index.js";
-import { applyFilterBar } from "../../packages/web/src/components/filter-bar.js";
-import {
-  enhanceMenu, enhancePopover, enhanceDialogTrigger,
-  enhancePagination
-} from "../../packages/web/src/interactions.js";
+// Initialize shell controls independently of the full demo module graph.
+import "../../packages/web/src/components/icon.js";
+import "../../packages/web/src/components/select.js";
 
 import {
   applyPreferences, readPreferences,
@@ -60,6 +57,10 @@ function syncActiveNavigation() {
 }
 window.addEventListener("hashchange", syncActiveNavigation);
 syncActiveNavigation();
+
+await import("../../packages/web/src/components/index.js");
+const { applyFilterBar } = await import("../../packages/web/src/components/filter-bar.js");
+const { enhanceMenu, enhancePopover, enhanceDialogTrigger, enhancePagination } = await import("../../packages/web/src/interactions.js");
 
 // Visual Quality Lab: event feedback keeps each active control demonstrable.
 const qualityResult=document.getElementById("quality-result");
@@ -589,8 +590,11 @@ commandPalette.addEventListener("cu-select", event => {
     syncActiveNavigation();
   }
 });
-for (const id of ["open-command","open-command-secondary"])
-  document.getElementById(id).addEventListener("click",()=>commandPalette.show());
+for (const id of ["open-command","open-command-secondary"]) {
+  const trigger = document.getElementById(id);
+  trigger.addEventListener("click",()=>commandPalette.show());
+  trigger.disabled = false;
+}
 document.getElementById("wc-empty-create").addEventListener("cu-press",()=>showToast("Create workspace","Example action; no workspace is created."));
 document.getElementById("wc-empty-reset").addEventListener("cu-press",()=>showToast("Clear filters","Example action; no filters are changed."));
 
