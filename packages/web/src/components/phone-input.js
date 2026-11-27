@@ -22,7 +22,7 @@ export class CuPhoneInput extends CuTextField{
   _syncFormValue(){
     if(!this._input)return;
     const raw=this.value.trim(),normalized=this.normalizedValue,locked=this._input.disabled||this._input.readOnly;
-    const valid=!raw||(this.hasAttribute("international")?isInternationalPhone(raw):/^\+?[0-9]{3,15}$/.test(normalized));
+    const valid=!this.value||(this.hasAttribute("international")?isInternationalPhone(raw):/^\+?[0-9]{3,15}$/.test(normalized));
     syncFieldValidity(this,this._input,{additionalError:!valid&&!locked?"Enter a valid phone number.":""});
   }
 }
