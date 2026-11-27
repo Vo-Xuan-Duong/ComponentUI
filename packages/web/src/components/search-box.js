@@ -1,6 +1,7 @@
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
 import { syncFieldValidity, wireFieldValidation } from "./_field.js";
 import "./icon.js";
+import "./icon-button.js";
 
 const css=[
   ":host{display:block;min-width:0;font-family:var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}",
@@ -25,11 +26,8 @@ const css=[
   "input::-webkit-search-cancel-button{-webkit-appearance:none;}",
   "input::placeholder{color:var(--cu-text-muted,#616161);}",
   "input:focus-visible{outline:none;}",
-  ".clear{display:grid;place-items:center;border:0;background:transparent;",
-  "width:28px;height:28px;border-radius:var(--cu-radius-md,6px);",
-  "color:var(--cu-text-muted,#616161);cursor:pointer;}",
-  ".clear:hover{background:color-mix(in srgb,var(--cu-text,#242424) 8%,transparent);}",
-  ".clear:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
+  ".clear{flex:none;color:var(--cu-text-muted,#616161);}",
+  ".clear::part(button){width:min(28px,calc(var(--cu-control-height,40px) - 8px));height:min(28px,calc(var(--cu-control-height,40px) - 8px));}",
   ".clear[hidden]{display:none!important;}",
   ".hint{font-size:12px;color:var(--cu-text-muted,#616161);}",
   "@media(prefers-reduced-motion:reduce){.control{transition:none;}}",
@@ -50,8 +48,7 @@ export class CuSearchBox extends BrowserElement{
       '<div class="field"><label class="label" part="label"></label>' +
       '<div class="control" part="control"><cu-icon class="symbol" name="search" size="18"></cu-icon>' +
       '<input type="search" part="input" enterkeyhint="search">' +
-      '<button class="clear" part="clear" type="button" aria-label="Clear search" hidden>' +
-      '<cu-icon name="x" size="16"></cu-icon></button></div>' +
+      '<cu-icon-button class="clear" exportparts="button:clear" name="x" size="sm" aria-label="Clear search" hidden></cu-icon-button></div>' +
       '<span class="hint" part="hint"></span><span class="error" part="error"></span></div>');
     this._input=root.querySelector("input");
     this._input.id="cu-search-box-"+(++CuSearchBox._id);
@@ -72,7 +69,7 @@ export class CuSearchBox extends BrowserElement{
       if(event.key==="Enter")notify(this,"cu-search",{value:this.value});
       if(event.key==="Escape"&&this.value){event.preventDefault();event.stopPropagation();this.clear();}
     });
-    this._clear.addEventListener("click",()=>{this.clear();this._input.focus();});
+    this._clear.addEventListener("cu-press",event=>{event.stopPropagation();this.clear();this._input.focus();});
     wireFieldValidation(this,this._input,()=>this._update());
   }
   connectedCallback(){
