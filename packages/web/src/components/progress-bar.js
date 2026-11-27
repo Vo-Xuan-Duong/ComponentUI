@@ -36,7 +36,7 @@ export class CuProgressBar extends BrowserElement {
   constructor() {
     super();
     const root = mount(this,css,
-      '<div class="head"><span class="label" part="label"></span><span class="pct" part="percentage"></span></div>' +
+      '<div class="head" part="header"><span class="label" part="label"></span><span class="pct" part="percentage"></span></div>' +
       '<div class="track"><progress part="progress" max="100"></progress><span class="indeterminate" aria-hidden="true"></span></div>');
     this._progress = root.querySelector("progress");
     this._label = root.querySelector(".label");
