@@ -1,5 +1,6 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./icon.js";
+import "./spinner.js";
 
 const css=[
   ":host{display:inline-flex;vertical-align:middle;color:var(--cu-text,#242424);font:600 13px var(--cu-font-body,system-ui);}",
@@ -24,11 +25,9 @@ const css=[
   ":host([size=sm]) button{width:var(--cu-control-sm,28px);height:var(--cu-control-sm,28px);}",
   ":host([size=lg]) button{width:var(--cu-control-lg,40px);height:var(--cu-control-lg,40px);}",
   ":host([size=xl]) button{width:var(--cu-control-xl,48px);height:var(--cu-control-xl,48px);}",
-  ".spinner{position:absolute;display:block;width:14px;height:14px;border:2px solid currentColor;",
-  "border-right-color:transparent;border-radius:50%;animation:cu-icon-spin .75s linear infinite;}",
+  "cu-spinner.spinner{position:absolute;--cu-spinner-size:14px;color:inherit;}",
   ".spinner[hidden],cu-icon[hidden]{display:none!important;}",
-  "@keyframes cu-icon-spin{to{transform:rotate(360deg);}}",
-  "@media(prefers-reduced-motion:reduce){button{transition:none;}.spinner{animation:none;}}",
+  "@media(prefers-reduced-motion:reduce){button{transition:none;}}",
   "@media(forced-colors:active){button:focus-visible{outline-color:Highlight;}",
   ":host([pressed]) button{border-color:Highlight;color:Highlight;outline:1px solid Highlight;outline-offset:-3px;}}"
 ].join("");
@@ -39,7 +38,7 @@ export class CuIconButton extends BrowserElement {
     super();
     const root=mount(this,css,
       '<button part="button" type="button"><cu-icon part="icon" name="ellipsis" size="18"></cu-icon>' +
-      '<span part="spinner" class="spinner" hidden aria-hidden="true"></span></button>');
+      '<cu-spinner class="spinner" exportparts="spinner" hidden aria-hidden="true"></cu-spinner></button>');
     this._button=root.querySelector("button");
     this._icon=root.querySelector("cu-icon");
     this._spinner=root.querySelector(".spinner");
