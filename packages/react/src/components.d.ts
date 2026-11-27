@@ -148,3 +148,7 @@ export declare const Wizard: ReactCuComponent;
 export declare const DashboardShell: ReactCuComponent;
 
 export declare const LogViewer: ReactCuComponent;
+
+export declare const JsonViewer: ReactCuComponent;
+export declare const DiffViewer: ReactCuComponent;
+export declare const MarkdownEditor: ReactCuComponent;
