@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "MarkdownEditor",
+  "tag": "markdown-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "value": "string",
+    "readonly": "boolean",
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  },
+  "composition": [
+    "TextArea",
+    "SplitView",
+    "ScrollArea",
+    "CodeBlock"
+  ]
+}
