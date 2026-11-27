@@ -146,3 +146,5 @@ export declare const MediaPlayer: ReactCuComponent;
 export declare const UploadManager: ReactCuComponent;
 export declare const Wizard: ReactCuComponent;
 export declare const DashboardShell: ReactCuComponent;
+
+export declare const LogViewer: ReactCuComponent;
