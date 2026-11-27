@@ -148,3 +148,5 @@ export { CuMediaPlayer } from "./media-player.js";
 export { CuUploadManager, normalizeUploadItems } from "./upload-manager.js";
 export { CuWizard } from "./wizard.js";
 export { CuDashboardShell } from "./dashboard-shell.js";
+
+export { CuLogViewer, LOG_LEVELS, normalizeLogEntries, filterLogEntries } from "./log-viewer.js";
