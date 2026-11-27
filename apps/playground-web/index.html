@@ -9,7 +9,14 @@
   <link rel="stylesheet" href="../../packages/theme/src/tokens.css">
   <link rel="stylesheet" href="../../packages/theme/src/components.css">
   <link rel="stylesheet" href="./styles.css">
-  <script type="module" src="./main.js"></script>
+  <script type="module">
+    import("./main.js").catch(error => {
+      console.error("ComponentUI playground initialization failed", error);
+      const notice = document.getElementById("playground-error");
+      notice.hidden = false;
+      if (location.protocol === "file:") notice.textContent = "Start the playground with npm run preview instead of opening index.html directly.";
+    });
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -45,34 +52,44 @@
       <header class="toolbar">
         <div class="toolbar-heading">Design system <small>/ Fluent Calm</small></div>
         <div class="toolbar-options" aria-label="Preview preferences">
-          <button type="button" class="cu-btn" data-size="sm" id="open-command" aria-keyshortcuts="Control+K Meta+K">Search <kbd>Ctrl K</kbd></button>
-          <label class="cu-helper" for="theme-select">Theme</label>
+          <button type="button" class="cu-btn" data-size="sm" id="open-command" aria-keyshortcuts="Control+K Meta+K" disabled><cu-icon name="search" size="16"></cu-icon> Search <kbd>Ctrl K</kbd></button>
+          <div class="toolbar-field"><span class="toolbar-label">Theme</span>
           <cu-select class="toolbar-select" id="theme-select" aria-label="Theme" value="system">
             <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
           </cu-select>
-          <label class="cu-helper" for="density-select">Density</label>
+          </div>
+          <div class="toolbar-field"><span class="toolbar-label">Density</span>
           <cu-select class="toolbar-select" id="density-select" aria-label="Control density" value="comfortable">
             <option value="comfortable">Comfortable</option><option value="compact">Compact</option><option value="touch">Touch</option>
           </cu-select>
-          <div class="accent-picker" role="group" aria-label="Accent color">
+          </div>
+          <div class="toolbar-field accent-field"><span class="toolbar-label">Accent</span><div class="accent-picker" role="group" aria-label="Accent color">
             <button class="accent-swatch" type="button" data-accent="blue" aria-label="Blue accent" aria-pressed="true"></button>
             <button class="accent-swatch" type="button" data-accent="purple" aria-label="Purple accent" aria-pressed="false"></button>
             <button class="accent-swatch" type="button" data-accent="green" aria-label="Green accent" aria-pressed="false"></button>
-          </div>
+          </div></div>
         </div>
       </header>
 
       <main id="content" class="content">
+        <p id="playground-error" class="playground-error" role="alert" hidden>Some interactive components could not initialize. Reload the local preview and check the browser console for the failing module.</p>
+        <noscript><p class="playground-error">Enable JavaScript to use the interactive playground.</p></noscript>
         <section class="hero" id="overview" aria-labelledby="hero-title">
-          
+          <div class="hero-copy">
           <span class="eyebrow">ComponentUI · Fluent Calm design system</span>
           <h1 id="hero-title">One design language.<br>Every framework.</h1>
           <p>Beautiful by default, consistent in every state. Explore Fluent Calm components designed for React, Vue, Svelte and lightweight desktop webviews, with accessibility and customization built into the foundation.</p>
           <div class="hero-footer">
             <a class="cu-btn" data-variant="accent" href="#controls">Explore components <cu-icon name="arrow-up-right" size="16"></cu-icon></a>
             <a class="cu-btn" data-variant="outline" href="#catalog">Browse catalog</a>
-            <span class="cu-badge" data-tone="accent">Experimental components</span>
           </div>
+          </div>
+          <aside class="hero-platforms" aria-label="Supported platforms">
+            <span class="eyebrow">Framework-neutral foundation</span>
+            <div class="platform-row"><cu-icon name="folder" size="20"></cu-icon><div><strong>Web applications</strong><span>React · Vue · Svelte</span></div></div>
+            <div class="platform-row"><cu-icon name="panel-left" size="20"></cu-icon><div><strong>Desktop applications</strong><span>Electron · Tauri</span></div></div>
+            <p class="platform-status">Experimental preview · not yet production-certified</p>
+          </aside>
         </section>
 
         <div class="metrics" aria-label="ComponentUI project summary">
