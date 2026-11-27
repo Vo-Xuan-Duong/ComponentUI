@@ -36,8 +36,10 @@ export class CuDataGrid extends CuDataTable{
     if(this._columns.some(c=>this.visibleColumnKeys.includes(c.key)&&this._canEdit(c,row)))actions.unshift({value:"edit-cell",label:"Edit cell",disabled:false});
     return actions;
   }
+  _cellDisplayValue(row,column){return row?.[column.key];}
   _renderDataCell(row,column,id){
     const cell=super._renderDataCell(row,column,id);
+    cell.textContent=String(this._cellDisplayValue(row,column)??"");
     cell.dataset.rowId=id;cell.dataset.columnKey=column.key;
     cell.addEventListener("contextmenu",()=>{this._targetCell={id,key:column.key};});
     if(!this._canEdit(column,row))return cell;
@@ -67,7 +69,7 @@ export class CuDataGrid extends CuDataTable{
       if(column.type==="number"){control.step=Number.isFinite(column.step)&&column.step>0?String(column.step):"any";if(Number.isFinite(column.min))control.min=String(column.min);if(Number.isFinite(column.max))control.max=String(column.max);}
     }
     control.setAttribute("aria-label","Edit "+String(column.label??key));error.className="grid-error";error.setAttribute("role","status");
-    const cancel=(restore=true)=>{cell.dataset.editing="false";cell.textContent=String(row[key]??"");delete cell._gridCancel;if(restore)cell.focus({preventScroll:true});};
+    const cancel=(restore=true)=>{cell.dataset.editing="false";cell.textContent=String(this._cellDisplayValue(row,column)??"");delete cell._gridCancel;if(restore)cell.focus({preventScroll:true});};
     const commit=(restore=true,target=null)=>{
       if(cell.dataset.editing!=="true"||!cell.isConnected)return false;
       const parsed=coerceGridValue(column,column.type==="boolean"?control.checked:control.value,row[key]);
