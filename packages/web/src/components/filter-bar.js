@@ -3,6 +3,8 @@ import { applyFilterBar } from "./filter-utils.js";
 export { applyFilterBar } from "./filter-utils.js";
 import "./data-filter.js";
 import "./icon.js";
+import "./search-box.js";
+import "./button.js";
 
 
 const css=[
@@ -12,24 +14,10 @@ const css=[
   ".bar{display:flex;flex-wrap:wrap;align-items:center;gap:9px;",
   "padding:10px;border:1px solid var(--cu-border,#e5e5e5);",
   "border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface,#fff);}",
-  ".search{position:relative;display:flex;align-items:center;gap:7px;",
-  "min-width:170px;max-width:320px;flex:1 1 170px;}",
-  ".search cu-icon{flex:none;color:var(--cu-text-muted,#616161);}",
-  "input{box-sizing:border-box;min-width:0;width:100%;height:var(--cu-control-height,40px);",
-  "padding:0 12px;background:var(--cu-surface,#fff);color:inherit;",
-  "border:1px solid var(--cu-border-strong,#d1d1d1);",
-  "border-radius:var(--cu-radius-md,6px);font:inherit;}",
-  "input:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:1px;}",
+  ".search{min-width:min(100%,170px);max-width:320px;flex:1 1 170px;}",
   ".conditions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;flex:2 1 300px;min-width:0;}",
-  "button{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 10px;",
-  "border:1px solid var(--cu-border-strong,#d1d1d1);",
-  "border-radius:var(--cu-radius-md,6px);background:transparent;color:inherit;",
-  "font:600 12px var(--cu-font-body,system-ui);cursor:pointer;}",
-  "button:hover:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 8%,var(--cu-surface,#fff));}",
-  "button:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
-  "button:disabled{opacity:.4;cursor:not-allowed;}",
-  "@media(forced-colors:active){.bar,input,button{border-color:CanvasText;}",
-  "input:focus-visible,button:focus-visible{outline-color:Highlight;}}"
+  "cu-button{flex:none;}",
+  "@media(forced-colors:active){.bar{border-color:CanvasText;}}"
 ].join("");
 
 export class CuFilterBar extends BrowserElement {
@@ -38,26 +26,28 @@ export class CuFilterBar extends BrowserElement {
     super();
     const root=mount(this,css,
       '<div class="bar" part="bar" role="search">' +
-      '<div class="search"><cu-icon name="search" size="17" aria-hidden="true"></cu-icon>' +
-      '<input part="search" type="search" autocomplete="off" placeholder="Search records"></div>' +
+      '<cu-search-box class="search" exportparts="input:search" placeholder="Search records"></cu-search-box>' +
       '<div class="conditions" part="conditions"><slot></slot></div>' +
-      '<button part="clear" type="button" aria-label="Clear all filters">' +
-      '<cu-icon name="x" size="14" aria-hidden="true"></cu-icon>Clear</button></div>');
+      '<cu-button exportparts="button:clear" variant="outline" aria-label="Clear all filters">' +
+      '<cu-icon name="x" size="14" aria-hidden="true"></cu-icon>Clear</cu-button></div>');
     this._bar=root.querySelector(".bar");
-    this._search=root.querySelector("input");
-    this._clear=root.querySelector("button");
+    this._search=root.querySelector("cu-search-box");
+    this._clear=root.querySelector("cu-button");
     this._slot=root.querySelector("slot");
     this._observer=null;
-    this._search.addEventListener("input",()=>{
+    this._search.addEventListener("cu-input",event=>{
+      event.stopPropagation();
       this.query=this._search.value;
       this._emit("cu-filter-change");
     });
+    for(const type of ["cu-change","cu-search"])
+      this._search.addEventListener(type,event=>event.stopPropagation());
     this._onFilterChange=event=>{
       if(!this._filters().includes(event.target))return;
       event.stopPropagation();
       this._emit("cu-filter-change");
     };
-    this._clear.addEventListener("click",()=>this.clear());
+    this._clear.addEventListener("cu-press",event=>{event.stopPropagation();this.clear();});
     this._slot.addEventListener("slotchange",()=>this._sync());
   }
   connectedCallback(){
@@ -114,7 +104,7 @@ export class CuFilterBar extends BrowserElement {
     if(!this._search)return;
     this._bar?.setAttribute("aria-label",this.getAttribute("label")||"Record filters");
     if(this._search.value!==this.query)this._search.value=this.query;
-    this._search.placeholder=this.getAttribute("placeholder")||"Search records";
+    this._search.setAttribute("placeholder",this.getAttribute("placeholder")||"Search records");
     this._search.setAttribute("aria-label",this.getAttribute("aria-label")||
       this.getAttribute("label")||"Search records");
     this._clear.disabled=this.activeCount===0;
