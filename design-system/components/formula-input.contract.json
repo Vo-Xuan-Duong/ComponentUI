@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "name": "FormulaInput",
+  "tag": "cu-formula-input",
+  "status": "preview",
+  "kind": "form",
+  "attributes": {
+    "value": "string",
+    "name": "string",
+    "label": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "composition": [
+    "TextField"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  },
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  }
+}
