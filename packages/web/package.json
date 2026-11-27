@@ -600,6 +600,18 @@
     "./components/log-viewer": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/log-viewer.js"
+    },
+    "./components/json-viewer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/json-viewer.js"
+    },
+    "./components/diff-viewer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/diff-viewer.js"
+    },
+    "./components/markdown-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/markdown-editor.js"
     }
   },
   "files": [
