@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "name": "MentionInput",
+  "tag": "cu-mention-input",
+  "status": "preview",
+  "kind": "form",
+  "attributes": {
+    "value": "string",
+    "label": "string",
+    "name": "string",
+    "placeholder": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean",
+    "loading": "boolean",
+    "min-chars": "number",
+    "max-results": "number",
+    "manual-filter": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-search",
+    "cu-select"
+  ],
+  "composition": [
+    "AutoComplete"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  },
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  },
+  "properties": {
+    "items": "Suggestion[]",
+    "value": "string"
+  }
+}
