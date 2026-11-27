@@ -1001,6 +1001,9 @@ declare global {
     "cu-media-player": CuMediaPlayer;
     "cu-search-results": CuSearchResults;
     "cu-log-viewer": CuLogViewer;
+    "cu-json-viewer": CuJsonViewer;
+    "cu-diff-viewer": CuDiffViewer;
+    "cu-markdown-editor": CuMarkdownEditor;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1062,3 +1065,12 @@ export declare const LOG_LEVELS: readonly ["debug","info","warn","error"];
 export declare function normalizeLogEntries(value:unknown):Required<CuLogEntry>[];
 export declare function filterLogEntries(items:Required<CuLogEntry>[],query?:string,level?:"all"|CuLogEntry["level"]):Required<CuLogEntry>[];
 export declare class CuLogViewer extends HTMLElement {items:CuLogEntry[];query:string;level:"all"|"debug"|"info"|"warn"|"error";readonly visibleItems:Required<CuLogEntry>[];resetFilters():boolean;}
+
+export interface CuJsonNode {path:string;label:string;value:unknown;children:CuJsonNode[];}
+export declare function buildJsonTree(value:unknown,options?:{maxNodes?:number;maxDepth?:number}):{root:CuJsonNode|null;truncated:boolean;count:number};
+export declare function filterJsonTree(node:CuJsonNode|null,query:string):CuJsonNode|null;
+export declare class CuJsonViewer extends HTMLElement {value:string;query:string;}
+export declare function diffLines(before:string,after:string,limit?:number):{limited:boolean;rows:{kind:"equal"|"add"|"remove";before:string|null;after:string|null}[];added:number;removed:number};
+export declare class CuDiffViewer extends HTMLElement {before:string;after:string;}
+export declare function parseMarkdownBlocks(value:string):{kind:string;text:string;level?:number;language?:string}[];
+export declare class CuMarkdownEditor extends HTMLElement {value:string;disabled:boolean;focus(options?:FocusOptions):void;}
