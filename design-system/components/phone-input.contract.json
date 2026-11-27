@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "PhoneInput",
+  "tag": "cu-phone-input",
+  "status": "preview",
+  "kind": "form",
+  "attributes": {
+    "value": "string",
+    "name": "string",
+    "label": "string",
+    "international": "boolean",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "composition": [
+    "TextField"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  },
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  }
+}
