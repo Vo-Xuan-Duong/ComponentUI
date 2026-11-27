@@ -163,7 +163,7 @@ test("Web packages, React event and property bindings cover four new controls",a
       (i?"-":"")+c.toLowerCase()));
     assert.ok(types.includes("class Cu"+name+" extends HTMLElement"));
   }
-  assert.equal(Object.keys(REACT_TAGS).length,151);
+  assert.equal(Object.keys(REACT_TAGS).length,155);
   assert.equal(REACT_EVENT_PROPS.onCuAction,"cu-action");
   assert.match(react,/Button, IconButton, ToggleButtonGroup, Toolbar, CommandBar/);
   let sets=0,values=0,commandsCount=0;
@@ -197,8 +197,8 @@ test("Playground and catalog include four experimental command controls",async()
   const catalog=JSON.parse(json).groups.flatMap(g=>g.components);
   for(const name of ["IconButton","ToggleButtonGroup","Toolbar","CommandBar"])
     assert.equal(catalog.find(c=>c.name===name)?.status,"preview");
-  assert.equal(catalog.length,140);
-  assert.equal(catalog.filter(c=>c.status==="preview").length,140);
+  assert.equal(catalog.length,144);
+  assert.equal(catalog.filter(c=>c.status==="preview").length,144);
   assert.equal(catalog.filter(c=>c.status==="planned").length,0);
   assert.equal(catalog.filter(c=>c.status==="ready").length,0);
 });
