@@ -628,6 +628,22 @@
     "./components/masked-input": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/masked-input.js"
+    },
+    "./components/mention-input": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/mention-input.js"
+    },
+    "./components/phone-input": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/phone-input.js"
+    },
+    "./components/query-builder": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/query-builder.js"
+    },
+    "./components/formula-input": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/formula-input.js"
     }
   },
   "files": [
