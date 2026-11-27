@@ -157,3 +157,8 @@ export declare const ImageViewer: ReactCuComponent;
 export declare const TransferList: ReactCuComponent;
 export declare const CurrencyInput: ReactCuComponent;
 export declare const MaskedInput: ReactCuComponent;
+
+export declare const MentionInput: ReactCuComponent;
+export declare const PhoneInput: ReactCuComponent;
+export declare const QueryBuilder: ReactCuComponent;
+export declare const FormulaInput: ReactCuComponent;
