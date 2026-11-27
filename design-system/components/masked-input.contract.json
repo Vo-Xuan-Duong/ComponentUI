@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "MaskedInput",
+  "tag": "cu-masked-input",
+  "status": "preview",
+  "kind": "form",
+  "attributes": {
+    "mask": "string",
+    "name": "string",
+    "value": "string",
+    "label": "string",
+    "hint": "string",
+    "error": "string",
+    "required": "boolean",
+    "disabled": "boolean",
+    "readonly": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "composition": [
+    "TextField"
+  ],
+  "accessibility": {
+    "formAssociated": true
+  },
+  "form": {
+    "associated": true,
+    "reset": true,
+    "validity": true
+  }
+}
