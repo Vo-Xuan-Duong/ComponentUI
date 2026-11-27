@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "QueryBuilder",
+  "tag": "cu-query-builder",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean"
+  },
+  "events": [
+    "cu-input",
+    "cu-change"
+  ],
+  "composition": [
+    "DataFilter",
+    "Select",
+    "Button",
+    "IconButton",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  },
+  "properties": {
+    "fields": "CuQueryField[]",
+    "value": "CuQueryValue"
+  }
+}
