@@ -75,8 +75,8 @@ export class CuTreeTable extends BrowserElement{
   if(!actions.length)return;
   element.setAttribute("aria-haspopup","menu");element.setAttribute("aria-keyshortcuts","Shift+F10");
   const open=(x,y)=>{this._menu.hide();this._clearContext();this._context={...context,element};element.dataset.context="true";this._menu.items=actions;this._menu.showAt(x,y,focusTarget);};
-  element.addEventListener("contextmenu",e=>{e.preventDefault();open(e.clientX,e.clientY);});
-  element.addEventListener("keydown",e=>{if(e.defaultPrevented||e.key!=="ContextMenu"&&!(e.shiftKey&&e.key==="F10"))return;e.preventDefault();const r=element.getBoundingClientRect();open(r.left+12,r.bottom);});
+  element.addEventListener("contextmenu",e=>{if(e.defaultPrevented)return;e.preventDefault();e.stopPropagation();open(e.clientX,e.clientY);});
+  element.addEventListener("keydown",e=>{if(e.defaultPrevented||e.key!=="ContextMenu"&&!(e.shiftKey&&e.key==="F10"))return;e.preventDefault();e.stopPropagation();const r=element.getBoundingClientRect();open(r.left+12,r.bottom);});
  }
  _render(focusId){
   if(!this._table)return;
