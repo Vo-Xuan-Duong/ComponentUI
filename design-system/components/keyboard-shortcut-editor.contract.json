@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "name": "KeyboardShortcutEditor",
+  "tag": "cu-keyboard-shortcut-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean"
+  },
+  "properties": {
+    "items": "CuShortcutItem[]"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "Kbd",
+    "TextField",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
