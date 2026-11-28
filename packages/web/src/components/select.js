@@ -1,7 +1,7 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
 import "./icon.js";
-import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay, isTopOverlay } from "./_overlay.js";
+import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay, isTopOverlay, closeOverlayTopLayer } from "./_overlay.js";
 
 /**
  * Fluent Calm select-only combobox.
@@ -288,6 +288,7 @@ export class CuSelect extends BrowserElement {
     this._open = false;
     unregisterOverlay(this);
     this.toggleAttribute("open",false);
+    closeOverlayTopLayer(this._popup);
     this._popup.hidden = true;
     this._control.setAttribute("aria-expanded","false");
     this._control.removeAttribute("aria-activedescendant");
@@ -498,7 +499,7 @@ export class CuSelect extends BrowserElement {
   }
   _placePopup() {
     if (!this._open) return;
-    const result=placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:264,gap:5});
+    const result=placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:264,gap:5,topLayer:true});
     if(result)this._anchor.dataset.placement=result.placement;
   }
 }
