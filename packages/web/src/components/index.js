@@ -205,3 +205,8 @@ export { CuMediaLibrary, normalizeMediaEntries } from "./media-library.js";
 export { CuDashboardDesigner, normalizeDashboardWidgets } from "./dashboard-designer.js";
 export { CuFormDesigner, FORM_FIELD_TYPES, normalizeFormFields } from "./form-designer.js";
 export { CuSchemaEditor, SCHEMA_FIELD_TYPES, normalizeObjectSchema } from "./schema-editor.js";
+
+export { CuDatabaseExplorer, normalizeDatabaseTables } from "./database-explorer.js";
+export { CuApplicationShell, normalizeApplicationSections } from "./application-shell.js";
+export { CuReportBuilder, reportChartItems } from "./report-builder.js";
+export { CuAutomationDesigner, analyzeAutomationGraph } from "./automation-designer.js";
