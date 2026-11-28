@@ -15,7 +15,7 @@ const css=[
   ".toggle{display:inline-flex;align-items:center;justify-content:center;gap:6px;",
   "min-height:28px;padding:3px 8px;border:1px solid transparent;border-radius:var(--cu-radius-md,6px);",
   "background:transparent;color:inherit;font:600 12px var(--cu-font-body,system-ui);cursor:pointer;}",
-  ".toggle:hover{background:color-mix(in srgb,var(--cu-accent,#0067c0) 11%,transparent);}",
+  ".toggle:hover{background:var(--cu-state-hover);}",
   ".toggle:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "cu-splitter{height:auto;flex:1;min-height:0;--cu-splitter-thickness:8px;}",
   "cu-resizable-panel[slot=start],cu-resizable-panel[slot=end]{min-width:0;min-height:0;}",
@@ -45,6 +45,7 @@ export class CuSplitView extends BrowserElement {
       '<slot name="content"></slot></cu-resizable-panel></cu-splitter></div>');
     this._splitter=root.querySelector("cu-splitter");
     this._sidebar=root.querySelector('cu-resizable-panel[slot="start"]');
+    this._content=root.querySelector('cu-resizable-panel[slot="end"]');this._content.tabIndex=-1;
     this._toolbar=root.querySelector(".toolbar");
     this._toggle=root.querySelector(".toggle");
     this._toggleLabel=root.querySelector(".toggle-label");
@@ -110,11 +111,13 @@ export class CuSplitView extends BrowserElement {
       this._splitter.setAttribute("orientation","vertical");
     else this._splitter.removeAttribute("orientation");
     this._splitter.position=collapsed?0:this.position;
+    const restoreFocus=collapsed&&this._sidebar.matches(":focus-within");
     this._sidebar.inert=collapsed;
     this._toolbar.hidden=!this.collapsible;
     this._toggle.setAttribute("aria-expanded",String(!collapsed));
     this._toggleLabel.textContent=collapsed?"Show sidebar":"Hide sidebar";
     this._toggle.disabled=this.hasAttribute("disabled");
+    if(restoreFocus)(this.collapsible&&!this._toggle.disabled?this._toggle:this._content).focus({preventScroll:true});
     this._splitter.setAttribute("label",this.getAttribute("label")||"Split view");
   }
 }
