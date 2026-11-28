@@ -14,7 +14,7 @@ const css=":host{display:block;min-width:0;font:13px var(--cu-font-body,system-u
 export class CuDatabaseExplorer extends BrowserElement{
   static get observedAttributes(){return ["selected"];}
   constructor(){
-    super();this._tables=[];this._queries=new Map();this._nodes=new Map();this._activeId="";
+    super();this._tables=[];this._queries=new Map();this._pendingQuery=null;this._nodes=new Map();this._activeId="";
     const root=mount(this,css,'<cu-split-view position="28" min="20" max="60" label="Database explorer"><div class="side" slot="sidebar"><strong>Tables</strong><cu-tree-view label="Database schemas and tables"></cu-tree-view></div><div class="content" slot="content"><div class="heading"></div><div class="status" role="status"></div><cu-data-inspector hidden></cu-data-inspector><cu-empty-state title="No tables available" size="sm"></cu-empty-state></div></cu-split-view>');
     this._tree=root.querySelector("cu-tree-view");this._inspector=root.querySelector("cu-data-inspector");this._heading=root.querySelector(".heading");this._status=root.querySelector(".status");this._empty=root.querySelector("cu-empty-state");
     this._tree.addEventListener("cu-change",e=>{e.stopPropagation();const id=this._nodes.get(e.detail.value);if(id!==undefined)this.selectTable(id);else this._syncSelection();});
@@ -26,7 +26,7 @@ export class CuDatabaseExplorer extends BrowserElement{
   connectedCallback(){this._renderTree();this._sync(true);}attributeChangedCallback(){this._sync();}
   get tables(){return normalizeDatabaseTables(this._tables);}set tables(v){this._tables=normalizeDatabaseTables(v);for(const id of this._queries.keys())if(!this._tables.some(t=>t.id===id))this._queries.delete(id);this._renderTree();this._sync(true);}
   get selected(){const id=this.getAttribute("selected");return this._tables.find(t=>t.id===id)?.id??this._tables[0]?.id??"";}set selected(v){this.setAttribute("selected",String(v??""));}
-  get query(){return this._inspector.query;}set query(v){if(!this.selected)return;this._inspector.query=v;this._queries.set(this.selected,this._inspector.query);this._status.textContent=this._inspector.visibleRows.length+" matching records";}
+  get query(){return this._inspector.query;}set query(v){if(!this.selected){this._pendingQuery=v;return;}this._inspector.query=v;this._queries.set(this.selected,this._inspector.query);this._status.textContent=this._inspector.visibleRows.length+" matching records";}
   selectTable(id){if(!this._tables.some(t=>t.id===id))return false;if(id!==this.selected){this.selected=id;notify(this,"cu-select",{tableId:id,value:id});}return true;}
   _syncSelection(){const key=[...this._nodes].find(([,id])=>id===this.selected)?.[0]??"";if(this._tree.value!==key)this._tree.value=key;}
   _renderTree(){
@@ -36,7 +36,7 @@ export class CuDatabaseExplorer extends BrowserElement{
   }
   _sync(force=false){
     if(!this._inspector)return;const table=this._tables.find(t=>t.id===this.selected);this._syncSelection();this._heading.textContent=table?table.schema+" / "+table.label:"Database";this._inspector.hidden=!table;this._empty.hidden=Boolean(table);
-    if(force||this._activeId!==this.selected){this._activeId=this.selected;this._inspector.rows=table?.rows??[];this._inspector.query=this._queries.get(this.selected)??{logic:"and",conditions:[]};}
+    if(force||this._activeId!==this.selected){this._activeId=this.selected;this._inspector.rows=table?.rows??[];this._inspector.query=this._pendingQuery??this._queries.get(this.selected)??{logic:"and",conditions:[]};if(table){this._queries.set(table.id,this._inspector.query);this._pendingQuery=null;}}
     this._status.textContent=table?this._inspector.visibleRows.length+" matching records":"No tables";
   }
 }
