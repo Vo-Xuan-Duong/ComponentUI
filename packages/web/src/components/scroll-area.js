@@ -11,6 +11,7 @@ export function scrollAreaMetrics({scrollTop=0,scrollLeft=0,scrollHeight=0,scrol
 }
 const css=[
   ":host{display:grid;grid-template-rows:minmax(0,1fr);min-width:0;min-height:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
+  ":host([hidden]){display:none!important;}",
   ".viewport{box-sizing:border-box;min-width:0;min-height:0;max-block-size:var(--cu-scroll-max-height,240px);overflow:auto;overscroll-behavior:contain;scrollbar-width:auto;scrollbar-color:var(--cu-scroll-thumb,var(--cu-border-strong,#aaa)) transparent;border-radius:inherit;}",
   ":host([axis=vertical]) .viewport,:host(:not([axis])) .viewport{overflow-x:hidden;}:host([axis=horizontal]) .viewport{overflow-y:hidden;max-block-size:none;}",
   ":host([scrollbar=thin]) .viewport{scrollbar-width:thin;}:host([scrollbar=hidden]) .viewport{scrollbar-width:none;}",
@@ -29,13 +30,13 @@ export class CuScrollArea extends BrowserElement{
     this._viewport=root.querySelector(".viewport");this._content=root.querySelector(".content");this._slot=root.querySelector("slot");
     this._frame=frameTask(this,()=>{const metrics=this.metrics;this._refresh(metrics);if(this._scrollPending){this._scrollPending=false;notify(this,"cu-scroll",metrics);}});
     this._viewport.addEventListener("scroll",()=>{this._scrollPending=true;this._frame.request();},{passive:true});
-    this._slot.addEventListener("slotchange",()=>this._refresh());
+    this._slot.addEventListener("slotchange",()=>this._frame.request());
   }
   connectedCallback(){
     this._sync();
     const Observer=this.ownerDocument.defaultView?.ResizeObserver;
     this._observer?.disconnect();
-    if(Observer){this._observer=new Observer(()=>this._frame.request());this._observer.observe(this._viewport);this._observer.observe(this._content);}
+    if(Observer){const observer=new Observer(()=>{if(this._observer===observer&&this.isConnected)this._frame.request();});this._observer=observer;observer.observe(this._viewport);observer.observe(this._content);}else this._observer=null;
   }
   disconnectedCallback(){this._frame.cancel();this._scrollPending=false;this._observer?.disconnect();this._observer=null;}
   attributeChangedCallback(){this._sync();}
@@ -55,7 +56,7 @@ export class CuScrollArea extends BrowserElement{
   _refresh(m=this.metrics){
     if(!this._viewport)return;
     for(const [key,value] of Object.entries({atTop:m.atTop,atBottom:m.atBottom,atStart:m.atStart,atEnd:m.atEnd,canScrollX:m.canScrollX,canScrollY:m.canScrollY})){
-      const attr=key.replace(/[A-Z]/g,c=>"-"+c.toLowerCase());this._viewport.toggleAttribute("data-"+attr,value);
+      const attr=key.replace(/[A-Z]/g,c=>"-"+c.toLowerCase());if(this._viewport.hasAttribute("data-"+attr)!==value)this._viewport.toggleAttribute("data-"+attr,value);
     }
   }
 }
