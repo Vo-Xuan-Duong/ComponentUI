@@ -772,6 +772,22 @@
     "./components/schema-editor": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/schema-editor.js"
+    },
+    "./components/database-explorer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/database-explorer.js"
+    },
+    "./components/application-shell": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/application-shell.js"
+    },
+    "./components/report-builder": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/report-builder.js"
+    },
+    "./components/automation-designer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/automation-designer.js"
     }
   },
   "files": [
