@@ -1,7 +1,7 @@
 {
   "version": 1,
   "name": "MediaPlayer",
-  "tag": "media-player",
+  "tag": "cu-media-player",
   "status": "preview",
   "kind": "component",
   "attributes": {
@@ -11,7 +11,9 @@
     "muted": "boolean",
     "loop": "boolean",
     "captions-src": "string",
-    "captions-language": "string"
+    "captions-language": "string",
+    "hidden": "boolean",
+    "label": "string"
   },
   "events": [
     "cu-change"
