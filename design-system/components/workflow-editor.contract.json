@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "WorkflowEditor",
+  "tag": "cu-workflow-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "lanes": "CuKanbanLane[]",
+    "items": "CuKanbanItem[]"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "KanbanBoard",
+    "TextField",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
