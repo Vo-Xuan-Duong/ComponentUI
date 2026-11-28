@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "ChartEditor",
+  "tag": "cu-chart-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "items": "CuChartItem[]",
+    "config": "CuChartConfig"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "ChartContainer",
+    "PropertyGrid",
+    "SplitView"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
