@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "PropertyInspector",
+  "tag": "cu-property-inspector",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "selected": "string",
+    "readonly": "boolean"
+  },
+  "properties": {
+    "objects": "CuInspectorObject[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-select"
+  ],
+  "composition": [
+    "TreeView",
+    "PropertyGrid",
+    "SplitView",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
