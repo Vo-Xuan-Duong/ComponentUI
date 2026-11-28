@@ -195,3 +195,8 @@ export { CuThemeEditor, DEFAULT_THEME_CONFIG, normalizeThemeConfig, themeTokenVa
 export { CuComponentDesigner, DESIGN_COMPONENT_TYPES, normalizeDesignComponents } from "./component-designer.js";
 export { CuWorkflowEditor, DEFAULT_WORKFLOW_LANES } from "./workflow-editor.js";
 export { CuNodeEditor, normalizeNodeGraph } from "./node-editor.js";
+
+export { CuShortcutSettings, resetShortcutItems } from "./shortcut-settings.js";
+export { CuDocumentWorkspace } from "./document-workspace.js";
+export { CuDataInspector, normalizeInspectorRows, inspectorFields } from "./data-inspector.js";
+export { CuAPIExplorer, API_METHODS, normalizeApiRequest, validateApiRequest, normalizeApiResponse } from "./api-explorer.js";
