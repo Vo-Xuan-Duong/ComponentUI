@@ -42,16 +42,38 @@ export function overlayGeometry(anchor,size,viewport,{
   return {placement,left:x-anchor.left,width,maxHeight:height,gap};
 }
 
-/** Keep an absolutely positioned popup inside the visual viewport.
- * Its containing block must be the supplied anchor (or have the same origin).
- * Does not escape clipping ancestors; native top-layer support is future work.
+/** Opt-in native top layer, without reparenting Shadow DOM or losing tokens.
+ * Older webviews fall back to the existing anchored placement.
  */
+export function openOverlayTopLayer(panel){
+  if(!panel?.isConnected||typeof panel.showPopover!=="function"||typeof panel.hidePopover!=="function")return false;
+  if(panel.dataset.cuTopLayer==="true")return true;
+  panel.setAttribute("popover","manual");
+  // Override UA popover centering; preserve the component's own styles.
+  panel.dataset.cuTopLayer="true";
+  try{panel.showPopover();return true;}
+  catch{delete panel.dataset.cuTopLayer;panel.removeAttribute("popover");return false;}
+}
+export function closeOverlayTopLayer(panel){
+  if(panel?.dataset.cuTopLayer!=="true")return;
+  try{panel.hidePopover();}catch{/* The host may already be disconnected. */}
+  delete panel.dataset.cuTopLayer;
+  panel.removeAttribute("popover");
+  for(const key of ["position","margin","inset","left","right","top","bottom","width","minWidth","maxHeight"])panel.style[key]="";
+}
+export function overlayViewportPosition(anchor,result){
+  return {left:anchor.left+result.left,top:result.placement==="top"?anchor.top-result.gap-result.maxHeight:anchor.bottom+result.gap};
+}
+
+/** Keep a popup in the visual viewport; opt-in top layer avoids ancestor clipping. */
 export function placeAnchoredOverlay(anchor,panel,options={}){
   if(!anchor||!panel||panel.hidden)return null;
   const view=anchor.ownerDocument?.defaultView??globalThis.window;
   if(!view)return null;
   const viewport=view.visualViewport;
   const rect=anchor.getBoundingClientRect();
+  const topLayer=options.topLayer===true&&openOverlayTopLayer(panel);
+  if(topLayer)Object.assign(panel.style,{position:"fixed",margin:"0",inset:"auto",left:"0px",top:"0px",right:"auto",bottom:"auto"});
   // Measure the natural width again so a popup can grow after viewport expansion.
   panel.style.width="";panel.style.minWidth="";
   const bounds=panel.getBoundingClientRect();
@@ -64,10 +86,11 @@ export function placeAnchoredOverlay(anchor,panel,options={}){
     left:viewport?.offsetLeft??0,top:viewport?.offsetTop??0,
     width:viewport?.width??view.innerWidth,height:viewport?.height??view.innerHeight
   },options);
+  const absolute=overlayViewportPosition(rect,result);
   Object.assign(panel.style,{
-    left:result.left+"px",right:"auto",
-    top:result.placement==="bottom"?"calc(100% + "+result.gap+"px)":"auto",
-    bottom:result.placement==="top"?"calc(100% + "+result.gap+"px)":"auto",
+    left:(topLayer?absolute.left:result.left)+"px",right:"auto",
+    top:topLayer?absolute.top+"px":result.placement==="bottom"?"calc(100% + "+result.gap+"px)":"auto",
+    bottom:topLayer?"auto":result.placement==="top"?"calc(100% + "+result.gap+"px)":"auto",
     minWidth:"0",width:result.width+"px",maxHeight:result.maxHeight+"px"
   });
   if(options.allowOverflow)panel.style.overflow=size.height<=result.maxHeight?"visible":"auto";
@@ -81,6 +104,13 @@ export function watchOverlayViewport(host,callback){
   if(!view)return ()=>{};
   view.addEventListener("resize",callback);
   view.addEventListener("scroll",callback,true);
+  // Scroll events do not cross shadow boundaries; follow composed ancestry.
+  const roots=new Set();
+  for(let node=host;node;){
+    const root=node.getRootNode?.();if(root?.host)roots.add(root);
+    node=node.assignedSlot??node.parentNode??(node.host||null);
+  }
+  for(const root of roots)root.addEventListener("scroll",callback,true);
   view.visualViewport?.addEventListener("resize",callback);
   view.visualViewport?.addEventListener("scroll",callback);
   // Layout changes can resize an anchor without a window resize (e.g. a split panel).
@@ -91,6 +121,7 @@ export function watchOverlayViewport(host,callback){
     observer?.disconnect();
     view.removeEventListener("resize",callback);
     view.removeEventListener("scroll",callback,true);
+    for(const root of roots)root.removeEventListener("scroll",callback,true);
     view.visualViewport?.removeEventListener("resize",callback);
     view.visualViewport?.removeEventListener("scroll",callback);
   };
