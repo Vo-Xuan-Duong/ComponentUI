@@ -213,3 +213,8 @@ export declare const WorkspaceSettings: ReactCuComponent;
 export declare const DeveloperTools: ReactCuComponent;
 export declare const FormBuilder: ReactCuComponent;
 export declare const DataSourceEditor: ReactCuComponent;
+
+export declare const DashboardViewer: ReactCuComponent;
+export declare const ProjectWorkspace: ReactCuComponent;
+export declare const SearchWorkspace: ReactCuComponent;
+export declare const DocumentManager: ReactCuComponent;
