@@ -1,7 +1,7 @@
 {
   "version": 1,
   "name": "ConfirmDialog",
-  "tag": "confirm-dialog",
+  "tag": "cu-confirm-dialog",
   "status": "preview",
   "kind": "component",
   "attributes": {
@@ -18,6 +18,11 @@
     "cu-action"
   ],
   "accessibility": {
-    "formAssociated": false
-  }
+    "formAssociated": false,
+    "focus": "Cancel receives initial focus when opened."
+  },
+  "composition": [
+    "Dialog",
+    "Button"
+  ]
 }
