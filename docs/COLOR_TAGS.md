@@ -24,7 +24,11 @@ the value property and FormData use lowercase canonical #rrggbb, or
 #rrggbbaa when alpha is enabled. Switching formats does not change the
 submitted representation. With alpha disabled, opacity is discarded.
 The UI includes a preview, a native system color chooser, eight presets,
-a text field, format selector and optional opacity slider.
+a text field, shared `cu-select` format selector and optional opacity slider.
+For dense editors use `<cu-color-picker compact value="#0067c0"></cu-color-picker>`.
+Compact mode hides the presets and format selector, displays canonical HEX,
+and preserves the color preview, system chooser, validation and optional alpha slider.
+PropertyGrid uses this mode. Toggling compact off restores the chosen display format.
 An invalid draft is not submitted as a stale valid color; required,
 custom error, reset, disabled and readonly are supported. cu-input and
 cu-change expose detail.value. A custom saturation/hue canvas is not included.
