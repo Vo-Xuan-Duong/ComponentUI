@@ -11,7 +11,7 @@ export class CuDocumentWorkspace extends BrowserElement{
     this._manager=root.querySelector("cu-window-manager");this._pdf=root.querySelector("cu-pdf-viewer");this._notes=root.querySelector("cu-markdown-editor");
     for(const type of ["cu-input","cu-change"])this._notes.addEventListener(type,e=>{e.stopPropagation();notify(this,type,{section:"notes",value:this.notes});});
     for(const type of ["cu-change","cu-transform","cu-action"])this._pdf.addEventListener(type,e=>{e.stopPropagation();notify(this,type,{section:"document",...e.detail});});
-    this._manager.addEventListener("cu-change",e=>{if(e.target!==this._manager)return;e.stopPropagation();this.active=e.detail.value;notify(this,"cu-change",{section:"workspace",value:this.active});});
+    this._manager.addEventListener("cu-change",e=>{if(e.target!==this._manager)return;e.stopPropagation();if(!["document","notes"].includes(e.detail?.value))return;this.active=e.detail.value;notify(this,"cu-change",{section:"workspace",value:this.active});});
   }
   connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();}
   get pages(){return this._pdf.pages;}set pages(v){this._pdf.pages=v;}
@@ -20,6 +20,6 @@ export class CuDocumentWorkspace extends BrowserElement{
   get notes(){return this._notes.value;}set notes(v){this._notes.value=v;}
   get active(){return this.getAttribute("active")==="notes"?"notes":"document";}set active(v){this.setAttribute("active",v==="notes"?"notes":"document");}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
-  _sync(){if(!this._manager)return;this._manager.active=this.active;this._notes.toggleAttribute("readonly",this.readonly);}
+  _sync(){if(!this._manager)return;if(this._manager.getAttribute("active")!==this.active)this._manager.active=this.active;this._notes.toggleAttribute("readonly",this.readonly);}
 }
 define("cu-document-workspace",CuDocumentWorkspace);
