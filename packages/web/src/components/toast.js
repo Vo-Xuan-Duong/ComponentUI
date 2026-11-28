@@ -23,8 +23,8 @@ export class CuToast extends BrowserElement{
     super();this._entries=[];this._sequence=0;
     this._stack=mount(this,css,'<div class="stack" part="stack" aria-label="Notifications"></div>').querySelector(".stack");
   }
-  connectedCallback(){this._drain();}
-  disconnectedCallback(){for(const entry of this._entries){this._pause(entry,"disconnect");entry.node?.remove();entry.node=null;entry.paused.clear();}}
+  connectedCallback(){this._doc=this.ownerDocument;this._visibility=()=>{for(const entry of this._entries)if(this._doc.hidden)this._pause(entry,"document");else this._resume(entry,"document");};this._doc.addEventListener("visibilitychange",this._visibility);this._drain();this._visibility();}
+  disconnectedCallback(){this._doc?.removeEventListener("visibilitychange",this._visibility);this._doc=null;for(const entry of this._entries){this._pause(entry,"disconnect");entry.node?.remove();entry.node=null;entry.paused.clear();}}
   attributeChangedCallback(){this._drain();}
   _limit(){const raw=this.getAttribute("max-visible");const n=raw===null?3:Number(raw);return Number.isFinite(n)?Math.max(1,Math.min(10,Math.floor(n))):3;}
   show(options={}){
@@ -34,12 +34,12 @@ export class CuToast extends BrowserElement{
   }
   dismiss(id,reason="manual"){
     const i=this._entries.findIndex(e=>e.data.id===id);if(i<0)return false;
-    const [entry]=this._entries.splice(i,1);clearTimeout(entry.timer);entry.node?.remove();
+    const [entry]=this._entries.splice(i,1);this._pause(entry,"dismiss");entry.node?.remove();entry.node=null;
     notify(this,"cu-dismiss",{id,reason,tone:entry.data.tone});this._drain();return true;
   }
   clear(){
     const entries=this._entries.splice(0);
-    for(const entry of entries){clearTimeout(entry.timer);entry.node?.remove();notify(this,"cu-dismiss",{id:entry.data.id,reason:"clear",tone:entry.data.tone});}
+    for(const entry of entries){this._pause(entry,"clear");entry.node?.remove();entry.node=null;notify(this,"cu-dismiss",{id:entry.data.id,reason:"clear",tone:entry.data.tone});}
   }
   _drain(){
     if(!this._stack||!this.isConnected)return;
@@ -72,15 +72,16 @@ export class CuToast extends BrowserElement{
     node.addEventListener("pointerleave",()=>this._resume(entry,"pointer"));
     node.addEventListener("focusin",()=>this._pause(entry,"focus"));
     node.addEventListener("focusout",e=>{if(!node.contains(e.relatedTarget))this._resume(entry,"focus");});
-    this._schedule(entry);
+    if(this.ownerDocument.hidden)this._pause(entry,"document");this._schedule(entry);
   }
   _schedule(entry){
     if(!entry.node||entry.data.duration===0||entry.paused.size||entry.timer!==null)return;
     entry.started=Date.now();
-    entry.timer=setTimeout(()=>{entry.timer=null;this.dismiss(entry.data.id,"timeout");},entry.remaining);
+    const token={};entry.timerToken=token;
+    entry.timer=setTimeout(()=>{if(entry.timerToken!==token||!entry.node||!this._entries.includes(entry))return;entry.timer=null;entry.timerToken=null;this.dismiss(entry.data.id,"timeout");},entry.remaining);
   }
   _pause(entry,reason){
-    entry.paused.add(reason);
+    entry.paused.add(reason);entry.timerToken=null;
     if(entry.timer!==null){clearTimeout(entry.timer);entry.timer=null;entry.remaining=Math.max(0,entry.remaining-(Date.now()-entry.started));}
   }
   _resume(entry,reason){entry.paused.delete(reason);this._schedule(entry);}
