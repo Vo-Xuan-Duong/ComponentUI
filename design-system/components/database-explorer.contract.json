@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "DatabaseExplorer",
+  "tag": "cu-database-explorer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "selected": "string"
+  },
+  "properties": {
+    "tables": "CuDatabaseTable[]",
+    "query": "CuQueryValue"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-select"
+  ],
+  "composition": [
+    "TreeView",
+    "SplitView",
+    "DataInspector",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
