@@ -183,3 +183,8 @@ export declare const CommandConsole: ReactCuComponent;
 export declare const KeyboardShortcutEditor: ReactCuComponent;
 export declare const ColorPalette: ReactCuComponent;
 export declare const FontPicker: ReactCuComponent;
+
+export declare const ChartEditor: ReactCuComponent;
+export declare const NotificationSettings: ReactCuComponent;
+export declare const ImageGallery: ReactCuComponent;
+export declare const FileManager: ReactCuComponent;
