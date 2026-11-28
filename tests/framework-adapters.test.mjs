@@ -13,7 +13,7 @@ import {
 const load = path => readFile(new URL(path, import.meta.url), "utf8");
 
 test("React adapter maps all reusable custom elements and event props", () => {
-  assert.equal(Object.keys(REACT_TAGS).length,191);
+  assert.equal(Object.keys(REACT_TAGS).length,195);
   assert.equal(REACT_TAGS.Select,"cu-select");
   assert.equal(REACT_TAGS.Icon,"cu-icon");
   assert.equal(REACT_TAGS.MenuItem,"cu-menu-item");
@@ -102,7 +102,7 @@ test("React factory uses dependency injection and strips custom event props", ()
   assert.equal(rendered.props.value,undefined);
   assert.equal(rendered.props.onCuChange,undefined);
   assert.equal(typeof rendered.props.ref,"function");
-  assert.equal(Object.keys(createReactComponents(hooks)).length,191);
+  assert.equal(Object.keys(createReactComponents(hooks)).length,195);
   assert.throws(() => createReactComponent(hooks,"unknown-tag"),RangeError);
 });
 
