@@ -200,3 +200,8 @@ export { CuShortcutSettings, resetShortcutItems } from "./shortcut-settings.js";
 export { CuDocumentWorkspace } from "./document-workspace.js";
 export { CuDataInspector, normalizeInspectorRows, inspectorFields } from "./data-inspector.js";
 export { CuAPIExplorer, API_METHODS, normalizeApiRequest, validateApiRequest, normalizeApiResponse } from "./api-explorer.js";
+
+export { CuMediaLibrary, normalizeMediaEntries } from "./media-library.js";
+export { CuDashboardDesigner, normalizeDashboardWidgets } from "./dashboard-designer.js";
+export { CuFormDesigner, FORM_FIELD_TYPES, normalizeFormFields } from "./form-designer.js";
+export { CuSchemaEditor, SCHEMA_FIELD_TYPES, normalizeObjectSchema } from "./schema-editor.js";
