@@ -167,3 +167,6 @@ export { CuFormulaInput, evaluateFormula } from "./formula-input.js";
 
 export { CuPivotTable, PIVOT_AGGREGATES, buildPivotTable } from "./pivot-table.js";
 export { CuSpreadsheet, normalizeSheet, parseCellAddress, calculateSheet } from "./spreadsheet.js";
+
+export { CuScheduler, normalizeScheduleEvents, scheduleDayEvents } from "./scheduler.js";
+export { CuGanttChart, normalizeGanttTasks, ganttRange, ganttTaskSpan } from "./gantt-chart.js";
