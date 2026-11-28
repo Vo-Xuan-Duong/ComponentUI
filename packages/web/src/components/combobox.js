@@ -1,6 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
-import { placeAnchoredOverlay, watchOverlayViewport, registerOverlay, unregisterOverlay, isTopOverlay } from "./_overlay.js";
+import { placeAnchoredOverlay,closeOverlayTopLayer, watchOverlayViewport, registerOverlay, unregisterOverlay, isTopOverlay } from "./_overlay.js";
 
 export class CuComboOption extends BrowserElement {
   static get observedAttributes(){return ["value","label","disabled","selected"];}
@@ -222,7 +222,7 @@ export class CuCombobox extends BrowserElement {
   }
   hide(restore=false){
     if(this._open){this._open=false;unregisterOverlay(this);this.toggleAttribute("open",false);
-      this._popup.hidden=true;this._input.setAttribute("aria-expanded","false");}
+      closeOverlayTopLayer(this._popup);this._popup.hidden=true;this._input.setAttribute("aria-expanded","false");}
     this._input.removeAttribute("aria-activedescendant");
     if(restore){
       const selected=this._options.find(o=>o.value===this._value);
@@ -237,7 +237,7 @@ export class CuCombobox extends BrowserElement {
     if(old!==this._value)notify(this,"cu-change",{value:this._value,label:item.label});
   }
   _placePopup(){
-    if(this._open)placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:235,gap:5});
+    if(this._open)placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:235,gap:5,topLayer:true});
   }
   _key(e){
     if(this._disabled())return;
