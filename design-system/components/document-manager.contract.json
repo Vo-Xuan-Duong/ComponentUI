@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "DocumentManager",
+  "tag": "cu-document-manager",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "selected": "string",
+    "readonly": "boolean"
+  },
+  "properties": {
+    "items": "CuManagedDocument[]"
+  },
+  "events": [
+    "cu-select",
+    "cu-navigate",
+    "cu-input",
+    "cu-change",
+    "cu-transform",
+    "cu-action"
+  ],
+  "composition": [
+    "FileManager",
+    "DocumentWorkspace",
+    "SplitView",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
