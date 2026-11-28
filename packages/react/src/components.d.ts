@@ -188,3 +188,8 @@ export declare const ChartEditor: ReactCuComponent;
 export declare const NotificationSettings: ReactCuComponent;
 export declare const ImageGallery: ReactCuComponent;
 export declare const FileManager: ReactCuComponent;
+
+export declare const ThemeEditor: ReactCuComponent;
+export declare const ComponentDesigner: ReactCuComponent;
+export declare const WorkflowEditor: ReactCuComponent;
+export declare const NodeEditor: ReactCuComponent;
