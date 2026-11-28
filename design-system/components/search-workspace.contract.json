@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "SearchWorkspace",
+  "tag": "cu-search-workspace",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "query": "string",
+    "category": "string"
+  },
+  "properties": {
+    "items": "CuSearchRecord[]",
+    "visibleItems": "CuSearchRecord[] (readonly)",
+    "selectedItem": "CuSearchRecord | null (readonly)"
+  },
+  "events": [
+    "cu-filter",
+    "cu-select",
+    "cu-action"
+  ],
+  "composition": [
+    "SearchBox",
+    "Select",
+    "VirtualList",
+    "SplitView",
+    "EmptyState",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
