@@ -1,4 +1,4 @@
-import { BrowserElement, mount, notify, define, frameTask, reconcileVirtualWindow } from "./_shared.js";
+import { BrowserElement, mount, notify, define, frameTask, reconcileVirtualWindow, reconcileElementChildren } from "./_shared.js";
 import { virtualListRange } from "./virtual-list.js";
 import "./icon.js";
 
@@ -55,13 +55,13 @@ const css=[
   "padding-inline-start:calc(8px + (var(--level) - 1)*18px);padding-inline-end:10px;",
   "border-radius:var(--cu-radius-md,6px);cursor:pointer;white-space:nowrap;overflow:hidden;}",
   ".item:hover:not([aria-disabled=true]){background:var(--cu-state-hover);}",
-  ".item[aria-selected=true]{background:color-mix(in srgb,var(--cu-accent,#0067c0) 15%,var(--cu-surface,#fff));",
+  ".item[aria-selected=true]{background:var(--cu-state-selected);",
   "color:var(--cu-accent,#0067c0);}",
   ".item[aria-disabled=true]{opacity:.46;cursor:not-allowed;}",
   ".name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;}",
   ".toggle,.placeholder{display:grid;place-items:center;width:24px;height:24px;flex:none;}",
   ".toggle{border:0;background:transparent;color:inherit;border-radius:var(--cu-radius-sm,4px);cursor:pointer;}",
-  ".toggle:hover{background:color-mix(in srgb,var(--cu-accent,#0067c0) 11%,transparent);}",
+  ".toggle:hover{background:var(--cu-state-hover);}",
   ".toggle:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:1px;}",
   ".empty{padding:12px;color:var(--cu-text-muted,#616161);}",
   ".empty[hidden]{display:none!important;}",
@@ -221,8 +221,7 @@ export class CuTreeList extends BrowserElement {
     if(key==="ArrowRight"){
       if(current.hasChildren&&!current.expanded)this.expand(current.value);
       else if(current.hasChildren){
-        const next=this._visible[this._active+1];
-        if(next&&next.parent===current.value&&!next.disabled)this.select(next.value);
+        for(let i=this._active+1;i<this._visible.length&&this._visible[i].level>current.level;i++){const next=this._visible[i];if(next.parent===current.value&&!next.disabled){this.select(next.value);break;}}
       }
       return;
     }
@@ -256,7 +255,7 @@ export class CuTreeList extends BrowserElement {
     this._lastRange=signature;
     this._top.style.height=range.top+"px";
     this._bottom.style.height=range.bottom+"px";
-    const doc=this.ownerDocument??globalThis.document,fragment=doc.createDocumentFragment();
+    const doc=this.ownerDocument??globalThis.document;
     const revision=[this._renderRevision||0,this.itemHeight,count].join(":");
     this._window=reconcileVirtualWindow(this._window,range.start,range.end,revision,index=>{
       const item=this._visible[index];
@@ -275,7 +274,7 @@ export class CuTreeList extends BrowserElement {
       const toggle=doc.createElement(item.hasChildren?"button":"span");
       toggle.className=item.hasChildren?"toggle":"placeholder";
       if(item.hasChildren){
-        toggle.type="button";toggle.tabIndex=-1;
+        toggle.type="button";toggle.tabIndex=-1;toggle.disabled=item.disabled;
         toggle.setAttribute("aria-label",(item.expanded?"Collapse ":"Expand ")+item.label);
         const icon=doc.createElement("cu-icon");
         icon.setAttribute("name",item.expanded?"chevron-down":"chevron-right");
@@ -288,10 +287,10 @@ export class CuTreeList extends BrowserElement {
       row.append(toggle,label);
       return row;
     });
-    for(const [index,row] of this._window.nodes){row.setAttribute("aria-selected",String(this._visible[index].value===this._selected));fragment.append(row);}
-    this._itemsRoot.replaceChildren(fragment);
+    for(const [index,row] of this._window.nodes){const selected=String(!this._visible[index].disabled&&this._visible[index].value===this._selected);if(row.getAttribute("aria-selected")!==selected)row.setAttribute("aria-selected",selected);}
+    reconcileElementChildren(this._itemsRoot,[...this._window.nodes.values()]);
     const active=this._visible[this._active];
-    if(active&&this._active>=range.start&&this._active<range.end)
+    if(active&&!active.disabled&&this._active>=range.start&&this._active<range.end)
       this._viewport.setAttribute("aria-activedescendant",this._prefix+"-"+this._active);
     else this._viewport.removeAttribute("aria-activedescendant");
     this._empty.hidden=count!==0;
