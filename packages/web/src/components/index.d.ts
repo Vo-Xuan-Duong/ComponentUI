@@ -1016,6 +1016,10 @@ declare global {
     "cu-spreadsheet": CuSpreadsheet;
     "cu-scheduler": CuScheduler;
     "cu-gantt-chart": CuGanttChart;
+    "cu-menu-bar": CuMenuBar;
+    "cu-ribbon": CuRibbon;
+    "cu-terminal": CuTerminal;
+    "cu-window-manager": CuWindowManager;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1136,3 +1140,17 @@ export declare function normalizeGanttTasks(tasks:unknown):Required<CuGanttTask>
 export declare function ganttRange(tasks:unknown,start?:string,end?:string,fallback?:string):CuGanttRange;
 export declare function ganttTaskSpan(task:CuGanttTask,range:CuGanttRange):{offset:number;width:number;clipped:boolean}|null;
 export declare class CuGanttChart extends CuDataTable {tasks:CuGanttTask[];rangeStart:string;rangeEnd:string;readonly range:CuGanttRange;}
+
+export interface CuDesktopCommand {value:string;label?:string;icon?:string;disabled?:boolean;}
+export interface CuMenuGroup {id:string;label?:string;disabled?:boolean;items:CuDesktopCommand[];}
+export declare function normalizeMenuGroups(groups:unknown):CuMenuGroup[];
+export declare class CuMenuBar extends HTMLElement {groups:CuMenuGroup[];disabled:boolean;}
+export interface CuRibbonTab {id:string;label?:string;disabled?:boolean;groups:{id:string;label?:string;commands:CuDesktopCommand[]}[];}
+export declare function normalizeRibbonTabs(tabs:unknown):CuRibbonTab[];
+export declare class CuRibbon extends HTMLElement {tabs:CuRibbonTab[];active:string;disabled:boolean;}
+export interface CuTerminalLine {text:string;kind?:"command"|"output"|"error";}
+export declare function normalizeTerminalLines(lines:unknown,max?:number):Required<CuTerminalLine>[];
+export declare class CuTerminal extends HTMLElement {lines:(string|CuTerminalLine)[];disabled:boolean;readonly maxLines:number;readonly prompt:string;append(text:string,kind?:CuTerminalLine["kind"]):void;clear():boolean;submit(command:string):boolean;}
+export interface CuManagedWindow {id:string;title?:string;closed?:boolean;}
+export declare function resolveWindowId(windows:CuManagedWindow[],requested?:string):string;
+export declare class CuWindowManager extends HTMLElement {active:string;readonly windows:CuManagedWindow[];layout:CuDockLayout["layout"];activateWindow(id:string):boolean;closeWindow(id:string):boolean;reopenWindow(id:string):boolean;}
