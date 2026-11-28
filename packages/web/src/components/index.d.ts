@@ -1154,7 +1154,7 @@ export declare function filterQueryRows<T extends object>(rows:T[],query:CuQuery
 export declare class CuQueryBuilder extends HTMLElement {fields:CuQueryField[];value:CuQueryValue;disabled:boolean;addCondition():boolean;removeCondition(index:number):boolean;}
 export interface CuFormulaEvaluation {valid:boolean;result:number|null;error:string;}
 export declare function evaluateFormula(value:string,resolveReference?:(address:string)=>number):CuFormulaEvaluation;
-export declare class CuFormulaInput extends CuTextField {readonly result:number|null;readonly evaluation:CuFormulaEvaluation;}
+export declare class CuFormulaInput extends CuTextField {draftEvaluator?: (value:string)=>CuFormulaEvaluation;readonly result:number|null;readonly evaluation:CuFormulaEvaluation;}
 
 export type CuPivotAggregate="count"|"sum"|"average"|"min"|"max";
 export interface CuPivotConfig {rowField?:string;columnField?:string;valueField?:string;aggregate?:CuPivotAggregate;}
