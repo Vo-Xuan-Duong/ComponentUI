@@ -80,7 +80,10 @@ export class CuPivotTable extends BrowserElement{
     const config=this.config,values={"row-field":config.rowField,"column-field":config.columnField,"value-field":config.valueField,aggregate:config.aggregate};
     for(const control of this._controls){const value=values[control.dataset.key];if(control.getAttribute("value")!==value)control.setAttribute("value",value);if(control.value!==value)control.value=value;control.disabled=control.dataset.key==="value-field"&&config.aggregate==="count";}
     const result=buildPivotTable(filterQueryRows(this._rows,this._query),config);this._result=result;
-    this._table.error=result.error;this._table.columns=result.columns;this._table.rows=result.rows;
+    this._table.error=result.error;
+    const signature=JSON.stringify(result.columns);
+    if(this._columnSignature!==signature){this._columnSignature=signature;this._table.columns=result.columns;}
+    this._table.rows=result.rows;
     this._table.hidden=!result.count&&!result.error;this._empty.hidden=Boolean(result.count||result.error);
     this._summary.textContent=result.error||result.count+" records · Grand total: "+(result.total??"—");
   }
