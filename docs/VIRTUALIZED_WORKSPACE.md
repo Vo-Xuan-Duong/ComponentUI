@@ -89,7 +89,12 @@ items on either side and can be set between 0 and 50.
 The virtualization algorithm computes the visible range based on
 scroll offset, viewport height and fixed item height, then renders only
 that range plus overscan. It uses top and bottom spacers for the
-remaining scrollable height. The listbox container has
+remaining scrollable height. VirtualList and TreeList share an ordered
+DOM reconciliation helper: overlapping rows stay mounted during scrolling,
+while only departing rows are removed and incoming rows inserted. Changes
+to the underlying data or row dimensions may invalidate the window.
+This reduces DOM churn; it is not a measured browser FPS or memory claim.
+The listbox container has
 `role="listbox"`, accessible label and roving selection.
 Rendered rows have `role="option"`, `aria-selected`,
 `aria-posinset` and `aria-setsize`. The list uses
