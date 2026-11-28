@@ -168,3 +168,8 @@ export declare const Spreadsheet: ReactCuComponent;
 
 export declare const Scheduler: ReactCuComponent;
 export declare const GanttChart: ReactCuComponent;
+
+export declare const MenuBar: ReactCuComponent;
+export declare const Ribbon: ReactCuComponent;
+export declare const Terminal: ReactCuComponent;
+export declare const WindowManager: ReactCuComponent;
