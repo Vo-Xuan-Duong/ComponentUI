@@ -1,7 +1,7 @@
 
 import { BrowserElement, mount, notify, define } from "./_shared.js";
 import "./menu.js";
-import { registerOverlay, unregisterOverlay, isTopOverlay, restoreOverlayFocus } from "./_overlay.js";
+import { registerOverlay, unregisterOverlay, isTopOverlay, restoreOverlayFocus, openOverlayTopLayer, closeOverlayTopLayer, watchOverlayViewport, deepActiveElement } from "./_overlay.js";
 const css=[
   ":host{display:inline-block;max-width:100%;font:13px var(--cu-font-body,system-ui);",
   "color:var(--cu-text,#242424);}",
@@ -16,7 +16,7 @@ const css=[
   "text-align:left;padding:8px 11px;border:0;border-radius:var(--cu-radius-md,6px);",
   "background:transparent;color:inherit;cursor:pointer;font:inherit;}",
   "button[role=menuitem]:hover:not(:disabled),button[role=menuitem]:focus-visible{",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 17%,var(--cu-surface,#fff));}",
+  "background:var(--cu-state-active);}",
   "button:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
   "button:disabled{opacity:.42;cursor:not-allowed;}",
   "@media(forced-colors:active){.menu{border-color:CanvasText;}}"
@@ -83,7 +83,7 @@ export class CuContextMenu extends BrowserElement {
         event.preventDefault();this.hide(true);
       }
     };
-    this._scroll=event=>{if(this._open&&!event?.composedPath?.().includes(this._menu))this.hide();};
+    this._scroll=event=>{if(this._open&&event?.type&&!event.composedPath?.().includes(this._menu))this.hide();};
   }
   connectedCallback(){
     this._render();
@@ -99,16 +99,14 @@ export class CuContextMenu extends BrowserElement {
     }
     document.addEventListener("pointerdown",this._outside);
     document.addEventListener("keydown",this._globalKey);
-    window.addEventListener("resize",this._scroll);
-    window.addEventListener("scroll",this._scroll,true);
+    this._stopViewport=watchOverlayViewport(this,this._scroll);
   }
   disconnectedCallback(){
     this.hide();
     this._observer?.disconnect();this._observer=null;
     document.removeEventListener("pointerdown",this._outside);
     document.removeEventListener("keydown",this._globalKey);
-    window.removeEventListener("resize",this._scroll);
-    window.removeEventListener("scroll",this._scroll,true);
+    this._stopViewport?.();this._stopViewport=null;
   }
   attributeChangedCallback(){
     if(this._menu)this._menu.setAttribute("aria-label",this.getAttribute("aria-label")||"Context actions");
@@ -149,10 +147,18 @@ export class CuContextMenu extends BrowserElement {
   showAt(x,y,focusTarget=null){
     if(!this.isConnected)return;
     this._render();
-    this._restoreFocus=focusTarget??this._target.assignedElements({flatten:true})[0]??null;
+    this._restoreFocus=focusTarget??(this._open?this._restoreFocus:deepActiveElement(this.ownerDocument))??this._target.assignedElements({flatten:true})[0]??null;
     this._session={};this._menu.hidden=false;this._open=true;registerOverlay(this);this._syncTargets();
+    const view=this.ownerDocument.defaultView;
+    if(openOverlayTopLayer(this._menu))Object.assign(this._menu.style,{position:"fixed",margin:"0",inset:"auto",left:"0px",top:"0px",right:"auto",bottom:"auto"});
+    const viewport=view.visualViewport,left=viewport?.offsetLeft??0,top=viewport?.offsetTop??0;
+    const width=viewport?.width??view.innerWidth,height=viewport?.height??view.innerHeight;
+    this._menu.style.maxWidth=Math.max(0,width-16)+"px";
+    this._menu.style.minWidth=Math.min(200,Math.max(0,width-16))+"px";
+    this._menu.style.maxHeight=Math.max(0,Math.min(height*.65,height-16))+"px";
     const bounds=this._menu.getBoundingClientRect();
-    const pos=clampMenuPosition(x,y,bounds.width,bounds.height,window.innerWidth,window.innerHeight);
+    const local=clampMenuPosition(x-left,y-top,bounds.width,bounds.height,width,height);
+    const pos={x:local.x+left,y:local.y+top};
     this._menu.style.left=pos.x+"px";
     this._menu.style.top=pos.y+"px";
     this._enabled()[0]?.focus();
@@ -160,7 +166,7 @@ export class CuContextMenu extends BrowserElement {
   }
   hide(restoreFocus=false){
     if(!this._open)return;
-    this._menu.hidden=true;this._open=false;unregisterOverlay(this);this._syncTargets();
+    closeOverlayTopLayer(this._menu);this._menu.hidden=true;this._open=false;unregisterOverlay(this);this._syncTargets();
     if(restoreFocus)restoreOverlayFocus(this._restoreFocus);
     this._restoreFocus=null;
     notify(this,"cu-close",{});
