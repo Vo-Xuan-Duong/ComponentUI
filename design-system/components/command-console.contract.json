@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "CommandConsole",
+  "tag": "cu-command-console",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "max-lines": "number",
+    "prompt": "string",
+    "disabled": "boolean"
+  },
+  "properties": {
+    "commands": "CuPaletteCommand[]",
+    "lines": "(string | CuTerminalLine)[]"
+  },
+  "events": [
+    "cu-action"
+  ],
+  "composition": [
+    "Terminal",
+    "CommandPalette",
+    "Kbd"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
