@@ -208,3 +208,8 @@ export declare const DatabaseExplorer: ReactCuComponent;
 export declare const ApplicationShell: ReactCuComponent;
 export declare const ReportBuilder: ReactCuComponent;
 export declare const AutomationDesigner: ReactCuComponent;
+
+export declare const WorkspaceSettings: ReactCuComponent;
+export declare const DeveloperTools: ReactCuComponent;
+export declare const FormBuilder: ReactCuComponent;
+export declare const DataSourceEditor: ReactCuComponent;
