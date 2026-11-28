@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "FontPicker",
+  "tag": "cu-font-picker",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "value": "string",
+    "sample": "string",
+    "disabled": "boolean"
+  },
+  "properties": {
+    "fonts": "string[]"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "SearchBox",
+    "Select"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
