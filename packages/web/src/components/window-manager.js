@@ -7,7 +7,7 @@ export function resolveWindowId(windows,requested){
   const open=(Array.isArray(windows)?windows:[]).filter(w=>w&&typeof w.id==="string"&&w.id&&!w.closed);
   return open.find(w=>w.id===requested)?.id??open[0]?.id??"";
 }
-const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}cu-dock-layout{height:var(--cu-window-manager-height,380px);}.navigator{display:grid;gap:6px;padding:8px;}.navigator cu-button::part(button){width:100%;justify-content:flex-start;white-space:normal;}.workspace{padding:8px;min-width:0;}::slotted(cu-window-pane[hidden]){display:none!important;}.label{font-weight:650;padding:4px 2px;}.empty[hidden]{display:none;}";
+const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}cu-dock-layout{height:var(--cu-window-manager-height,380px);}.navigator,.buttons{display:grid;gap:6px;}.navigator{padding:8px;}.navigator cu-button::part(button){width:100%;justify-content:flex-start;white-space:normal;}.workspace{padding:8px;min-width:0;}::slotted(cu-window-pane[hidden]){display:none!important;}.label{font-weight:650;padding:4px 2px;}.empty[hidden]{display:none;}";
 export class CuWindowManager extends BrowserElement{
   static get observedAttributes(){return ["active"];}
   constructor(){
@@ -36,7 +36,8 @@ export class CuWindowManager extends BrowserElement{
   }
   _collect(){
     if(!this._slot)return;
-    const seen=new Set();this._panes=this._slot.assignedElements().filter(p=>p.localName==="cu-window-pane"&&p.dataset.windowId&&!seen.has(p.dataset.windowId)&&seen.add(p.dataset.windowId));
+    const seen=new Set(),panes=this._slot.assignedElements().filter(p=>p.localName==="cu-window-pane");this._panes=panes.filter(p=>p.dataset.windowId&&!seen.has(p.dataset.windowId)&&seen.add(p.dataset.windowId));
+    for(const pane of panes)if(!this._panes.includes(pane))pane.hidden=true;
     for(const id of this._closed)if(!seen.has(id))this._closed.delete(id);
     this._sync();
   }
@@ -47,7 +48,7 @@ export class CuWindowManager extends BrowserElement{
     const focused=this.shadowRoot.activeElement?.dataset?.window;
     this._buttons.replaceChildren(...this.windows.filter(w=>!w.closed).map(w=>{const button=doc.createElement("cu-button");button.dataset.window=w.id;button.setAttribute("variant",w.id===active?"accent":"subtle");button.setAttribute("size","sm");button.setAttribute("aria-label",w.title+(w.id===active?", active":""));button.textContent=w.title;return button;}));
     this._empty.hidden=Boolean(active);
-    if(focused){const target=[...this._buttons.children].find(b=>b.dataset.window===focused);target?.focus?.();}
+    if(focused){const target=[...this._buttons.children].find(b=>b.dataset.window===focused)||[...this._buttons.children].find(b=>b.dataset.window===active);target?.focus?.();}
   }
 }
 define("cu-window-manager",CuWindowManager);
