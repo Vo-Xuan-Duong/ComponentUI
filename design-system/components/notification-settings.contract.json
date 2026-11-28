@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "NotificationSettings",
+  "tag": "cu-notification-settings",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean"
+  },
+  "properties": {
+    "value": "CuNotificationPreferences"
+  },
+  "events": [
+    "cu-change",
+    "cu-filter"
+  ],
+  "composition": [
+    "SettingsPage",
+    "SettingsGroup",
+    "SettingsItem",
+    "Switch",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
