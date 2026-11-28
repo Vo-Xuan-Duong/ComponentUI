@@ -2,6 +2,7 @@ import {BrowserElement,mount,define,notify} from "./_shared.js";
 import "./settings-page.js";
 import "./switch.js";
 import "./button.js";
+import "./select.js";
 export const DEFAULT_NOTIFICATION_SETTINGS=Object.freeze({enabled:true,desktop:true,sound:false,email:false,digest:"daily"});
 export function normalizeNotificationSettings(v={}){
   const result={...DEFAULT_NOTIFICATION_SETTINGS};
@@ -9,7 +10,6 @@ export function normalizeNotificationSettings(v={}){
   if(["off","daily","weekly"].includes(v?.digest))result.digest=v.digest;
   return result;
 }
-import "./select.js";
 const css=":host{display:block;min-width:0;}cu-select{min-width:130px;}";
 export class CuNotificationSettings extends BrowserElement{
   static get observedAttributes(){return ["disabled"];}
@@ -20,7 +20,7 @@ export class CuNotificationSettings extends BrowserElement{
     for(const c of this._controls){c.addEventListener("cu-input",e=>e.stopPropagation());c.addEventListener("cu-change",e=>{e.stopPropagation();if(c.disabled)return;const key=c.dataset.key;this._value=normalizeNotificationSettings({...this._value,[key]:key==="digest"?e.detail.value:e.detail.checked});this._sync();notify(this,"cu-change",{key,value:this.value});});}
     this._reset.addEventListener("cu-press",e=>{e.stopPropagation();if(this.disabled)return;this.value=DEFAULT_NOTIFICATION_SETTINGS;notify(this,"cu-change",{key:"reset",value:this.value});});
   }
-  connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();}
+  connectedCallback(){this._sync();queueMicrotask(()=>{if(this.isConnected)this._sync();});}attributeChangedCallback(){this._sync();}
   get value(){return {...this._value};}set value(v){this._value=normalizeNotificationSettings(v);this._sync();}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   _sync(){if(!this._controls)return;for(const c of this._controls){const k=c.dataset.key;c.disabled=this.disabled||(k!=="enabled"&&!this._value.enabled)||(k==="digest"&&!this._value.email);if(k==="digest"){if(c.value!==this._value.digest)c.value=this._value.digest;}else c.checked=this._value[k];}this._reset.disabled=this.disabled;}
