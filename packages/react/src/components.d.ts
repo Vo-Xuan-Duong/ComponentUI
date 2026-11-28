@@ -173,3 +173,8 @@ export declare const MenuBar: ReactCuComponent;
 export declare const Ribbon: ReactCuComponent;
 export declare const Terminal: ReactCuComponent;
 export declare const WindowManager: ReactCuComponent;
+
+export declare const PDFViewer: ReactCuComponent;
+export declare const ResourceCalendar: ReactCuComponent;
+export declare const TimelineEditor: ReactCuComponent;
+export declare const PropertyInspector: ReactCuComponent;
