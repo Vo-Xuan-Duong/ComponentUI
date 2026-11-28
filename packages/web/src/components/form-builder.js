@@ -3,6 +3,8 @@ import {normalizeFormFields} from "./form-designer.js";
 import {normalizeObjectSchema} from "./schema-editor.js";
 import "./tabs.js";
 import "./button.js";
+import "./form-designer.js";
+import "./schema-editor.js";
 export function buildFormSchema(fields){
   const properties=Object.create(null),required=[];
   for(const field of normalizeFormFields(fields)){
@@ -20,7 +22,8 @@ export class CuFormBuilder extends BrowserElement{
     this._designer.addEventListener("cu-change",e=>{e.stopPropagation();if(!e.detail.fields)return;this._syncSchema();notify(this,"cu-change",{action:e.detail.action,id:e.detail.id,fields:this.fields,schema:this.schema});});
     this._designer.addEventListener("cu-submit",e=>{e.stopPropagation();notify(this,"cu-submit",{data:e.detail.data,schema:this.schema});});
     this._designer.addEventListener("cu-select",e=>{e.stopPropagation();notify(this,"cu-select",e.detail);});
-    this._schema.addEventListener("cu-select",e=>e.stopPropagation());
+    this._designer.addEventListener("cu-input",e=>e.stopPropagation());
+    for(const type of ["cu-select","cu-input","cu-change"])this._schema.addEventListener(type,e=>e.stopPropagation());
     this._tabs.addEventListener("cu-change",e=>{if(e.target===this._tabs)e.stopPropagation();});
     this._export.addEventListener("cu-press",e=>{e.stopPropagation();if(this.fields.length)notify(this,"cu-action",{action:"export",fields:this.fields,schema:this.schema});});
   }
