@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "name": "MediaLibrary",
+  "tag": "cu-media-library",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "selected": "string"
+  },
+  "properties": {
+    "items": "CuMediaEntry[]"
+  },
+  "events": [
+    "cu-select",
+    "cu-navigate",
+    "cu-action",
+    "cu-media",
+    "cu-transform"
+  ],
+  "composition": [
+    "FileManager",
+    "ImageGallery",
+    "MediaPlayer",
+    "SplitView",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
