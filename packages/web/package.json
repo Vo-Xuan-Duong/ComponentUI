@@ -692,6 +692,22 @@
     "./components/property-inspector": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/property-inspector.js"
+    },
+    "./components/command-console": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/command-console.js"
+    },
+    "./components/keyboard-shortcut-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/keyboard-shortcut-editor.js"
+    },
+    "./components/color-palette": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/color-palette.js"
+    },
+    "./components/font-picker": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/font-picker.js"
     }
   },
   "files": [
