@@ -29,6 +29,6 @@ export class CuFormBuilder extends BrowserElement{
   get schema(){return buildFormSchema(this.fields);}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   _sync(){if(this._designer)this._designer.readonly=this.readonly;}
-  _syncSchema(){if(!this._schema)return;this._schema.value=this.schema;this._status.textContent=this.fields.length+" fields · Generated structural schema";this._export.disabled=!this.fields.length;}
+  _syncSchema(){if(!this._schema)return;this._schema.value=this.schema;this._status.textContent=this.fields.length+" fields · Generated structural schema (not full validation)";this._export.disabled=!this.fields.length;}
 }
 define("cu-form-builder",CuFormBuilder);
