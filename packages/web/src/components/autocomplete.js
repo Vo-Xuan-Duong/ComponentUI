@@ -1,5 +1,5 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
-import {placeAnchoredOverlay,watchOverlayViewport,registerOverlay,unregisterOverlay,isTopOverlay} from "./_overlay.js";
+import {placeAnchoredOverlay,closeOverlayTopLayer,watchOverlayViewport,registerOverlay,unregisterOverlay,isTopOverlay} from "./_overlay.js";
 import "./icon.js";
 
 export function normalizeSuggestions(items){
@@ -78,8 +78,8 @@ export class CuAutoComplete extends BrowserElement{
     if(!this._open){this._open=true;registerOverlay(this);this.toggleAttribute("open",true);this._popup.hidden=false;this._input.setAttribute("aria-expanded","true");}
     this._render();
   }
-  hide(){if(!this._open)return;this._open=false;unregisterOverlay(this);this.toggleAttribute("open",false);this._popup.hidden=true;this._input.setAttribute("aria-expanded","false");this._input.removeAttribute("aria-activedescendant");this._active=-1;}
-  _place(){if(this._open)placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:260,gap:5});}
+  hide(){if(!this._open)return;this._open=false;unregisterOverlay(this);this.toggleAttribute("open",false);closeOverlayTopLayer(this._popup);this._popup.hidden=true;this._input.setAttribute("aria-expanded","false");this._input.removeAttribute("aria-activedescendant");this._active=-1;}
+  _place(){if(this._open)placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:260,gap:5,topLayer:true});}
   _commit(item){
     if(!item||item.disabled||this._locked())return;
     this.value=item.value;this.hide();this.focus();
