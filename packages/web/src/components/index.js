@@ -185,3 +185,8 @@ export { CuCommandConsole } from "./command-console.js";
 export { CuKeyboardShortcutEditor, normalizeShortcut, shortcutFromEvent, normalizeShortcutItems } from "./keyboard-shortcut-editor.js";
 export { CuColorPalette, normalizePaletteColors } from "./color-palette.js";
 export { CuFontPicker, DEFAULT_FONT_FAMILIES, normalizeFontFamilies } from "./font-picker.js";
+
+export { CuChartEditor, normalizeChartConfig } from "./chart-editor.js";
+export { CuNotificationSettings, DEFAULT_NOTIFICATION_SETTINGS, normalizeNotificationSettings } from "./notification-settings.js";
+export { CuImageGallery, normalizeGalleryItems } from "./image-gallery.js";
+export { CuFileManager, FILE_MANAGER_ACTIONS, fileManagerCommands } from "./file-manager.js";
