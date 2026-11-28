@@ -724,6 +724,22 @@
     "./components/file-manager": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/file-manager.js"
+    },
+    "./components/theme-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/theme-editor.js"
+    },
+    "./components/component-designer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/component-designer.js"
+    },
+    "./components/workflow-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/workflow-editor.js"
+    },
+    "./components/node-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/node-editor.js"
     }
   },
   "files": [
