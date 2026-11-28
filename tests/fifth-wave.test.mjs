@@ -127,7 +127,7 @@ test("DataTable offers Excel-like header filtering with discoverable controls",a
   assert.match(source,/class="filter-options"/);
   for(const name of ["filter-clear","filter-cancel","filter-apply","filter-trigger"])
     assert.ok(source.includes(name));
-  assert.match(source,/this\.filteredRows,this\._sortKey/);
+  assert.match(source,/this\._getFilteredRows\(\),this\._sortKey/);
   assert.match(source,/h\.dataset\.filtered=/);
   assert.match(source,/column\.filterable!==false/);
   assert.match(source,/event\.key==="Escape"/);

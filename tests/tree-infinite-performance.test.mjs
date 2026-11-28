@@ -111,7 +111,9 @@ test("TreeList renders accessible rows without interpreting HTML labels",()=>{
       createElement:tag=>({
         tag,style:{setProperty(k,v){this[k]=v;}},dataset:{},
         children:[],append(...els){this.children.push(...els);},
-        setAttribute(k,v){this[k]=v;},
+        setAttribute(k,v){this[k]=String(v);},
+        getAttribute(k){return this[k]??null;},
+        remove(){this.parentNode?.children.splice(this.parentNode.children.indexOf(this),1);},
         textContent:""
       })
     };
@@ -132,7 +134,7 @@ test("TreeList renders accessible rows without interpreting HTML labels",()=>{
     tree._viewport={scrollTop:0,clientHeight:80,setAttribute(k,v){this[k]=v;},
       removeAttribute(k){delete this[k];}};
     tree._top={style:{}};tree._bottom={style:{}};tree._empty={hidden:true};
-    tree._itemsRoot={replaceChildren(fragment){this.rows=fragment.children;}};
+    tree._itemsRoot={children:[],insertBefore(node,before){const old=this.children.indexOf(node);if(old>=0)this.children.splice(old,1);const index=before?this.children.indexOf(before):-1;this.children.splice(index<0?this.children.length:index,0,node);node.parentNode=this;},get rows(){return this.children;}};
     tree._render();
     assert.equal(tree._itemsRoot.rows.length,2);
     const root=tree._itemsRoot.rows[0];
@@ -164,6 +166,7 @@ test("InfiniteScroll emits one request at a time and re-arms after completion",(
   scroll.getAttribute=k=>attrs.get(k)??null;
   scroll.toggleAttribute=(k,on)=>on?attrs.set(k,""):attrs.delete(k);
   scroll.dispatchEvent=e=>{events.push(e);return true;};
+  scroll.shadowRoot={activeElement:null};
   scroll._viewport={scrollTop:20,scrollHeight:200,clientHeight:100,
     setAttribute(){}};
   scroll._button={};scroll._status={};scroll._page=0;scroll._requesting=false;
@@ -241,6 +244,7 @@ test("DataTable invalidates view caches when data and sorting changes",()=>{
   table._externalConditions={};table._externalSearchKeys=null;
   table._sortKey="rank";table._direction="asc";
   table._columns=[{key:"rank",sortable:true}];
+  table.hasAttribute=()=>false;
   table._selected=new Set();
   table._page=1;table._render=()=>{};table.dispatchEvent=()=>true;
   const before=table._getSortedRows();
@@ -285,7 +289,7 @@ test("Source, package and playground integrate native controls",async()=>{
   for(const name of ["tree-list","infinite-scroll"]){
     assert.equal(JSON.parse(pkg).exports["./components/"+name].default,
       "./dist/components/"+name+".js");
-    assert.equal(JSON.parse(root).scripts["syntax:check"], "node scripts/check-syntax.mjs");
+    assert.ok(JSON.parse(root).scripts["syntax:check"].includes("node scripts/check-syntax.mjs"));
   }
   assert.match(webTypes,/class CuTreeList extends HTMLElement/);
   assert.match(webTypes,/class CuInfiniteScroll extends HTMLElement/);

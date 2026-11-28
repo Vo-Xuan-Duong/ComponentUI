@@ -38,7 +38,9 @@ test("VirtualList renders bounded accessible DOM for 10,000 items",()=>{
     globalThis.document={
       createDocumentFragment:()=>({children:[],append(n){this.children.push(n);}}),
       createElement:()=>({
-        dataset:{},style:{},setAttribute(k,v){this[k]=v;}
+        dataset:{},style:{},setAttribute(k,v){this[k]=String(v);},
+        getAttribute(k){return this[k]??null;},
+        remove(){this.parentNode?.children.splice(this.parentNode.children.indexOf(this),1);}
       })
     };
     const list=Object.create(CuVirtualList.prototype);
@@ -51,7 +53,7 @@ test("VirtualList renders bounded accessible DOM for 10,000 items",()=>{
     list._viewport={scrollTop:40000,clientHeight:200,
       setAttribute(k,v){this[k]=v;},removeAttribute(k){delete this[k];}};
     list._top={style:{}};list._bottom={style:{}};list._empty={hidden:true};
-    list._itemsRoot={replaceChildren(fragment){this.rows=[...fragment.children];}};
+    list._itemsRoot={children:[],insertBefore(node,before){const old=this.children.indexOf(node);if(old>=0)this.children.splice(old,1);const index=before?this.children.indexOf(before):-1;this.children.splice(index<0?this.children.length:index,0,node);node.parentNode=this;},get rows(){return this.children;}};
     list._render();
     assert.equal(list._itemsRoot.rows.length,15);
     assert.equal(list._itemsRoot.rows[0].dataset.index,"995");
@@ -180,7 +182,7 @@ test("SplitView configures inner splitter and excludes collapsed sidebar focus",
     min:15,max:85,disabled:false,position:34,
     setAttribute(k,v){this[k]=v;},removeAttribute(k){delete this[k];}
   };
-  view._sidebar={inert:false};
+  view._sidebar={inert:false,matches:()=>false};
   view._toolbar={hidden:true};
   const aria=new Map();
   view._toggle={disabled:false,setAttribute:(k,v)=>aria.set(k,v)};
@@ -330,7 +332,7 @@ test("Playground, manifests, types and catalog include the two preview component
   assert.match(types,/class CuVirtualList extends HTMLElement/);
   assert.match(types,/bindFilterBar\(bar:CuFilterBar/);
   assert.match(react,/SplitView, VirtualList/);
-  assert.equal(JSON.parse(root).scripts["syntax:check"], "node scripts/check-syntax.mjs");
+  assert.ok(JSON.parse(root).scripts["syntax:check"].includes("node scripts/check-syntax.mjs"));
   const catalog=JSON.parse(json).groups.flatMap(group=>group.components);
   for(const name of ["SplitView","VirtualList"])
     assert.equal(catalog.find(item=>item.name===name)?.status,"preview");

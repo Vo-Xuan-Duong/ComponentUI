@@ -47,7 +47,10 @@ for(const name of names){
   catch {failures.push(name+": dist is missing; run npm run build:packages");continue;}
   for(const file of files.filter(p=>p.endsWith(".js")||p.endsWith(".d.ts"))){
     const content=await readFile(file,"utf8");
-    const imports=content.matchAll(/(?:\bfrom\s*|\bimport\s*\(|\bimport\s*)(["'])([^"']+)\1/g);
+    // Keep comments out of import scanning: examples in generated bundle
+    // headers are documentation, not runtime workspace dependencies.
+    const executable=content.replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*\/\/.*$/gm,"");
+    const imports=executable.matchAll(/(?:\bfrom\s*|\bimport\s*\(|\bimport\s*)(["'])([^"']+)\1/g);
     for(const match of imports){
       const ref=match[2];
       if(ref.startsWith("@componentui/"))
@@ -86,13 +89,19 @@ if(failures.length){
   const wrapperTypes=await readFile(join(ROOT,"packages/react/dist/components.d.ts"),"utf8");
   const tags=Object.entries(react.REACT_TAGS);
   for(const [name,tag] of tags){
-    if(typeof web["Cu"+name]!=="function")throw new Error("Missing native class: "+name);
+    // Derive the DOM class from the canonical kebab-case tag. Framework
+    // component names may preserve acronyms (PDFViewer) while DOM classes
+    // use word casing (CuPdfViewer).
+    const tagClassName="Cu"+tag.slice(3).split("-").map(part=>
+      part.charAt(0).toUpperCase()+part.slice(1)).join("");
+    const className=["Cu"+name,tagClassName].find(candidate=>typeof web[candidate]==="function");
+    if(!className)throw new Error("Missing native class for "+tag+" (React: "+name+")");
     if(!domTypes.includes('"'+tag+'":'))throw new Error("Missing DOM type: "+tag);
     if(!wrapperTypes.includes("const "+name+":"))throw new Error("Missing React wrapper type: "+name);
     const entry=webManifest.exports["./components/"+tag.slice(3)];
     if(!entry?.default)throw new Error("Missing component export: "+tag);
     const module=await import(pathToFileURL(join(ROOT,"packages/web",entry.default)).href);
-    if(module["Cu"+name]!==web["Cu"+name])throw new Error("Standalone class mismatch: "+tag);
+    if(module[className]!==web[className])throw new Error("Standalone class mismatch: "+tag);
   }
   console.log("Verified "+tags.length+" native component exports and TypeScript mappings.");
   console.log("Independent dist checks and Node ESM import smoke checks passed.");

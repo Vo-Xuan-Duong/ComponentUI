@@ -136,8 +136,9 @@ test("DataFilter sync hides comparison input for blank operators",()=>{
   filter.getAttribute=k=>attrs.get(k)??null;
   filter.hasAttribute=k=>attrs.has(k);
   filter._label={textContent:""};
-  filter._select={value:"",disabled:false,
-    setAttribute(k,v){this[k]=v;}};
+  filter._select={value:"",disabled:false,attrs:new Map(),
+    setAttribute(k,v){this.attrs.set(k,v);this[k]=v;},
+    getAttribute(k){return this.attrs.get(k)??null;}};
   filter._input={value:"",hidden:false,disabled:false,
     setAttribute(k,v){this[k]=v;}};
   filter._clear={hidden:true,disabled:false};

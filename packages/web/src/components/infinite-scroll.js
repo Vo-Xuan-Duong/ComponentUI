@@ -133,7 +133,7 @@ export class CuInfiniteScroll extends BrowserElement {
     this._viewport.setAttribute("aria-label",this.getAttribute("aria-label")||
       this.getAttribute("label")||"Scrollable records");
     this._viewport.setAttribute("aria-busy",String(this.loading));
-    if((!this.hasMore||this.loading)&&this.shadowRoot.activeElement===this._button)this._viewport.focus({preventScroll:true});
+    if((!this.hasMore||this.loading)&&this.shadowRoot?.activeElement===this._button)this._viewport.focus({preventScroll:true});
     this._button.hidden=!this.hasMore||this.loading;
     this._button.disabled=this.loading;
     const error=this.error;

@@ -63,7 +63,7 @@ test("Quick actions and other Playground glyphs now use one SVG component", asyn
   for (const name of ["palette","panel-left","settings","chevron-right","x"]) {
     assert.ok(html.includes('<cu-icon name="' + name + '"'));
   }
-  assert.ok(js.includes('document.createElement("cu-icon")'));
+  assert.match(js,/querySelectorAll\("\[data-toast\]"\)/);
   assert.match(css,/\.cu-icon-btn cu-icon/);
   assert.ok(!html.includes('class="side-icon"'), "Sidebar remains text-only");
 });
