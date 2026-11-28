@@ -1,7 +1,7 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
-import "./icon.js";
-import { deepActiveElement, restoreOverlayFocus } from "./_overlay.js";
+import "./icon-button.js";
+import { deepActiveElement, restoreOverlayFocus, registerOverlay, unregisterOverlay, isTopOverlay, dismissDescendantOverlays } from "./_overlay.js";
 
 const css = [
   ":host{display:contents;font-family:var(--cu-font-body,system-ui);}",
@@ -17,15 +17,12 @@ const css = [
   "header{display:flex;align-items:start;justify-content:space-between;gap:16px;",
   "padding:22px 24px 0;}",
   "h2{margin:0;font-size:20px;line-height:1.4;}",
-  "button{border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:6px;",
-  "background:var(--cu-surface-alt,#fafafa);color:var(--cu-text,#242424);",
-  "padding:4px 9px;font:600 18px system-ui;cursor:pointer;}",
+  ".close{flex:none;}",
   "main{padding:16px 24px 24px;line-height:1.6;font-size:14px;}",
   "footer{display:flex;justify-content:flex-end;gap:8px;padding:14px 24px;",
   "background:var(--cu-surface-alt,#fafafa);border-top:1px solid var(--cu-border,#e5e5e5);}",
   "footer[hidden]{display:none!important;}",
   "footer{flex-wrap:wrap;}",
-  "button:hover{background:var(--cu-state-hover);}",
   "@media(max-width:480px){header,main,footer{padding-inline:16px;}}",
   "@media(forced-colors:active){dialog{border-color:CanvasText;}}",
   "::slotted([slot=actions]){margin-left:auto;}",
@@ -40,7 +37,7 @@ export class CuDialog extends BrowserElement {
     const root = mount(this, css,
       '<dialog part="dialog" aria-labelledby="title">' +
       '<header><h2 id="title" part="title"></h2>' +
-      '<button type="button" part="close" aria-label="Close dialog"><cu-icon name="x" size="18"></cu-icon></button></header>' +
+      '<cu-icon-button class="close" name="x" size="sm" part="close" aria-label="Close dialog"></cu-icon-button></header>' +
       '<main part="content"><slot></slot></main><footer part="footer" hidden><slot name="actions"></slot></footer></dialog>');
     this._dialog = root.querySelector("dialog");
     this._title = root.querySelector("h2");
@@ -48,20 +45,24 @@ export class CuDialog extends BrowserElement {
     this._actions=root.querySelector('slot[name="actions"]');
     this._actions.addEventListener("slotchange",()=>this._syncFooter());
     this._trigger=null;
-    root.querySelector("button").addEventListener("click", () => this.close());
+    root.querySelector(".close").addEventListener("cu-press",event=>{event.stopPropagation();this.close();});
     this._dialog.addEventListener("close", () => {
       if(this._dialog.open)return; // Ignore a queued close after a rapid reopen.
+      dismissDescendantOverlays(this);const wasTop=isTopOverlay(this);unregisterOverlay(this);
       this.removeAttribute("open");
       const trigger=this._trigger;this._trigger=null;
-      restoreOverlayFocus(trigger);
+      if(!this.isConnected)return;
+      if(wasTop)restoreOverlayFocus(trigger);
       notify(this, "cu-close", {returnValue:this.returnValue});
     });
     this._dialog.addEventListener("cancel", event => {
+      if(!isTopOverlay(this)){event.preventDefault();return;}
       notify(this, "cu-cancel", {originalEvent:event});
     });
   }
 
   connectedCallback() { this._sync(); }
+  disconnectedCallback(){dismissDescendantOverlays(this);unregisterOverlay(this);this._trigger=null;if(this._dialog.open)this._dialog.close();this.removeAttribute("open");}
   attributeChangedCallback(name) {
     if (name === "title") this._syncTitle();
     if (name === "open" && this.isConnected) {
@@ -73,15 +74,15 @@ export class CuDialog extends BrowserElement {
   get returnValue() { return this._dialog.returnValue; }
   showModal() {
     this._syncTitle();
-    if (this._dialog.open) return;
-    this._trigger=deepActiveElement(this.ownerDocument);
+    if (this._dialog.open || !this.isConnected) return;
+    this._trigger??=deepActiveElement(this.ownerDocument);
     this._dialog.returnValue="";
-    this._dialog.showModal();
+    this._dialog.showModal();registerOverlay(this);
     this.setAttribute("open", "");
     notify(this, "cu-open", {});
   }
   close(returnValue = "") {
-    if (this._dialog.open) this._dialog.close(returnValue);
+    if (this._dialog.open){dismissDescendantOverlays(this);this._dialog.close(returnValue);}
   }
   _syncTitle() { if (this._title) this._title.textContent = this.getAttribute("title") || "Dialog"; }
   _syncFooter(){if(this._footer)this._footer.hidden=!this._actions.assignedElements({flatten:true}).length;}
