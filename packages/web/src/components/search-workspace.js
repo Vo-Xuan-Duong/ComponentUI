@@ -13,7 +13,7 @@ export function normalizeSearchRecords(items){
 }
 export function filterSearchRecords(items,query="",category=""){
   const terms=fold(query).trim().split(/\s+/).filter(Boolean);
-  return items.filter(x=>(!category||x.category===category)&&terms.every(t=>fold([x.title,x.description,x.category,...x.keywords].join(" ")).includes(t)));
+  return normalizeSearchRecords(items).filter(x=>(!category||x.category===category)&&terms.every(t=>fold([x.title,x.description,x.category,...x.keywords].join(" ")).includes(t)));
 }
 const css=":host{display:block;min-width:0;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}.panel{display:grid;gap:8px;}.tools{display:flex;gap:8px;align-items:end;flex-wrap:wrap;}.tools cu-search-box{flex:1 1 200px;}cu-split-view{height:var(--cu-search-workspace-height,360px);}.side{padding:8px;min-width:0;display:grid;gap:8px;align-content:start;}cu-virtual-list{height:300px;}.description{white-space:pre-wrap;overflow-wrap:anywhere;}.status{font-size:12px;color:var(--cu-text-muted,#616161);}";
 export class CuSearchWorkspace extends BrowserElement{
