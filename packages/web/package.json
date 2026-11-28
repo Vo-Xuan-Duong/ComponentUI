@@ -788,6 +788,22 @@
     "./components/automation-designer": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/automation-designer.js"
+    },
+    "./components/workspace-settings": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/workspace-settings.js"
+    },
+    "./components/developer-tools": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/developer-tools.js"
+    },
+    "./components/form-builder": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/form-builder.js"
+    },
+    "./components/data-source-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/data-source-editor.js"
     }
   },
   "files": [
