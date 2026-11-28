@@ -178,3 +178,8 @@ export declare const PDFViewer: ReactCuComponent;
 export declare const ResourceCalendar: ReactCuComponent;
 export declare const TimelineEditor: ReactCuComponent;
 export declare const PropertyInspector: ReactCuComponent;
+
+export declare const CommandConsole: ReactCuComponent;
+export declare const KeyboardShortcutEditor: ReactCuComponent;
+export declare const ColorPalette: ReactCuComponent;
+export declare const FontPicker: ReactCuComponent;
