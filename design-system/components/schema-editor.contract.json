@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "SchemaEditor",
+  "tag": "cu-schema-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "value": "CuObjectSchema"
+  },
+  "events": [
+    "cu-change",
+    "cu-select"
+  ],
+  "composition": [
+    "PropertyInspector",
+    "JsonViewer",
+    "SplitView",
+    "TextField",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
