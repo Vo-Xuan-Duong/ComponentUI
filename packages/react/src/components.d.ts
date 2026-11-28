@@ -165,3 +165,6 @@ export declare const FormulaInput: ReactCuComponent;
 
 export declare const PivotTable: ReactCuComponent;
 export declare const Spreadsheet: ReactCuComponent;
+
+export declare const Scheduler: ReactCuComponent;
+export declare const GanttChart: ReactCuComponent;
