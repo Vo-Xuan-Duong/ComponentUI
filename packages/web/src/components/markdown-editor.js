@@ -18,7 +18,7 @@ export function parseMarkdownBlocks(value){
   }
   if(fence)result.push({kind:"code",text:fence.lines.join("\n"),language:fence.language});flush();return result;
 }
-const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}.panel{display:grid;gap:var(--cu-space-2,8px);}cu-split-view{height:var(--cu-markdown-height,440px);}cu-textarea::part(control){font-family:var(--cu-font-mono,monospace);}cu-scroll-area{--cu-scroll-max-height:400px;}.preview{padding:var(--cu-space-3,12px);overflow-wrap:anywhere;line-height:1.65;}.preview blockquote{margin:8px 0;border-inline-start:3px solid var(--cu-border-strong,#d1d1d1);padding-inline-start:12px;color:var(--cu-text-muted,#616161);}.status{font-size:12px;color:var(--cu-text-muted,#616161);}";
+const css=":host([hidden]){display:none!important;}:host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}.panel{display:grid;gap:var(--cu-space-2,8px);}cu-split-view{height:var(--cu-markdown-height,440px);}cu-textarea::part(control){font-family:var(--cu-font-mono,monospace);}cu-scroll-area{--cu-scroll-max-height:400px;}.preview{padding:var(--cu-space-3,12px);overflow-wrap:anywhere;line-height:1.65;}.preview blockquote{margin:8px 0;border-inline-start:3px solid var(--cu-border-strong,#d1d1d1);padding-inline-start:12px;color:var(--cu-text-muted,#616161);}.status{font-size:12px;color:var(--cu-text-muted,#616161);}";
 export class CuMarkdownEditor extends BrowserElement{
   static get observedAttributes(){return ["value","readonly","disabled"];}
   constructor(){
@@ -38,6 +38,7 @@ export class CuMarkdownEditor extends BrowserElement{
   focus(options){this._editor.focus(options);}
   _sync(){if(!this._editor)return;if(this._editor.value!==this.value)this._editor.value=this.value;this._editor.disabled=this.disabled;this._editor.toggleAttribute("readonly",this.hasAttribute("readonly"));this._renderPreview();}
   _renderPreview(){
+    if(this._renderedValue===this.value)return;
     const doc=this.ownerDocument,frag=doc.createDocumentFragment();let list=null,listKind=null;
     for(const block of parseMarkdownBlocks(this.value)){
       if(block.kind==="list"||block.kind==="ordered"){
@@ -48,7 +49,7 @@ export class CuMarkdownEditor extends BrowserElement{
       if(block.kind==="code"){const code=doc.createElement("cu-code-block");code.setAttribute("language",block.language);code.setAttribute("copyable","");code.value=block.text;frag.append(code);continue;}
       const node=doc.createElement(block.kind==="heading"?"h"+block.level:block.kind==="quote"?"blockquote":"p");node.textContent=block.text;frag.append(node);
     }
-    this._preview.replaceChildren(frag);this._status.textContent=this.value.length+" characters · basic Markdown preview";
+    this._preview.replaceChildren(frag);this._renderedValue=this.value;this._status.textContent=this.value.length+" characters · basic Markdown preview";
   }
 }
 define("cu-markdown-editor",CuMarkdownEditor);
