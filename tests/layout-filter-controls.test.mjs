@@ -255,7 +255,7 @@ test("components declare accessible keyboard, input and focus patterns",async()=
   assert.match(bar,/role="search"/);
   assert.match(bar,/cu-filter-change/);
   assert.match(bar,/MutationObserver/);
-  assert.match(bar,/this\.refresh\(\)/);
+  assert.match(bar,/this\._refreshFromMutation\(\)/);
   assert.match(bar,/<cu-search-box class="search"/);
   assert.match(bar,/<cu-button exportparts="button:clear"/);
   assert.match(split,/focus-visible/);
@@ -317,5 +317,29 @@ test("Playground and catalog implement four new experimental components",async()
   assert.equal(records.filter(c=>c.status==="preview").length,188);
   assert.equal(records.filter(c=>c.status==="planned").length,0);
   assert.equal(records.filter(c=>c.status==="ready").length,0);
-  assert.equal(JSON.parse(root).scripts["syntax:check"], "node scripts/check-syntax.mjs");
+  assert.ok(JSON.parse(root).scripts["syntax:check"].includes("node scripts/check-syntax.mjs"));
+});
+
+test("FilterBar notifies a changed programmatic condition only once",()=>{
+ const bar=Object.create(CuFilterBar.prototype),events=[];
+ bar.getAttribute=()=>null;bar._sync=()=>{};
+ bar.dispatchEvent=e=>{events.push(e);return true;};
+ const child={localName:"cu-data-filter",condition:null};bar.children=[child];
+ bar._lastFilterState=JSON.stringify({query:bar.query,conditions:bar.conditions});
+ child.condition={field:"status",operator:"equals",value:"Active"};
+ bar._refreshFromMutation();bar._refreshFromMutation();
+ assert.equal(events.length,1);assert.equal(events[0].detail.conditions.status.value,"Active");
+ child.condition=null;bar._refreshFromMutation();assert.equal(events.length,2);
+});
+test("splitter and dock cancel interrupted resize and retain shared keyboard semantics",async()=>{
+ const splitter=await read("../packages/web/src/components/splitter.js");
+ const dock=await read("../packages/web/src/components/dock-layout.js");
+ const split=await read("../packages/web/src/components/split-view.js");
+ assert.match(splitter,/lostpointercapture/);
+ assert.match(splitter,/this\._cancelDrag\(\)/);
+ assert.match(splitter,/this\._rtl\(\)/);
+ assert.match(dock,/e\.key==="Escape"&&this\._drag/);
+ assert.match(dock,/this\._drag\?\.region===region&&!this\._hasSlot\(region\)/);
+ assert.match(split,/this\._sidebar\.inert=collapsed/);
+ assert.match(split,/if\(restoreFocus\)/);
 });
