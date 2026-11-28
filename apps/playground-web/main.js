@@ -220,6 +220,10 @@ sheetDemo.cells=[["Item","Quantity","Unit cost","Total"],["Design",3,120,"=B2*C2
 const sheetResult=document.getElementById("wc-sheet-result");
 function updateSheetDemo(){sheetResult.textContent="Calculated total: "+sheetDemo.getComputedCell("D5");}
 sheetDemo.addEventListener("cu-cell-change",updateSheetDemo);updateSheetDemo();
+const schedulerDemo=document.getElementById("wc-scheduler");
+schedulerDemo.events=[{id:"meeting",title:"Team planning",date:"2026-11-28",start:"09:00",end:"09:45",description:"Review this week's priorities"},{id:"design",title:"Design review",date:"2026-11-28",start:"11:00",end:"12:00"},{id:"focus",title:"Focus time",date:"2026-11-28",start:"14:00",end:"16:00"},{id:"followup",title:"Project follow-up",date:"2026-11-29",start:"10:00",end:"10:30"}];
+const ganttDemo=document.getElementById("wc-gantt-chart");
+ganttDemo.tasks=[{id:"plan",title:"Planning",start:"2026-11-23",end:"2026-11-25",progress:100},{id:"design",title:"Design",start:"2026-11-25",end:"2026-11-30",progress:75,dependencies:["plan"]},{id:"build",title:"Implementation",start:"2026-11-29",end:"2026-12-07",progress:35,dependencies:["design"]},{id:"qa",title:"Quality review",start:"2026-12-05",end:"2026-12-10",progress:0,dependencies:["build"]},{id:"release",title:"Release",start:"2026-12-11",end:"2026-12-12",progress:0,dependencies:["qa"]}];
 const wcLogViewer=document.getElementById("wc-log-viewer");
 wcLogViewer.items=Array.from({length:1000},(_,i)=>({id:"log-"+i,timestamp:"Event "+String(i+1).padStart(4,"0"),level:["info","debug","warn","error"][i%4],source:["Application","Storage","Network"][i%3],message:["Workspace initialized","Cache refreshed","Connection delayed","Operation failed; retry available"][i%4]}));
 wcLogViewer.addEventListener("cu-select",event=>{document.getElementById("wc-log-result").textContent="Selected: "+event.detail.item.id;});
