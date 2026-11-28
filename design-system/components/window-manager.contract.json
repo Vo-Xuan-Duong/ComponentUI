@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "WindowManager",
+  "tag": "cu-window-manager",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "active": "string"
+  },
+  "properties": {
+    "windows": "CuManagedWindow[] (readonly)",
+    "layout": "CuDockLayout layout"
+  },
+  "events": [
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "WindowPane",
+    "DockLayout",
+    "Button",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
