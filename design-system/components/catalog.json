@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "156 catalogued experimental browser Custom Elements; 156 catalog preview entries, 0 planned, 0 production-ready.",
+  "summary": "160 catalogued experimental browser Custom Elements; 160 catalog preview entries, 0 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -414,6 +414,33 @@
         },
         {
           "name": "FormulaInput",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "KeyboardShortcutEditor",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ColorPalette",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FontPicker",
           "priority": "P1",
           "status": "preview",
           "renderers": [
@@ -1231,6 +1258,15 @@
         },
         {
           "name": "WindowManager",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "CommandConsole",
           "priority": "P1",
           "status": "preview",
           "renderers": [
