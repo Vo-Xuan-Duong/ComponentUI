@@ -1,6 +1,6 @@
 import { BrowserElement, mount, notify, define } from "./_shared.js";
-import "./icon.js";
-import { deepActiveElement, restoreOverlayFocus } from "./_overlay.js";
+import "./icon-button.js";
+import { deepActiveElement, restoreOverlayFocus, registerOverlay, unregisterOverlay, isTopOverlay, dismissDescendantOverlays } from "./_overlay.js";
 
 const css=[
   ":host{display:contents;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}",
@@ -17,12 +17,8 @@ const css=[
   "header{display:flex;align-items:center;justify-content:space-between;gap:12px;",
   "padding:16px 20px;border-bottom:1px solid var(--cu-border,#e5e5e5);}",
   "h2{font:650 17px/1.4 var(--cu-font-body,system-ui);margin:0;min-width:0;}",
-  ".close{display:grid;place-items:center;flex:none;min-width:32px;min-height:32px;",
-  "border:0;border-radius:var(--cu-radius-md,6px);background:transparent;",
-  "color:inherit;cursor:pointer;}",
+  ".close{flex:none;}",
   ".close[hidden]{display:none!important;}",
-  ".close:hover{background:color-mix(in srgb,var(--cu-text,#242424) 9%,transparent);}",
-  ".close:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "main{flex:1;overflow-y:auto;padding:18px 20px;min-height:0;}",
   "footer{padding:14px 20px;border-top:1px solid var(--cu-border,#e5e5e5);}",
   "footer[hidden]{display:none!important;}",
@@ -41,8 +37,7 @@ export class CuDrawer extends BrowserElement {
     const root=mount(this,css,
       '<dialog part="dialog" aria-modal="true" aria-labelledby="cu-drawer-title">' +
       '<div class="layout"><header part="header"><h2 id="cu-drawer-title" part="title"></h2>' +
-      '<button class="close" type="button" part="close" aria-label="Close drawer">' +
-      '<cu-icon name="x" size="18" aria-hidden="true"></cu-icon></button></header>' +
+      '<cu-icon-button class="close" name="x" size="sm" part="close" aria-label="Close drawer"></cu-icon-button></header>' +
       '<main part="content"><slot></slot></main>' +
       '<footer part="footer" hidden><slot name="actions"></slot></footer></div></dialog>');
     this._dialog=root.querySelector("dialog");
@@ -54,15 +49,16 @@ export class CuDrawer extends BrowserElement {
     this._trigger=null;
     this._dialog.addEventListener("close",()=>{
       if(this._dialog.open)return;
+      dismissDescendantOverlays(this);const wasTop=isTopOverlay(this);unregisterOverlay(this);
       if(this.hasAttribute("open"))this.removeAttribute("open");
       const trigger=this._trigger;this._trigger=null;
-      restoreOverlayFocus(trigger);
+      if(!this.isConnected)return;if(wasTop)restoreOverlayFocus(trigger);
       notify(this,"cu-close",{returnValue:this._dialog.returnValue});
     });
     this._dialog.addEventListener("cancel",event=>{
-      if(this.hasAttribute("dismissible")===false)event.preventDefault();
+      if(!this.dismissible||!isTopOverlay(this))event.preventDefault();
     });
-    this._close.addEventListener("click",()=>this.close());
+    this._close.addEventListener("cu-press",event=>{event.stopPropagation();this.close();});
     this._dialog.addEventListener("click",event=>{
       if(event.target!==this._dialog||!this.hasAttribute("dismissible"))return;
       const r=this._dialog.getBoundingClientRect();
@@ -71,6 +67,7 @@ export class CuDrawer extends BrowserElement {
     });
   }
   connectedCallback(){this._sync();}
+  disconnectedCallback(){dismissDescendantOverlays(this);unregisterOverlay(this);this._trigger=null;if(this._dialog.open)this._dialog.close();this.removeAttribute("open");}
   attributeChangedCallback(){this._sync();}
   get open(){return this.hasAttribute("open");}
   set open(v){this.toggleAttribute("open",Boolean(v));}
@@ -78,7 +75,7 @@ export class CuDrawer extends BrowserElement {
   set dismissible(v){this.toggleAttribute("dismissible",Boolean(v));}
   show(){this.open=true;}
   close(returnValue=""){
-    if(this._dialog.open)this._dialog.close(returnValue);
+    if(this._dialog.open){dismissDescendantOverlays(this);this._dialog.close(returnValue);}
     else this.open=false;
   }
   _syncFooter(){
@@ -91,12 +88,12 @@ export class CuDrawer extends BrowserElement {
     this._close.hidden=!this.dismissible;
     if(!this.isConnected)return;
     if(this.open&&!this._dialog.open){
-      this._trigger=deepActiveElement(this.ownerDocument);
+      this._trigger??=deepActiveElement(this.ownerDocument);
       this._dialog.returnValue="";
-      this._dialog.showModal();
+      this._dialog.showModal();registerOverlay(this);
       notify(this,"cu-open",{});
     }else if(!this.open&&this._dialog.open){
-      this._dialog.close();
+      dismissDescendantOverlays(this);this._dialog.close();
     }
   }
 }
