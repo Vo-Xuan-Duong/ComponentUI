@@ -58,9 +58,9 @@ test("DataTable filter panel uses shared inputs and top layer without changing v
 });
 test("DataGrid shared editors preserve explicit commit and nested keyboard handling",async()=>{
  const grid=await read("../packages/web/src/components/data-grid.js");
- for(const tag of ["text-field","number-field","select"])assert.ok(grid.includes('"cu-'+tag+'"'));
+ for(const tag of ["text-field","number-field","select","checkbox","color-picker"])assert.ok(grid.includes('"cu-'+tag+'"'));
  assert.match(grid,/event\.isComposing\|\|event\.defaultPrevented/);
- assert.match(grid,/control\.addEventListener\("cu-change",event=>\{event\.stopPropagation\(\);if\(column\.type==="select"\)commit\(\)/);
+ assert.match(grid,/control\.addEventListener\("cu-change",event=>\{event\.stopPropagation\(\);if\(\["select","boolean","color"\]\.includes\(column\.type\)\)commit\(\)/);
  assert.match(grid,/!cell\.matches\(":focus-within"\)/);
  assert.match(grid,/control\.setAttribute\("error",parsed\.message\)/);
 });
@@ -69,4 +69,29 @@ test("filter controls reflect initial controlled select state",async()=>{
  const query=await read("../packages/web/src/components/query-builder.js");
  assert.match(filter,/this\._select\.setAttribute\("value",this\.operator\)/);
  assert.match(query,/this\._mode\.setAttribute\("value",this\._logic\)/);
+});
+
+test("grid editor composition and spreadsheet draft evaluation",async()=>{
+ const grid=await read("../packages/web/src/components/data-grid.js");
+ assert.match(grid,/tag=this\._editorTag\(column,row\)/);
+ assert.match(grid,/control\.setAttribute\("compact",""\)/);
+ assert.ok(!grid.includes('?"select":"input"'));
+ const sheet=await read("../packages/web/src/components/spreadsheet.js");
+ assert.match(sheet,/\?"cu-formula-input":super\._editorTag/);
+ assert.match(sheet,/control\.draftEvaluator=value=>/);
+ const {CuSpreadsheet}=await import("../packages/web/src/components/spreadsheet.js");
+ const instance=Object.create(CuSpreadsheet.prototype);
+ Object.defineProperty(instance,"cells",{get:()=>[["2","=A1*3"]]});
+ const control={setAttribute(){},value:""};
+ instance._configureEditor(control,{key:"B"},{id:"1",B:"=A1*3"});
+ assert.deepEqual(control.draftEvaluator("=A1*4"),{valid:true,result:8,error:""});
+ assert.deepEqual(control.draftEvaluator("=B1"),{valid:false,result:null,error:"#CYCLE!"});
+ assert.equal(control.draftEvaluator("plain").valid,true);
+ assert.deepEqual(instance.cells,[["2","=A1*3"]]);
+});
+test("pivot preserves schema identity and tree gestures are contained",async()=>{
+ const pivot=await read("../packages/web/src/components/pivot-table.js");
+ assert.match(pivot,/this\._columnSignature!==signature/);
+ const tree=await read("../packages/web/src/components/tree-table.js");
+ assert.match(tree,/if\(e\.defaultPrevented\)return;e\.preventDefault\(\);e\.stopPropagation\(\);open/);
 });
