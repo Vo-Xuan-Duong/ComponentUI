@@ -64,3 +64,16 @@ test("MultiSelect and Toast are exported with contracts and live Playground inte
   assert.ok(source.includes('toastContainer.show('));
   assert.ok(source.includes('getAll("framework")'));
 });
+
+test("toast pause invalidates the scheduled timeout token",()=>{
+ const toast=Object.create(CuToast.prototype);
+ const entry={paused:new Set(),timer:null,timerToken:{},remaining:5000,started:0};
+ toast._pause(entry,"document");assert.equal(entry.timerToken,null);assert.equal(entry.paused.has("document"),true);assert.equal(entry.remaining,5000);
+});
+test("toast visibility listener and stale callback guards are lifecycle scoped",async()=>{
+ const source=await read("../packages/web/src/components/toast.js");
+ assert.match(source,/addEventListener\("visibilitychange",this\._visibility\)/);
+ assert.match(source,/removeEventListener\("visibilitychange",this\._visibility\)/);
+ assert.match(source,/entry\.timerToken!==token/);
+ assert.match(source,/this\._entries\.includes\(entry\)/);
+});
