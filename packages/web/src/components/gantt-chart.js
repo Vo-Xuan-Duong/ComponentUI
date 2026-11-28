@@ -1,4 +1,5 @@
 import {CuDataTable} from "./data-table.js";
+import {define} from "./_shared.js";
 import {moveCalendarDate} from "./calendar.js";
 import {validScheduleDate,scheduleToday,scheduleDayDistance} from "./_schedule.js";
 import "./progress-bar.js";
@@ -44,7 +45,9 @@ export class CuGanttChart extends CuDataTable{
   _syncRange(){
     if(!this._tasks)return;
     this._range=ganttRange(this._tasks,this.rangeStart,this.rangeEnd);
-    const r=this._range;
+    const r=this._range,signature=r.start+"|"+r.end+"|"+r.truncated;
+    if(this._rangeSignature===signature)return;
+    this._rangeSignature=signature;
     this.columns=[{key:"title",label:"Task"},{key:"start",label:"Start"},{key:"end",label:"End"},{key:"progress",label:"Progress (%)"},{key:"dependencyText",label:"Depends on"},{key:"timeline",label:r.start+" – "+r.end+(r.truncated?" (first 366 days)":""),sortable:false,filterable:false}];
   }
   _renderDataCell(row,column,id){
