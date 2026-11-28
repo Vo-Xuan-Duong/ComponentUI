@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "164 catalogued experimental browser Custom Elements; 164 catalog preview entries, 0 planned, 0 production-ready.",
+  "summary": "168 catalogued experimental browser Custom Elements; 168 catalog preview entries, 0 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -1515,6 +1515,42 @@
         },
         {
           "name": "FileManager",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ThemeEditor",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ComponentDesigner",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "WorkflowEditor",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "NodeEditor",
           "priority": "P1",
           "status": "preview",
           "renderers": [
