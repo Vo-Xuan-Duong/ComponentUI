@@ -4,14 +4,16 @@ import {define,notify} from "./_shared.js";
 import "./text-field.js";
 import "./number-field.js";
 import "./select.js";
+import "./checkbox.js";
+import "./color-picker.js";
+const cellEditorTags=Object.freeze({text:"cu-text-field",number:"cu-number-field",select:"cu-select",boolean:"cu-checkbox",color:"cu-color-picker"});
 
 export function coerceGridValue(column,value,previous=""){
   return coercePropertyValue({...column,type:column.type||"text",options:Array.isArray(column.options)?column.options.filter(x=>x&&typeof x.value==="string"):[],value:previous},value);
 }
 const css=[
   "td[data-editable=true]{cursor:cell;}td[data-editable=true]:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:-2px;}",
-  "td[data-editing=true]{padding:4px 7px;min-width:110px;}td[data-editing=true] cu-text-field,td[data-editing=true] cu-number-field,td[data-editing=true] cu-select{min-width:75px;--cu-control-height:32px;}td[data-editing=true] input:not([type=checkbox]){box-sizing:border-box;width:100%;min-width:75px;min-height:32px;padding:4px 7px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);color:var(--cu-text,#242424);font:inherit;}",
-  "td[data-editing=true] input[type=checkbox]{accent-color:var(--cu-accent,#0067c0);}td[data-editing=true] [aria-invalid=true]{border-color:var(--cu-danger,#c42b1c);}.grid-error{display:block;color:var(--cu-danger,#c42b1c);font-size:11px;white-space:normal;}.grid-error:empty{display:none;}"
+  "td[data-editing=true]{padding:4px 7px;min-width:110px;}td[data-editing=true]>[data-cell-editor]{min-width:75px;--cu-control-height:32px;}td[data-editing=true]>cu-checkbox{min-width:0;}td[data-editing=true]>cu-color-picker{min-width:125px;}.grid-editor-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}.grid-error{display:block;color:var(--cu-danger,#c42b1c);font-size:11px;white-space:normal;}.grid-error:empty{display:none;}"
 ].join("");
 export class CuDataGrid extends CuDataTable{
   static get observedAttributes(){return [...super.observedAttributes,"readonly"];}
@@ -56,27 +58,32 @@ export class CuDataGrid extends CuDataTable{
     return cell;
   }
   _cell(id,key){return [...this.shadowRoot.querySelectorAll("td[data-row-id]")].find(el=>el.dataset.rowId===String(id)&&el.dataset.columnKey===key);}
+  _editorTag(column,row){return Object.hasOwn(cellEditorTags,column.type)?cellEditorTags[column.type]:"cu-text-field";}
+  _configureEditor(control,column,row){}
   editCell(id,key){
     const row=this._rows.find(r=>r?.id!=null&&String(r.id)===String(id)),column=this._columns.find(c=>c.key===key),cell=this._cell(id,key);
     if(!cell||!this._canEdit(column,row))return false;
     if(cell.dataset.editing==="true")return true;
     const existing=this.shadowRoot.querySelector('td[data-editing="true"]');
     if(existing){existing._gridCancel?.(false);}
-    const doc=this.ownerDocument,shared=!["boolean","color"].includes(column.type),tag=column.type==="select"?"cu-select":column.type==="number"?"cu-number-field":shared?"cu-text-field":"input",control=doc.createElement(tag),error=doc.createElement("span");
+    const doc=this.ownerDocument,tag=this._editorTag(column,row),control=doc.createElement(tag),error=doc.createElement("span");
     if(column.type==="select"){
       for(const option of Array.isArray(column.options)?column.options:[]){if(typeof option?.value!=="string")continue;const o=doc.createElement("option");o.value=option.value;o.textContent=String(option.label??option.value);o.disabled=Boolean(option.disabled);control.append(o);}
       control.setAttribute("value",String(row[key]??""));
     }else{
-      if(!shared)control.type=column.type==="boolean"?"checkbox":"color";
       if(column.type==="boolean")control.checked=row[key]===true;else control.value=String(row[key]??"");
       if(column.type==="number"){control.setAttribute("step",Number.isFinite(column.step)&&column.step>0?String(column.step):"any");if(Number.isFinite(column.min))control.setAttribute("min",String(column.min));if(Number.isFinite(column.max))control.setAttribute("max",String(column.max));}
     }
+    control.dataset.cellEditor="true";
+    if(column.type==="boolean"){const label=doc.createElement("span");label.className="grid-editor-label";label.textContent="Edit "+String(column.label??key);control.append(label);}
+    if(column.type==="color"){control.setAttribute("compact","");control.setAttribute("required","");}
+    this._configureEditor(control,column,row);
     control.setAttribute("aria-label","Edit "+String(column.label??key));error.className="grid-error";error.setAttribute("role","status");
     const cancel=(restore=true)=>{cell.dataset.editing="false";cell.textContent=String(this._cellDisplayValue(row,column)??"");delete cell._gridCancel;if(restore)cell.focus({preventScroll:true});};
     const commit=(restore=true,target=null)=>{
       if(cell.dataset.editing!=="true"||!cell.isConnected)return false;
       const parsed=coerceGridValue(column,column.type==="boolean"?control.checked:control.value,row[key]);
-      if(!parsed.valid){if(shared)control.setAttribute("error",parsed.message);else{control.setAttribute("aria-invalid","true");error.textContent=parsed.message;}return false;}
+      if(!parsed.valid){if(column.type!=="boolean")control.setAttribute("error",parsed.message);else error.textContent=parsed.message;return false;}
       cell.dataset.editing="false";delete cell._gridCancel;
       if(!this._applyCellValue(id,key,parsed.value,target??(restore?{id,key}:null))){cancel(restore);return false;}
       return true;
@@ -90,18 +97,13 @@ export class CuDataGrid extends CuDataTable{
       else if(event.key==="ContextMenu"||(event.shiftKey&&event.key==="F10"))event.stopPropagation();
     });
     const clearError=()=>{control.removeAttribute("error");control.removeAttribute("aria-invalid");error.textContent="";};
-    if(shared){
-      control.addEventListener("cu-input",event=>{event.stopPropagation();clearError();});
-      control.addEventListener("cu-change",event=>{event.stopPropagation();if(column.type==="select")commit();});
-    }else{
-      control.addEventListener("input",clearError);
-      control.addEventListener("change",()=>commit());
-    }
+    control.addEventListener("cu-input",event=>{event.stopPropagation();clearError();});
+    control.addEventListener("cu-change",event=>{event.stopPropagation();if(["select","boolean","color"].includes(column.type))commit();});
     // Text/number edits commit explicitly with Enter or internal Tab. Leaving
     // the editor otherwise cancels, avoiding a render that steals click focus.
     control.addEventListener("focusout",()=>queueMicrotask(()=>{if(cell.isConnected&&cell.dataset.editing==="true"&&!cell.matches(":focus-within"))cancel(false);}));
     control.addEventListener("contextmenu",event=>event.stopPropagation());
-    control.focus({preventScroll:true});if(tag==="cu-text-field")control.shadowRoot?.querySelector("input")?.select();return true;
+    control.focus({preventScroll:true});if(tag==="cu-text-field"||tag==="cu-formula-input")control.shadowRoot?.querySelector("input")?.select();return true;
   }
   setCellValue(id,key,value){return this._applyCellValue(id,key,value);}
   _applyCellValue(id,key,value,focusTarget=null){
