@@ -740,6 +740,22 @@
     "./components/node-editor": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/node-editor.js"
+    },
+    "./components/shortcut-settings": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/shortcut-settings.js"
+    },
+    "./components/document-workspace": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/document-workspace.js"
+    },
+    "./components/data-inspector": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/data-inspector.js"
+    },
+    "./components/api-explorer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/api-explorer.js"
     }
   },
   "files": [
