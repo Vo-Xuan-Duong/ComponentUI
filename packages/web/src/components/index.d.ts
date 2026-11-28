@@ -1024,6 +1024,10 @@ declare global {
     "cu-resource-calendar": CuResourceCalendar;
     "cu-timeline-editor": CuTimelineEditor;
     "cu-property-inspector": CuPropertyInspector;
+    "cu-command-console": CuCommandConsole;
+    "cu-keyboard-shortcut-editor": CuKeyboardShortcutEditor;
+    "cu-color-palette": CuColorPalette;
+    "cu-font-picker": CuFontPicker;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1173,3 +1177,16 @@ export interface CuInspectorObject {id:string;label?:string;properties:CuPropert
 export declare function normalizeInspectorObjects(objects:unknown):CuInspectorObject[];
 export declare function resolveInspectorObject(objects:CuInspectorObject[],selected?:string):string;
 export declare class CuPropertyInspector extends HTMLElement {objects:CuInspectorObject[];selected:string;readonly:boolean;selectObject(id:string):boolean;}
+
+export declare class CuCommandConsole extends CuTerminal {commands:{value:string;label?:string;description?:string;group?:string;icon?:string;shortcut?:string;keywords?:string[];disabled?:boolean}[];showCommands():boolean;}
+export interface CuShortcutItem {id:string;label?:string;shortcut?:string;disabled?:boolean;}
+export declare function normalizeShortcut(value:unknown):string|null;
+export declare function shortcutFromEvent(event:KeyboardEvent):string|null;
+export declare function normalizeShortcutItems(items:unknown):Required<CuShortcutItem>[];
+export declare class CuKeyboardShortcutEditor extends HTMLElement {items:CuShortcutItem[];disabled:boolean;edit(id:string):boolean;setShortcut(id:string,value:string):boolean;}
+export interface CuPaletteColor {value:string;label?:string;}
+export declare function normalizePaletteColors(colors:unknown):Required<CuPaletteColor>[];
+export declare class CuColorPalette extends HTMLElement {colors:(string|CuPaletteColor)[];value:string;disabled:boolean;}
+export declare const DEFAULT_FONT_FAMILIES:readonly string[];
+export declare function normalizeFontFamilies(fonts:unknown):string[];
+export declare class CuFontPicker extends HTMLElement {fonts:string[];value:string;disabled:boolean;}
