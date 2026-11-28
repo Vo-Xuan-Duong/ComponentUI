@@ -1,5 +1,5 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
-import {placeAnchoredOverlay,watchOverlayViewport,registerOverlay,unregisterOverlay,isTopOverlay} from "./_overlay.js";
+import {placeAnchoredOverlay,closeOverlayTopLayer,watchOverlayViewport,registerOverlay,unregisterOverlay,isTopOverlay} from "./_overlay.js";
 import "./icon.js";
 
 export function normalizeMultiOptions(items){
@@ -96,8 +96,8 @@ export class CuMultiSelect extends BrowserElement{
   checkValidity(){return this._internals?.checkValidity()??this._valid;}
   reportValidity(){this._reveal=true;this._syncForm();return this._internals?.reportValidity()??this._valid;}
   show(){if(this._locked()||this._open)return;this._open=true;registerOverlay(this);this.toggleAttribute("open",true);this._popup.hidden=false;this._input.setAttribute("aria-expanded","true");this._active=-1;this._renderOptions();}
-  hide(){if(!this._open)return;this._open=false;unregisterOverlay(this);this.toggleAttribute("open",false);this._popup.hidden=true;this._input.setAttribute("aria-expanded","false");this._input.removeAttribute("aria-activedescendant");this._input.value="";this._active=-1;}
-  _place(){if(this._open)placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:250,gap:5});}
+  hide(){if(!this._open)return;this._open=false;unregisterOverlay(this);this.toggleAttribute("open",false);closeOverlayTopLayer(this._popup);this._popup.hidden=true;this._input.setAttribute("aria-expanded","false");this._input.removeAttribute("aria-activedescendant");this._input.value="";this._active=-1;}
+  _place(){if(this._open)placeAnchoredOverlay(this._anchor,this._popup,{matchWidth:true,maxHeight:250,gap:5,topLayer:true});}
   _toggleValue(value){
     if(this._locked())return;
     const item=this._items.find(x=>x.value===value&&!x.disabled);if(!item)return;
