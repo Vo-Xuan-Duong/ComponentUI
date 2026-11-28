@@ -9,7 +9,7 @@ export function resetShortcutItems(items,defaults){
   for(const x of proposed){if(x.shortcut&&used.has(x.shortcut))return null;if(x.shortcut)used.add(x.shortcut);}
   return proposed;
 }
-const css=":host{display:block;min-width:0;}.status{font:12px var(--cu-font-body,system-ui);color:var(--cu-text-muted,#616161);padding:8px;}";
+const css=":host{display:block;min-width:0;}cu-settings-item::part(row){flex-direction:column;align-items:stretch;}cu-settings-item::part(control){width:100%;justify-content:stretch;}cu-keyboard-shortcut-editor{width:100%;min-width:0;}.status{font:12px var(--cu-font-body,system-ui);color:var(--cu-text-muted,#616161);padding:8px;}";
 export class CuShortcutSettings extends BrowserElement{
   static get observedAttributes(){return ["disabled"];}
   constructor(){
