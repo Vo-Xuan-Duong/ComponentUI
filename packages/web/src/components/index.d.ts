@@ -1028,6 +1028,10 @@ declare global {
     "cu-keyboard-shortcut-editor": CuKeyboardShortcutEditor;
     "cu-color-palette": CuColorPalette;
     "cu-font-picker": CuFontPicker;
+    "cu-chart-editor": CuChartEditor;
+    "cu-notification-settings": CuNotificationSettings;
+    "cu-image-gallery": CuImageGallery;
+    "cu-file-manager": CuFileManager;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1190,3 +1194,16 @@ export declare class CuColorPalette extends HTMLElement {colors:(string|CuPalett
 export declare const DEFAULT_FONT_FAMILIES:readonly string[];
 export declare function normalizeFontFamilies(fonts:unknown):string[];
 export declare class CuFontPicker extends HTMLElement {fonts:string[];value:string;disabled:boolean;}
+
+export interface CuChartConfig {title:string;description:string;type:"bar"|"line";showTable:boolean;}
+export declare function normalizeChartConfig(value?:Partial<CuChartConfig>):CuChartConfig;
+export declare class CuChartEditor extends HTMLElement {items:CuChartItem[];config:CuChartConfig;readonly:boolean;}
+export interface CuNotificationPreferences {enabled:boolean;desktop:boolean;sound:boolean;email:boolean;digest:"off"|"daily"|"weekly";}
+export declare const DEFAULT_NOTIFICATION_SETTINGS:Readonly<CuNotificationPreferences>;
+export declare function normalizeNotificationSettings(value?:Partial<CuNotificationPreferences>):CuNotificationPreferences;
+export declare class CuNotificationSettings extends HTMLElement {value:CuNotificationPreferences;disabled:boolean;}
+export declare function normalizeGalleryItems(items:unknown):Required<CuCarouselItem>[];
+export declare class CuImageGallery extends HTMLElement {items:CuCarouselItem[];active:number;loop:boolean;goTo(index:number):boolean;}
+export declare const FILE_MANAGER_ACTIONS:readonly string[];
+export declare function fileManagerCommands(entry?:CuFileEntry|null):CuDesktopCommand[];
+export declare class CuFileManager extends CuFileExplorer {readonly selectedEntry:CuFileEntry|null;requestAction(action:string):boolean;}
