@@ -4,6 +4,7 @@ import {normalizeScheduleEvents} from "./scheduler.js";
 import {DEFAULT_WORKFLOW_LANES} from "./workflow-editor.js";
 import {normalizeKanbanLanes,normalizeKanbanItems} from "./kanban-board.js";
 import "./tabs.js";
+import {validScheduleDate} from "./_schedule.js";
 export function normalizeProjectWorkspace(value={}){
   const lanes=normalizeKanbanLanes(value?.lanes??DEFAULT_WORKFLOW_LANES);
   return {tasks:normalizeGanttTasks(value?.tasks),events:normalizeScheduleEvents(value?.events),lanes,workItems:normalizeKanbanItems(value?.workItems,lanes)};
@@ -22,7 +23,7 @@ export class CuProjectWorkspace extends BrowserElement{
   connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();}
   get value(){return {tasks:this._gantt.tasks,events:this._scheduler.events,lanes:this._workflow.lanes,workItems:this._workflow.items};}
   set value(v){const c=normalizeProjectWorkspace(v);this._gantt.tasks=c.tasks;this._scheduler.events=c.events;this._workflow.lanes=c.lanes;this._workflow.items=c.workItems;this._sync();}
-  get date(){return this._scheduler.date;}set date(v){this._scheduler.date=v;}
+  get date(){return this._scheduler.date;}set date(v){if(validScheduleDate(v)&&this.getAttribute("date")!==v)this.setAttribute("date",v);}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   _sync(){if(!this._status)return;this._scheduler.readonly=this._workflow.readonly=this.readonly;const date=this.getAttribute("date");if(date&&date!==this._scheduler.date)this._scheduler.date=date;const v=this.value;this._status.textContent=v.tasks.length+" timeline tasks · "+v.events.length+" events · "+v.workItems.length+" work items";}
 }
