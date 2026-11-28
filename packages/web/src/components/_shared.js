@@ -56,6 +56,18 @@ export function reconcileVirtualWindow(previous,start,end,revision,create){
   return {revision,nodes};
 }
 
+/** Reconcile ordered element children without disconnecting retained nodes.
+ * Callers supply unique nodes in desired order, not arbitrary text children.
+ */
+export function reconcileElementChildren(parent,desired){
+  const keep=new Set(desired);
+  for(const child of Array.from(parent.children))if(!keep.has(child))child.remove();
+  for(let i=0;i<desired.length;i++){
+    const child=desired[i],current=parent.children[i];
+    if(current!==child)parent.insertBefore(child,current??null);
+  }
+}
+
 export function notify(element, type, detail) {
   element.dispatchEvent(new CustomEvent(type, {
     bubbles: true, composed: true, detail
