@@ -1,4 +1,4 @@
-import { BrowserElement, mount, notify, define } from "./_shared.js";
+import { BrowserElement, mount, notify, define, frameTask } from "./_shared.js";
 import "./icon.js";
 
 /** IntersectionObserver-free threshold helper used by the scroll fallback. */
@@ -23,7 +23,7 @@ const css=[
   "min-height:32px;padding:5px 12px;border:1px solid var(--cu-border-strong,#d1d1d1);",
   "border-radius:var(--cu-radius-md,6px);background:transparent;color:var(--cu-text,#242424);",
   "cursor:pointer;font:600 13px var(--cu-font-body,system-ui);}",
-  "button:hover:not(:disabled){background:color-mix(in srgb,var(--cu-accent,#0067c0) 10%,transparent);}",
+  "button:hover:not(:disabled){background:var(--cu-state-hover);}",
   "button:focus-visible{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
   "button[hidden],.status[hidden]{display:none!important;}",
   ".status{font-size:12px;}",
@@ -40,7 +40,7 @@ export class CuInfiniteScroll extends BrowserElement {
   constructor(){
     super();
     const root=mount(this,css,
-      '<div class="viewport" part="viewport" role="region" aria-label="Scrollable records">' +
+      '<div class="viewport" part="viewport" role="region" tabindex="0" aria-label="Scrollable records">' +
       '<slot></slot><div class="sentinel" aria-hidden="true"></div>' +
       '<div class="footer" part="footer"><button class="load" type="button">' +
       '<cu-icon name="chevron-down" size="16" aria-hidden="true"></cu-icon>' +
@@ -53,16 +53,17 @@ export class CuInfiniteScroll extends BrowserElement {
     this._observer=null;
     this._requesting=false;
     this._page=0;
+    this._fallbackFrame=frameTask(this,()=>{if(!this._observer&&this._nearBottom())this.requestMore("scroll");});
     this._button.addEventListener("click",()=>this.requestMore("button"));
     this._viewport.addEventListener("scroll",()=>{
       // Do not run a duplicate manual fallback if IntersectionObserver is active.
-      if(!this._observer&&this._nearBottom())this.requestMore("scroll");
+      if(!this._observer)this._fallbackFrame.request();
     },{passive:true});
   }
   connectedCallback(){
     this._sync();this._setupObserver();
   }
-  disconnectedCallback(){this._observer?.disconnect();this._observer=null;}
+  disconnectedCallback(){this._fallbackFrame.cancel();this._observer?.disconnect();this._observer=null;}
   attributeChangedCallback(name){
     this._sync();
     if(name==="loading"&&!this.loading)this._requesting=false;
@@ -132,6 +133,7 @@ export class CuInfiniteScroll extends BrowserElement {
     this._viewport.setAttribute("aria-label",this.getAttribute("aria-label")||
       this.getAttribute("label")||"Scrollable records");
     this._viewport.setAttribute("aria-busy",String(this.loading));
+    if((!this.hasMore||this.loading)&&this.shadowRoot.activeElement===this._button)this._viewport.focus({preventScroll:true});
     this._button.hidden=!this.hasMore||this.loading;
     this._button.disabled=this.loading;
     const error=this.error;
