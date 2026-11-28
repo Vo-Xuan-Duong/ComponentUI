@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "ProjectWorkspace",
+  "tag": "cu-project-workspace",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean",
+    "date": "string"
+  },
+  "properties": {
+    "value": "CuProjectWorkspaceValue"
+  },
+  "events": [
+    "cu-change",
+    "cu-navigate"
+  ],
+  "composition": [
+    "GanttChart",
+    "Scheduler",
+    "WorkflowEditor",
+    "Tabs"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
