@@ -708,6 +708,22 @@
     "./components/font-picker": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/font-picker.js"
+    },
+    "./components/chart-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/chart-editor.js"
+    },
+    "./components/notification-settings": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/notification-settings.js"
+    },
+    "./components/image-gallery": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/image-gallery.js"
+    },
+    "./components/file-manager": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/file-manager.js"
     }
   },
   "files": [
