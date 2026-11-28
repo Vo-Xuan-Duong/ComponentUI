@@ -57,6 +57,23 @@ export class CuSpreadsheet extends CuDataGrid{
   getCell(address){const pos=parseCellAddress(address);return pos?this.cells[pos.row]?.[pos.column]??null:null;}
   getComputedCell(address){const pos=parseCellAddress(address);return pos?this.computedCells[pos.row]?.[pos.column]??null:null;}
   setCell(address,value){const pos=parseCellAddress(address);if(!pos||this.getCell(address)===null)return false;return this.setCellValue(String(pos.row+1),String.fromCharCode(65+pos.column),String(value??""));}
+  _editorTag(column,row){return /^[A-Z]$/.test(column.key)?"cu-formula-input":super._editorTag(column,row);}
+  _configureEditor(control,column,row){
+    super._configureEditor(control,column,row);
+    if(!/^[A-Z]$/.test(column.key))return;
+    control.setAttribute("allow-text","");
+    control.setAttribute("aria-label","Edit cell "+column.key+row.id);
+    control.draftEvaluator=value=>{
+      if(!String(value).trimStart().startsWith("="))return {valid:true,result:null,error:""};
+      const cells=this.cells,r=Number(row.id)-1,c=column.key.charCodeAt(0)-65;
+      if(!cells[r]||c>=cells[r].length)return {valid:false,result:null,error:"#REF!"};
+      cells[r][c]=String(value);
+      const result=calculateSheet(cells)[r][c];
+      return typeof result==="number"?{valid:true,result,error:""}:{valid:false,result:null,error:String(result)};
+    };
+    // Refresh after installing the sheet-aware evaluator.
+    control.value=String(row[column.key]??"");
+  }
   _cellDisplayValue(row,column){
     if(!/^[A-Z]$/.test(column.key))return super._cellDisplayValue(row,column);
     if(this._sheetCacheRows!==this._rows||this._sheetCacheColumns!==this._columns){this._sheetCacheRows=this._rows;this._sheetCacheColumns=this._columns;this._sheetCache=calculateSheet(this.cells);}
