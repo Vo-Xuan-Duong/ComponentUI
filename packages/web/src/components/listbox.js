@@ -25,9 +25,11 @@ const css=[
   "gap:12px;box-sizing:border-box;border-radius:var(--cu-radius-md,6px);",
   "font:400 13px var(--cu-font-body,system-ui);cursor:pointer;}",
   ".option:hover:not([aria-disabled=true]),.option[data-active=true]:not([aria-disabled=true]){",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 18%,var(--cu-surface,#fff));font-weight:600;}",
+  "background:var(--cu-state-hover);}",
+  ".option[data-active=true]:not([aria-disabled=true]){background:var(--cu-state-active);font-weight:600;}",
   ".option[aria-disabled=true]{opacity:.4;cursor:not-allowed;}",
-  ".option[data-selected=true]{font-weight:650;}",
+  ".option[data-selected=true]{background:var(--cu-state-selected);font-weight:650;}",
+  ".option[data-selected=true]:hover:not([aria-disabled=true]),.option[data-selected=true][data-active=true]{background:var(--cu-state-active);}",
   ".check{color:var(--cu-accent,#0067c0);opacity:0;}",
   ".option[data-selected=true] .check{opacity:1;}",
   "slot{display:none!important;}",
@@ -54,10 +56,10 @@ export class CuListBox extends BrowserElement {
       if(option)this._commit(Number(option.dataset.index));
     });
     this._list.addEventListener("pointerover",event=>{
-      if(event.pointerType==="touch")return;
+      if(this._disabled()||event.pointerType==="touch")return;
       const node=event.target.closest('[role="option"]');
       if(!node||node.getAttribute("aria-disabled")==="true")return;
-      this._active=Number(node.dataset.index);this._refresh(false);
+      const next=Number(node.dataset.index);if(next===this._active)return;this._active=next;this._refresh(false);
     });
     this._list.addEventListener("keydown",event=>this._key(event));
   }
@@ -102,11 +104,11 @@ export class CuListBox extends BrowserElement {
         disabled:e.hasAttribute("disabled"),selected:e.hasAttribute("selected")})));
     this._list.replaceChildren();
     this._options.forEach((opt,i)=>{
-      const el=document.createElement("div");el.setAttribute("role","option");
+      const el=this.ownerDocument.createElement("div");el.setAttribute("role","option");
       el.id=this._list.id+"-opt-"+i;el.dataset.index=String(i);
       el.setAttribute("aria-disabled",String(opt.disabled));
-      const label=document.createElement("span");label.textContent=opt.label;
-      const check=document.createElement("cu-icon");check.className="check";
+      const label=this.ownerDocument.createElement("span");label.textContent=opt.label;
+      const check=this.ownerDocument.createElement("cu-icon");check.className="check";
       check.setAttribute("name","check");check.setAttribute("size","16");
       check.setAttribute("aria-hidden","true");el.append(label,check);this._list.append(el);
     });
