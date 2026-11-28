@@ -80,7 +80,7 @@ test("catalog has 32 previews and none promoted prematurely", async () => {
   for (const name of ["Select","RadioGroup","Tabs","Tooltip","Popover"]) {
     assert.equal(status.get(name), "preview");
   }
-  assert.equal(components.length,180);
-  assert.equal(components.filter(c => c.status === "preview").length,180);
+  assert.equal(components.length,184);
+  assert.equal(components.filter(c => c.status === "preview").length,184);
   assert.equal(components.filter(c => c.status === "ready").length,0);
 });
