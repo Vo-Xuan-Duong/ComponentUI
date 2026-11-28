@@ -5,7 +5,7 @@ import "./split-view.js";
 export function normalizeChartConfig(value={}){
   return {title:String(value?.title??"Chart"),description:String(value?.description??""),type:value?.type==="line"?"line":"bar",showTable:Boolean(value?.showTable)};
 }
-const css=":host{display:block;min-width:0;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}cu-split-view{height:var(--cu-chart-editor-height,420px);}.panel{padding:8px;min-width:0;}";
+const css=":host([hidden]){display:none!important;}:host{display:block;min-width:0;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}cu-split-view{height:var(--cu-chart-editor-height,420px);}.panel{padding:8px;min-width:0;}";
 export class CuChartEditor extends BrowserElement{
   static get observedAttributes(){return ["readonly"];}
   constructor(){
@@ -23,10 +23,10 @@ export class CuChartEditor extends BrowserElement{
     for(const type of ["cu-input","cu-change"])this._split.addEventListener(type,e=>{if(e.target===this._split)e.stopPropagation();});
   }
   connectedCallback(){this._render();}attributeChangedCallback(){this._render();}
-  get items(){return this._items.map(x=>({...x}));}set items(v){this._items=normalizeChartItems(v);this._render();}
-  get config(){return {...this._config};}set config(v){this._config=normalizeChartConfig(v);this._render();}
+  get items(){return this._items.map(x=>({...x}));}set items(v){const next=normalizeChartItems(v);if(JSON.stringify(next)===JSON.stringify(this._items))return;this._items=next;this._render();}
+  get config(){return {...this._config};}set config(v){const next=normalizeChartConfig(v);if(JSON.stringify(next)===JSON.stringify(this._config))return;this._config=next;this._render();}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
-  _preview(){if(!this._chart)return;const c=this._config;this._chart.setAttribute("title",c.title);this._chart.setAttribute("description",c.description);this._chart.setAttribute("chart-type",c.type);this._chart.toggleAttribute("show-table",c.showTable);this._chart.items=this._items;}
+  _preview(){if(!this._chart)return;const c=this._config;for(const [k,v] of Object.entries({title:c.title,description:c.description,"chart-type":c.type}))if(this._chart.getAttribute(k)!==v)this._chart.setAttribute(k,v);this._chart.toggleAttribute("show-table",c.showTable);this._chart.items=this._items;}
   _render(){if(!this._grid)return;const c=this._config;this._grid.readonly=this.readonly;this._grid.items=[{key:"title",label:"Title",value:c.title},{key:"description",label:"Description",value:c.description},{key:"type",label:"Chart type",type:"select",value:c.type,options:[{value:"bar",label:"Bar"},{value:"line",label:"Line"}]},{key:"showTable",label:"Show data table",type:"boolean",value:c.showTable},...this._items.map((x,i)=>({key:"data:"+i,label:x.label,group:"Data",type:"number",value:x.value,min:-1e100,max:1e100}))];this._preview();}
 }
 define("cu-chart-editor",CuChartEditor);
