@@ -9,7 +9,7 @@ export function normalizeNotifications(items){
   });
 }
 const css=[
-  ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
+  ":host([hidden]){display:none!important;}:host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
   ".frame{border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface,#fff);overflow:hidden;}",
   ".header{padding:13px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}.title{font-weight:650;font-size:15px;}.count{font-size:12px;color:var(--cu-text-muted,#616161);}",
   ".toolbar{display:flex;align-items:center;gap:5px;padding:0 10px 10px;flex-wrap:wrap;}.toolbar button{white-space:nowrap;}.spacer{flex:1;}",
@@ -34,7 +34,7 @@ export class CuNotificationCenter extends BrowserElement{
   connectedCallback(){this._render();}
   attributeChangedCallback(){this._render();}
   get items(){return this._items.map(x=>({...x}));}
-  set items(v){this._items=normalizeNotifications(v);this._render();}
+  set items(v){const next=normalizeNotifications(v);if(next.length===this._items.length&&next.every((item,i)=>Object.keys(item).every(k=>item[k]===this._items[i][k])))return;this._items=next;this._render();}
   get unreadCount(){return this._items.filter(x=>!x.read).length;}
   _changed(reason,id){
     this._render();notify(this,"cu-change",{id,reason,unreadCount:this.unreadCount,notifications:this.items});
@@ -56,13 +56,13 @@ export class CuNotificationCenter extends BrowserElement{
   _render(){
     if(!this._list)return;
     const doc=this.ownerDocument,active=this.shadowRoot.activeElement;
-    const focusId=active?.dataset?.notificationId,focusAction=active?.dataset?.notificationAction;
+    const focusId=active?.dataset?.notificationId,focusAction=active?.dataset?.notificationAction,oldRows=[...this._list.querySelectorAll("[data-notification-row]")],oldIndex=oldRows.findIndex(r=>r.dataset.notificationRow===focusId);
     this._title.textContent=this.getAttribute("label")||"Notifications";
     const unread=this.unreadCount;const count=unread+" unread";if(this._count.textContent!==count)this._count.textContent=count;
     this._all.setAttribute("aria-pressed",String(this._filter==="all"));this._unread.setAttribute("aria-pressed",String(this._filter==="unread"));this._markAll.disabled=!unread;
     const items=this._filter==="unread"?this._items.filter(x=>!x.read):this._items;
     const nodes=items.map(item=>{
-      const row=doc.createElement("div");row.className="item";row.setAttribute("role","listitem");row.dataset.unread=String(!item.read);row.dataset.tone=item.tone;
+      const row=doc.createElement("div");row.className="item";row.setAttribute("role","listitem");row.dataset.notificationRow=item.id;row.dataset.unread=String(!item.read);row.dataset.tone=item.tone;
       const icon=doc.createElement("cu-icon");icon.className="mark";icon.setAttribute("name",({info:"info",success:"circle-check",warning:"shield-check",danger:"x"})[item.tone]);icon.setAttribute("size","20");
       const copy=doc.createElement("div");copy.className="copy";
       const name=doc.createElement("span");name.className="name";name.textContent=item.title;
@@ -78,7 +78,7 @@ export class CuNotificationCenter extends BrowserElement{
     });
     if(!nodes.length){const empty=doc.createElement("div");empty.className="empty";const icon=doc.createElement("cu-icon");icon.setAttribute("name","bell");icon.setAttribute("size","28");const text=doc.createElement("p");text.textContent=this._filter==="unread"?"You're all caught up.":"No notifications.";empty.append(icon,text);nodes.push(empty);}
     this._list.replaceChildren(...nodes);
-    if(focusId){const target=[...this._list.querySelectorAll("button")].find(b=>b.dataset.notificationId===focusId&&b.dataset.notificationAction===focusAction);(target??this._all).focus({preventScroll:true});}
+    if(focusId){const target=[...this._list.querySelectorAll("button")].find(b=>b.dataset.notificationId===focusId&&b.dataset.notificationAction===focusAction);const rows=[...this._list.querySelectorAll("[data-notification-row]")],nearest=rows[Math.max(0,Math.min(oldIndex,rows.length-1))];(target??nearest?.querySelector("button")??(this._filter==="unread"?this._unread:this._all)).focus({preventScroll:true});}
   }
 }
 define("cu-notification-center",CuNotificationCenter);
