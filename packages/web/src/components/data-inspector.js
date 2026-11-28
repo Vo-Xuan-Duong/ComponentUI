@@ -26,7 +26,7 @@ export class CuDataInspector extends BrowserElement{
     this._table.addEventListener("cu-filter-change",()=>{if(this._selected&&!this._table.filteredRows.some(r=>r.id===this._selected)){this._selected="";this._json.hidden=true;this._empty.hidden=false;}});
   }
   connectedCallback(){this._sync();}
-  get rows(){return normalizeInspectorRows(this._rows);}set rows(v){this._rows=normalizeInspectorRows(v);this._fields=inspectorFields(this._rows);this._sync();}
+  get rows(){return normalizeInspectorRows(this._rows);}set rows(v){this._rows=normalizeInspectorRows(v);this._fields=inspectorFields(this._rows);this._table.clearAllFilters();this._table.showAllColumns();this._sync();}
   get query(){return {logic:this._query.logic,conditions:this._query.conditions.map(x=>({...x}))};}
   set query(v){this._requestedQuery={logic:v?.logic==="or"?"or":"and",conditions:Array.isArray(v?.conditions)?v.conditions.filter(x=>x&&typeof x.field==="string").map(x=>({...x})):[]};this._sync();}
   get visibleRows(){return normalizeInspectorRows([...this._visible.values()]);}
