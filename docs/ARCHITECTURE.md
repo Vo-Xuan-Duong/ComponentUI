@@ -127,3 +127,5 @@ MentionInput extends AutoComplete and shares its suggestion overlay, keyboard ha
 PivotTable composes DataTable, Select and EmptyState, sharing QueryBuilder filtering and the canonical DataTable group identity utilities. Spreadsheet extends DataGrid, retaining its cell editing and context actions, and extends the existing FormulaInput arithmetic parser with a reference resolver. See [Data tools](DATA_TOOLS.md) for APIs and limits.
 
 Scheduler composes Calendar, DatePicker, TimePicker, TextField, Button, Timeline and EmptyState. GanttChart extends DataTable to keep tasks and time bars aligned, using ProgressBar for completion. Both use _schedule.js and the existing Calendar date arithmetic. See [Scheduling tools](SCHEDULING_TOOLS.md).
+
+MenuBar composes MenuButton and MenuItem using shared command normalization. Ribbon composes Tabs and CommandBar. Terminal composes VirtualList, TextField and Button and exposes command requests without executing a shell. WindowManager composes WindowPane, DockLayout, Button and EmptyState while preserving slotted content. See [Desktop tools](DESKTOP_TOOLS.md).
