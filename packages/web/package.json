@@ -660,6 +660,22 @@
     "./components/gantt-chart": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/gantt-chart.js"
+    },
+    "./components/menu-bar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/menu-bar.js"
+    },
+    "./components/ribbon": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/ribbon.js"
+    },
+    "./components/terminal": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/terminal.js"
+    },
+    "./components/window-manager": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/window-manager.js"
     }
   },
   "files": [
