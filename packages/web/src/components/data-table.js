@@ -520,8 +520,12 @@ export class CuDataTable extends BrowserElement {
   get sortKey(){return this._sortKey;}
   get sortDirection(){return this._direction;}
   get selectedIds(){return [...this._selected];}
-  set selectedIds(values){const available=new Set(this._rows.map((row,index)=>this._rowId(row,index)));const next=new Set((Array.isArray(values)?values:[]).map(String).filter(id=>available.has(id)));if(next.size===this._selected.size&&[...next].every(id=>this._selected.has(id)))return;this._selected=next;this._render();}
-  clearSelection(){if(!this._selected.size)return;this._selected.clear();this._render();this._notifySelection();}
+  set selectedIds(values){const available=new Set(this._rows.map((row,index)=>this._rowId(row,index)));const next=new Set((Array.isArray(values)?values:[]).map(String).filter(id=>available.has(id)));if(next.size===this._selected.size&&[...next].every(id=>this._selected.has(id)))return;this._selected=next;this._syncPageSelection();}
+  clearSelection(){if(!this._selected.size)return;this._selected.clear();this._syncPageSelection();this._notifySelection();}
+  _syncPageSelection(){
+    for(const row of this._body?.querySelectorAll("tr[data-selection-id]")??[]){const selected=this._selected.has(row.dataset.selectionId);row.dataset.selected=String(selected);const checkbox=row.querySelector("input[data-row-select]");if(checkbox)checkbox.checked=selected;}
+    this._syncSelectAll();
+  }
   _syncSelectAll(){
     const input=this._head?.querySelector(".select-all");
     if(!input)return;
@@ -845,8 +849,7 @@ export class CuDataTable extends BrowserElement {
           if(checkbox.checked)this._selected.add(id);
           else this._selected.delete(id);
         }
-        this._render();
-        this._head.querySelector(".select-all")?.focus();
+        this._syncPageSelection();
         this._notifySelection();
       });
       h.append(checkbox);header.append(h);
@@ -920,19 +923,19 @@ export class CuDataTable extends BrowserElement {
         const absolute=(page.page-1)*this._pageSize()+localIndex;
         const id=this._rowId(row,absolute);
         const tr=this.ownerDocument.createElement("tr");
-        tr.dataset.selected=String(this._selected.has(id));
+        tr.dataset.selectionId=id;tr.dataset.selected=String(this._selected.has(id));
         if(this._actionsFor(row).length){
           tr.tabIndex=0;
           tr.dataset.actionable="true";
           tr.setAttribute("aria-haspopup","menu");
           tr.setAttribute("aria-keyshortcuts","Shift+F10");
           tr.addEventListener("contextmenu",event=>{
-            event.preventDefault();
+            if(event.defaultPrevented)return;event.preventDefault();event.stopPropagation();
             this._showRowMenu(row,id,tr,event.clientX,event.clientY);
           });
           tr.addEventListener("keydown",event=>{
-            if(event.key!=="ContextMenu"&&!(event.shiftKey&&event.key==="F10"))return;
-            event.preventDefault();
+            if(event.defaultPrevented||event.key!=="ContextMenu"&&!(event.shiftKey&&event.key==="F10"))return;
+            event.preventDefault();event.stopPropagation();
             const rect=tr.getBoundingClientRect();
             this._showRowMenu(row,id,tr,rect.left+16,rect.bottom);
           });
@@ -940,7 +943,7 @@ export class CuDataTable extends BrowserElement {
         if(this.hasAttribute("selectable")){
           const td=this.ownerDocument.createElement("td");
           const checkbox=this.ownerDocument.createElement("input");
-          checkbox.type="checkbox";checkbox.checked=this._selected.has(id);
+          checkbox.type="checkbox";checkbox.dataset.rowSelect="";checkbox.checked=this._selected.has(id);
           checkbox.setAttribute("aria-label","Select row "+id);
           checkbox.addEventListener("change",()=>{
             if(checkbox.checked)this._selected.add(id);else this._selected.delete(id);
