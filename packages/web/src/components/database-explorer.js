@@ -3,6 +3,7 @@ import {normalizeInspectorRows} from "./data-inspector.js";
 import "./tree-view.js";
 import "./split-view.js";
 import "./empty-state.js";
+import "./search-box.js";
 export function normalizeDatabaseTables(tables){
   const ids=new Set(),out=[];
   for(const t of Array.isArray(tables)?tables:[]){
@@ -14,9 +15,10 @@ const css=":host{display:block;min-width:0;font:13px var(--cu-font-body,system-u
 export class CuDatabaseExplorer extends BrowserElement{
   static get observedAttributes(){return ["selected"];}
   constructor(){
-    super();this._tables=[];this._queries=new Map();this._pendingQuery=null;this._nodes=new Map();this._activeId="";
-    const root=mount(this,css,'<cu-split-view position="28" min="20" max="60" label="Database explorer"><div class="side" slot="sidebar"><strong>Tables</strong><cu-tree-view label="Database schemas and tables"></cu-tree-view></div><div class="content" slot="content"><div class="heading"></div><div class="status" role="status"></div><cu-data-inspector hidden></cu-data-inspector><cu-empty-state title="No tables available" size="sm"></cu-empty-state></div></cu-split-view>');
-    this._tree=root.querySelector("cu-tree-view");this._inspector=root.querySelector("cu-data-inspector");this._heading=root.querySelector(".heading");this._status=root.querySelector(".status");this._empty=root.querySelector("cu-empty-state");
+    super();this._tables=[];this._queries=new Map();this._pendingQuery=null;this._nodes=new Map();this._activeId="";this._tableQuery="";
+    const root=mount(this,css,'<cu-split-view position="28" min="20" max="60" label="Database explorer"><div class="side" slot="sidebar"><strong>Tables</strong><cu-search-box aria-label="Find tables" placeholder="Find tables…"></cu-search-box><cu-tree-view label="Database schemas and tables"></cu-tree-view></div><div class="content" slot="content"><div class="heading"></div><div class="status" role="status"></div><cu-data-inspector hidden></cu-data-inspector><cu-empty-state title="No tables available" size="sm"></cu-empty-state></div></cu-split-view>');
+    this._tree=root.querySelector("cu-tree-view");this._inspector=root.querySelector("cu-data-inspector");this._heading=root.querySelector(".heading");this._status=root.querySelector(".status");this._empty=root.querySelector("cu-empty-state");this._search=root.querySelector("cu-search-box");
+    this._search.addEventListener("cu-input",e=>{e.stopPropagation();this._tableQuery=e.detail.value;this._renderTree();});for(const type of ["cu-change","cu-search"])this._search.addEventListener(type,e=>e.stopPropagation());
     this._tree.addEventListener("cu-change",e=>{e.stopPropagation();const id=this._nodes.get(e.detail.value);if(id!==undefined)this.selectTable(id);else this._syncSelection();});
     this._tree.addEventListener("cu-toggle",e=>e.stopPropagation());
     for(const type of ["cu-input","cu-change"])this._inspector.addEventListener(type,e=>{e.stopPropagation();if(!e.detail.query)return;this._queries.set(this.selected,this._inspector.query);this._status.textContent=this._inspector.visibleRows.length+" matching records";notify(this,type,{tableId:this.selected,...e.detail});});
@@ -31,8 +33,8 @@ export class CuDatabaseExplorer extends BrowserElement{
   _syncSelection(){const key=[...this._nodes].find(([,id])=>id===this.selected)?.[0]??"";if(this._tree.value!==key)this._tree.value=key;}
   _renderTree(){
     if(!this._tree)return;const doc=this.ownerDocument,groups=new Map();this._nodes.clear();
-    for(const t of this._tables){if(!groups.has(t.schema))groups.set(t.schema,[]);groups.get(t.schema).push(t);}
-    let i=0;const roots=[...groups].map(([schema,tables],index)=>{const root=doc.createElement("cu-tree-item");root.setAttribute("value","schema-"+index);root.setAttribute("label",schema||"Default");root.setAttribute("expanded","");for(const t of tables){const child=doc.createElement("cu-tree-item"),key="table-"+i++;this._nodes.set(key,t.id);child.setAttribute("value",key);child.setAttribute("label",t.label);root.append(child);}return root;});this._tree.replaceChildren(...roots);this._syncSelection();queueMicrotask(()=>{if(this.isConnected)this._syncSelection();});
+    const query=this._tableQuery.trim().toLocaleLowerCase();for(const t of this._tables){if(query&&![t.id,t.label,t.schema].some(v=>v.toLocaleLowerCase().includes(query)))continue;if(!groups.has(t.schema))groups.set(t.schema,[]);groups.get(t.schema).push(t);}
+    const roots=[...groups].map(([schema,tables])=>{const root=doc.createElement("cu-tree-item");root.setAttribute("value","schema:"+schema);root.setAttribute("label",schema||"Default");root.setAttribute("expanded","");for(const t of tables){const child=doc.createElement("cu-tree-item"),key="table:"+t.id;this._nodes.set(key,t.id);child.setAttribute("value",key);child.setAttribute("label",t.label);root.append(child);}return root;});this._tree.replaceChildren(...roots);this._syncSelection();queueMicrotask(()=>{if(this.isConnected)this._syncSelection();});
   }
   _sync(force=false){
     if(!this._inspector)return;const table=this._tables.find(t=>t.id===this.selected);this._syncSelection();this._heading.textContent=table?table.schema+" / "+table.label:"Database";this._inspector.hidden=!table;this._empty.hidden=Boolean(table);
