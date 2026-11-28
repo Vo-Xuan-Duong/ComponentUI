@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "MenuBar",
+  "tag": "cu-menu-bar",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean",
+    "label": "string"
+  },
+  "properties": {
+    "groups": "CuMenuGroup[]"
+  },
+  "events": [
+    "cu-action"
+  ],
+  "composition": [
+    "MenuButton",
+    "MenuItem",
+    "Menu",
+    "CommandBar utilities"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
