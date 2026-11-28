@@ -2,7 +2,7 @@
 
 **Fluent Calm** is an independent, Windows 11 / Fluent 2–inspired visual language for a reusable, cross-framework personal UI system.
 
-**Foundation milestone — NavigationView & SettingsPage (v0.12.0):** The repository contains platform-independent Design Tokens, a prioritized **129-item** component catalog, the first Button contract, reusable CSS reference styles, a theme preference controller, responsive interactive gallery and reusable DOM interaction controllers, and 55 experimental catalogued browser Custom Elements. **There are 55 experimental catalogued Web Components and 0 production-ready releases.** The gallery combines reference HTML/CSS demos with real but not yet cross-browser-certified Custom Elements; nothing has been published as a package.
+**Current catalog (v0.12.0):** 188 component entries, all experimental previews; 0 planned and 0 production-ready. The catalog is the source of truth for current coverage; counts in historical milestones below are snapshots, not current totals. No package has been published. See [component catalog](design-system/components/catalog.json) and [release acceptance](docs/RELEASE_ACCEPTANCE.md).
 
 **Icon system:** a locally bundled, licensed Lucide SVG subset is available in `packages/icons/` via the reusable `<cu-icon>` Custom Element. The Quick actions, Settings and other preview icons now share one stroke style; sidebar links remain text-only. See [Icon System](docs/ICON_SYSTEM.md).
 
