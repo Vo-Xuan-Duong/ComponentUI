@@ -198,3 +198,8 @@ export declare const ShortcutSettings: ReactCuComponent;
 export declare const DocumentWorkspace: ReactCuComponent;
 export declare const DataInspector: ReactCuComponent;
 export declare const APIExplorer: ReactCuComponent;
+
+export declare const MediaLibrary: ReactCuComponent;
+export declare const DashboardDesigner: ReactCuComponent;
+export declare const FormDesigner: ReactCuComponent;
+export declare const SchemaEditor: ReactCuComponent;
