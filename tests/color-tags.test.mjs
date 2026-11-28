@@ -54,3 +54,22 @@ test("new components have exports, contracts and form demos",async()=>{
   const demo=await read("../apps/playground-web/main.js");
   assert.ok(demo.includes('data.getAll("tags")'));
 });
+
+
+test("color picker supports compact mode and shared format selector",async()=>{
+  assert.ok(CuColorPicker.observedAttributes.includes("compact"));
+  const attrs=new Set(),picker=Object.create(CuColorPicker.prototype);
+  picker.hasAttribute=key=>attrs.has(key);
+  picker.toggleAttribute=(key,value)=>{if(value)attrs.add(key);else attrs.delete(key);};
+  picker.compact=true;assert.equal(picker.compact,true);
+  picker.compact=false;assert.equal(picker.compact,false);
+  const source=await read("../packages/web/src/components/color-picker.js");
+  assert.ok(source.includes('import "./select.js"'));
+  assert.ok(source.includes('<cu-select aria-label="Color format"'));
+  assert.ok(source.includes('this.compact?"hex":this._format'));
+  assert.ok(source.includes('event.stopPropagation();this._format=event.detail.value'));
+  const grid=await read("../packages/web/src/components/property-grid.js");
+  assert.ok(grid.includes('control.setAttribute("compact","")'));
+  const contract=JSON.parse(await read("../design-system/components/color-picker.contract.json"));
+  assert.equal(contract.attributes.compact,"boolean");
+});
