@@ -210,3 +210,8 @@ export { CuDatabaseExplorer, normalizeDatabaseTables } from "./database-explorer
 export { CuApplicationShell, normalizeApplicationSections } from "./application-shell.js";
 export { CuReportBuilder, reportChartItems } from "./report-builder.js";
 export { CuAutomationDesigner, analyzeAutomationGraph } from "./automation-designer.js";
+
+export { CuWorkspaceSettings, normalizeWorkspaceSettings } from "./workspace-settings.js";
+export { CuDeveloperTools } from "./developer-tools.js";
+export { CuFormBuilder, buildFormSchema } from "./form-builder.js";
+export { CuDataSourceEditor, extractResponseRecords } from "./data-source-editor.js";
