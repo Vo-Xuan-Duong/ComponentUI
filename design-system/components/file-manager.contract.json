@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "FileManager",
+  "tag": "cu-file-manager",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "folder-id": "string",
+    "query": "string",
+    "label": "string"
+  },
+  "properties": {
+    "items": "CuFileEntry[]",
+    "selectedEntry": "CuFileEntry | null (readonly)"
+  },
+  "events": [
+    "cu-action",
+    "cu-open",
+    "cu-change",
+    "cu-select",
+    "cu-search"
+  ],
+  "composition": [
+    "FileExplorer",
+    "CommandBar",
+    "ContextMenu"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
