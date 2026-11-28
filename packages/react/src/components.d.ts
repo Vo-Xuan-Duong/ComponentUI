@@ -193,3 +193,8 @@ export declare const ThemeEditor: ReactCuComponent;
 export declare const ComponentDesigner: ReactCuComponent;
 export declare const WorkflowEditor: ReactCuComponent;
 export declare const NodeEditor: ReactCuComponent;
+
+export declare const ShortcutSettings: ReactCuComponent;
+export declare const DocumentWorkspace: ReactCuComponent;
+export declare const DataInspector: ReactCuComponent;
+export declare const APIExplorer: ReactCuComponent;
