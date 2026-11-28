@@ -33,6 +33,10 @@
     "keyboard": "Escape and labeled close button when dismissible; actions slot for application controls",
     "focus": "native modal focus containment and return to previous focus target",
     "dismiss": "non-dismissible panels require application-driven close",
-    "responsive": "full-width side panel below 420px and high-contrast outlines"
-  }
+    "responsive": "full-width side panel below 420px and high-contrast outlines",
+    "overlayStack": "Document-scoped stack; descendant overlays dismissed on close and disconnect."
+  },
+  "composition": [
+    "IconButton"
+  ]
 }
