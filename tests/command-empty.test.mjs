@@ -46,3 +46,22 @@ test("new native implementations have package exports and live Playground wiring
   assert.ok(main.includes('commandPalette.addEventListener("cu-select"'));
   assert.ok(!main.includes("enhanceCommandPalette("));
 });
+
+test("palette restores trigger before dispatching selection",()=>{
+  if(!globalThis.CustomEvent)globalThis.CustomEvent=class extends Event{constructor(type,options={}){super(type,options);this.detail=options.detail;}};
+  const palette=Object.create(CuCommandPalette.prototype),order=[];
+  Object.defineProperty(palette,"open",{value:true});
+  palette._visible=[{value:"save",label:"Save",disabled:false}];
+  palette._trigger={isConnected:true,focus(){order.push("focus");}};
+  palette.close=reason=>order.push(reason);
+  palette.dispatchEvent=e=>{order.push(e.type);assert.equal(e.detail.value,"save");return true;};
+  palette._commit(0);
+  assert.deepEqual(order,["select","focus","cu-select"]);
+  assert.equal(palette._trigger,null);
+});
+test("palette shares close action and preserves active item across command refreshes",async()=>{
+  const source=await read("../packages/web/src/components/command-palette.js");
+  assert.match(source,/<cu-icon-button class="close"/);
+  assert.match(source,/sameQuery\?this\._visible\.findIndex/);
+  assert.match(source,/prefers-reduced-motion:reduce/);
+});
