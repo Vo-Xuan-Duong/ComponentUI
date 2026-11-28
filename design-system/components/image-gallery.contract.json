@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "ImageGallery",
+  "tag": "cu-image-gallery",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "active": "number",
+    "loop": "boolean"
+  },
+  "properties": {
+    "items": "CuCarouselItem[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-transform",
+    "cu-action"
+  ],
+  "composition": [
+    "Carousel",
+    "ImageViewer",
+    "Select"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
