@@ -18,8 +18,8 @@ export class CuAutomationDesigner extends BrowserElement{
   constructor(){
     super();const root=mount(this,css,'<section class="panel" aria-label="Automation designer"><div class="toolbar"><span class="status" role="status"></span><cu-button variant="accent">Request run</cu-button></div><cu-tabs aria-label="Automation workspace"><cu-tab label="Dependency graph"><cu-node-editor></cu-node-editor></cu-tab><cu-tab label="Implementation tasks"><cu-workflow-editor></cu-workflow-editor></cu-tab></cu-tabs></section>');
     this._graph=root.querySelector("cu-node-editor");this._workflow=root.querySelector("cu-workflow-editor");this._run=root.querySelector("cu-button");this._status=root.querySelector(".status");
-    this._graph.addEventListener("cu-change",e=>{e.stopPropagation();this._sync();notify(this,"cu-change",{section:"graph",action:e.detail.action,value:this.value});});
-    this._workflow.addEventListener("cu-change",e=>{e.stopPropagation();this._sync();notify(this,"cu-change",{section:"tasks",action:e.detail.action,value:this.value});});
+    this._graph.addEventListener("cu-change",e=>{if(e.target!==this._graph)return;e.stopPropagation();if(this.readonly)return;this._sync();notify(this,"cu-change",{section:"graph",action:e.detail.action,value:this.value});});
+    this._workflow.addEventListener("cu-change",e=>{if(e.target!==this._workflow)return;e.stopPropagation();if(this.readonly)return;this._sync();notify(this,"cu-change",{section:"tasks",action:e.detail.action,value:this.value});});
     root.querySelector("cu-tabs").addEventListener("cu-change",e=>{if(e.target.localName==="cu-tabs")e.stopPropagation();});
     this._run.addEventListener("cu-press",e=>{e.stopPropagation();this.requestRun();});
   }
@@ -29,6 +29,6 @@ export class CuAutomationDesigner extends BrowserElement{
   get analysis(){return analyzeAutomationGraph(this._graph.value);}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   requestRun(){const analysis=this.analysis;if(this.readonly||!analysis.valid)return false;notify(this,"cu-action",{action:"run-request",value:this.value,order:analysis.order});return true;}
-  _sync(){if(!this._graph)return;this._graph.readonly=this._workflow.readonly=this.readonly;const a=this.analysis;this._run.disabled=this.readonly||!a.valid;this._status.textContent=a.cyclic?"Dependency cycle detected.":!a.nodeCount?"Add nodes to create an automation.":a.nodeCount+" nodes · "+a.edgeCount+" connections · Valid dependency order";}
+  _sync(){if(!this._graph)return;for(const control of [this._graph,this._workflow])if(control.readonly!==this.readonly)control.readonly=this.readonly;const a=this.analysis;this._run.disabled=this.readonly||!a.valid;this._status.textContent=a.cyclic?"Dependency cycle detected.":!a.nodeCount?"Add nodes to create an automation.":a.nodeCount+" nodes · "+a.edgeCount+" connections · Valid dependency order";}
 }
 define("cu-automation-designer",CuAutomationDesigner);
