@@ -20,7 +20,8 @@
     "TreeView",
     "SplitView",
     "DataInspector",
-    "EmptyState"
+    "EmptyState",
+    "SearchBox"
   ],
   "accessibility": {
     "formAssociated": false
