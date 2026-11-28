@@ -19,11 +19,11 @@ export class CuReportBuilder extends BrowserElement{
     for(const type of ["cu-input","cu-change"])this._builder.addEventListener(type,e=>{e.stopPropagation();this._query=this._builder.value;this._pivot.query=this._query;this._renderChart();notify(this,type,{section:"query",query:this.query,config:this.config});});
     this._pivot.addEventListener("cu-change",e=>{e.stopPropagation();if(!e.detail.result)return;this._config=this._pivot.config;this._renderChart();notify(this,"cu-change",{section:"pivot",config:this.config,query:this.query});});
     this._type.addEventListener("cu-input",e=>e.stopPropagation());this._type.addEventListener("cu-change",e=>{e.stopPropagation();this.chartType=e.detail.value;notify(this,"cu-change",{section:"chart",chartType:this.chartType});});
-    this._export.addEventListener("cu-press",e=>{e.stopPropagation();if(!this.result.error)notify(this,"cu-action",{action:"export",report:this.report});});
+    this._export.addEventListener("cu-press",e=>{e.stopPropagation();if(!this.result.error&&this.result.count)notify(this,"cu-action",{action:"export",report:this.report});});
   }
   connectedCallback(){this._sync();}attributeChangedCallback(){this._renderChart();}
   get rows(){return normalizeInspectorRows(this._rows);}set rows(v){this._rows=normalizeInspectorRows(v);this._fields=inspectorFields(this._rows);this._sync();}
-  get query(){return {logic:this._query.logic,conditions:this._query.conditions.map(x=>({...x}))};}
+  get query(){return this._builder.value;}
   set query(v){this._query={logic:v?.logic==="or"?"or":"and",conditions:Array.isArray(v?.conditions)?v.conditions.filter(x=>x&&typeof x.field==="string").map(x=>({...x})):[]};this._sync();}
   get config(){return this._pivot.config;}set config(v){this._config={rowField:String(v?.rowField??""),columnField:String(v?.columnField??""),valueField:String(v?.valueField??""),aggregate:PIVOT_AGGREGATES.includes(v?.aggregate)?v.aggregate:"count"};this._sync();}
   get chartType(){return normalizeChartConfig({type:this.getAttribute("chart-type")}).type;}set chartType(v){this.setAttribute("chart-type",v==="line"?"line":"bar");}
