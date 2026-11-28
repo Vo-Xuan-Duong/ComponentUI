@@ -215,3 +215,8 @@ export { CuWorkspaceSettings, normalizeWorkspaceSettings } from "./workspace-set
 export { CuDeveloperTools } from "./developer-tools.js";
 export { CuFormBuilder, buildFormSchema } from "./form-builder.js";
 export { CuDataSourceEditor, extractResponseRecords } from "./data-source-editor.js";
+
+export { CuDashboardViewer, filterDashboardWidgets } from "./dashboard-viewer.js";
+export { CuProjectWorkspace, normalizeProjectWorkspace } from "./project-workspace.js";
+export { CuSearchWorkspace, normalizeSearchRecords, filterSearchRecords } from "./search-workspace.js";
+export { CuDocumentManager, normalizeManagedDocuments } from "./document-manager.js";
