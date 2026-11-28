@@ -31,7 +31,7 @@ export class CuSchemaEditor extends BrowserElement{
   connectedCallback(){this._render();}attributeChangedCallback(){this._render();}
   get value(){return normalizeObjectSchema(this._value);}set value(v){this._value=normalizeObjectSchema(v);this._render();}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
-  addProperty(name,type){name=String(name??"").trim();if(this.readonly||!name||Object.hasOwn(this._value.properties,name)||!SCHEMA_FIELD_TYPES.includes(type)||Object.keys(this._value.properties).length>=100)return false;this._value.properties[name]={type};this._render();this._inspector.selected=name;this._emit("add",name);return true;}
+  addProperty(name,type){name=String(name??"").trim();if(this.readonly||!name||Object.hasOwn(this._value.properties,name)||!SCHEMA_FIELD_TYPES.includes(type)||Object.keys(this._value.properties).length>=100)return false;this._value.properties[name]={type};this._render();this._inspector.selected=name;this._syncButtons();this._emit("add",name);return true;}
   removeProperty(name){if(this.readonly||!Object.hasOwn(this._value.properties,name))return false;delete this._value.properties[name];this._value.required=this._value.required.filter(x=>x!==name);this._render();this._emit("remove",name);return true;}
   _emit(action,name){notify(this,"cu-change",{action,name,value:this.value});}
   _syncButtons(){this._name.disabled=this._type.disabled=this.readonly;this._add.disabled=this.readonly||Object.keys(this._value.properties).length>=100;this._remove.disabled=this.readonly||!this._inspector.selected;}
