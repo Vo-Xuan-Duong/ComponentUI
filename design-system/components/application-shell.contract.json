@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "ApplicationShell",
+  "tag": "cu-application-shell",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "active": "string",
+    "label": "string"
+  },
+  "properties": {
+    "sections": "CuApplicationSection[]",
+    "groups": "CuMenuGroup[]",
+    "commands": "CuPaletteCommand[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-action",
+    "cu-navigation-toggle"
+  ],
+  "composition": [
+    "AppShell",
+    "Sidebar",
+    "MenuBar",
+    "CommandPalette",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
