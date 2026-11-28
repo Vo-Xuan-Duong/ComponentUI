@@ -1014,6 +1014,8 @@ declare global {
     "cu-formula-input": CuFormulaInput;
     "cu-pivot-table": CuPivotTable;
     "cu-spreadsheet": CuSpreadsheet;
+    "cu-scheduler": CuScheduler;
+    "cu-gantt-chart": CuGanttChart;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1123,3 +1125,14 @@ export declare function normalizeSheet(cells:unknown):string[][];
 export declare function parseCellAddress(address:string):{row:number;column:number}|null;
 export declare function calculateSheet(cells:unknown):(string|number)[][];
 export declare class CuSpreadsheet extends CuDataGrid {cells:(string|number)[][];readonly computedCells:(string|number)[][];getCell(address:string):string|null;getComputedCell(address:string):string|number|null;setCell(address:string,value:unknown):boolean;}
+
+export interface CuScheduleEvent {id:string;title:string;date:string;start:string;end:string;description?:string;}
+export declare function normalizeScheduleEvents(events:unknown):Required<CuScheduleEvent>[];
+export declare function scheduleDayEvents(events:unknown,date:string):Required<CuScheduleEvent>[];
+export declare class CuScheduler extends HTMLElement {date:string;readonly:boolean;events:CuScheduleEvent[];readonly visibleEvents:Required<CuScheduleEvent>[];addEvent(event:CuScheduleEvent):boolean;removeEvent(id:string):boolean;}
+export interface CuGanttTask {id:string;title:string;start:string;end:string;progress?:number;dependencies?:string[];}
+export interface CuGanttRange {start:string;end:string;days:number;truncated:boolean;}
+export declare function normalizeGanttTasks(tasks:unknown):Required<CuGanttTask>[];
+export declare function ganttRange(tasks:unknown,start?:string,end?:string,fallback?:string):CuGanttRange;
+export declare function ganttTaskSpan(task:CuGanttTask,range:CuGanttRange):{offset:number;width:number;clipped:boolean}|null;
+export declare class CuGanttChart extends CuDataTable {tasks:CuGanttTask[];rangeStart:string;rangeEnd:string;readonly range:CuGanttRange;}
