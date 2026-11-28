@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "name": "GanttChart",
+  "tag": "cu-gantt-chart",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "range-start": "YYYY-MM-DD",
+    "range-end": "YYYY-MM-DD",
+    "caption": "string",
+    "page-size": "number",
+    "loading": "boolean",
+    "error": "string"
+  },
+  "properties": {
+    "tasks": "CuGanttTask[]",
+    "range": "CuGanttRange (readonly)"
+  },
+  "events": [
+    "cu-sort",
+    "cu-page-change",
+    "cu-filter-change",
+    "cu-row-action",
+    "cu-header-action"
+  ],
+  "composition": [
+    "DataTable",
+    "ProgressBar",
+    "Calendar date utilities"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
