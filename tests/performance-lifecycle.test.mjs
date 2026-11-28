@@ -65,3 +65,41 @@ test("virtual controls reconcile mounted children and tree ARIA avoids per-row s
  const tabs=await read("tabs");assert.match(tabs,/panel\.inert=!active/);assert.match(tabs,/panel\.matches\(":focus-within"\)/);
  const box=await read("listbox");assert.match(box,/this\._disabled\(\)\|\|event\.pointerType==="touch"/);
 });
+
+test("DataTable selection updates mounted rows without a table render",async()=>{
+ const {CuDataTable}=await import("../packages/web/src/components/data-table.js");
+ const table=Object.create(CuDataTable.prototype);
+ table._rows=[{id:"a"},{id:"b"}];table._selected=new Set();table._rowIndex=new WeakMap();
+ const boxes=[{checked:false},{checked:false}];
+ const nodes=table._rows.map((r,i)=>({dataset:{selectionId:r.id},querySelector:()=>boxes[i]}));
+ table._body={querySelectorAll:()=>nodes};table._syncSelectAll=()=>{};
+ table._render=()=>assert.fail("selection must not rebuild cells");table._notifySelection=()=>{};
+ table.selectedIds=["b"];assert.deepEqual(boxes.map(b=>b.checked),[false,true]);assert.equal(nodes[1].dataset.selected,"true");
+ table.clearSelection();assert.deepEqual(boxes.map(b=>b.checked),[false,false]);
+});
+test("DataGrid unique row index caches a dataset and rejects duplicate IDs",async()=>{
+ const {CuDataGrid}=await import("../packages/web/src/components/data-grid.js");
+ const grid=Object.create(CuDataGrid.prototype);
+ grid._rows=[{id:"a"},{id:"b"},{id:"b"},{id:"b"},{id:0}];
+ assert.equal(grid._uniqueRowIndex("a"),0);assert.equal(grid._uniqueRowIndex("b"),-1);
+ assert.equal(grid._uniqueRowIndex(0),4);assert.equal(grid._uniqueRowIndex("missing"),-1);
+ const prior=grid._gridRowIndexes;grid._uniqueRowIndex("a");assert.equal(grid._gridRowIndexes,prior);
+ grid._rows=[{id:"b"}];assert.equal(grid._uniqueRowIndex("b"),0);assert.notEqual(grid._gridRowIndexes,prior);
+});
+test("TreeTable reuses ordered hierarchy until dataset query or sort changes",()=>{
+ const tree=Object.create(CuTreeTable.prototype);let query="";
+ tree.getAttribute=k=>k==="query"?query:null;
+ tree._items=[{id:"b",label:"Beta",children:[]},{id:"a",label:"Alpha",children:[]}];
+ tree._sortKey="";tree._direction="asc";
+ const first=tree._orderedItems();assert.equal(first[0].id,"a");assert.equal(tree._orderedItems(),first);
+ tree._direction="desc";const second=tree._orderedItems();assert.notEqual(second,first);assert.equal(second[0].id,"b");
+ query="alpha";assert.deepEqual(tree._orderedItems().map(x=>x.id),["a"]);
+ tree._items=[];assert.deepEqual(tree._orderedItems(),[]);
+});
+test("scroll components scope deferred callbacks to their lifecycle",async()=>{
+ const read=name=>readFile(new URL("../packages/web/src/components/"+name+".js",import.meta.url),"utf8");
+ const area=await read("scroll-area"),infinite=await read("infinite-scroll");
+ assert.match(area,/this\._observer===observer&&this\.isConnected/);
+ assert.match(infinite,/this\._fallbackFrame\.cancel\(\)/);
+ assert.match(infinite,/this\._viewport\.focus\(\{preventScroll:true\}\)/);
+});
