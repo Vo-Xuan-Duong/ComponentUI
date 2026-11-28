@@ -125,3 +125,5 @@ ImageViewer composes Image, Slider, Button, ScrollArea and Icon. TransferList co
 MentionInput extends AutoComplete and shares its suggestion overlay, keyboard handling and form lifecycle. PhoneInput and FormulaInput extend TextField and share the semantic validation hook in _field.js. QueryBuilder composes DataFilter, Select, Button, IconButton and EmptyState, and uses the same comparison engine as DataTable. See [Advanced inputs](ADVANCED_INPUTS.md).
 
 PivotTable composes DataTable, Select and EmptyState, sharing QueryBuilder filtering and the canonical DataTable group identity utilities. Spreadsheet extends DataGrid, retaining its cell editing and context actions, and extends the existing FormulaInput arithmetic parser with a reference resolver. See [Data tools](DATA_TOOLS.md) for APIs and limits.
+
+Scheduler composes Calendar, DatePicker, TimePicker, TextField, Button, Timeline and EmptyState. GanttChart extends DataTable to keep tasks and time bars aligned, using ProgressBar for completion. Both use _schedule.js and the existing Calendar date arithmetic. See [Scheduling tools](SCHEDULING_TOOLS.md).
