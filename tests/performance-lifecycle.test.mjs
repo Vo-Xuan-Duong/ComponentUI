@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
-import {frameTask,reconcileVirtualWindow} from "../packages/web/src/components/_shared.js";
+import {frameTask,reconcileVirtualWindow,reconcileElementChildren} from "../packages/web/src/components/_shared.js";
 import {virtualListRange,flattenTreeList,initialTreeExpansion,CuInfiniteScroll,CuTreeTable} from "../packages/web/src/components/index.js";
 test("frame task coalesces requests, cancels and ignores stale callbacks",()=>{
  const queue=new Map();let sequence=0,calls=0;const host={isConnected:true,ownerDocument:{defaultView:{requestAnimationFrame(fn){queue.set(++sequence,fn);return sequence;},cancelAnimationFrame(id){queue.delete(id);}}}};
@@ -41,4 +41,27 @@ test("performance contracts use passive scheduling and incremental rows",async()
  const read=p=>readFile(new URL(p,import.meta.url),"utf8");
  for(const name of ["virtual-list","tree-list","scroll-area"]){const source=await read("../packages/web/src/components/"+name+".js");assert.ok(source.includes("frameTask"));assert.ok(source.includes("this._frame.cancel()"));}
  const tree=await read("../packages/web/src/components/tree-table.js");assert.ok(tree.includes("rows.slice(0,this._limit)"));assert.ok(tree.includes("Show more ("));
+});
+
+test("DOM window reconciliation only detaches departing rows and inserts arrivals",()=>{
+ const counts={insert:0,remove:0};const parent={children:[],insertBefore(node,before){counts.insert++;const old=this.children.indexOf(node);if(old>=0)this.children.splice(old,1);const index=before?this.children.indexOf(before):this.children.length;this.children.splice(index,0,node);}};
+ const make=index=>({index,remove(){counts.remove++;parent.children.splice(parent.children.indexOf(this),1);}});
+ let state=reconcileVirtualWindow(null,0,20,1,make);
+ reconcileElementChildren(parent,[...state.nodes.values()]);assert.equal(counts.insert,20);
+ const retained=parent.children[5];
+ state=reconcileVirtualWindow(state,1,21,1,make);reconcileElementChildren(parent,[...state.nodes.values()]);
+ assert.equal(counts.insert,21);assert.equal(counts.remove,1);assert.equal(parent.children[4],retained);
+ reconcileElementChildren(parent,[...state.nodes.values()]);assert.equal(counts.insert,21);assert.equal(counts.remove,1);
+ state=reconcileVirtualWindow(state,0,20,1,make);reconcileElementChildren(parent,[...state.nodes.values()]);
+ assert.equal(counts.insert,22);assert.equal(counts.remove,2);assert.equal(parent.children[5],retained);
+ assert.deepEqual(parent.children.map(n=>n.index),Array.from({length:20},(_,i)=>i));
+ reconcileElementChildren(parent,[]);assert.equal(parent.children.length,0);
+});
+test("virtual controls reconcile mounted children and tree ARIA avoids per-row sibling scans",async()=>{
+ const read=name=>readFile(new URL("../packages/web/src/components/"+name+".js",import.meta.url),"utf8");
+ for(const name of ["virtual-list","tree-list"]){const code=await read(name);assert.match(code,/reconcileElementChildren\(this\._itemsRoot/);assert.doesNotMatch(code,/this\._itemsRoot\.replaceChildren/);}
+ const tree=await read("tree-view");assert.match(tree,/siblingsByParent/);assert.doesNotMatch(tree,/this\._visible\.filter\(x=>x\.level===item\.level/);
+ const list=await read("tree-list");assert.match(list,/if\(active&&!active\.disabled/);
+ const tabs=await read("tabs");assert.match(tabs,/panel\.inert=!active/);assert.match(tabs,/panel\.matches\(":focus-within"\)/);
+ const box=await read("listbox");assert.match(box,/this\._disabled\(\)\|\|event\.pointerType==="touch"/);
 });
