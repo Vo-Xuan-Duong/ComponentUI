@@ -227,7 +227,7 @@ test("Web and React adapters register all five Custom Element tags",async()=>{
     assert.ok(types.includes("class Cu"+name+" extends "));
     assert.ok(react.includes(name));
   }
-  assert.equal(Object.keys(REACT_TAGS).length,195);
+  assert.equal(Object.keys(REACT_TAGS).length,199);
   let sets=0;
   const accordion={};
   Object.defineProperty(accordion,"values",{get(){return [];},set(){sets++;}});
@@ -257,8 +257,8 @@ test("Playground exposes interactions and catalog stays at 129 entries",async()=
   const items=JSON.parse(json).groups.flatMap(g=>g.components);
   for(const name of ["Accordion","Pagination","Drawer"])
     assert.equal(items.find(c=>c.name===name)?.status,"preview");
-  assert.equal(items.length,184);
-  assert.equal(items.filter(c=>c.status==="preview").length,184);
+  assert.equal(items.length,188);
+  assert.equal(items.filter(c=>c.status==="preview").length,188);
   assert.equal(items.filter(c=>c.status==="planned").length,0);
   assert.equal(items.filter(c=>c.status==="ready").length,0);
 });
