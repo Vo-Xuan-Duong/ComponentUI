@@ -38,3 +38,14 @@ test("desktop tools reuse components and expose package exports",async()=>{
     for(const dep of deps)assert.ok(source.includes('"./'+dep+'.js"'));
   }
 });
+
+test("workspace lifecycle and file explorer shared search contracts",async()=>{
+ const read=n=>readFile(new URL("../packages/web/src/components/"+n+".js",import.meta.url),"utf8");
+ const manager=await read("window-manager"),explorer=await read("file-explorer");
+ assert.match(manager,/if\(wasActive\)this\.active=this\.active/);
+ assert.match(manager,/pane\.inert=hidden/);
+ assert.match(manager,/this\._observer=null/);
+ assert.match(explorer,/<cu-search-box class="search"/);
+ assert.match(explorer,/this\._search\.addEventListener\("cu-input"/);
+ assert.match(explorer,/e\.preventDefault\(\);e\.stopPropagation\(\);this\._showMenu/);
+});
