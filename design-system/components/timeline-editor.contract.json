@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "TimelineEditor",
+  "tag": "cu-timeline-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "items": "CuTimelineItem[]"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "Timeline",
+    "DatePicker",
+    "TextField",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
