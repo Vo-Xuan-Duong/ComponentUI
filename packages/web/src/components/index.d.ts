@@ -1020,6 +1020,10 @@ declare global {
     "cu-ribbon": CuRibbon;
     "cu-terminal": CuTerminal;
     "cu-window-manager": CuWindowManager;
+    "cu-pdf-viewer": CuPdfViewer;
+    "cu-resource-calendar": CuResourceCalendar;
+    "cu-timeline-editor": CuTimelineEditor;
+    "cu-property-inspector": CuPropertyInspector;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1154,3 +1158,18 @@ export declare class CuTerminal extends HTMLElement {lines:(string|CuTerminalLin
 export interface CuManagedWindow {id:string;title?:string;closed?:boolean;}
 export declare function resolveWindowId(windows:CuManagedWindow[],requested?:string):string;
 export declare class CuWindowManager extends HTMLElement {active:string;readonly windows:CuManagedWindow[];layout:CuDockLayout["layout"];activateWindow(id:string):boolean;closeWindow(id:string):boolean;reopenWindow(id:string):boolean;}
+
+export interface CuPdfDocument {pageCount:number;renderPage(page:number):string|Promise<string>;}
+export declare function clampPdfPage(page:number,count:number):number;
+export declare class CuPdfViewer extends HTMLElement {pages:string[];document:CuPdfDocument|null;page:number;readonly pageCount:number;goToPage(page:number):boolean;}
+export interface CuCalendarResource {id:string;label?:string;}
+export interface CuResourceEvent extends CuScheduleEvent {resourceId:string;}
+export declare function normalizeResources(resources:unknown):Required<CuCalendarResource>[];
+export declare function normalizeResourceEvents(events:unknown):Required<CuResourceEvent>[];
+export declare class CuResourceCalendar extends HTMLElement {resources:CuCalendarResource[];events:CuResourceEvent[];date:string;resourceId:string;}
+export declare function normalizeTimelineEntries(items:unknown):Required<CuTimelineItem>[];
+export declare class CuTimelineEditor extends HTMLElement {items:CuTimelineItem[];readonly:boolean;edit(id:string):boolean;remove(id:string):boolean;}
+export interface CuInspectorObject {id:string;label?:string;properties:CuPropertyItem[];}
+export declare function normalizeInspectorObjects(objects:unknown):CuInspectorObject[];
+export declare function resolveInspectorObject(objects:CuInspectorObject[],selected?:string):string;
+export declare class CuPropertyInspector extends HTMLElement {objects:CuInspectorObject[];selected:string;readonly:boolean;selectObject(id:string):boolean;}
