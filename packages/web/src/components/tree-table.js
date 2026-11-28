@@ -13,7 +13,7 @@ export function filterTreeTableItems(items,query=""){
  if(!terms.length)return items;
  const visit=nodes=>nodes.flatMap(item=>{
    const children=visit(item.children||[]);
-   const matches=terms.every(term=>fold([item.label,...Object.values(item.values||{})].join(" ")).includes(term));
+   const text=fold([item.label,...Object.values(item.values||{})].join(" "));const matches=terms.every(term=>text.includes(term));
    return matches||children.length?[{...item,children}]:[];
  });
  return visit(items);
@@ -31,7 +31,7 @@ export function sortTreeTableItems(items,key,direction="asc"){
  return visit(items);
 }
 const css=[
- ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
+ ":host([hidden]){display:none!important;}:host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
  ".frame{overflow:auto;border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface,#fff);max-height:var(--cu-tree-table-height,440px);}",
  "table{width:100%;border-collapse:collapse;text-align:start;}th,td{padding:9px 12px;border-bottom:1px solid var(--cu-border,#e5e5e5);text-align:start;white-space:nowrap;}thead th{background:var(--cu-surface-alt,#fafafa);position:sticky;top:0;z-index:1;font-weight:650;}",
  "tbody tr:hover{background:var(--cu-state-hover);}tbody tr[data-context=true]{background:var(--cu-state-active);}tbody tr:last-child td{border-bottom:0;}.node{display:flex;align-items:center;gap:5px;padding-inline-start:calc(var(--depth)*18px);}",
@@ -54,7 +54,7 @@ export class CuTreeTable extends BrowserElement{
    else{const item=normalizeTreeTableItems([context.item])[0];notify(this,"cu-row-action",{id:item.id,row:item,action,label:event.detail.label});}
   });
  }
- connectedCallback(){this._render();}attributeChangedCallback(name){if(name==="query"||name==="render-batch")this._limit=this.renderBatch;this._render();}
+ connectedCallback(){this._render();}disconnectedCallback(){this._menu?.hide();this._clearContext();}attributeChangedCallback(name){if(name==="query"||name==="render-batch")this._limit=this.renderBatch;this._render();}
  get renderBatch(){const n=Number(this.getAttribute("render-batch"));return Number.isFinite(n)&&n>0?Math.max(25,Math.min(1000,Math.floor(n))):200;}
  get items(){return normalizeTreeTableItems(this._items);}
  set items(v){this._limit=this.renderBatch;const oldIds=new Set();walk(this._items,n=>oldIds.add(n.id));this._items=normalizeTreeTableItems(v);const next=new Set();walk(this._items,n=>{if(n.children.length&&(this._expanded.has(n.id)||(!oldIds.has(n.id)&&n.expanded)))next.add(n.id);});this._expanded=next;this._render();}
@@ -78,6 +78,11 @@ export class CuTreeTable extends BrowserElement{
   element.addEventListener("contextmenu",e=>{if(e.defaultPrevented)return;e.preventDefault();e.stopPropagation();open(e.clientX,e.clientY);});
   element.addEventListener("keydown",e=>{if(e.defaultPrevented||e.key!=="ContextMenu"&&!(e.shiftKey&&e.key==="F10"))return;e.preventDefault();e.stopPropagation();const r=element.getBoundingClientRect();open(r.left+12,r.bottom);});
  }
+ _orderedItems(){
+  const query=this.query,source=this._items,key=this._sortKey,direction=this._direction,cache=this._orderCache;
+  if(cache?.source===source&&cache.query===query&&cache.key===key&&cache.direction===direction)return cache.items;
+  const items=sortTreeTableItems(filterTreeTableItems(source,query),key,direction);this._orderCache={source,query,key,direction,items};return items;
+ }
  _render(focusId){
   if(!this._table)return;
   const doc=this.ownerDocument,active=this.shadowRoot.activeElement,focusedRow=active?.closest("tr[data-id]")?.dataset.id,focusedHeader=active?.closest("th[data-key]")?.dataset.key,focusedToggle=active?.dataset?.id;
@@ -89,7 +94,7 @@ export class CuTreeTable extends BrowserElement{
    else th.textContent=col.label;
    head.append(th);
   }this._head.replaceChildren(head);
-  const searching=Boolean(this.query.trim()),filtered=filterTreeTableItems(this._items,this.query),ordered=sortTreeTableItems(filtered,this._sortKey,this._direction),expanded=new Set(this._expanded);
+  const searching=Boolean(this.query.trim()),ordered=this._orderedItems(),expanded=new Set(this._expanded);
   if(searching)walk(ordered,n=>{if(n.children.length)expanded.add(n.id);});
   const rows=visibleTreeTableRows(ordered,expanded),originals=new Map();walk(this._items,item=>originals.set(item.id,item));
   const shown=rows.slice(0,this._limit),fragment=doc.createDocumentFragment();for(const {item,depth} of shown){
