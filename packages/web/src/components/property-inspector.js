@@ -1,5 +1,6 @@
 import {BrowserElement,mount,define,notify} from "./_shared.js";
 import {normalizePropertyItems} from "./property-grid.js";
+import "./search-box.js";
 import "./tree-view.js";
 import "./split-view.js";
 import "./empty-state.js";
@@ -10,12 +11,14 @@ export function normalizeInspectorObjects(objects){
   });
 }
 export function resolveInspectorObject(objects,selected){return objects.find(o=>o.id===selected)?.id??objects[0]?.id??"";}
-const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}.panel{display:grid;gap:8px;}cu-split-view{height:var(--cu-inspector-height,400px);}.objects,.properties{padding:8px;min-width:0;}.heading{font-weight:650;margin-bottom:8px;}.status{font-size:12px;color:var(--cu-text-muted,#616161);}";
+const css=":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}.panel{display:grid;gap:8px;}cu-split-view{height:var(--cu-inspector-height,400px);}.objects,.properties{padding:var(--cu-inspector-padding,8px);min-width:0;}.objects cu-search-box{margin-bottom:8px;}.heading{font-weight:650;margin-bottom:8px;}.status{font-size:12px;color:var(--cu-text-muted,#616161);}";
 export class CuPropertyInspector extends BrowserElement{
   static get observedAttributes(){return ["selected","readonly"];}
   constructor(){
-    super();this._objects=[];
-    const root=mount(this,css,'<section class="panel" aria-label="Property inspector"><cu-split-view position="30" min="20" max="60" label="Objects and properties"><div class="objects" slot="sidebar"><div class="heading">Objects</div><cu-tree-view label="Inspectable objects"></cu-tree-view></div><div class="properties" slot="content"><div class="heading current"></div><cu-property-grid searchable label="Properties"></cu-property-grid><cu-empty-state size="sm" title="No object selected" hidden></cu-empty-state></div></cu-split-view><span class="status" role="status"></span></section>');
+    super();this._objects=[];this._objectQuery="";
+    const root=mount(this,css,'<section class="panel" aria-label="Property inspector"><cu-split-view position="30" min="20" max="60" label="Objects and properties"><div class="objects" slot="sidebar"><div class="heading">Objects</div><cu-search-box placeholder="Find objects…" aria-label="Find objects"></cu-search-box><cu-tree-view label="Inspectable objects"></cu-tree-view></div><div class="properties" slot="content"><div class="heading current"></div><cu-property-grid searchable label="Properties"></cu-property-grid><cu-empty-state size="sm" title="No object selected" hidden></cu-empty-state></div></cu-split-view><span class="status" role="status"></span></section>');
+    this._search=root.querySelector("cu-search-box");this._search.addEventListener("cu-input",e=>{e.stopPropagation();this._objectQuery=e.detail.value;this._renderTree();});
+    for(const type of ["cu-change","cu-search"])this._search.addEventListener(type,e=>e.stopPropagation());
     this._tree=root.querySelector("cu-tree-view");this._grid=root.querySelector("cu-property-grid");this._split=root.querySelector("cu-split-view");this._current=root.querySelector(".current");this._empty=root.querySelector("cu-empty-state");this._status=root.querySelector(".status");
     this._tree.addEventListener("cu-change",e=>{e.stopPropagation();this.selectObject(e.detail.value);});
     this._grid.addEventListener("cu-change",e=>{
@@ -33,13 +36,14 @@ export class CuPropertyInspector extends BrowserElement{
   selectObject(id){if(!this._objects.some(o=>o.id===id))return false;if(id===this.selected)return true;this.selected=id;notify(this,"cu-select",{value:id,objectId:id});return true;}
   _renderTree(){
     if(!this._tree)return;
-    this._tree.replaceChildren(...this._objects.map(o=>{const item=this.ownerDocument.createElement("cu-tree-item");item.setAttribute("value",o.id);item.setAttribute("label",o.label);return item;}));
+    this._tree.replaceChildren(...this._objects.filter(o=>[o.id,o.label].some(v=>v.toLocaleLowerCase().includes(this._objectQuery.trim().toLocaleLowerCase()))).map(o=>{const item=this.ownerDocument.createElement("cu-tree-item");item.setAttribute("value",o.id);item.setAttribute("label",o.label);return item;}));
     this._tree.value=this.selected;queueMicrotask(()=>{if(this.isConnected)this._tree.value=this.selected;});
   }
   _sync(){
     if(!this._grid)return;const object=this._objects.find(o=>o.id===this.selected);
     if(this._tree.value!==this.selected)this._tree.value=this.selected;
-    this._grid.readonly=this.readonly;this._grid.items=object?.properties??[];this._grid.hidden=!object;this._empty.hidden=Boolean(object);this._current.textContent=object?.label??"Properties";this._status.textContent=object?object.properties.length+" properties":"No objects";
+    if(this._grid.readonly!==this.readonly)this._grid.readonly=this.readonly;
+    if(this._shownObject!==object){this._shownObject=object;this._grid.query="";this._grid.items=object?.properties??[];}this._grid.hidden=!object;this._empty.hidden=Boolean(object);this._current.textContent=object?.label??"Properties";this._status.textContent=object?object.properties.length+" properties":"No objects";
   }
 }
 define("cu-property-inspector",CuPropertyInspector);
