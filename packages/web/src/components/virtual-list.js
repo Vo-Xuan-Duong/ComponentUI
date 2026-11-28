@@ -1,4 +1,4 @@
-import { BrowserElement, mount, notify, define, frameTask, reconcileVirtualWindow } from "./_shared.js";
+import { BrowserElement, mount, notify, define, frameTask, reconcileVirtualWindow, reconcileElementChildren } from "./_shared.js";
 
 export function virtualListRange(scrollTop,viewportHeight,count,itemHeight=40,overscan=4){
   const finite=(v,fallback=0)=>Number.isFinite(Number(v))?Number(v):fallback;
@@ -35,7 +35,7 @@ const css=[
   "border-bottom:1px solid var(--cu-border,#e5e5e5);cursor:pointer;}",
   ".item:hover:not([aria-disabled=true]){background:var(--cu-state-hover);}",
   ".item[aria-selected=true]{color:var(--cu-accent,#0067c0);",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 14%,var(--cu-surface,#fff));}",
+  "background:var(--cu-state-selected);}",
   ".item[aria-disabled=true]{opacity:.45;cursor:not-allowed;}",
   ".empty{padding:18px 14px;color:var(--cu-text-muted,#616161);}",
   ".empty[hidden]{display:none!important;}",
@@ -172,7 +172,7 @@ export class CuVirtualList extends BrowserElement {
     this._lastRange=signature;
     this._top.style.height=range.top+"px";
     this._bottom.style.height=range.bottom+"px";
-    const doc=this.ownerDocument??globalThis.document,frag=doc.createDocumentFragment();
+    const doc=this.ownerDocument??globalThis.document;
     const revision=[this.itemHeight,this.labelKey,len].join(":");
     this._window=reconcileVirtualWindow(this._window,range.start,range.end,revision,i=>{
       const item=this._items[i];
@@ -188,8 +188,8 @@ export class CuVirtualList extends BrowserElement {
       option.textContent=virtualListLabel(item,i,this.labelKey);
       return option;
     });
-    for(const [i,option] of this._window.nodes){option.setAttribute("aria-selected",String(i===this._selected));frag.append(option);}
-    this._itemsRoot.replaceChildren(frag);
+    for(const [i,option] of this._window.nodes){const selected=String(i===this._selected);if(option.getAttribute("aria-selected")!==selected)option.setAttribute("aria-selected",selected);}
+    reconcileElementChildren(this._itemsRoot,[...this._window.nodes.values()]);
     if(this._selected>=range.start&&this._selected<range.end)
       this._viewport.setAttribute("aria-activedescendant",this._idBase+"-"+this._selected);
     else this._viewport.removeAttribute("aria-activedescendant");
