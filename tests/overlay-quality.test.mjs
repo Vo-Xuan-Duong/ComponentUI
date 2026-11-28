@@ -152,3 +152,30 @@ test("dropdown components opt in to shared top layer and release it",async()=>{
     assert.match(source,/closeOverlayTopLayer\(this\./);
   }
 });
+
+test("context menu and tooltip share top layer and viewport cleanup",async()=>{
+  for(const name of ["context-menu","tooltip"]){
+    const source=await read("../packages/web/src/components/"+name+".js");
+    assert.match(source,/openOverlayTopLayer\(/);
+    assert.match(source,/closeOverlayTopLayer\(/);
+    assert.match(source,/watchOverlayViewport\(/);
+    assert.match(source,/this\._stopViewport\?\.\(\)/);
+  }
+  const tooltip=await read("../packages/web/src/components/tooltip.js");
+  assert.match(tooltip,/event\.key==="Escape"/);
+  assert.match(tooltip,/pointerleave/);
+  assert.match(tooltip,/focusout/);
+  const menu=await read("../packages/web/src/components/context-menu.js");
+  assert.match(menu,/deepActiveElement\(this\.ownerDocument\)/);
+  assert.match(menu,/visualViewport/);
+});
+test("flyout and teaching tip reuse popover and shared dismissal control",async()=>{
+  for(const name of ["flyout","teaching-tip"]){
+    const source=await read("../packages/web/src/components/"+name+".js");
+    assert.match(source,/extends CuPopover/);
+  }
+  const tip=await read("../packages/web/src/components/teaching-tip.js");
+  assert.match(tip,/createElement\("cu-button"\)/);
+  assert.match(tip,/addEventListener\("cu-press"/);
+  assert.match(tip,/restoreOverlayFocus/);
+});
