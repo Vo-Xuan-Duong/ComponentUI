@@ -25,6 +25,10 @@
     "keyboard": [
       "Escape"
     ],
-    "label": "internal heading from title attribute"
-  }
+    "label": "internal heading from title attribute",
+    "overlayStack": "Document-scoped stack; descendant overlays dismissed on close and disconnect."
+  },
+  "composition": [
+    "IconButton"
+  ]
 }
