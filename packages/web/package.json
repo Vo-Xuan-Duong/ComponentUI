@@ -676,6 +676,22 @@
     "./components/window-manager": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/window-manager.js"
+    },
+    "./components/pdf-viewer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/pdf-viewer.js"
+    },
+    "./components/resource-calendar": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/resource-calendar.js"
+    },
+    "./components/timeline-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/timeline-editor.js"
+    },
+    "./components/property-inspector": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/property-inspector.js"
     }
   },
   "files": [
