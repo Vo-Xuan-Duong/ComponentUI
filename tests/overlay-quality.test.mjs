@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import {overlayGeometry,placeAnchoredOverlay,registerOverlay,unregisterOverlay,isTopOverlay,
-  deepActiveElement,restoreOverlayFocus,watchOverlayViewport,openOverlayTopLayer,closeOverlayTopLayer,overlayViewportPosition}
+  deepActiveElement,restoreOverlayFocus,dismissDescendantOverlays,watchOverlayViewport,openOverlayTopLayer,closeOverlayTopLayer,overlayViewportPosition}
   from "../packages/web/src/components/_overlay.js";
 import {CuCombobox} from "../packages/web/src/components/combobox.js";
 
@@ -178,4 +178,41 @@ test("flyout and teaching tip reuse popover and shared dismissal control",async(
   assert.match(tip,/createElement\("cu-button"\)/);
   assert.match(tip,/addEventListener\("cu-press"/);
   assert.match(tip,/restoreOverlayFocus/);
+});
+
+test("overlay stack is isolated by document and nested dismissal follows shadow ancestry",()=>{
+ const doc1={},doc2={},events=[];
+ const outer={ownerDocument:doc1},root={host:outer};
+ const child={ownerDocument:doc1,parentNode:root,hide(restore){events.push(["child",restore]);}};
+ const inner={ownerDocument:doc1,parentNode:child,close(){events.push(["inner"]);}};
+ const unrelated={ownerDocument:doc2,hide(){assert.fail("different document");}};
+ try{
+  for(const host of [outer,child,inner,unrelated])registerOverlay(host);
+  assert.equal(isTopOverlay(inner),true);assert.equal(isTopOverlay(unrelated),true);
+  dismissDescendantOverlays(outer);assert.deepEqual(events,[["inner"],["child",false]]);
+  assert.equal(isTopOverlay(outer),true);assert.equal(isTopOverlay(unrelated),true);
+ }finally{for(const host of [outer,child,inner,unrelated])unregisterOverlay(host);}
+});
+test("unregister removes host from its previous document after adoption",()=>{
+ const doc1={},doc2={},first={ownerDocument:doc1},second={ownerDocument:doc1};
+ try{registerOverlay(first);registerOverlay(second);second.ownerDocument=doc2;registerOverlay(second);assert.equal(isTopOverlay(first),true);assert.equal(isTopOverlay(second),true);}
+ finally{unregisterOverlay(first);unregisterOverlay(second);}
+});
+test("viewport observer ignores callbacks after disposal",()=>{
+ let callback,calls=0,disconnected=0;
+ const view={addEventListener(){},removeEventListener(){},ResizeObserver:class{constructor(fn){callback=fn;}observe(){}disconnect(){disconnected++;}}};
+ const stop=watchOverlayViewport({ownerDocument:{defaultView:view},isConnected:true},()=>calls++);
+ callback([]);stop();stop();callback([]);assert.equal(calls,1);assert.equal(disconnected,1);
+});
+test("modal surfaces register and clean their shared stack",async()=>{
+ for(const name of ["dialog","drawer","command-palette"]){
+  const source=await read("../packages/web/src/components/"+name+".js");
+  assert.match(source,/showModal\(\);registerOverlay\(this\)/);
+  assert.match(source,/disconnectedCallback\(\)\{[^\n]*unregisterOverlay\(this\)/);
+  assert.match(source,/isTopOverlay\(this\)/);
+  assert.match(source,/dismissDescendantOverlays\(this\)/);
+  assert.match(source,/<cu-icon-button class="close"/);
+ }
+ const confirm=await read("../packages/web/src/components/confirm-dialog.js");
+ assert.match(confirm,/createElement\("cu-button"\)/);assert.match(confirm,/\?"danger":"accent"/);
 });
