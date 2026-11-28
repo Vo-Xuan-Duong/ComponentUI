@@ -1,6 +1,7 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
 import "./icon.js";
 import "./search-box.js";
+import "./select.js";
 const types=["text","number","boolean","select","color"];
 const finite=v=>typeof v==="number"&&Number.isFinite(v);
 const optionItems=items=>{
@@ -48,8 +49,8 @@ export function filterPropertyItems(items,query){
 }
 const css=[
   ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
-  ".frame{border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);overflow:hidden;background:var(--cu-surface,#fff);}.toolbar{display:flex;align-items:center;gap:8px;padding:9px;border-bottom:1px solid var(--cu-border,#e5e5e5);}.toolbar[hidden]{display:none!important;}.toolbar cu-search-box{flex:1;min-width:0;}",
-  "input,select{font:inherit;color:inherit;box-sizing:border-box;min-width:0;}input:not([type=checkbox]),select{width:100%;min-height:32px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);padding:4px 8px;background:var(--cu-surface,#fff);}input[type=checkbox]{width:17px;height:17px;accent-color:var(--cu-accent,#0067c0);margin:0;}input[type=color]{max-width:72px;cursor:pointer;}",
+  ".frame{border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);background:var(--cu-surface,#fff);}.toolbar{display:flex;align-items:center;gap:8px;padding:9px;border-bottom:1px solid var(--cu-border,#e5e5e5);}.toolbar[hidden]{display:none!important;}.toolbar cu-search-box{flex:1;min-width:0;}",
+  "input{font:inherit;color:inherit;box-sizing:border-box;min-width:0;}cu-select{min-width:0;--cu-control-height:32px;}input:not([type=checkbox]){width:100%;min-height:32px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);padding:4px 8px;background:var(--cu-surface,#fff);}input[type=checkbox]{width:17px;height:17px;accent-color:var(--cu-accent,#0067c0);margin:0;}input[type=color]{max-width:72px;cursor:pointer;}",
   ".group-header{width:100%;display:flex;align-items:center;gap:7px;text-align:start;padding:10px 12px;border:0;border-bottom:1px solid var(--cu-border,#e5e5e5);background:var(--cu-surface-alt,#fafafa);color:inherit;font:650 12px var(--cu-font-body,system-ui);cursor:pointer;}.group-header:hover{background:var(--cu-state-hover);}.group-header[aria-expanded=true] cu-icon{transform:rotate(90deg);}.rows[hidden]{display:none!important;}",
   ".row{display:grid;grid-template-columns:minmax(0,var(--cu-property-label-width,42%)) minmax(0,1fr);gap:12px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--cu-border,#e5e5e5);}.row:last-child{border-bottom:0;}.row:hover{background:var(--cu-state-hover);}.label{padding-top:7px;overflow-wrap:anywhere;font-weight:550;}.editor{min-width:0;display:grid;gap:4px;align-items:center;min-height:32px;}.description,.error,.empty{font-size:12px;color:var(--cu-text-muted,#616161);line-height:1.5;}.description{font-weight:400;}.error{color:var(--cu-danger,#c42b1c);}.error:empty{display:none;}.editor [aria-invalid=true]{border-color:var(--cu-danger,#c42b1c);}.editor :disabled{opacity:.55;cursor:not-allowed;}.empty{padding:20px;text-align:center;}.empty[hidden]{display:none!important;}.color-value{font:12px ui-monospace,monospace;}",
   "@media(max-width:360px){.row{grid-template-columns:1fr;gap:4px;}.label{padding-top:0;}}",focusStyle
@@ -104,11 +105,12 @@ export class CuPropertyGrid extends BrowserElement{
         const row=doc.createElement("div");row.className="row";
         const label=doc.createElement("label");label.className="label";label.textContent=item.label;
         const editor=doc.createElement("div");editor.className="editor";
-        const control=doc.createElement(item.type==="select"?"select":"input");control.id="property-"+index++;control.dataset.property=item.key;label.htmlFor=control.id;
-        if(item.description){const d=doc.createElement("div");d.className="description";d.id=control.id+"-description";d.textContent=item.description;label.append(d);}
+        const control=doc.createElement(item.type==="select"?"cu-select":"input");control.id="property-"+index++;control.dataset.property=item.key;label.htmlFor=control.id;
+        if(item.description&&item.type!=="select"){const d=doc.createElement("div");d.className="description";d.id=control.id+"-description";d.textContent=item.description;label.append(d);}
         if(item.type==="select"){
           for(const option of item.options){const o=doc.createElement("option");o.value=option.value;o.textContent=option.label;o.disabled=option.disabled;control.append(o);}
-          control.value=String(item.value);
+          control.setAttribute("value",String(item.value));
+          if(item.description)control.setAttribute("hint",item.description);
         }else{
           control.type=item.type==="boolean"?"checkbox":item.type==="number"?"number":item.type==="color"?"color":"text";
           if(item.type==="boolean")control.checked=Boolean(item.value);
@@ -117,13 +119,17 @@ export class CuPropertyGrid extends BrowserElement{
         }
         const locked=this.disabled||item.disabled||this.readonly||item.readonly;control.disabled=this.disabled||item.disabled||((this.readonly||item.readonly)&&!["text","number"].includes(item.type));if(["text","number"].includes(item.type))control.readOnly=locked;
         control.setAttribute("aria-label",item.label);
-        if(item.required)control.setAttribute("aria-required","true");
+        if(item.required){if(item.type==="select")control.required=true;else control.setAttribute("aria-required","true");}
+        if(item.type==="select")label.addEventListener("click",()=>{if(!control.disabled)control.focus();});
         editor.append(control);
         if(item.type==="color"){const value=doc.createElement("span");value.className="color-value";value.textContent=String(item.value);editor.append(value);}
         const error=doc.createElement("span");error.className="error";error.id=control.id+"-error";error.setAttribute("role","status");editor.append(error);
-        control.setAttribute("aria-describedby",[item.description?control.id+"-description":"",error.id].filter(Boolean).join(" "));
-        control.addEventListener("change",()=>this._commit(item,control,error));
-        control.addEventListener("keydown",e=>{if(e.key==="Escape"&&!e.isComposing&&!locked){e.preventDefault();if(item.type==="boolean")control.checked=Boolean(item.value);else control.value=String(item.value);control.setAttribute("aria-invalid","false");error.textContent="";}});
+        if(item.type!=="select")control.setAttribute("aria-describedby",[item.description?control.id+"-description":"",error.id].filter(Boolean).join(" "));
+        if(item.type==="select"){
+          control.addEventListener("cu-input",e=>e.stopPropagation());
+          control.addEventListener("cu-change",e=>{e.stopPropagation();this._commit(item,control,error);});
+        }else control.addEventListener("change",()=>this._commit(item,control,error));
+        control.addEventListener("keydown",e=>{if(item.type!=="select"&&e.key==="Escape"&&!e.isComposing&&!locked){e.preventDefault();if(item.type==="boolean")control.checked=Boolean(item.value);else control.value=String(item.value);control.setAttribute("aria-invalid","false");error.textContent="";}});
         row.append(label,editor);body.append(row);
       }
       section.append(header,body);return section;
