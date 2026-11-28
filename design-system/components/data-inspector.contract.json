@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "DataInspector",
+  "tag": "cu-data-inspector",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {},
+  "properties": {
+    "rows": "Record<string,unknown>[]",
+    "query": "CuQueryValue",
+    "visibleRows": "Record<string,unknown>[] (readonly)"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-select"
+  ],
+  "composition": [
+    "QueryBuilder",
+    "DataTable",
+    "JsonViewer",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
