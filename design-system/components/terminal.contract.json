@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "Terminal",
+  "tag": "cu-terminal",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "max-lines": "number",
+    "prompt": "string",
+    "disabled": "boolean"
+  },
+  "properties": {
+    "lines": "(string | CuTerminalLine)[]"
+  },
+  "events": [
+    "cu-action"
+  ],
+  "composition": [
+    "VirtualList",
+    "TextField",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
