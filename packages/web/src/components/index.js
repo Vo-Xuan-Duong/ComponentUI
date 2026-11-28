@@ -190,3 +190,8 @@ export { CuChartEditor, normalizeChartConfig } from "./chart-editor.js";
 export { CuNotificationSettings, DEFAULT_NOTIFICATION_SETTINGS, normalizeNotificationSettings } from "./notification-settings.js";
 export { CuImageGallery, normalizeGalleryItems } from "./image-gallery.js";
 export { CuFileManager, FILE_MANAGER_ACTIONS, fileManagerCommands } from "./file-manager.js";
+
+export { CuThemeEditor, DEFAULT_THEME_CONFIG, normalizeThemeConfig, themeTokenValues } from "./theme-editor.js";
+export { CuComponentDesigner, DESIGN_COMPONENT_TYPES, normalizeDesignComponents } from "./component-designer.js";
+export { CuWorkflowEditor, DEFAULT_WORKFLOW_LANES } from "./workflow-editor.js";
+export { CuNodeEditor, normalizeNodeGraph } from "./node-editor.js";
