@@ -1,4 +1,4 @@
-import {CuFileExplorer,normalizeFileEntries} from "./file-explorer.js";
+import {CuFileExplorer,listFileEntries} from "./file-explorer.js";
 import {define,notify} from "./_shared.js";
 import "./command-bar.js";
 export const FILE_MANAGER_ACTIONS=Object.freeze(["open","rename","delete","download","new-folder","upload","refresh"]);
@@ -14,12 +14,16 @@ export class CuFileManager extends CuFileExplorer{
     this.addEventListener("cu-change",()=>this._syncCommands());
     this._syncCommands();
   }
-  get selectedEntry(){const entry=this._items.find(x=>x.id===this._selected&&(x.parentId||"")===this.folderId);return entry?{...entry}:null;}
+  get selectedEntry(){const entry=listFileEntries(this._items,this.folderId,this.query).find(x=>x.id===this._selected);return entry?{...entry}:null;}
   requestAction(action){
     const entry=this.selectedEntry;
     if(action==="open"){if(!entry)return false;this._open(entry);return true;}
     const command=fileManagerCommands(entry).find(c=>c.value===action);if(!command||command.disabled)return false;
     notify(this,"cu-action",{action,id:entry?.id??"",entry,folderId:this.folderId});return true;
+  }
+  _showMenu(entry,row,button,x,y){
+    const saved=this._actions;this._actions=saved.map(a=>a.value==="download"&&entry.kind!=="file"?{...a,disabled:true}:a);
+    try{super._showMenu(entry,row,button,x,y);}finally{this._actions=saved;}
   }
   _syncCommands(){if(this._commands)this._commands.commands=fileManagerCommands(this.selectedEntry);}
   _render(){super._render();this._syncCommands();}
