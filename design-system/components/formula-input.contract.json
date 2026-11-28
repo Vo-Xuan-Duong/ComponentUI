@@ -10,7 +10,8 @@
     "label": "string",
     "required": "boolean",
     "disabled": "boolean",
-    "readonly": "boolean"
+    "readonly": "boolean",
+    "allow-text": "boolean"
   },
   "events": [
     "cu-input",
@@ -26,5 +27,8 @@
     "associated": true,
     "reset": true,
     "validity": true
+  },
+  "properties": {
+    "draftEvaluator": "(value: string) => CuFormulaEvaluation"
   }
 }
