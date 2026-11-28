@@ -4,6 +4,8 @@ import {normalizeFontFamilies,DEFAULT_FONT_FAMILIES} from "./font-picker.js";
 import "./property-grid.js";
 import "./button.js";
 import "./card.js";
+import "./color-palette.js";
+import "./font-picker.js";
 export const DEFAULT_THEME_CONFIG=Object.freeze({accent:"#0067c0",font:"system-ui",radius:6});
 export function normalizeThemeConfig(v={}){
   const color=normalizePaletteColors([v?.accent])[0]?.value;
@@ -25,15 +27,16 @@ export class CuThemeEditor extends BrowserElement{
     this._palette.addEventListener("cu-change",e=>{e.stopPropagation();this._commit("accent",e.detail.value);});
     this._palette.addEventListener("cu-action",e=>{e.stopPropagation();if(e.detail.action==="add")this._commit("accent",e.detail.value);else this._sync();});
     this._font.addEventListener("cu-change",e=>{e.stopPropagation();this._commit("font",e.detail.value);});
-    this._grid.addEventListener("cu-change",e=>{e.stopPropagation();this._commit("radius",e.detail.value);});
+    this._grid.addEventListener("cu-change",e=>{e.stopPropagation();if(e.detail.key==="radius")this._commit("radius",e.detail.value);});
     this._preview.addEventListener("cu-press",e=>e.stopPropagation());
-    this._reset.addEventListener("cu-press",e=>{e.stopPropagation();if(this.readonly)return;this.value=DEFAULT_THEME_CONFIG;notify(this,"cu-change",{key:"reset",value:this.value,tokens:this.tokens});});
+    this._reset.addEventListener("cu-press",e=>{e.stopPropagation();if(this.readonly)return;this._replaceTheme(DEFAULT_THEME_CONFIG,"reset");});
   }
   connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();}
   get value(){return {...this._value};}set value(v){this._value=normalizeThemeConfig(v);this._sync();}
   get tokens(){return themeTokenValues(this._value);}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
-  _commit(key,value){if(this.readonly)return;this.value={...this._value,[key]:value};notify(this,"cu-change",{key,value:this.value,tokens:this.tokens});}
-  _sync(){if(!this._preview)return;const c=this._value;if(this._palette.value!==c.accent)this._palette.value=c.accent;if(!this._font.fonts.includes(c.font))this._font.fonts=[...DEFAULT_FONT_FAMILIES,c.font];if(this._font.value!==c.font)this._font.value=c.font;this._palette.disabled=this._font.disabled=this._reset.disabled=this.readonly;this._grid.readonly=this.readonly;this._grid.items=[{key:"radius",label:"Corner radius (px)",type:"number",value:c.radius,min:0,max:24,step:1}];for(const [k,v] of Object.entries(this.tokens))this._preview.style.setProperty(k,v);}
+  _commit(key,value){if(this.readonly)return;this._replaceTheme({...this._value,[key]:value},key);}
+  _replaceTheme(value,key){const previous=this._value,next=normalizeThemeConfig(value);this.value=next;if(previous.accent===next.accent&&previous.font===next.font&&previous.radius===next.radius)return false;notify(this,"cu-change",{key,value:this.value,tokens:this.tokens});return true;}
+  _sync(){if(!this._preview)return;const c=this._value;if(this._palette.value!==c.accent)this._palette.value=c.accent;if(!this._font.fonts.includes(c.font))this._font.fonts=[...DEFAULT_FONT_FAMILIES,c.font];if(this._font.value!==c.font)this._font.value=c.font;this._palette.disabled=this._font.disabled=this._reset.disabled=this.readonly;if(this._grid.readonly!==this.readonly)this._grid.readonly=this.readonly;if(this._grid.items[0]?.value!==c.radius)this._grid.items=[{key:"radius",label:"Corner radius (px)",type:"number",value:c.radius,min:0,max:24,step:1}];for(const [k,v] of Object.entries(this.tokens))this._preview.style.setProperty(k,v);}
 }
 define("cu-theme-editor",CuThemeEditor);
