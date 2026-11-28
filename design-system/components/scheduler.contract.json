@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "Scheduler",
+  "tag": "cu-scheduler",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "date": "YYYY-MM-DD",
+    "locale": "string",
+    "readonly": "boolean"
+  },
+  "properties": {
+    "events": "CuScheduleEvent[]",
+    "visibleEvents": "CuScheduleEvent[] (readonly)"
+  },
+  "events": [
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "Calendar",
+    "DatePicker",
+    "TimePicker",
+    "TextField",
+    "Button",
+    "Timeline",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
