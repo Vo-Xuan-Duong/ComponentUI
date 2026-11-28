@@ -1,17 +1,38 @@
 /** Shared, dependency-free anchored overlay and focus helpers. */
-const openOverlays=[];
+const documentStacks=new WeakMap(),registeredStacks=new WeakMap(),fallbackStack=[];
+function stackFor(host){
+  const doc=host?.ownerDocument;
+  if(!doc)return fallbackStack;
+  let stack=documentStacks.get(doc);
+  if(!stack){stack=[];documentStacks.set(doc,stack);}
+  return stack;
+}
 export function registerOverlay(host){
   unregisterOverlay(host);
-  openOverlays.push(host);
+  const stack=stackFor(host);stack.push(host);registeredStacks.set(host,stack);
 }
 export function unregisterOverlay(host){
-  const index=openOverlays.indexOf(host);
-  if(index>=0)openOverlays.splice(index,1);
+  const stack=registeredStacks.get(host);if(!stack)return;
+  const index=stack.indexOf(host);if(index>=0)stack.splice(index,1);
+  registeredStacks.delete(host);
 }
 export function isTopOverlay(host){
-  return openOverlays.at(-1)===host;
+  return stackFor(host).at(-1)===host;
 }
-
+/** Close descendant overlays before their containing modal leaves the top layer. */
+export function dismissDescendantOverlays(host){
+  const stack=registeredStacks.get(host)??stackFor(host);
+  for(const child of [...stack].reverse()){
+    if(child===host)continue;
+    let ancestor=child;
+    while(ancestor&&ancestor!==host)ancestor=ancestor.assignedSlot??ancestor.parentNode??ancestor.host??null;
+    if(ancestor!==host)continue;
+    if(typeof child.hide==="function")child.hide(false);
+    else if(typeof child._hideFilterPanel==="function")child._hideFilterPanel(false);
+    else if(typeof child.close==="function")child.close();
+    unregisterOverlay(child);
+  }
+}
 /** Follow focus into nested open Shadow DOM roots. */
 export function deepActiveElement(root=globalThis.document){
   let node=root?.activeElement??null;
@@ -115,9 +136,10 @@ export function watchOverlayViewport(host,callback){
   view.visualViewport?.addEventListener("scroll",callback);
   // Layout changes can resize an anchor without a window resize (e.g. a split panel).
   const Observer=view.ResizeObserver;
-  const observer=typeof Observer==="function"?new Observer(callback):null;
+  let active=true;const observer=typeof Observer==="function"?new Observer((...args)=>{if(active&&host.isConnected!==false)callback(...args);}):null;
   observer?.observe(host);
   return ()=>{
+    if(!active)return;active=false;
     observer?.disconnect();
     view.removeEventListener("resize",callback);
     view.removeEventListener("scroll",callback,true);
