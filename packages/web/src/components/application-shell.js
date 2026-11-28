@@ -17,7 +17,7 @@ export class CuApplicationShell extends BrowserElement{
     super();this._sections=[];
     const root=mount(this,css,'<cu-app-shell><div class="header" slot="header"><span class="title"></span><cu-menu-bar></cu-menu-bar><cu-button variant="outline" size="sm">Commands</cu-button></div><cu-sidebar slot="navigation" variant="plain" label="Sections"></cu-sidebar><div class="content"><slot></slot></div></cu-app-shell><cu-command-palette title="Application commands"></cu-command-palette>');
     this._shell=root.querySelector("cu-app-shell");this._sidebar=root.querySelector("cu-sidebar");this._menu=root.querySelector("cu-menu-bar");this._palette=root.querySelector("cu-command-palette");this._button=root.querySelector("cu-button");this._title=root.querySelector(".title");this._slot=root.querySelector("slot");
-    this._sidebar.addEventListener("cu-change",e=>{e.stopPropagation();this.selectSection(e.detail.value);this._shell.closeNavigation(false);});
+    this._sidebar.addEventListener("cu-change",e=>{e.stopPropagation();this.selectSection(e.detail.value);this._shell.closeNavigation(true);});
     this._menu.addEventListener("cu-action",e=>{e.stopPropagation();notify(this,"cu-action",{source:"menu",...e.detail});});
     this._palette.addEventListener("cu-select",e=>{e.stopPropagation();notify(this,"cu-action",{source:"palette",...e.detail});});
     for(const type of ["cu-open","cu-close"])this._palette.addEventListener(type,e=>e.stopPropagation());
