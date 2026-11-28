@@ -131,7 +131,7 @@ export class CuPropertyGrid extends BrowserElement{
             if(finite(item.max))control.setAttribute("max",String(item.max));
             control.setAttribute("step",finite(item.step)?String(item.step):"any");
           }
-          if(item.type==="color")control.setAttribute("required","");
+          if(item.type==="color"){control.setAttribute("compact","");control.setAttribute("required","");}
           else if(item.required)control.setAttribute("required","");
           if(item.description)control.setAttribute("hint",item.description);
         }
