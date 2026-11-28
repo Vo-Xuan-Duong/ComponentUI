@@ -804,6 +804,22 @@
     "./components/data-source-editor": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/data-source-editor.js"
+    },
+    "./components/dashboard-viewer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/dashboard-viewer.js"
+    },
+    "./components/project-workspace": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/project-workspace.js"
+    },
+    "./components/search-workspace": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/search-workspace.js"
+    },
+    "./components/document-manager": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/document-manager.js"
     }
   },
   "files": [
