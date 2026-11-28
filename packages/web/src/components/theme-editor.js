@@ -8,7 +8,7 @@ export const DEFAULT_THEME_CONFIG=Object.freeze({accent:"#0067c0",font:"system-u
 export function normalizeThemeConfig(v={}){
   const color=normalizePaletteColors([v?.accent])[0]?.value;
   const font=normalizeFontFamilies([v?.font])[0],radius=v?.radius;
-  return {accent:color?.length===7?color:DEFAULT_THEME_CONFIG.accent,font:font||DEFAULT_THEME_CONFIG.font,radius:typeof radius==="number"&&Number.isFinite(radius)?Math.max(0,Math.min(24,Math.round(radius))):6};
+  return {accent:color?color.slice(0,7):DEFAULT_THEME_CONFIG.accent,font:font||DEFAULT_THEME_CONFIG.font,radius:typeof radius==="number"&&Number.isFinite(radius)?Math.max(0,Math.min(24,Math.round(radius))):6};
 }
 export function themeTokenValues(v){
   const c=normalizeThemeConfig(v),font=["system-ui","sans-serif","serif","monospace"].includes(c.font)?c.font:JSON.stringify(c.font)+", sans-serif";
@@ -23,9 +23,10 @@ export class CuThemeEditor extends BrowserElement{
     this._palette=root.querySelector("cu-color-palette");this._font=root.querySelector("cu-font-picker");this._grid=root.querySelector("cu-property-grid");this._preview=root.querySelector(".preview");this._reset=root.querySelector(".reset");
     this._palette.colors=["#0067c0","#107c41","#744da9","#c42b1c"];
     this._palette.addEventListener("cu-change",e=>{e.stopPropagation();this._commit("accent",e.detail.value);});
-    this._palette.addEventListener("cu-action",e=>{e.stopPropagation();if(e.detail.action==="add")this._commit("accent",e.detail.value);});
+    this._palette.addEventListener("cu-action",e=>{e.stopPropagation();if(e.detail.action==="add")this._commit("accent",e.detail.value);else this._sync();});
     this._font.addEventListener("cu-change",e=>{e.stopPropagation();this._commit("font",e.detail.value);});
     this._grid.addEventListener("cu-change",e=>{e.stopPropagation();this._commit("radius",e.detail.value);});
+    this._preview.addEventListener("cu-press",e=>e.stopPropagation());
     this._reset.addEventListener("cu-press",e=>{e.stopPropagation();if(this.readonly)return;this.value=DEFAULT_THEME_CONFIG;notify(this,"cu-change",{key:"reset",value:this.value,tokens:this.tokens});});
   }
   connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();}
