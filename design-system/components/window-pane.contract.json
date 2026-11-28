@@ -1,7 +1,7 @@
 {
   "version": 1,
   "name": "WindowPane",
-  "tag": "window-pane",
+  "tag": "cu-window-pane",
   "status": "preview",
   "kind": "component",
   "attributes": {
@@ -16,5 +16,9 @@
   ],
   "accessibility": {
     "formAssociated": false
-  }
+  },
+  "composition": [
+    "Icon",
+    "IconButton"
+  ]
 }
