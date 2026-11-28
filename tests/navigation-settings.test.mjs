@@ -76,7 +76,7 @@ test("Web package, TypeScript declarations and React wrappers expose four new ta
       "./dist/components/"+tag+".js");
   }
   assert.equal(REACT_EVENT_PROPS.onCuFilter,"cu-filter");
-  assert.equal(Object.keys(REACT_TAGS).length,191);
+  assert.equal(Object.keys(REACT_TAGS).length,195);
 });
 
 test("Playground composes AppShell and SettingsPage with real controls",async()=>{
@@ -103,8 +103,8 @@ test("catalog, package versions and preview status remain synchronized",async()=
   const records=catalog.groups.flatMap(group=>group.components);
   for(const name of ["NavigationView","SettingsPage"])
     assert.equal(records.find(r=>r.name===name)?.status,"preview");
-  assert.equal(records.length,180);
-  assert.equal(records.filter(r=>r.status==="preview").length,180);
+  assert.equal(records.length,184);
+  assert.equal(records.filter(r=>r.status==="preview").length,184);
   assert.equal(records.filter(r=>r.status==="planned").length,0);
   assert.equal(records.filter(r=>r.status==="ready").length,0);
 });
