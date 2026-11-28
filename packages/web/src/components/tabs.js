@@ -68,7 +68,9 @@ export class CuTabs extends BrowserElement {
 
   connectedCallback() {
     this._render();
-    this._observer = new MutationObserver(records => {
+    const Observer=this.ownerDocument?.defaultView?.MutationObserver??globalThis.MutationObserver;
+    this._observer?.disconnect();if(!Observer)return;
+    this._observer = new Observer(records => {
       if (records.some(r => (r.type === "childList" && r.target === this) ||
           (r.type === "attributes" && r.target.parentElement === this &&
             r.target.localName === "cu-tab"))) this._render();
@@ -145,7 +147,12 @@ export class CuTabs extends BrowserElement {
       const active = index === this._active;
       button.setAttribute("aria-selected",String(active));
       button.tabIndex = active ? 0 : -1;
-      panels[index].hidden = !active;
+      const panel=panels[index];
+      if(!active&&panel.matches(":focus-within")){
+        if(buttons[this._active])buttons[this._active].focus({preventScroll:true});
+        else {this._tablist.tabIndex=-1;this._tablist.focus({preventScroll:true});}
+      }
+      panel.hidden = !active;panel.inert=!active;
     });
   }
 }
