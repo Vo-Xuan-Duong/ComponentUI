@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "WorkspaceSettings",
+  "tag": "cu-workspace-settings",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "value": "CuWorkspacePreferences",
+    "shortcutDefaults": "CuShortcutItem[]"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "ThemeEditor",
+    "ShortcutSettings",
+    "NotificationSettings",
+    "Tabs"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
