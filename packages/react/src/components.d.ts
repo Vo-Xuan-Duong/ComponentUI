@@ -203,3 +203,8 @@ export declare const MediaLibrary: ReactCuComponent;
 export declare const DashboardDesigner: ReactCuComponent;
 export declare const FormDesigner: ReactCuComponent;
 export declare const SchemaEditor: ReactCuComponent;
+
+export declare const DatabaseExplorer: ReactCuComponent;
+export declare const ApplicationShell: ReactCuComponent;
+export declare const ReportBuilder: ReactCuComponent;
+export declare const AutomationDesigner: ReactCuComponent;
