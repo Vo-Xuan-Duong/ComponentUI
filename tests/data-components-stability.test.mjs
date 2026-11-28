@@ -44,3 +44,29 @@ test("filter and editor interaction regression contracts",async()=>{
  assert.ok(grid.includes('event.key==="Tab"'));assert.ok(grid.includes("cancel(false)"));
  assert.ok(tree.includes('aria-keyshortcuts","Shift+F10"'));
 });
+
+test("DataTable filter panel uses shared inputs and top layer without changing value batching",async()=>{
+ const table=await read("../packages/web/src/components/data-table.js");
+ assert.match(table,/<cu-search-box class="filter-search"/);
+ assert.match(table,/<cu-text-field class="filter-condition-value"/);
+ assert.match(table,/<cu-text-field class="filter-condition-value2"/);
+ assert.match(table,/openOverlayTopLayer\(this\._filterPanel\)/);
+ assert.match(table,/closeOverlayTopLayer\(this\._filterPanel\)/);
+ assert.match(table,/watchOverlayViewport\(this,this\._filterViewport\)/);
+ assert.match(table,/input\.setAttribute\("error",message\)/);
+ assert.ok(table.includes("matching.slice(0,editor.limit??200)"));
+});
+test("DataGrid shared editors preserve explicit commit and nested keyboard handling",async()=>{
+ const grid=await read("../packages/web/src/components/data-grid.js");
+ for(const tag of ["text-field","number-field","select"])assert.ok(grid.includes('"cu-'+tag+'"'));
+ assert.match(grid,/event\.isComposing\|\|event\.defaultPrevented/);
+ assert.match(grid,/control\.addEventListener\("cu-change",event=>\{event\.stopPropagation\(\);if\(column\.type==="select"\)commit\(\)/);
+ assert.match(grid,/!cell\.matches\(":focus-within"\)/);
+ assert.match(grid,/control\.setAttribute\("error",parsed\.message\)/);
+});
+test("filter controls reflect initial controlled select state",async()=>{
+ const filter=await read("../packages/web/src/components/data-filter.js");
+ const query=await read("../packages/web/src/components/query-builder.js");
+ assert.match(filter,/this\._select\.setAttribute\("value",this\.operator\)/);
+ assert.match(query,/this\._mode\.setAttribute\("value",this\._logic\)/);
+});
