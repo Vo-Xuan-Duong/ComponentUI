@@ -54,12 +54,13 @@ export class CuFilterBar extends BrowserElement {
     this.addEventListener("cu-change",this._onFilterChange);
     this.addEventListener("cu-input",this._onFilterChange);
     this._sync();
+    this._lastFilterState=JSON.stringify({query:this.query,conditions:this.conditions});
     if(globalThis.MutationObserver){
       this._observer?.disconnect();
       this._observer=new MutationObserver(records=>{
         if(records.some(record=>record.type==="childList"||
           ["field","operator","value","disabled"].includes(record.attributeName)))
-          this.refresh();
+          this._refreshFromMutation();
       });
       this._observer.observe(this,{
         childList:true,subtree:true,attributes:true,
@@ -88,6 +89,11 @@ export class CuFilterBar extends BrowserElement {
     return [...this.children].filter(el=>el.localName==="cu-data-filter");
   }
   refresh(){this._sync();}
+  _refreshFromMutation(){
+    this._sync();
+    const state=JSON.stringify({query:this.query,conditions:this.conditions});
+    if(state!==this._lastFilterState)this._emit("cu-filter-change");
+  }
   clear(){
     if(!this.activeCount)return false;
     this.query="";
@@ -97,7 +103,9 @@ export class CuFilterBar extends BrowserElement {
     return true;
   }
   _emit(type){
-    notify(this,type,{query:this.query,conditions:this.conditions,activeCount:this.activeCount});
+    const detail={query:this.query,conditions:this.conditions,activeCount:this.activeCount};
+    this._lastFilterState=JSON.stringify({query:detail.query,conditions:detail.conditions});
+    notify(this,type,detail);
     this._sync();
   }
   _sync(){
