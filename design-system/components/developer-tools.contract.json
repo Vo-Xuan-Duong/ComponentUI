@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "name": "DeveloperTools",
+  "tag": "cu-developer-tools",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean",
+    "loading": "boolean"
+  },
+  "properties": {
+    "lines": "(string | CuTerminalLine)[]",
+    "commands": "CuPaletteCommand[]",
+    "logs": "CuLogEntry[]",
+    "request": "CuAPIRequest",
+    "response": "CuAPIResponse | null"
+  },
+  "events": [
+    "cu-action",
+    "cu-input",
+    "cu-change",
+    "cu-select",
+    "cu-filter",
+    "cu-navigate"
+  ],
+  "composition": [
+    "CommandConsole",
+    "LogViewer",
+    "APIExplorer",
+    "Tabs"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
