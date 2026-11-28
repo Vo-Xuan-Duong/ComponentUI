@@ -1036,6 +1036,10 @@ declare global {
     "cu-component-designer": CuComponentDesigner;
     "cu-workflow-editor": CuWorkflowEditor;
     "cu-node-editor": CuNodeEditor;
+    "cu-shortcut-settings": CuShortcutSettings;
+    "cu-document-workspace": CuDocumentWorkspace;
+    "cu-data-inspector": CuDataInspector;
+    "cu-api-explorer": CuAPIExplorer;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1227,3 +1231,18 @@ export declare class CuWorkflowEditor extends HTMLElement {lanes:CuKanbanLane[];
 export interface CuNodeGraph {nodes:{id:string;label?:string}[];edges:{from:string;to:string}[];}
 export declare function normalizeNodeGraph(value?:CuNodeGraph):CuNodeGraph;
 export declare class CuNodeEditor extends HTMLElement {value:CuNodeGraph;readonly:boolean;addNode():boolean;removeNode(id:string):boolean;connectNodes(from:string,to:string):boolean;disconnectNodes(from:string,to:string):boolean;}
+
+export declare function resetShortcutItems(items:unknown,defaults:unknown):Required<CuShortcutItem>[]|null;
+export declare class CuShortcutSettings extends HTMLElement {items:CuShortcutItem[];defaults:CuShortcutItem[];disabled:boolean;resetDefaults():boolean;}
+export declare class CuDocumentWorkspace extends HTMLElement {pages:string[];document:CuPdfDocument|null;page:number;notes:string;active:"document"|"notes";readonly:boolean;}
+export declare function normalizeInspectorRows(rows:unknown):Record<string,unknown>[];
+export declare function inspectorFields(rows:Record<string,unknown>[]):CuQueryField[];
+export declare class CuDataInspector extends HTMLElement {rows:Record<string,unknown>[];query:CuQueryValue;readonly visibleRows:Record<string,unknown>[];inspectRecord(id:string):boolean;}
+export type CuAPIMethod="GET"|"POST"|"PUT"|"PATCH"|"DELETE"|"HEAD"|"OPTIONS";
+export interface CuAPIRequest {method:CuAPIMethod;url:string;body:string;}
+export interface CuAPIResponse {status:number;body:string;contentType:string;}
+export declare const API_METHODS:readonly CuAPIMethod[];
+export declare function normalizeApiRequest(value?:Partial<CuAPIRequest>):CuAPIRequest;
+export declare function validateApiRequest(value?:Partial<CuAPIRequest>):{valid:boolean;error:string};
+export declare function normalizeApiResponse(value:unknown):CuAPIResponse|null;
+export declare class CuAPIExplorer extends HTMLElement {request:CuAPIRequest;response:CuAPIResponse|null;disabled:boolean;loading:boolean;submit():boolean;}
