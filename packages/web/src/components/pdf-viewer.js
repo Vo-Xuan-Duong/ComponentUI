@@ -4,7 +4,7 @@ import "./button.js";
 import "./empty-state.js";
 import "./spinner.js";
 export function clampPdfPage(page,count){
-  const n=Number(page),total=Math.max(0,Math.floor(Number(count)||0));
+  const n=Number(page),total=Number.isFinite(Number(count))?Math.max(0,Math.floor(Number(count))):0;
   return total?Math.min(total,Math.max(1,Number.isFinite(n)?Math.trunc(n):1)):0;
 }
 const css=":host{display:block;min-width:0;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}.panel{display:grid;gap:var(--cu-space-3,12px);}.nav{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}.status{flex:1;text-align:center;min-width:100px;font-weight:600;}.loading{display:flex;align-items:center;justify-content:center;gap:8px;padding:24px;}.loading[hidden]{display:none;}cu-image-viewer{--cu-viewer-base-size:420px;--cu-image-viewer-height:var(--cu-pdf-height,520px);}";
@@ -26,7 +26,7 @@ export class CuPdfViewer extends BrowserElement{
   set document(v){this._document=v&&Number.isSafeInteger(v.pageCount)&&v.pageCount>0&&typeof v.renderPage==="function"?v:null;this._pages=[];this._invalidate();}
   get pageCount(){return this._document?.pageCount??this._pages.length;}
   get page(){return clampPdfPage(this.getAttribute("page")??1,this.pageCount);}
-  set page(v){this.setAttribute("page",String(clampPdfPage(v,this.pageCount)||1));}
+  set page(v){const n=Number(v);this.setAttribute("page",String(Number.isFinite(n)?Math.max(1,Math.trunc(n)):1));}
   goToPage(v){const page=clampPdfPage(v,this.pageCount);if(!page||page===this.page)return false;this.page=page;notify(this,"cu-change",{value:page,page,pageCount:this.pageCount});return true;}
   _invalidate(){this._revision++;this._loadedPage=0;this._render();}
   _render(){
@@ -39,7 +39,8 @@ export class CuPdfViewer extends BrowserElement{
     this._empty.setAttribute("title","No document");
     if(!page)return;
     this._loading.hidden=false;
-    Promise.resolve().then(()=>this._document?this._document.renderPage(page):this._pages[page-1]).then(src=>{
+    const document=this._document,src=this._pages[page-1];
+    Promise.resolve().then(()=>{if(revision!==this._revision||!this.isConnected)return null;return document?document.renderPage(page):src;}).then(src=>{
       if(revision!==this._revision||!this.isConnected)return;
       if(typeof src!=="string"||!src.trim())throw Error("No page image returned.");
       this._viewer.setAttribute("alt","PDF page "+page);this._viewer.src=src;this._viewer.hidden=false;this._loading.hidden=true;
