@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "DataSourceEditor",
+  "tag": "cu-data-source-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "record-path": "string",
+    "disabled": "boolean",
+    "loading": "boolean"
+  },
+  "properties": {
+    "request": "CuAPIRequest",
+    "response": "CuAPIResponse | null",
+    "rows": "Record<string,unknown>[] (readonly)"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-action",
+    "cu-select"
+  ],
+  "composition": [
+    "APIExplorer",
+    "DataInspector",
+    "TextField",
+    "Tabs"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
