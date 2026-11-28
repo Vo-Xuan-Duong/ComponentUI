@@ -756,6 +756,22 @@
     "./components/api-explorer": {
       "types": "./dist/components/index.d.ts",
       "default": "./dist/components/api-explorer.js"
+    },
+    "./components/media-library": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/media-library.js"
+    },
+    "./components/dashboard-designer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/dashboard-designer.js"
+    },
+    "./components/form-designer": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/form-designer.js"
+    },
+    "./components/schema-editor": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/schema-editor.js"
     }
   },
   "files": [
