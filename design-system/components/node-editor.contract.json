@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "NodeEditor",
+  "tag": "cu-node-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "value": "CuNodeGraph"
+  },
+  "events": [
+    "cu-change",
+    "cu-select"
+  ],
+  "composition": [
+    "PropertyGrid",
+    "SplitView",
+    "ContextMenu",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
