@@ -31,12 +31,12 @@ const css=[
   "padding-inline-start:calc(8px + (var(--level) - 1)*18px);",
   "box-sizing:border-box;border-radius:var(--cu-radius-md,6px);cursor:pointer;}",
   ".item:hover:not([aria-disabled=true]),.item[data-active=true]:not([aria-disabled=true]){",
-  "background:color-mix(in srgb,var(--cu-accent,#0067c0) 15%,var(--cu-surface,#fff));}",
+  "background:var(--cu-state-selected);}",
   ".item[aria-selected=true]{font-weight:650;}",
   ".item[aria-disabled=true]{opacity:.42;cursor:not-allowed;}",
   ".toggle{flex:none;width:20px;height:24px;border:0;border-radius:4px;background:transparent;",
   "display:inline-grid;place-items:center;cursor:pointer;color:var(--cu-text-muted,#616161);}",
-  ".toggle:hover{background:color-mix(in srgb,var(--cu-accent,#0067c0) 12%,transparent);}",
+  ".toggle:hover{background:var(--cu-state-hover);}",
   ".toggle:focus-visible{outline:2px solid var(--cu-focus,#0067c0);}",
   ".leaf{display:inline-block;width:20px;flex:none;}",
   "cu-icon{pointer-events:none;}",
@@ -116,29 +116,31 @@ export class CuTreeView extends BrowserElement {
     this._tree.setAttribute("aria-label",this.getAttribute("label")||"Tree view");
     const previous=this._visible[this._active]?.value;
     this._visible=flattenVisibleTree(this._read(this._nodes(this)));
-    this._tree.replaceChildren();
+    const siblingsByParent=new Map(),positions=new Map();
+    for(const item of this._visible){const parent=item.element.parentElement;const count=(siblingsByParent.get(parent)??0)+1;siblingsByParent.set(parent,count);positions.set(item.element,count);}
+    const fragment=this.ownerDocument.createDocumentFragment();
     this._visible.forEach((item,index)=>{
-      const row=document.createElement("div");row.className="item";
+      const row=this.ownerDocument.createElement("div");row.className="item";
       row.setAttribute("role","treeitem");row.id=this._tree.id+"-item-"+index;
       row.dataset.index=String(index);row.style.setProperty("--level",String(item.level));
       row.setAttribute("aria-level",String(item.level));
       row.setAttribute("aria-disabled",String(item.disabled));
       if(item.hasChildren)row.setAttribute("aria-expanded",String(item.expanded));
-      const siblings=this._visible.filter(x=>x.level===item.level&&x.parent===item.parent);
-      row.setAttribute("aria-setsize",String(siblings.length));
-      row.setAttribute("aria-posinset",String(siblings.findIndex(x=>x.element===item.element)+1));
+      row.setAttribute("aria-setsize",String(siblingsByParent.get(item.element.parentElement)));
+      row.setAttribute("aria-posinset",String(positions.get(item.element)));
       if(item.hasChildren){
-        const b=document.createElement("button");b.type="button";b.className="toggle";
-        b.tabIndex=-1;b.setAttribute("aria-label",(item.expanded?"Collapse ":"Expand ")+item.label);
-        const icon=document.createElement("cu-icon");icon.name=item.expanded?"chevron-down":"chevron-right";
+        const b=this.ownerDocument.createElement("button");b.type="button";b.className="toggle";
+        b.tabIndex=-1;b.disabled=item.disabled;b.setAttribute("aria-label",(item.expanded?"Collapse ":"Expand ")+item.label);
+        const icon=this.ownerDocument.createElement("cu-icon");icon.name=item.expanded?"chevron-down":"chevron-right";
         icon.setAttribute("size","16");b.append(icon);row.append(b);
       }else{
-        const space=document.createElement("span");space.className="leaf";row.append(space);
+        const space=this.ownerDocument.createElement("span");space.className="leaf";row.append(space);
       }
-      const label=document.createElement("span");label.className="text";
+      const label=this.ownerDocument.createElement("span");label.className="text";
       label.textContent=item.label;row.append(label);
-      this._tree.append(row);
+      fragment.append(row);
     });
+    this._tree.replaceChildren(fragment);
     const same=this._visible.findIndex(x=>x.value===previous&&!x.disabled);
     const selected=this._visible.findIndex(x=>x.value===this._value&&!x.disabled);
     this._active=selected>=0?selected:same>=0?same:
@@ -197,7 +199,7 @@ export class CuTreeView extends BrowserElement {
       event.preventDefault();
       if(item.hasChildren&&item.expanded)this._toggle(item);
       else if(item.parent!==null){
-        const p=visible.findIndex(x=>x.value===item.parent);
+        const p=visible.findIndex(x=>x.value===item.parent&&!x.disabled);
         if(p>=0){this._active=p;this._refresh();}
       }
     }else if(event.key==="Enter"||event.key===" "){
