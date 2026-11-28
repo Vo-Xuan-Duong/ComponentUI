@@ -30,12 +30,14 @@ export function evaluateFormula(value,resolveReference){
   catch(error){return {valid:false,result:null,error:error.message};}
 }
 export class CuFormulaInput extends CuTextField{
-  get result(){return evaluateFormula(this.value).result;}
-  get evaluation(){return evaluateFormula(this.value);}
+  static get observedAttributes(){return [...super.observedAttributes,"allow-text"];}
+  get result(){return this.evaluation.result;}
+  get evaluation(){return typeof this.draftEvaluator==="function"?this.draftEvaluator(this.value):evaluateFormula(this.value);}
   _syncFormValue(){
     if(!this._input)return;
-    const state=this.evaluation,hint=this.getAttribute("hint")||"";
-    const preview=this.value.trim()&&state.valid?"Result: "+state.result:"";
+    const plain=this.hasAttribute("allow-text")&&!this.value.trimStart().startsWith("=");
+    const state=plain?{valid:true,result:null,error:""}:this.evaluation,hint=this.getAttribute("hint")||"";
+    const preview=!plain&&this.value.trim()&&state.valid?"Result: "+state.result:"";
     this._hint.textContent=[hint,preview].filter(Boolean).join(" · ");
     syncFieldValidity(this,this._input,{additionalError:this.value&&!state.valid?state.error:""});
   }
