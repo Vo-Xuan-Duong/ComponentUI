@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "AutomationDesigner",
+  "tag": "cu-automation-designer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "value": "CuAutomationValue",
+    "analysis": "CuAutomationAnalysis (readonly)"
+  },
+  "events": [
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "NodeEditor",
+    "WorkflowEditor",
+    "Tabs",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
