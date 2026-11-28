@@ -35,6 +35,6 @@ test("advanced component exports, demos and event mappings",async()=>{
 });
 test("all catalog entries have preview coverage without claiming ready",async()=>{
   const catalog=JSON.parse(await read("../design-system/components/catalog.json"));
-  const items=catalog.groups.flatMap(g=>g.components);assert.equal(items.length,176);assert.equal(items.every(x=>x.status==="preview"),true);
+  const items=catalog.groups.flatMap(g=>g.components);assert.equal(items.length,180);assert.equal(items.every(x=>x.status==="preview"),true);
   for(const item of items)assert.ok(REACT_TAGS[item.name],item.name);
 });
