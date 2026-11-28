@@ -1,4 +1,5 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
+import "./select.js";
 
 const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
 const byte=v=>Math.round(clamp(v,0,255));
@@ -53,24 +54,26 @@ const palette=["#0067c0","#744da9","#107c41","#c42b1c","#ca8a04","#0891b2","#242
 const css=[
   ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
   "fieldset{border:0;margin:0;padding:0;min-inline-size:0;display:grid;gap:10px;}legend{font-weight:600;padding:0;margin-bottom:7px;}",
-  ".row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}.preview{width:42px;height:40px;position:relative;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);overflow:hidden;background:repeating-conic-gradient(#ccc 0% 25%,#fff 0% 50%) 0/12px 12px;}",
+  ".row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}.preview{width:var(--cu-control-height,40px);height:var(--cu-control-height,40px);flex:none;box-sizing:border-box;position:relative;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);overflow:hidden;background:repeating-conic-gradient(#ccc 0% 25%,#fff 0% 50%) 0/12px 12px;}",
   ".sample{position:absolute;inset:0;pointer-events:none;}.native{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0;}.preview:focus-within{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}",
-  ".text{flex:1;min-width:100px;box-sizing:border-box;}input,select,button{font:inherit;color:inherit;}input.text,select{min-height:var(--cu-control-height,40px);border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);padding:0 9px;background:var(--cu-surface,#fff);}",
+  ".text{flex:1;min-width:100px;box-sizing:border-box;}input,button{font:inherit;color:inherit;}cu-select{min-width:76px;}input.text{min-height:var(--cu-control-height,40px);border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);padding:0 9px;background:var(--cu-surface,#fff);}",
   "input.text[aria-invalid=true]{border-color:var(--cu-danger,#c42b1c);}.palette{display:flex;gap:7px;flex-wrap:wrap;}.swatch{width:29px;height:29px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:6px;cursor:pointer;}.swatch[aria-pressed=true]{outline:2px solid var(--cu-focus,#0067c0);outline-offset:2px;}.swatch:hover:not(:disabled){transform:scale(1.08);}",
   ".opacity{display:flex;align-items:center;gap:8px;}.opacity input{flex:1;min-width:0;accent-color:var(--cu-accent,#0067c0);}.opacity output{min-width:36px;text-align:end;font-variant-numeric:tabular-nums;}",
+  ":host([compact]) fieldset{gap:4px;}:host([compact]) legend{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}:host([compact]) .row{flex-wrap:nowrap;}:host([compact]) .text{min-width:0;}:host([compact]) .palette,:host([compact]) cu-select{display:none!important;}",
   ".hint,.error{font-size:12px;color:var(--cu-text-muted,#616161);}.error{color:var(--cu-danger,#c42b1c);}.hint:empty,.error:empty,.opacity[hidden]{display:none!important;}fieldset:disabled{opacity:.55;}button:disabled,.native:disabled{cursor:default;}",focusStyle
 ].join("");
 export class CuColorPicker extends BrowserElement{
   static formAssociated=true;
-  static get observedAttributes(){return ["value","label","name","hint","error","required","disabled","readonly","alpha","format","aria-label"];}
+  static get observedAttributes(){return ["value","label","name","hint","error","required","disabled","readonly","alpha","format","aria-label","compact"];}
   constructor(){
     super();this._internals=this.attachInternals?.()??null;this._color=null;this._format="hex";
-    const root=mount(this,css,'<fieldset><legend></legend><div class="row"><div class="preview"><span class="sample"></span><input class="native" type="color" aria-label="Open system color picker"></div><input class="text" type="text" spellcheck="false" autocomplete="off" aria-label="Color value"><select aria-label="Color format"><option value="hex">HEX</option><option value="rgb">RGB</option><option value="hsl">HSL</option></select></div><div class="palette" role="group" aria-label="Color presets"></div><label class="opacity">Opacity <input type="range" min="0" max="100" value="100"><output></output></label><div class="hint" id="color-hint"></div><div class="error" id="color-error" role="alert"></div></fieldset>');
-    for(const [k,q] of Object.entries({group:"fieldset",label:"legend",sample:".sample",native:".native",text:".text",select:"select",palette:".palette",opacity:".opacity",alpha:'input[type="range"]',output:"output",hint:".hint",error:".error"}))this["_"+k]=root.querySelector(q);
+    const root=mount(this,css,'<fieldset><legend></legend><div class="row"><div class="preview"><span class="sample"></span><input class="native" type="color" aria-label="Open system color picker"></div><input class="text" type="text" spellcheck="false" autocomplete="off" aria-label="Color value"><cu-select aria-label="Color format" value="hex"><option value="hex">HEX</option><option value="rgb">RGB</option><option value="hsl">HSL</option></cu-select></div><div class="palette" role="group" aria-label="Color presets"></div><label class="opacity">Opacity <input type="range" min="0" max="100" value="100"><output></output></label><div class="hint" id="color-hint"></div><div class="error" id="color-error" role="alert"></div></fieldset>');
+    for(const [k,q] of Object.entries({group:"fieldset",label:"legend",sample:".sample",native:".native",text:".text",select:"cu-select",palette:".palette",opacity:".opacity",alpha:'input[type="range"]',output:"output",hint:".hint",error:".error"}))this["_"+k]=root.querySelector(q);
     this._text.addEventListener("input",()=>this._typed());
     this._text.addEventListener("change",()=>{this._reveal=true;this._typed(false);if(this._valid){this._sync();this._emit("cu-change");}});
     this._text.addEventListener("blur",()=>{this._reveal=true;this._syncForm();});
-    this._select.addEventListener("change",()=>{this._format=this._select.value;if(!this._draftInvalid)this._sync();});
+    this._select.addEventListener("cu-input",event=>event.stopPropagation());
+    this._select.addEventListener("cu-change",event=>{event.stopPropagation();this._format=event.detail.value;if(!this._draftInvalid)this._sync();});
     for(const type of ["input","change"]){
       this._native.addEventListener(type,()=>{if(this._locked())return;this._color={...parseColor(this._native.value),a:this._color?.a??1};this._draftInvalid=false;this._sync();this._emit("cu-"+type);});
       this._alpha.addEventListener(type,()=>{if(this._locked())return;this._color={...(this._color??parseColor("#0067c0")),a:Number(this._alpha.value)/100};this._draftInvalid=false;this._sync();this._emit("cu-"+type);});
@@ -90,6 +93,7 @@ export class CuColorPicker extends BrowserElement{
   }
   get value(){return this._color&&!this._draftInvalid?formatColor(this._color,"hex",this.alpha):"";}
   set value(v){this._assigned=true;this._color=parseColor(v);this._draftInvalid=Boolean(String(v??"").trim()&&!this._color);this._text.value=this._draftInvalid?String(v):"";this._sync();}
+  get compact(){return this.hasAttribute("compact");}set compact(v){this.toggleAttribute("compact",Boolean(v));}
   get alpha(){return this.hasAttribute("alpha");}set alpha(v){this.toggleAttribute("alpha",Boolean(v));}
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
@@ -113,9 +117,11 @@ export class CuColorPicker extends BrowserElement{
     this._label.textContent=this.getAttribute("label")||this.getAttribute("aria-label")||"Color";
     this._text.setAttribute("aria-label",this._label.textContent+" value");this._text.setAttribute("aria-required",String(this.required));
     this._hint.textContent=this.getAttribute("hint")||"";
-    this._select.value=this._format;this._opacity.hidden=!this.alpha;
+    this._select.disabled=this.disabled||Boolean(this._formDisabled);
+    if(this._select.getAttribute("value")!==this._format)this._select.setAttribute("value",this._format);
+    this._opacity.hidden=!this.alpha;
     const color=this._color??parseColor("#0067c0");
-    if(updateText&&!this._draftInvalid)this._text.value=this._color?formatColor(this._color,this._format,this.alpha):"";
+    if(updateText&&!this._draftInvalid)this._text.value=this._color?formatColor(this._color,this.compact?"hex":this._format,this.alpha):"";
     this._sample.style.backgroundColor=this._color?formatColor(this._color,"rgb",this.alpha):"transparent";
     this._native.value=formatColor(color);this._alpha.value=String(Math.round(color.a*100));this._output.textContent=this._alpha.value+"%";
     for(const b of this._palette.children){b.disabled=locked;b.setAttribute("aria-pressed",String(Boolean(this._color&&formatColor(this._color)===b.dataset.color)));}
