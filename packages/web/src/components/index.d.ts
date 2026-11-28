@@ -1048,6 +1048,10 @@ declare global {
     "cu-application-shell": CuApplicationShell;
     "cu-report-builder": CuReportBuilder;
     "cu-automation-designer": CuAutomationDesigner;
+    "cu-workspace-settings": CuWorkspaceSettings;
+    "cu-developer-tools": CuDeveloperTools;
+    "cu-form-builder": CuFormBuilder;
+    "cu-data-source-editor": CuDataSourceEditor;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1285,3 +1289,12 @@ export interface CuAutomationValue {graph:CuNodeGraph;lanes:CuKanbanLane[];tasks
 export interface CuAutomationAnalysis {valid:boolean;cyclic:boolean;order:string[];nodeCount:number;edgeCount:number;}
 export declare function analyzeAutomationGraph(value:CuNodeGraph):CuAutomationAnalysis;
 export declare class CuAutomationDesigner extends HTMLElement {value:CuAutomationValue;readonly analysis:CuAutomationAnalysis;readonly:boolean;requestRun():boolean;}
+
+export interface CuWorkspacePreferences {theme:CuThemeConfig;shortcuts:CuShortcutItem[];notifications:CuNotificationPreferences;}
+export declare function normalizeWorkspaceSettings(value?:Partial<CuWorkspacePreferences>):CuWorkspacePreferences;
+export declare class CuWorkspaceSettings extends HTMLElement {value:CuWorkspacePreferences;shortcutDefaults:CuShortcutItem[];readonly:boolean;}
+export declare class CuDeveloperTools extends HTMLElement {lines:(string|CuTerminalLine)[];commands:CuPaletteCommand[];logs:CuLogEntry[];request:CuAPIRequest;response:CuAPIResponse|null;disabled:boolean;loading:boolean;append(text:string,kind?:CuTerminalLine["kind"]):void;}
+export declare function buildFormSchema(fields:unknown):CuObjectSchema;
+export declare class CuFormBuilder extends HTMLElement {fields:CuDesignFormField[];readonly schema:CuObjectSchema;readonly:boolean;}
+export declare function extractResponseRecords(body:string,path?:string):{rows:Record<string,unknown>[];error:string;truncated?:boolean};
+export declare class CuDataSourceEditor extends HTMLElement {request:CuAPIRequest;response:CuAPIResponse|null;recordPath:string;readonly rows:Record<string,unknown>[];disabled:boolean;loading:boolean;}
