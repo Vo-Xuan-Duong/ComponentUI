@@ -20,7 +20,8 @@
     "Slider",
     "Button",
     "ScrollArea",
-    "Icon"
+    "Icon",
+    "IconButton"
   ],
   "accessibility": {
     "formAssociated": false
