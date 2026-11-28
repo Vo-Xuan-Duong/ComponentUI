@@ -39,7 +39,7 @@ export class CuQueryBuilder extends BrowserElement{
   _updateStatus(){if(this._status)this._status.textContent=this.value.conditions.length+" active of "+this._rules.length+" conditions";}
   _render(){
     if(!this._rows)return;
-    const doc=this.ownerDocument;this._mode.value=this._logic;this._mode.disabled=this.disabled;this._add.disabled=this.disabled||!this._fields.length||this._rules.length>=50;this._empty.hidden=Boolean(this._rules.length);
+    const doc=this.ownerDocument;if(this._mode.getAttribute("value")!==this._logic)this._mode.setAttribute("value",this._logic);if(this._mode.value!==this._logic)this._mode.value=this._logic;this._mode.disabled=this.disabled;this._add.disabled=this.disabled||!this._fields.length||this._rules.length>=50;this._empty.hidden=Boolean(this._rules.length);
     const nodes=this._rules.map((rule,i)=>{
       const row=doc.createElement("div");row.className="row";
       const select=doc.createElement("cu-select");select.setAttribute("aria-label","Field "+(i+1));
