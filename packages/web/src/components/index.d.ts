@@ -1032,6 +1032,10 @@ declare global {
     "cu-notification-settings": CuNotificationSettings;
     "cu-image-gallery": CuImageGallery;
     "cu-file-manager": CuFileManager;
+    "cu-theme-editor": CuThemeEditor;
+    "cu-component-designer": CuComponentDesigner;
+    "cu-workflow-editor": CuWorkflowEditor;
+    "cu-node-editor": CuNodeEditor;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1207,3 +1211,19 @@ export declare class CuImageGallery extends HTMLElement {items:CuCarouselItem[];
 export declare const FILE_MANAGER_ACTIONS:readonly string[];
 export declare function fileManagerCommands(entry?:CuFileEntry|null):CuDesktopCommand[];
 export declare class CuFileManager extends CuFileExplorer {readonly selectedEntry:CuFileEntry|null;requestAction(action:string):boolean;}
+
+export interface CuThemeConfig {accent:string;font:string;radius:number;}
+export declare const DEFAULT_THEME_CONFIG:Readonly<CuThemeConfig>;
+export declare function normalizeThemeConfig(value?:Partial<CuThemeConfig>):CuThemeConfig;
+export declare function themeTokenValues(value?:Partial<CuThemeConfig>):Record<string,string>;
+export declare class CuThemeEditor extends HTMLElement {value:CuThemeConfig;readonly tokens:Record<string,string>;readonly:boolean;}
+export type CuDesignComponentType="button"|"card"|"text-field";
+export interface CuDesignComponent {id:string;type:CuDesignComponentType;label?:string;value?:string;disabled?:boolean;variant?:"accent"|"outline"|"subtle";}
+export declare const DESIGN_COMPONENT_TYPES:readonly CuDesignComponentType[];
+export declare function normalizeDesignComponents(items:unknown):Required<CuDesignComponent>[];
+export declare class CuComponentDesigner extends HTMLElement {items:CuDesignComponent[];selected:string;readonly:boolean;addComponent(type:CuDesignComponentType):boolean;removeComponent(id:string):boolean;}
+export declare const DEFAULT_WORKFLOW_LANES:readonly CuKanbanLane[];
+export declare class CuWorkflowEditor extends HTMLElement {lanes:CuKanbanLane[];items:CuKanbanItem[];readonly:boolean;addTask(title:string,laneId:string):boolean;removeTask(id:string):boolean;}
+export interface CuNodeGraph {nodes:{id:string;label?:string}[];edges:{from:string;to:string}[];}
+export declare function normalizeNodeGraph(value?:CuNodeGraph):CuNodeGraph;
+export declare class CuNodeEditor extends HTMLElement {value:CuNodeGraph;readonly:boolean;addNode():boolean;removeNode(id:string):boolean;connectNodes(from:string,to:string):boolean;disconnectNodes(from:string,to:string):boolean;}
