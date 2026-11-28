@@ -71,7 +71,7 @@ test("Preview status is separate from production readiness", async () => {
   for (const name of ["Button", "TextField", "Checkbox", "Switch", "Dialog"]) {
     assert.equal(status.get(name), "preview");
   }
-  assert.equal(list.length, 146);
-  assert.equal(list.filter(item => item.status === "preview").length, 146);
+  assert.equal(list.length, 148);
+  assert.equal(list.filter(item => item.status === "preview").length, 148);
   assert.equal(list.filter(item => item.status === "ready").length, 0);
 });
