@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "ColorPalette",
+  "tag": "cu-color-palette",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "value": "string",
+    "disabled": "boolean"
+  },
+  "properties": {
+    "colors": "(string | CuPaletteColor)[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "ColorPicker",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
