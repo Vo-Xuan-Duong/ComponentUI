@@ -175,3 +175,8 @@ export { CuMenuBar, normalizeMenuGroups } from "./menu-bar.js";
 export { CuRibbon, normalizeRibbonTabs } from "./ribbon.js";
 export { CuTerminal, normalizeTerminalLines } from "./terminal.js";
 export { CuWindowManager, resolveWindowId } from "./window-manager.js";
+
+export { CuPdfViewer, clampPdfPage } from "./pdf-viewer.js";
+export { CuResourceCalendar, normalizeResources, normalizeResourceEvents } from "./resource-calendar.js";
+export { CuTimelineEditor, normalizeTimelineEntries } from "./timeline-editor.js";
+export { CuPropertyInspector, normalizeInspectorObjects, resolveInspectorObject } from "./property-inspector.js";
