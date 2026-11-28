@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "172 catalogued experimental browser Custom Elements; 172 catalog preview entries, 0 planned, 0 production-ready.",
+  "summary": "176 catalogued experimental browser Custom Elements; 176 catalog preview entries, 0 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -1587,6 +1587,42 @@
         },
         {
           "name": "APIExplorer",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "MediaLibrary",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "DashboardDesigner",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FormDesigner",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "SchemaEditor",
           "priority": "P1",
           "status": "preview",
           "renderers": [
