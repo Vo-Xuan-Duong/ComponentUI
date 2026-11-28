@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "ReportBuilder",
+  "tag": "cu-report-builder",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "chart-type": "bar | line",
+    "label": "string"
+  },
+  "properties": {
+    "rows": "Record<string,unknown>[]",
+    "query": "CuQueryValue",
+    "config": "CuPivotConfig",
+    "result": "CuPivotResult (readonly)",
+    "report": "CuReport (readonly)"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "QueryBuilder",
+    "PivotTable",
+    "ChartContainer",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
