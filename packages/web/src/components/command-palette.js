@@ -1,6 +1,7 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
 import {deepActiveElement,restoreOverlayFocus} from "./_overlay.js";
 import "./icon.js";
+import "./icon-button.js";
 export function normalizePaletteCommands(items){
   const seen=new Set();
   return (Array.isArray(items)?items:[]).flatMap(item=>{
@@ -22,7 +23,7 @@ const css=[
   "dialog::backdrop{background:rgb(0 0 0/.40);backdrop-filter:blur(3px);}dialog[open]{animation:enter var(--cu-motion-normal,160ms) ease-out;}@keyframes enter{from{opacity:.6;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}",
   ".heading{display:flex;align-items:center;justify-content:space-between;padding:12px 15px 5px;gap:8px;}h2{font-size:14px;font-weight:650;margin:0;}.search{display:flex;align-items:center;gap:10px;padding:10px 15px;border-bottom:1px solid var(--cu-border,#e5e5e5);}",
   "input{flex:1;width:100%;min-width:0;border:0;background:transparent;color:inherit;font:400 16px var(--cu-font-body,system-ui);padding:8px 2px;outline:none;}input:focus-visible{outline:none;}.search:focus-within{box-shadow:inset 0 -2px var(--cu-accent,#0067c0);}",
-  "button{background:transparent;color:inherit;border:0;border-radius:6px;padding:5px;cursor:pointer;}button:hover{background:var(--cu-state-hover);}",
+  "@media(prefers-reduced-motion:reduce){dialog[open]{animation:none;}}",
   ".list{padding:6px;max-height:min(360px,50dvh);overflow:auto;overscroll-behavior:contain;}.option{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--cu-radius-md,6px);cursor:pointer;min-width:0;}.option[aria-disabled=true]{opacity:.45;cursor:not-allowed;}",
   ".option[data-active=true]:not([aria-disabled=true]),.option:hover:not([aria-disabled=true]){background:var(--cu-state-active);}.copy{min-width:0;flex:1;display:grid;gap:3px;overflow-wrap:anywhere;}.name{font-weight:600;}.description,.group,.empty,.footer{color:var(--cu-text-muted,#616161);font-size:12px;}.group{font-weight:650;padding:9px 10px 5px;}.empty{text-align:center;padding:25px;}",
   "kbd{font:11px var(--cu-font-body,system-ui);border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:4px;padding:2px 5px;white-space:nowrap;}.footer{display:flex;gap:12px;flex-wrap:wrap;padding:10px 15px;border-top:1px solid var(--cu-border,#e5e5e5);}.status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}",
@@ -32,11 +33,11 @@ export class CuCommandPalette extends BrowserElement{
   static get observedAttributes(){return ["open","title","placeholder","empty-text","shortcut","hidden"];}
   constructor(){
     super();this._commands=[];this._visible=[];this._active=-1;
-    const root=mount(this,css,'<dialog aria-labelledby="palette-title" part="dialog"><div class="heading"><h2 id="palette-title"></h2><button class="close" type="button" aria-label="Close command palette"><cu-icon name="x" size="18"></cu-icon></button></div><div class="search"><cu-icon name="search" size="20"></cu-icon><input role="combobox" aria-label="Search commands" aria-controls="palette-list" aria-expanded="true" aria-autocomplete="list" autocomplete="off" autofocus></div><div class="list" role="listbox" id="palette-list" aria-label="Commands"></div><div class="footer"><span><kbd>↑ ↓</kbd> Navigate</span><span><kbd>Enter</kbd> Select</span><span><kbd>Esc</kbd> Close</span></div><span class="status" role="status"></span></dialog>');
+    const root=mount(this,css,'<dialog aria-labelledby="palette-title" part="dialog"><div class="heading"><h2 id="palette-title"></h2><cu-icon-button class="close" name="x" size="sm" aria-label="Close command palette"></cu-icon-button></div><div class="search"><cu-icon name="search" size="20"></cu-icon><input role="combobox" aria-label="Search commands" aria-controls="palette-list" aria-expanded="true" aria-autocomplete="list" autocomplete="off" autofocus></div><div class="list" role="listbox" id="palette-list" aria-label="Commands"></div><div class="footer"><span><kbd>↑ ↓</kbd> Navigate</span><span><kbd>Enter</kbd> Select</span><span><kbd>Esc</kbd> Close</span></div><span class="status" role="status"></span></dialog>');
     for(const [k,q] of Object.entries({dialog:"dialog",title:"h2",input:"input",list:".list",close:".close",status:".status"}))this["_"+k]=root.querySelector(q);
     this._input.addEventListener("input",e=>{if(!e.isComposing)this._render();});this._input.addEventListener("compositionend",()=>this._render());
     this._input.addEventListener("keydown",e=>this._key(e));
-    this._close.addEventListener("click",()=>this.close());
+    this._close.addEventListener("cu-press",e=>{e.stopPropagation();this.close();});
     this._dialog.addEventListener("cancel",e=>{e.preventDefault();this.close("escape");});
     this._dialog.addEventListener("close",()=>{if(this._dialog.open)return;this.removeAttribute("open");const trigger=this._trigger;this._trigger=null;restoreOverlayFocus(trigger);notify(this,"cu-close",{reason:this._dialog.returnValue||"close"});});
     this._shortcut=e=>{if(this.hidden||e.defaultPrevented||e.isComposing||e.repeat||e.altKey||e.shiftKey)return;if(this.getAttribute("shortcut")==="mod+k"&&(e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();if(this.open)this.close("shortcut");else this.show();}};
@@ -50,13 +51,14 @@ export class CuCommandPalette extends BrowserElement{
   set open(v){if(v){if(this.isConnected)this.show();else this.setAttribute("open","");}else{if(this.open)this.close();else this.removeAttribute("open");}}
   show(){
     if(this.open||!this.isConnected||this.hidden)return false;
-    this._trigger=deepActiveElement(this.ownerDocument);this._input.value="";this._sync();this._dialog.returnValue="";this._dialog.showModal();this.setAttribute("open","");this._input.focus();notify(this,"cu-open",{});return true;
+    this._trigger=deepActiveElement(this.ownerDocument);this._input.value="";this._lastQuery=undefined;this._sync();this._dialog.returnValue="";this._dialog.showModal();this.setAttribute("open","");this._input.focus();notify(this,"cu-open",{});return true;
   }
   close(reason="close"){if(this.open)this._dialog.close(reason);}
   _sync(){if(!this._input)return;this._title.textContent=this.getAttribute("title")||"Command palette";this._input.placeholder=this.getAttribute("placeholder")||"Search commands…";this._render();}
   _render(){
     if(!this._list)return;
-    this._visible=searchPaletteCommands(this._commands,this._input.value);this._active=this._visible.findIndex(x=>!x.disabled);
+    const previous=this._visible[this._active]?.value,query=this._input.value,sameQuery=query===this._lastQuery;this._lastQuery=query;
+    this._visible=searchPaletteCommands(this._commands,query);const preserved=sameQuery?this._visible.findIndex(x=>x.value===previous&&!x.disabled):-1;this._active=preserved>=0?preserved:this._visible.findIndex(x=>!x.disabled);
     const doc=this.ownerDocument,nodes=[];let group=null;this._rows=[];
     this._visible.forEach((item,i)=>{
       if(item.group!==group){group=item.group;if(group){const heading=doc.createElement("div");heading.className="group";heading.setAttribute("role","presentation");heading.textContent=group;nodes.push(heading);}}
@@ -84,6 +86,6 @@ export class CuCommandPalette extends BrowserElement{
     const next=e.key.startsWith("Page")?Math.max(0,Math.min(enabled.length-1,at+dir*5)):(at+dir+enabled.length)%enabled.length;
     this._active=enabled[next];this._mark(true);
   }
-  _commit(i){const item=this._visible[i];if(!item||item.disabled||!this.open)return;this.close("select");notify(this,"cu-select",{value:item.value,label:item.label});}
+  _commit(i){const item=this._visible[i];if(!item||item.disabled||!this.open)return;const trigger=this._trigger;this._trigger=null;this.close("select");restoreOverlayFocus(trigger);notify(this,"cu-select",{value:item.value,label:item.label});}
 }
 define("cu-command-palette",CuCommandPalette);
