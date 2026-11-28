@@ -243,6 +243,15 @@ timelineEditorDemo.items=[{id:"m1",title:"Design approved",datetime:"2026-11-25"
 const inspectorDemo=document.getElementById("wc-property-inspector");
 inspectorDemo.objects=[{id:"button",label:"Button",properties:[{key:"label",label:"Label",value:"Save",group:"Content"},{key:"disabled",label:"Disabled",type:"boolean",value:false,group:"Behavior"},{key:"variant",label:"Variant",type:"select",options:[{value:"accent"},{value:"outline"},{value:"subtle"}],value:"accent",group:"Appearance"}]},{id:"card",label:"Card",properties:[{key:"title",label:"Title",value:"Overview"},{key:"padding",label:"Padding",type:"number",value:16,min:0,max:64},{key:"color",label:"Accent",type:"color",value:"#0067c0"}]}];
 inspectorDemo.addEventListener("cu-change",e=>{document.getElementById("wc-inspector-result").textContent=e.detail.objectId+" / "+e.detail.key+" = "+String(e.detail.value);});
+const consoleDemo=document.getElementById("wc-command-console");
+consoleDemo.lines=["ComponentUI command console","Open Commands or type help."];
+consoleDemo.commands=[{value:"help",label:"Show help",description:"List available demo commands",group:"General"},{value:"version",label:"Show version",group:"General"},{value:"echo Hello ComponentUI",label:"Echo sample",group:"Examples"}];
+consoleDemo.addEventListener("cu-action",e=>{if(e.detail.action!=="submit")return;const cmd=e.detail.value;if(cmd==="help")consoleDemo.append("help | version | echo <text>");else if(cmd==="version")consoleDemo.append("ComponentUI preview");else if(cmd.startsWith("echo "))consoleDemo.append(cmd.slice(5));else consoleDemo.append("Unknown demo command: "+cmd,"error");});
+const shortcutDemo=document.getElementById("wc-keyboard-shortcut-editor");
+shortcutDemo.items=[{id:"save",label:"Save document",shortcut:"Ctrl+S"},{id:"search",label:"Search",shortcut:"Ctrl+Shift+F"},{id:"palette",label:"Command palette",shortcut:"Ctrl+K"},{id:"close",label:"Close panel",shortcut:"Escape",disabled:true}];
+const paletteDemo=document.getElementById("wc-color-palette");
+paletteDemo.colors=[{value:"#0067c0",label:"Primary"},{value:"#107c41",label:"Success"},{value:"#c42b1c",label:"Danger"},{value:"#744da9",label:"Purple"}];
+const fontDemo=document.getElementById("wc-font-picker");fontDemo.fonts=["system-ui","Arial","Verdana","Georgia","Times New Roman","Courier New","monospace","sans-serif","serif"];
 const wcLogViewer=document.getElementById("wc-log-viewer");
 wcLogViewer.items=Array.from({length:1000},(_,i)=>({id:"log-"+i,timestamp:"Event "+String(i+1).padStart(4,"0"),level:["info","debug","warn","error"][i%4],source:["Application","Storage","Network"][i%3],message:["Workspace initialized","Cache refreshed","Connection delayed","Operation failed; retry available"][i%4]}));
 wcLogViewer.addEventListener("cu-select",event=>{document.getElementById("wc-log-result").textContent="Selected: "+event.detail.item.id;});
