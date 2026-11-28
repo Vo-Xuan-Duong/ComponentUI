@@ -1,0 +1,51 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {readFile} from "node:fs/promises";
+import {CuMediaPlayer} from "../packages/web/src/components/media-player.js";
+import {CuPdfViewer} from "../packages/web/src/components/pdf-viewer.js";
+import {CuMarkdownEditor} from "../packages/web/src/components/markdown-editor.js";
+if(!globalThis.CustomEvent)globalThis.CustomEvent=class extends Event{constructor(type,options={}){super(type,options);this.detail=options.detail;}};
+const source=name=>readFile(new URL("../packages/web/src/components/"+name+".js",import.meta.url),"utf8");
+test("replaced native media releases source and captions",()=>{
+ const player=Object.create(CuMediaPlayer.prototype),calls=[];
+ player._releaseMedia({pause(){calls.push("pause");},removeAttribute(name){calls.push(name);},querySelectorAll(){return [{remove(){calls.push("track");}}];},load(){calls.push("load");}});
+ assert.deepEqual(calls,["pause","src","track","load"]);
+});
+test("PDF render failure permits retry and superseded results cannot overwrite the current page",async()=>{
+ const viewer=Object.create(CuPdfViewer.prototype),events=[],attrs=new Map([["page","1"]]);
+ Object.defineProperty(viewer,"isConnected",{value:true});
+ viewer.getAttribute=k=>attrs.get(k)??null;
+ viewer.dispatchEvent=e=>{events.push(e.detail);return true;};
+ viewer._viewer={hidden:true,src:"",setAttribute(){}};
+ viewer._status={};viewer._loading={};viewer._empty={setAttribute(){}};viewer._retry={};viewer._nav={querySelectorAll:()=>[]};
+ viewer._pages=[];viewer._revision=0;viewer._loadedPage=0;
+ let fail=true;
+ viewer._document={pageCount:2,renderPage:async page=>{if(fail)throw Error("render failed");return "page-"+page+".png";}};
+ viewer._render();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(viewer._retry.hidden,false);assert.equal(events[0].action,"render-error");
+ fail=false;viewer._invalidate();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(viewer._retry.hidden,true);assert.equal(viewer._viewer.src,"page-1.png");
+ let resolveOld;
+ viewer._document={pageCount:2,renderPage:page=>page===1?new Promise(resolve=>{resolveOld=resolve;}):Promise.resolve("new.png")};
+ viewer._invalidate();await Promise.resolve();
+ attrs.set("page","2");viewer._render();await new Promise(resolve=>setImmediate(resolve));
+ resolveOld("stale.png");await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(viewer._viewer.src,"new.png");
+});
+test("unchanged Markdown source skips preview DOM construction",()=>{
+ const editor=Object.create(CuMarkdownEditor.prototype);
+ editor._value="same";editor._renderedValue="same";
+ editor._renderPreview();
+});
+test("media and document composition uses shared controls and scoped lifecycle",async()=>{
+ const image=await source("image-viewer"),gallery=await source("image-gallery"),library=await source("media-library"),manager=await source("document-manager"),rich=await source("rich-text-editor");
+ assert.match(image,/<cu-icon-button[^>]+data-action="out"/);
+ assert.match(image,/action==="in"&&this.zoom>=300/);
+ assert.match(gallery,/this\._activeItemId!==item\.id/);
+ assert.match(gallery,/this\._select\.setAttribute\("value",value\)/);
+ assert.match(library,/if\(!this\._player.hidden&&this.selected\)/);
+ assert.match(manager,/this\._sections\.set\(item\.id,this\._workspace.active\)/);
+ assert.match(rich,/this\._lastInput=next;this\._focusValue=next/);
+});
