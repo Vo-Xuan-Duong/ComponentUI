@@ -13,9 +13,9 @@ export function normalizeMediaEntries(items){
     return {...entry,mediaType,src:mediaType&&typeof item?.src==="string"?item.src.trim():"",poster:mediaType==="video"&&typeof item?.poster==="string"?item.poster:""};
   });
 }
-const css=":host{display:block;min-width:0;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}cu-split-view{height:var(--cu-media-library-height,540px);}.panel{padding:8px;display:grid;gap:8px;min-width:0;}.heading{font-weight:650;overflow-wrap:anywhere;}";
+const css=":host([hidden]){display:none!important;}:host{display:block;min-width:0;font:13px var(--cu-font-body,system-ui);color:var(--cu-text,#242424);}cu-split-view{height:var(--cu-media-library-height,540px);}.panel{padding:8px;display:grid;gap:8px;min-width:0;}.heading{font-weight:650;overflow-wrap:anywhere;}";
 export class CuMediaLibrary extends BrowserElement{
-  static get observedAttributes(){return ["selected"];}
+  static get observedAttributes(){return ["selected","hidden"];}
   constructor(){
     super();this._items=[];
     const root=mount(this,css,'<cu-split-view position="42" min="25" max="70" label="Media library"><div class="panel" slot="sidebar"><cu-file-manager label="Media files"></cu-file-manager></div><div class="panel" slot="content"><div class="heading" role="status"></div><cu-image-gallery hidden></cu-image-gallery><cu-media-player hidden></cu-media-player><cu-empty-state title="Select a media file" size="sm"></cu-empty-state></div></cu-split-view>');
@@ -23,13 +23,13 @@ export class CuMediaLibrary extends BrowserElement{
     for(const type of ["cu-select","cu-open"])this._files.addEventListener(type,e=>{e.stopPropagation();if(e.detail.entry?.kind==="file")this.selectMedia(e.detail.id);});
     this._files.addEventListener("cu-action",e=>{e.stopPropagation();notify(this,"cu-action",{...e.detail,section:"files"});});
     this._files.addEventListener("cu-change",e=>{e.stopPropagation();notify(this,"cu-navigate",{folderId:e.detail.folderId});});
-    this._gallery.addEventListener("cu-change",e=>{e.stopPropagation();this.selectMedia(e.detail.value);});
+    this._gallery.addEventListener("cu-change",e=>{if(e.target!==this._gallery)return;e.stopPropagation();if(!this._gallery.hidden)this.selectMedia(e.detail.value);});
     this._gallery.addEventListener("cu-transform",e=>{e.stopPropagation();notify(this,"cu-transform",e.detail);});
     this._gallery.addEventListener("cu-action",e=>{e.stopPropagation();notify(this,"cu-action",{...e.detail,section:"image"});});
-    this._player.addEventListener("cu-change",e=>{e.stopPropagation();notify(this,"cu-media",{id:this.selected,...e.detail});});
+    this._player.addEventListener("cu-change",e=>{if(e.target!==this._player)return;e.stopPropagation();if(!this._player.hidden&&this.selected)notify(this,"cu-media",{id:this.selected,...e.detail});});
     const split=root.querySelector("cu-split-view");for(const type of ["cu-input","cu-change"])split.addEventListener(type,e=>{if(e.target===split)e.stopPropagation();});
   }
-  connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();}
+  connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();if(this.hidden)this._player?.pause();}
   disconnectedCallback(){this._player.pause();}
   get items(){return this._items.map(x=>({...x}));}
   set items(v){this._items=normalizeMediaEntries(v);this._files.items=this._items;this._gallery.items=this._items.filter(x=>x.mediaType==="image"&&x.src).map(x=>({id:x.id,title:x.name,alt:x.name,src:x.src}));this._sync();}
