@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "ThemeEditor",
+  "tag": "cu-theme-editor",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "value": "CuThemeConfig",
+    "tokens": "Record<string,string> (readonly)"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "ColorPalette",
+    "FontPicker",
+    "PropertyGrid",
+    "Button",
+    "Card"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
