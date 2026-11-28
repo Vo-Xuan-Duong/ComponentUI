@@ -16,6 +16,7 @@ export class CuWindowManager extends BrowserElement{
     const root=mount(this,css,'<cu-dock-layout label="Window workspace"><div class="navigator" slot="start" role="group" aria-label="Open windows"><span class="label">Windows</span><div class="buttons"></div></div><div class="workspace"><slot></slot><cu-empty-state class="empty" size="sm" title="No open windows" tabindex="-1" hidden></cu-empty-state></div></cu-dock-layout>');
     this._dock=root.querySelector("cu-dock-layout");this._slot=root.querySelector("slot");this._buttons=root.querySelector(".buttons");this._empty=root.querySelector(".empty");
     this._slot.addEventListener("slotchange",()=>this._collect());
+    for(const type of ["cu-input","cu-change","cu-resize"])this._dock.addEventListener(type,e=>{if(e.target===this._dock)e.stopPropagation();});
     this._buttons.addEventListener("cu-press",e=>{e.stopPropagation();this.activateWindow(e.target.dataset.window);});
     this.addEventListener("cu-close",e=>{const pane=e.target;if(!this._panes.includes(pane))return;e.stopPropagation();this.closeWindow(pane.dataset.windowId);});
   }
