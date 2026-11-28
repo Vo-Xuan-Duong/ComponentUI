@@ -1052,6 +1052,10 @@ declare global {
     "cu-developer-tools": CuDeveloperTools;
     "cu-form-builder": CuFormBuilder;
     "cu-data-source-editor": CuDataSourceEditor;
+    "cu-dashboard-viewer": CuDashboardViewer;
+    "cu-project-workspace": CuProjectWorkspace;
+    "cu-search-workspace": CuSearchWorkspace;
+    "cu-document-manager": CuDocumentManager;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1298,3 +1302,16 @@ export declare function buildFormSchema(fields:unknown):CuObjectSchema;
 export declare class CuFormBuilder extends HTMLElement {fields:CuDesignFormField[];readonly schema:CuObjectSchema;readonly:boolean;}
 export declare function extractResponseRecords(body:string,path?:string):{rows:Record<string,unknown>[];error:string;truncated?:boolean};
 export declare class CuDataSourceEditor extends HTMLElement {request:CuAPIRequest;response:CuAPIResponse|null;recordPath:string;readonly rows:Record<string,unknown>[];disabled:boolean;loading:boolean;}
+
+export declare function filterDashboardWidgets(widgets:unknown,query?:string):CuDashboardWidget[];
+export declare class CuDashboardViewer extends HTMLElement {widgets:CuDashboardWidget[];query:string;readonly visibleWidgets:CuDashboardWidget[];}
+export interface CuProjectWorkspaceValue {tasks:CuGanttTask[];events:CuScheduleEvent[];lanes:CuKanbanLane[];workItems:CuKanbanItem[];}
+export declare function normalizeProjectWorkspace(value?:Partial<CuProjectWorkspaceValue>):CuProjectWorkspaceValue;
+export declare class CuProjectWorkspace extends HTMLElement {value:CuProjectWorkspaceValue;date:string;readonly:boolean;}
+export interface CuSearchRecord {id:string;title?:string;description?:string;category?:string;keywords?:string[];}
+export declare function normalizeSearchRecords(items:unknown):Required<CuSearchRecord>[];
+export declare function filterSearchRecords(items:Required<CuSearchRecord>[],query?:string,category?:string):Required<CuSearchRecord>[];
+export declare class CuSearchWorkspace extends HTMLElement {items:CuSearchRecord[];query:string;category:string;readonly visibleItems:Required<CuSearchRecord>[];readonly selectedItem:Required<CuSearchRecord>|null;selectResult(id:string):boolean;}
+export interface CuManagedDocument extends CuFileEntry {pages?:string[];notes?:string;}
+export declare function normalizeManagedDocuments(items:unknown):CuManagedDocument[];
+export declare class CuDocumentManager extends HTMLElement {items:CuManagedDocument[];selected:string;readonly:boolean;selectDocument(id:string):boolean;}
