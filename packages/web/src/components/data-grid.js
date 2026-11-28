@@ -30,11 +30,11 @@ export class CuDataGrid extends CuDataTable{
   get readonly(){return this.hasAttribute("readonly");}set readonly(v){this.toggleAttribute("readonly",Boolean(v));}
   _canEdit(column,row){
     if(this.readonly||this.loading||this.error||column?.editable!==true||row?.id==null)return false;
-    if(this._countedRows!==this._rows){
-      this._countedRows=this._rows;this._idCounts=new Map();
-      for(const r of this._rows)if(r?.id!=null){const id=String(r.id);this._idCounts.set(id,(this._idCounts.get(id)||0)+1);}
-    }
-    return this._idCounts.get(String(row.id))===1;
+    return this._uniqueRowIndex(row.id)>=0;
+  }
+  _uniqueRowIndex(id){
+    if(this._indexedRows!==this._rows){this._indexedRows=this._rows;this._gridRowIndexes=new Map();this._rows.forEach((r,i)=>{if(r?.id!=null){const key=String(r.id);this._gridRowIndexes.set(key,this._gridRowIndexes.has(key)?-1:i);}});}
+    return this._gridRowIndexes.get(String(id))??-1;
   }
   _actionsFor(row){
     const actions=super._actionsFor(row).filter(action=>action.value!=="edit-cell");
@@ -61,7 +61,7 @@ export class CuDataGrid extends CuDataTable{
   _editorTag(column,row){return Object.hasOwn(cellEditorTags,column.type)?cellEditorTags[column.type]:"cu-text-field";}
   _configureEditor(control,column,row){}
   editCell(id,key){
-    const row=this._rows.find(r=>r?.id!=null&&String(r.id)===String(id)),column=this._columns.find(c=>c.key===key),cell=this._cell(id,key);
+    const row=this._rows[this._uniqueRowIndex(id)],column=this._columns.find(c=>c.key===key),cell=this._cell(id,key);
     if(!cell||!this._canEdit(column,row))return false;
     if(cell.dataset.editing==="true")return true;
     const existing=this.shadowRoot.querySelector('td[data-editing="true"]');
@@ -85,6 +85,7 @@ export class CuDataGrid extends CuDataTable{
       const parsed=coerceGridValue(column,column.type==="boolean"?control.checked:control.value,row[key]);
       if(!parsed.valid){if(column.type!=="boolean")control.setAttribute("error",parsed.message);else error.textContent=parsed.message;return false;}
       cell.dataset.editing="false";delete cell._gridCancel;
+      if(parsed.value===row[key]){cancel(false);const destination=target??(restore?{id,key}:null);if(destination)this._cell(destination.id,destination.key)?.focus({preventScroll:true});return true;}
       if(!this._applyCellValue(id,key,parsed.value,target??(restore?{id,key}:null))){cancel(restore);return false;}
       return true;
     };
@@ -107,15 +108,15 @@ export class CuDataGrid extends CuDataTable{
   }
   setCellValue(id,key,value){return this._applyCellValue(id,key,value);}
   _applyCellValue(id,key,value,focusTarget=null){
-    const row=this._rows.find(r=>r?.id!=null&&String(r.id)===String(id)),column=this._columns.find(c=>c.key===key);
+    const index=this._uniqueRowIndex(id),row=this._rows[index],column=this._columns.find(c=>c.key===key);
     if(!this._canEdit(column,row))return false;
     const parsed=coerceGridValue(column,value,row[key]);if(!parsed.valid)return false;
     const previousCellValue=row[key],next={...row,[key]:parsed.value};
     if(previousCellValue!==parsed.value){
-      this._rows=this._rows.map(r=>r===row?next:r);
-      this._rowIndex=new WeakMap();this._rows.forEach((r,i)=>{if(r&&typeof r==="object")this._rowIndex.set(r,i);});
+      const rows=this._rows.slice();rows[index]=next;this._rows=rows;this._indexedRows=rows;
+      this._rowIndex??=new WeakMap();this._rowIndex.delete(row);this._rowIndex.set(next,index);
       this._invalidateView();
-    }
+    }else return true;
     this._render();
     if(focusTarget)this._cell(focusTarget.id,focusTarget.key)?.focus({preventScroll:true});
     if(previousCellValue!==parsed.value)notify(this,"cu-cell-change",{id:String(id),key,cellValue:parsed.value,previousCellValue,row:next});
