@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "DashboardDesigner",
+  "tag": "cu-dashboard-designer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean",
+    "selected": "string"
+  },
+  "properties": {
+    "widgets": "CuDashboardWidget[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-select"
+  ],
+  "composition": [
+    "DashboardShell",
+    "ChartEditor",
+    "ChartContainer",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
