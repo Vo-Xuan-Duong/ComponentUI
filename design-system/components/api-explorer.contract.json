@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "APIExplorer",
+  "tag": "cu-api-explorer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean",
+    "loading": "boolean"
+  },
+  "properties": {
+    "request": "CuAPIRequest",
+    "response": "CuAPIResponse | null"
+  },
+  "events": [
+    "cu-input",
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "TextField",
+    "TextArea",
+    "Select",
+    "Button",
+    "Tabs",
+    "CodeBlock",
+    "JsonViewer"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
