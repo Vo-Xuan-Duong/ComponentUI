@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import {overlayGeometry,placeAnchoredOverlay,registerOverlay,unregisterOverlay,isTopOverlay,
-  deepActiveElement,restoreOverlayFocus,watchOverlayViewport}
+  deepActiveElement,restoreOverlayFocus,watchOverlayViewport,openOverlayTopLayer,closeOverlayTopLayer,overlayViewportPosition}
   from "../packages/web/src/components/_overlay.js";
 import {CuCombobox} from "../packages/web/src/components/combobox.js";
 
@@ -12,11 +12,11 @@ const rect=(left,top,width,height)=>({left,top,width,height,right:left+width,bot
 
 test("Anchored popup opens below when there is sufficient space",()=>{
   assert.deepEqual(overlayGeometry(rect(100,50,200,40),{width:200,height:180},viewport),
-    {placement:"bottom",left:0,width:200,maxHeight:320,gap:6});
+    {placement:"bottom",left:0,width:200,maxHeight:180,gap:6});
 });
 test("Popup flips above near the viewport bottom",()=>{
   const p=overlayGeometry(rect(100,520,200,40),{width:200,height:200},viewport);
-  assert.equal(p.placement,"top");assert.equal(p.maxHeight,320);
+  assert.equal(p.placement,"top");assert.equal(p.maxHeight,200);
 });
 test("Popup shrinks to available space rather than imposing a minimum height",()=>{
   const p=overlayGeometry(rect(20,90,100,40),{width:200,height:400},
@@ -116,5 +116,39 @@ test("All anchored components share geometry or stack helpers and lifecycle clea
     assert.match(sources[name],/restoreOverlayFocus\(trigger\)/);
     assert.match(sources[name],/returnValue\s*=\s*""/);
     assert.match(sources[name],/animation:cu-/);
+  }
+});
+
+test("top layer stays anchored to viewport and cleans up on close",()=>{
+  const view={innerWidth:400,innerHeight:300,getComputedStyle:()=>({borderTopWidth:"1px",borderBottomWidth:"1px"})};
+  const anchor={ownerDocument:{defaultView:view},getBoundingClientRect:()=>rect(120,220,180,40)};
+  const attrs=new Map();let shown=false;
+  const panel={isConnected:true,hidden:false,style:{},dataset:{},scrollHeight:100,
+    getBoundingClientRect:()=>rect(0,0,200,102),
+    setAttribute:(k,v)=>attrs.set(k,v),removeAttribute:k=>attrs.delete(k),
+    showPopover(){shown=true;},hidePopover(){shown=false;},matches(){return shown;}};
+  const result=placeAnchoredOverlay(anchor,panel,{matchWidth:true,topLayer:true});
+  assert.equal(shown,true);assert.equal(attrs.get("popover"),"manual");
+  assert.equal(panel.style.position,"fixed");assert.equal(panel.style.left,"120px");
+  assert.equal(panel.style.top,"112px");assert.equal(result.placement,"top");
+  assert.deepEqual(overlayViewportPosition(rect(120,220,180,40),result),{left:120,top:112});
+  closeOverlayTopLayer(panel);closeOverlayTopLayer(panel);
+  assert.equal(shown,false);assert.equal(attrs.has("popover"),false);
+  assert.equal(panel.style.position,"");assert.equal(panel.dataset.cuTopLayer,undefined);
+});
+test("top layer is optional and preserves fallback positioning",()=>{
+  const view={innerWidth:400,innerHeight:300};
+  const anchor={ownerDocument:{defaultView:view},getBoundingClientRect:()=>rect(10,20,100,30)};
+  const panel={isConnected:true,hidden:false,style:{},dataset:{},getBoundingClientRect:()=>rect(0,0,100,80)};
+  assert.equal(openOverlayTopLayer(panel),false);
+  placeAnchoredOverlay(anchor,panel,{topLayer:true,matchWidth:true});
+  assert.equal(panel.style.top,"calc(100% + 6px)");
+  closeOverlayTopLayer(panel);
+});
+test("dropdown components opt in to shared top layer and release it",async()=>{
+  for(const name of ["select","combobox","autocomplete","multi-select","menu","popover"]){
+    const source=await read("../packages/web/src/components/"+name+".js");
+    assert.match(source,/topLayer:true/);
+    assert.match(source,/closeOverlayTopLayer\(this\./);
   }
 });
