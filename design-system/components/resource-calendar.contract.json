@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "ResourceCalendar",
+  "tag": "cu-resource-calendar",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "date": "YYYY-MM-DD",
+    "resource-id": "string",
+    "locale": "string"
+  },
+  "properties": {
+    "resources": "CuCalendarResource[]",
+    "events": "CuResourceEvent[]"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "Scheduler",
+    "Select"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
