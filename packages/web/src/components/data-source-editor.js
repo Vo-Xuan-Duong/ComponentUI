@@ -5,7 +5,7 @@ import "./text-field.js";
 import "./tabs.js";
 export function extractResponseRecords(body,path=""){
   if(typeof body!=="string"||!body.trim())return {rows:[],error:"No response body."};
-  if(body.length>2000000)return {rows:[],error:"Response exceeds the 2 MB character limit."};
+  if(body.length>2000000)return {rows:[],error:"Response exceeds 2,000,000 UTF-16 code units."};
   let value;try{value=JSON.parse(body);}catch{return {rows:[],error:"Response is not valid JSON."};}
   if(typeof path!=="string"||(path!==""&&(!path.startsWith("/")||/~(?:[^01]|$)/.test(path))))return {rows:[],error:"Use a JSON Pointer such as /items."};
   if(path)for(const token of path.slice(1).split("/")){
@@ -32,7 +32,7 @@ export class CuDataSourceEditor extends BrowserElement{
   connectedCallback(){this._sync();this._extract();}attributeChangedCallback(name){this._sync();if(name==="record-path")this._extract();}
   get request(){return this._api.request;}set request(v){this._api.request=v;}
   get response(){return this._api.response;}set response(v){this._api.response=v;this._extract();}
-  get recordPath(){return this.getAttribute("record-path")??"";}set recordPath(v){this.setAttribute("record-path",String(v??""));}
+  get recordPath(){return this.getAttribute("record-path")??"";}set recordPath(v){const path=String(v??"");if(this.recordPath!==path)this.setAttribute("record-path",path);}
   get rows(){return normalizeInspectorRows(this._rows);}
   get disabled(){return this.hasAttribute("disabled");}set disabled(v){this.toggleAttribute("disabled",Boolean(v));}
   get loading(){return this.hasAttribute("loading");}set loading(v){this.toggleAttribute("loading",Boolean(v));}
