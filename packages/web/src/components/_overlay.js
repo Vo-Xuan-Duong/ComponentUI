@@ -47,7 +47,7 @@ export function overlayGeometry(anchor,size,viewport,{
  */
 export function openOverlayTopLayer(panel){
   if(!panel?.isConnected||typeof panel.showPopover!=="function"||typeof panel.hidePopover!=="function")return false;
-  if(panel.dataset.cuTopLayer==="true")return true;
+  if(panel.dataset.cuTopLayer==="true"&&panel.matches?.(":popover-open")!==false)return true;
   panel.setAttribute("popover","manual");
   // Override UA popover centering; preserve the component's own styles.
   panel.dataset.cuTopLayer="true";
@@ -55,7 +55,7 @@ export function openOverlayTopLayer(panel){
   catch{delete panel.dataset.cuTopLayer;panel.removeAttribute("popover");return false;}
 }
 export function closeOverlayTopLayer(panel){
-  if(panel?.dataset.cuTopLayer!=="true")return;
+  if(panel?.dataset?.cuTopLayer!=="true")return;
   try{panel.hidePopover();}catch{/* The host may already be disconnected. */}
   delete panel.dataset.cuTopLayer;
   panel.removeAttribute("popover");
