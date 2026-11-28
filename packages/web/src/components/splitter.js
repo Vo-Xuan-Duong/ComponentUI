@@ -62,8 +62,9 @@ export class CuSplitter extends BrowserElement {
     this._handle=root.querySelector(".handle");
     this._pointer=null;
     this._handle.addEventListener("pointerdown",event=>{
-      if(this.disabled||this._pointer||event.button!==0)return;
+      if(this.disabled||this._pointer||event.button!==0||event.isPrimary===false)return;
       event.preventDefault();
+      this._handle.focus({preventScroll:true});
       this._pointer={id:event.pointerId,initial:this.position,moved:false};
       this._handle.setPointerCapture(event.pointerId);
       this.setAttribute("dragging","");
@@ -71,23 +72,24 @@ export class CuSplitter extends BrowserElement {
     this._handle.addEventListener("pointermove",event=>{
       if(!this._pointer||event.pointerId!==this._pointer.id)return;
       const r=this._layout.getBoundingClientRect();
-      const next=splitPositionFromPointer(event.clientX,event.clientY,r,
+      const x=this._rtl()?r.right-(event.clientX-r.left):event.clientX;
+      const next=splitPositionFromPointer(x,event.clientY,r,
         this.orientation,this.min,this.max);
       if(this._updatePosition(next,"cu-input"))this._pointer.moved=true;
     });
     this._handle.addEventListener("pointerup",event=>{
       if(!this._pointer||event.pointerId!==this._pointer.id)return;
-      const moved=this._pointer.moved;
+      const moved=this.position!==this._pointer.initial;
       this._finishDrag();
       if(moved)notify(this,"cu-change",{position:this.position});
     });
     this._handle.addEventListener("pointercancel",event=>{
       if(!this._pointer||event.pointerId!==this._pointer.id)return;
-      const previous=this._pointer.initial;
-      this._finishDrag();
-      this.position=previous;
+      this._cancelDrag();
     });
+    this._handle.addEventListener("lostpointercapture",event=>{if(this._pointer?.id===event.pointerId)this._cancelDrag();});
     this._handle.addEventListener("keydown",event=>{
+      if(event.key==="Escape"&&this._pointer){event.preventDefault();event.stopPropagation();this._cancelDrag();return;}
       if(this.disabled)return;
       const vertical=this.orientation==="vertical";
       const forward=vertical?"ArrowDown":"ArrowRight";
@@ -96,7 +98,7 @@ export class CuSplitter extends BrowserElement {
       event.preventDefault();
       const step=event.shiftKey?10:5;
       const target=event.key==="Home"?this.min:event.key==="End"?this.max:
-        this.position+(event.key===forward?step:-step);
+        this.position+(event.key===forward?step:-step)*(this._rtl()?-1:1);
       this._updatePosition(target,"cu-change");
     });
   }
@@ -112,6 +114,8 @@ export class CuSplitter extends BrowserElement {
   set max(v){this.setAttribute("max",String(v));}
   get position(){return clampSplitPosition(this.getAttribute("position"),this.min,this.max);}
   set position(v){this.setAttribute("position",String(clampSplitPosition(v,this.min,this.max)));}
+  _rtl(){return this.orientation==="horizontal"&&this.ownerDocument?.defaultView?.getComputedStyle(this).direction==="rtl";}
+  _cancelDrag(){if(!this._pointer)return;const previous=this._pointer.initial;this._finishDrag();this._updatePosition(previous,"cu-input");}
   _finishDrag(){
     if(!this._pointer)return;
     const id=this._pointer.id;
