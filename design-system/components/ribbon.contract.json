@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "Ribbon",
+  "tag": "cu-ribbon",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "active": "string",
+    "disabled": "boolean"
+  },
+  "properties": {
+    "tabs": "CuRibbonTab[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-action"
+  ],
+  "composition": [
+    "Tabs",
+    "Tab",
+    "CommandBar"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
