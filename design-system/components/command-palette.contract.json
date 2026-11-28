@@ -18,5 +18,9 @@
   ],
   "accessibility": {
     "formAssociated": false
-  }
+  },
+  "composition": [
+    "Icon",
+    "IconButton"
+  ]
 }
