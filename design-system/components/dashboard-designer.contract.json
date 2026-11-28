@@ -20,7 +20,8 @@
     "ChartEditor",
     "ChartContainer",
     "Select",
-    "Button"
+    "Button",
+    "EmptyState"
   ],
   "accessibility": {
     "formAssociated": false
