@@ -1,6 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
-import { registerOverlay, unregisterOverlay, isTopOverlay, placeAnchoredOverlay, watchOverlayViewport, restoreOverlayFocus } from "./_overlay.js";
+import { registerOverlay, unregisterOverlay, isTopOverlay, placeAnchoredOverlay,closeOverlayTopLayer, watchOverlayViewport, restoreOverlayFocus } from "./_overlay.js";
 
 const css = [
   ":host{position:relative;display:inline-flex;vertical-align:middle;max-width:100%;}",
@@ -77,8 +77,9 @@ export class CuPopover extends BrowserElement {
       trigger.setAttribute("aria-controls",this._panel.id);
     }
   }
-  _placePanel(){if(this.open)placeAnchoredOverlay(this,this._panel,{maxHeight:360,gap:8,allowOverflow:true,align:this.getAttribute("placement")==="end"?"end":"start"});}
+  _placePanel(){if(this.open)placeAnchoredOverlay(this,this._panel,{maxHeight:360,gap:8,topLayer:true,allowOverflow:true,align:this.getAttribute("placement")==="end"?"end":"start"});}
   _sync() {
+    if(!this.open)closeOverlayTopLayer(this._panel);
     this._panel.hidden = !this.open;
     if(this.open&&this.isConnected){if(!this._registered){registerOverlay(this);this._registered=true;}this._placePanel();}
     else{unregisterOverlay(this);this._registered=false;}
