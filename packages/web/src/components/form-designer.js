@@ -9,9 +9,10 @@ import "./checkbox.js";
 import "./select.js";
 import "./button.js";
 export const FORM_FIELD_TYPES=Object.freeze(["text","email","number","textarea","checkbox"]);
+const reservedFormNames=new Set(["submit","requestSubmit","reset","checkValidity","reportValidity","elements","length","action","method","target","enctype","noValidate","constructor","__proto__"]);
 export function normalizeFormFields(items){
   const ids=new Set(),names=new Set();return (Array.isArray(items)?items:[]).flatMap(x=>{
-    if(!x||typeof x.id!=="string"||!x.id||ids.has(x.id)||typeof x.name!=="string"||!x.name.trim()||names.has(x.name.trim())||!FORM_FIELD_TYPES.includes(x.type))return [];
+    if(!x||typeof x.id!=="string"||!x.id||ids.has(x.id)||typeof x.name!=="string"||!x.name.trim()||reservedFormNames.has(x.name.trim())||names.has(x.name.trim())||!FORM_FIELD_TYPES.includes(x.type))return [];
     ids.add(x.id);const name=x.name.trim();names.add(name);return [{id:x.id,name,type:x.type,label:String(x.label??name),required:Boolean(x.required),value:x.type==="checkbox"?x.value===true:String(x.value??"")}];
   }).slice(0,50);
 }
@@ -24,7 +25,7 @@ export class CuFormDesigner extends BrowserElement{
     this._inspector=root.querySelector("cu-property-inspector");this._form=root.querySelector("cu-form");this._native=root.querySelector("form");this._type=root.querySelector("cu-select");this._add=root.querySelector(".add");this._remove=root.querySelector(".remove");this._submit=root.querySelector(".submit");this._status=root.querySelector(".status");
     this._add.addEventListener("cu-press",e=>{e.stopPropagation();this.addField(this._type.value);});this._remove.addEventListener("cu-press",e=>{e.stopPropagation();this.removeField(this._inspector.selected);});
     this._inspector.addEventListener("cu-select",e=>{e.stopPropagation();this._syncButtons();notify(this,"cu-select",{value:e.detail.objectId});});
-    this._inspector.addEventListener("cu-change",e=>{e.stopPropagation();if(this.readonly)return;const {objectId,key,value}=e.detail,i=this._fields.findIndex(x=>x.id===objectId);if(i<0||!["name","label","required","value"].includes(key))return;const next=normalizeFormFields(this._fields.map((x,j)=>i===j?{...x,[key]:value}:x));if(next.length!==this._fields.length){this._status.textContent="Field names must be unique and nonempty.";this._renderInspector();return;}this._fields=next;this._renderPreview();this._emit("update",objectId);});
+    this._inspector.addEventListener("cu-change",e=>{e.stopPropagation();if(this.readonly)return;const {objectId,key,value}=e.detail,i=this._fields.findIndex(x=>x.id===objectId);if(i<0||!["name","label","required","value"].includes(key))return;const next=normalizeFormFields(this._fields.map((x,j)=>i===j?{...x,[key]:value}:x));if(next.length!==this._fields.length){this._status.textContent="Use a unique, nonempty field name that does not shadow a form API.";this._renderInspector();return;}this._fields=next;if(key==="label")this._renderInspector();this._renderPreview();this._emit("update",objectId);});
     this._submit.addEventListener("cu-press",e=>{e.stopPropagation();if(this._form.reportValidity())this._form.requestSubmit();});
     this._form.addEventListener("cu-submit",e=>{e.stopPropagation();const data=Object.fromEntries(e.detail.formData);this._status.textContent="Valid preview submission";notify(this,"cu-submit",{data});});
     for(const type of ["cu-input","cu-change"])this._form.addEventListener(type,e=>e.stopPropagation());
