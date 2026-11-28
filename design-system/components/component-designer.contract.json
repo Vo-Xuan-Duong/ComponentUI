@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "ComponentDesigner",
+  "tag": "cu-component-designer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean",
+    "selected": "string"
+  },
+  "properties": {
+    "items": "CuDesignComponent[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-select"
+  ],
+  "composition": [
+    "PropertyInspector",
+    "DockLayout",
+    "Select",
+    "Button",
+    "Card",
+    "TextField"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
