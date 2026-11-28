@@ -1,6 +1,6 @@
 
 import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js";
-import { registerOverlay, unregisterOverlay, isTopOverlay, placeAnchoredOverlay, watchOverlayViewport, restoreOverlayFocus } from "./_overlay.js";
+import { registerOverlay, unregisterOverlay, isTopOverlay, placeAnchoredOverlay,closeOverlayTopLayer, watchOverlayViewport, restoreOverlayFocus } from "./_overlay.js";
 
 /** Declarative option only: used as a child of <cu-menu>. */
 export class CuMenuItem extends BrowserElement {
@@ -147,13 +147,14 @@ export class CuMenu extends BrowserElement {
   }
   _sync() {
     if (!this._menu) return;
+    if(!this.open)closeOverlayTopLayer(this._menu);
     this._menu.hidden = !this.open;
     if(this.open&&this.isConnected){if(!this._registered){registerOverlay(this);this._registered=true;}this._placeMenu();}
     else{unregisterOverlay(this);this._registered=false;}
     this._menu.setAttribute("aria-label",this.getAttribute("aria-label") || "Actions");
     this._syncTrigger();
   }
-  _placeMenu(){if(this.open)placeAnchoredOverlay(this,this._menu,{maxHeight:320,gap:8});}
+  _placeMenu(){if(this.open)placeAnchoredOverlay(this,this._menu,{maxHeight:320,gap:8,topLayer:true});}
   show(focus="first") {
     if (!this.open) this.open = true;
     const items = this._enabledItems();
