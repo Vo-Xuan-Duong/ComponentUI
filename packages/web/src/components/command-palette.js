@@ -1,5 +1,5 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
-import {deepActiveElement,restoreOverlayFocus} from "./_overlay.js";
+import {deepActiveElement,restoreOverlayFocus,registerOverlay,unregisterOverlay,isTopOverlay,dismissDescendantOverlays} from "./_overlay.js";
 import "./icon.js";
 import "./icon-button.js";
 export function normalizePaletteCommands(items){
@@ -38,12 +38,12 @@ export class CuCommandPalette extends BrowserElement{
     this._input.addEventListener("input",e=>{if(!e.isComposing)this._render();});this._input.addEventListener("compositionend",()=>this._render());
     this._input.addEventListener("keydown",e=>this._key(e));
     this._close.addEventListener("cu-press",e=>{e.stopPropagation();this.close();});
-    this._dialog.addEventListener("cancel",e=>{e.preventDefault();this.close("escape");});
-    this._dialog.addEventListener("close",()=>{if(this._dialog.open)return;this.removeAttribute("open");const trigger=this._trigger;this._trigger=null;restoreOverlayFocus(trigger);notify(this,"cu-close",{reason:this._dialog.returnValue||"close"});});
+    this._dialog.addEventListener("cancel",e=>{e.preventDefault();if(isTopOverlay(this))this.close("escape");});
+    this._dialog.addEventListener("close",()=>{if(this._dialog.open)return;dismissDescendantOverlays(this);const wasTop=isTopOverlay(this);unregisterOverlay(this);this.removeAttribute("open");const trigger=this._trigger;this._trigger=null;if(!this.isConnected)return;if(wasTop)restoreOverlayFocus(trigger);notify(this,"cu-close",{reason:this._dialog.returnValue||"close"});});
     this._shortcut=e=>{if(this.hidden||e.defaultPrevented||e.isComposing||e.repeat||e.altKey||e.shiftKey)return;if(this.getAttribute("shortcut")==="mod+k"&&(e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();if(this.open)this.close("shortcut");else this.show();}};
   }
   connectedCallback(){this._doc=this.ownerDocument;this._doc.addEventListener("keydown",this._shortcut);this._sync();if(this.hasAttribute("open")&&!this.hidden)this.show();}
-  disconnectedCallback(){this._doc?.removeEventListener("keydown",this._shortcut);this._trigger=null;if(this._dialog.open)this._dialog.close("disconnect");}
+  disconnectedCallback(){this._doc?.removeEventListener("keydown",this._shortcut);dismissDescendantOverlays(this);unregisterOverlay(this);this._trigger=null;if(this._dialog.open)this._dialog.close("disconnect");this.removeAttribute("open");}
   attributeChangedCallback(name){if(!this._dialog)return;if(this.isConnected){if(name==="open"){if(this.hasAttribute("open")&&!this.open)this.show();else if(!this.hasAttribute("open")&&this.open)this.close();}if(name==="hidden"&&this.hidden)this.close("hidden");}this._sync();}
   get commands(){return this._commands.map(x=>({...x,keywords:[...x.keywords]}));}
   set commands(v){this._commands=normalizePaletteCommands(v);this._render();}
@@ -51,9 +51,9 @@ export class CuCommandPalette extends BrowserElement{
   set open(v){if(v){if(this.isConnected)this.show();else this.setAttribute("open","");}else{if(this.open)this.close();else this.removeAttribute("open");}}
   show(){
     if(this.open||!this.isConnected||this.hidden)return false;
-    this._trigger=deepActiveElement(this.ownerDocument);this._input.value="";this._lastQuery=undefined;this._sync();this._dialog.returnValue="";this._dialog.showModal();this.setAttribute("open","");this._input.focus();notify(this,"cu-open",{});return true;
+    this._trigger??=deepActiveElement(this.ownerDocument);this._input.value="";this._lastQuery=undefined;this._sync();this._dialog.returnValue="";this._dialog.showModal();registerOverlay(this);this.setAttribute("open","");this._input.focus();notify(this,"cu-open",{});return true;
   }
-  close(reason="close"){if(this.open)this._dialog.close(reason);}
+  close(reason="close"){if(this.open){dismissDescendantOverlays(this);this._dialog.close(reason);}}
   _sync(){if(!this._input)return;this._title.textContent=this.getAttribute("title")||"Command palette";this._input.placeholder=this.getAttribute("placeholder")||"Search commands…";this._render();}
   _render(){
     if(!this._list)return;
