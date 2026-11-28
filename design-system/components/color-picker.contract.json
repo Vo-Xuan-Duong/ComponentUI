@@ -8,6 +8,7 @@
     "value": "HEX, RGB or HSL",
     "format": "hex | rgb | hsl",
     "alpha": "boolean",
+    "compact": "boolean",
     "label": "string",
     "name": "string",
     "hint": "string",
