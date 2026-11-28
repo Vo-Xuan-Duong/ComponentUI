@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "DashboardViewer",
+  "tag": "cu-dashboard-viewer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "label": "string",
+    "query": "string"
+  },
+  "properties": {
+    "widgets": "CuDashboardWidget[]",
+    "visibleWidgets": "CuDashboardWidget[] (readonly)"
+  },
+  "events": [
+    "cu-filter",
+    "cu-action"
+  ],
+  "composition": [
+    "DashboardShell",
+    "ChartContainer",
+    "SearchBox",
+    "EmptyState",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
