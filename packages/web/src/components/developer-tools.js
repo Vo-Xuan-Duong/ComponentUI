@@ -9,8 +9,8 @@ export class CuDeveloperTools extends BrowserElement{
   constructor(){
     super();const root=mount(this,css,'<cu-tabs aria-label="Developer tools"><cu-tab label="Console"><cu-command-console></cu-command-console></cu-tab><cu-tab label="Logs"><cu-log-viewer></cu-log-viewer></cu-tab><cu-tab label="API"><cu-api-explorer></cu-api-explorer></cu-tab></cu-tabs>');
     this._console=root.querySelector("cu-command-console");this._logs=root.querySelector("cu-log-viewer");this._api=root.querySelector("cu-api-explorer");this._tabs=root.querySelector("cu-tabs");
-    for(const [section,control,types] of [["console",this._console,["cu-action"]],["logs",this._logs,["cu-select","cu-filter"]],["api",this._api,["cu-input","cu-change","cu-action"]]])for(const type of types)control.addEventListener(type,e=>{e.stopPropagation();notify(this,type,{...e.detail,section});});
-    this._tabs.addEventListener("cu-change",e=>{if(e.target===this._tabs){e.stopPropagation();notify(this,"cu-navigate",{section:["console","logs","api"][e.detail.index]});}});
+    for(const [section,control,types] of [["console",this._console,["cu-action"]],["logs",this._logs,["cu-select","cu-filter"]],["api",this._api,["cu-input","cu-change","cu-action"]]])for(const type of types)control.addEventListener(type,e=>{if(e.target!==control)return;e.stopPropagation();notify(this,type,{...e.detail,section});});
+    this._tabs.addEventListener("cu-change",e=>{if(e.target===this._tabs){e.stopPropagation();const section=["console","logs","api"][e.detail?.index];if(section)notify(this,"cu-navigate",{section});}});
   }
   connectedCallback(){this._sync();}attributeChangedCallback(){this._sync();}
   get lines(){return this._console.lines;}set lines(v){this._console.lines=v;}
