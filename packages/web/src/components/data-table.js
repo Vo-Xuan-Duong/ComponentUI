@@ -3,8 +3,10 @@ import { BrowserElement, mount, notify, define, focusStyle } from "./_shared.js"
 import "./icon.js";
 import "./spinner.js";
 import "./select.js";
+import "./search-box.js";
+import "./text-field.js";
 import { clampMenuPosition } from "./context-menu.js";
-import {registerOverlay,unregisterOverlay,isTopOverlay} from "./_overlay.js";
+import {registerOverlay,unregisterOverlay,isTopOverlay,openOverlayTopLayer,closeOverlayTopLayer,watchOverlayViewport} from "./_overlay.js";
 import { tableFilterValueKey, tableFilterValueLabel, TABLE_FILTER_OPERATORS, NUMERIC_FILTER_OPERATORS, isTableFilterCondition, matchTableFilterCondition, normalizeTableFilterSpec, filterTableRows, uniqueTableFilterValues, applyFilterBar } from "./filter-utils.js";
 export { tableFilterValueKey, tableFilterValueLabel, TABLE_FILTER_OPERATORS, isTableFilterCondition, matchTableFilterCondition, normalizeTableFilterSpec, filterTableRows, uniqueTableFilterValues, applyFilterBar } from "./filter-utils.js";
 
@@ -74,17 +76,8 @@ const css=[
   ".filter-values-view{display:flex;flex-direction:column;gap:7px;min-height:0;}",
   ".filter-conditions-view{display:flex;flex-direction:column;gap:9px;}",
   ".filter-conditions-view cu-select{width:100%;}",
-  ".filter-conditions-view input{box-sizing:border-box;min-height:34px;width:100%;",
-  "padding:7px 9px;background:var(--cu-surface,#fff);color:inherit;font:inherit;",
-  "border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);}",
-  ".filter-conditions-view input[hidden]{display:none!important;}",
-  ".filter-condition-error{color:var(--cu-danger,#c42b1c);font-size:12px;min-height:0;}",
+  ".filter-conditions-view cu-text-field,.filter-search{width:100%;--cu-control-height:34px;}",
   ".filter-condition-error:empty{display:none;}",
-  ".filter-conditions-view input[aria-invalid=true]{border-color:var(--cu-danger,#c42b1c);}",
-  ".filter-search{box-sizing:border-box;width:100%;min-height:34px;padding:7px 9px;",
-  "border:1px solid var(--cu-border-strong,#d1d1d1);",
-  "border-radius:var(--cu-radius-md,6px);background:var(--cu-surface,#fff);",
-  "color:var(--cu-text,#242424);font:inherit;}",
   ".filter-select-all{display:flex;align-items:center;gap:9px;padding:6px 8px;",
   "border-bottom:1px solid var(--cu-border,#e5e5e5);cursor:pointer;}",
   ".filter-options{max-height:min(230px,35vh);overflow:auto;min-height:40px;}",
@@ -152,7 +145,7 @@ export class CuDataTable extends BrowserElement {
       '<button type="button" class="filter-mode-values" id="cu-filter-values-tab" role="tab" aria-controls="cu-filter-values" aria-selected="true">Values</button>' +
       '<button type="button" class="filter-mode-conditions" id="cu-filter-conditions-tab" role="tab" aria-controls="cu-filter-conditions" aria-selected="false" tabindex="-1">Conditions</button></div>' +
       '<div class="filter-values-view" id="cu-filter-values" role="tabpanel" aria-labelledby="cu-filter-values-tab">' +
-      '<input class="filter-search" type="search" placeholder="Search values..." aria-label="Search filter values">' +
+      '<cu-search-box class="filter-search" placeholder="Search values..." aria-label="Search filter values"></cu-search-box>' +
       '<label class="filter-select-all"><input type="checkbox" class="filter-all"><span>Select all matching</span></label>' +
       '<div class="filter-options" role="group" aria-label="Available filter values"></div>' +
       '<button type="button" class="filter-more" hidden>Show more values</button><div class="filter-summary" role="status"></div></div>' +
@@ -168,8 +161,8 @@ export class CuDataTable extends BrowserElement {
       '<option value="between">Between (inclusive)</option>' +
       '<option value="is-blank">Is blank</option>' +
       '<option value="is-not-blank">Is not blank</option></cu-select>' +
-      '<input class="filter-condition-value" aria-label="Condition value" aria-describedby="cu-filter-condition-error" placeholder="Enter a value">' +
-      '<input class="filter-condition-value2" aria-label="Second condition value" aria-describedby="cu-filter-condition-error" placeholder="Upper bound" hidden>' +
+      '<cu-text-field class="filter-condition-value" aria-label="Condition value" placeholder="Enter a value"></cu-text-field>' +
+      '<cu-text-field class="filter-condition-value2" aria-label="Second condition value" placeholder="Upper bound" hidden></cu-text-field>' +
       '<div class="filter-condition-error" id="cu-filter-condition-error" role="alert"></div></div>' +
       '<div class="filter-footer"><button type="button" class="filter-clear">Clear</button>' +
       '<button type="button" class="filter-cancel">Cancel</button>' +
@@ -264,13 +257,15 @@ export class CuDataTable extends BrowserElement {
       });
     });
     this._headerMenu.addEventListener("cu-close",()=>this._clearContextHeader());
-    this._filterSearch.addEventListener("input",()=>{if(this._filterEditor)this._filterEditor.limit=200;this._renderFilterOptions();});
+    this._filterSearch.addEventListener("cu-input",event=>{event.stopPropagation();if(this._filterEditor)this._filterEditor.limit=200;this._renderFilterOptions();});
+    for(const type of ["cu-change","cu-search"])this._filterSearch.addEventListener(type,event=>event.stopPropagation());
     this._filterMore.addEventListener("click",()=>{if(!this._filterEditor)return;const previous=this._filterEditor.limit;this._filterEditor.limit+=200;this._renderFilterOptions();this._filterOptions.querySelectorAll("input")[previous]?.focus();});
     this._filterModeValues.addEventListener("click",()=>this._setFilterMode("values",true));
     this._filterModeConditions.addEventListener("click",()=>this._setFilterMode("conditions",true));
-    this._filterOperator.addEventListener("cu-change",()=>this._syncFilterConditionInputs());
+    this._filterOperator.addEventListener("cu-input",event=>event.stopPropagation());
+    this._filterOperator.addEventListener("cu-change",event=>{event.stopPropagation();this._syncFilterConditionInputs();});
     for(const input of [this._filterConditionValue,this._filterConditionValue2])
-      input.addEventListener("input",()=>this._clearFilterConditionError());
+      {input.addEventListener("cu-input",event=>{event.stopPropagation();this._clearFilterConditionError();});input.addEventListener("cu-change",event=>event.stopPropagation());}
     this._filterAll.addEventListener("change",()=>{
       const editor=this._filterEditor;
       if(!editor)return;
@@ -345,7 +340,7 @@ export class CuDataTable extends BrowserElement {
         this._hideFilterPanel(false);
     };
     this._filterViewport=event=>{
-      if(this._filterEditor&&!event.composedPath().includes(this._filterPanel))
+      if(this._filterEditor&&event?.type&&!event.composedPath?.().includes(this._filterPanel))
         this._hideFilterPanel(false);
     };
     this._prev.addEventListener("click",()=>this._setPage(this._page-1));
@@ -355,15 +350,13 @@ export class CuDataTable extends BrowserElement {
     this._render();
     this._doc=this.ownerDocument;this._view=this._doc.defaultView;
     this._doc.addEventListener("pointerdown",this._filterOutside);
-    this._view?.addEventListener("resize",this._filterViewport);
-    this._view?.addEventListener("scroll",this._filterViewport,true);
+    this._stopFilterViewport=watchOverlayViewport(this,this._filterViewport);
   }
   disconnectedCallback(){
     this.unbindFilterBar();
     this._hideFilterPanel(false);
     this._doc?.removeEventListener("pointerdown",this._filterOutside);
-    this._view?.removeEventListener("resize",this._filterViewport);
-    this._view?.removeEventListener("scroll",this._filterViewport,true);
+    this._stopFilterViewport?.();this._stopFilterViewport=null;
   }
   attributeChangedCallback(){this._render();}
   get loading(){return this.hasAttribute("loading");}
@@ -636,19 +629,18 @@ export class CuDataTable extends BrowserElement {
     const blank=op==="is-blank"||op==="is-not-blank";
     this._filterConditionValue.hidden=blank;
     this._filterConditionValue2.hidden=op!=="between";
-    this._filterConditionValue.placeholder=NUMERIC_FILTER_OPERATORS.has(op)?
-      "Enter a number":"Enter text";
+    this._filterConditionValue.setAttribute("placeholder",NUMERIC_FILTER_OPERATORS.has(op)?"Enter a number":"Enter text");
     this._clearFilterConditionError();
   }
   _clearFilterConditionError(){
     this._filterConditionError.textContent="";
     for(const input of [this._filterConditionValue,this._filterConditionValue2])
-      input.removeAttribute("aria-invalid");
+      input.removeAttribute("error");
   }
   _showFilterConditionError(input,message){
     this._clearFilterConditionError();
-    this._filterConditionError.textContent=message;
-    input.setAttribute("aria-invalid","true");
+    // The shared field renders and announces its own error.
+    input.setAttribute("error",message);
     input.focus();
   }
   _matchingFilterOptions(){
@@ -726,18 +718,22 @@ export class CuDataTable extends BrowserElement {
     this._filterPanel.hidden=false;registerOverlay(this);
     if(this._filterEditor.focusTarget?.setAttribute)
       this._filterEditor.focusTarget.setAttribute("aria-expanded","true");
-    const rect=header.getBoundingClientRect();
-    const bounds=this._filterPanel.getBoundingClientRect();
-    const pos=clampMenuPosition(rect.left,rect.bottom+4,bounds.width,bounds.height,
-      this.ownerDocument.defaultView?.innerWidth??1024,this.ownerDocument.defaultView?.innerHeight??768);
-    this._filterPanel.style.left=pos.x+"px";
-    this._filterPanel.style.top=pos.y+"px";
+    const view=this.ownerDocument.defaultView,viewport=view?.visualViewport;
+    if(openOverlayTopLayer(this._filterPanel))Object.assign(this._filterPanel.style,{position:"fixed",margin:"0",inset:"auto",left:"0px",top:"0px",right:"auto",bottom:"auto"});
+    const left=viewport?.offsetLeft??0,top=viewport?.offsetTop??0,width=viewport?.width??view?.innerWidth??1024,height=viewport?.height??view?.innerHeight??768;
+    this._filterPanel.style.maxWidth=Math.max(0,width-16)+"px";
+    this._filterPanel.style.maxHeight=Math.max(0,Math.min(520,height-16))+"px";
+    const rect=header.getBoundingClientRect(),bounds=this._filterPanel.getBoundingClientRect();
+    const preferredY=rect.bottom+4+bounds.height>top+height-8&&rect.top-4-bounds.height>=top+8?rect.top-4-bounds.height:rect.bottom+4;
+    const pos=clampMenuPosition(rect.left-left,preferredY-top,bounds.width,bounds.height,width,height);
+    this._filterPanel.style.left=pos.x+left+"px";
+    this._filterPanel.style.top=pos.y+top+"px";
     (condition?this._filterOperator:this._filterSearch).focus();
   }
   _hideFilterPanel(restore=false){
     const editor=this._filterEditor;
     if(!editor)return;
-    this._filterOperator.hide?.();this._filterEditor=null;this._filterPanel.hidden=true;unregisterOverlay(this);
+    this._filterOperator.hide?.();this._filterEditor=null;closeOverlayTopLayer(this._filterPanel);this._filterPanel.hidden=true;unregisterOverlay(this);
     if(editor.focusTarget?.setAttribute)
       editor.focusTarget.setAttribute("aria-expanded","false");
     if(restore){
