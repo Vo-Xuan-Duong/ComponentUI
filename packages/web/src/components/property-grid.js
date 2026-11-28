@@ -1,5 +1,6 @@
 import {BrowserElement,mount,define,notify,focusStyle} from "./_shared.js";
 import "./icon.js";
+import "./search-box.js";
 const types=["text","number","boolean","select","color"];
 const finite=v=>typeof v==="number"&&Number.isFinite(v);
 const optionItems=items=>{
@@ -47,7 +48,7 @@ export function filterPropertyItems(items,query){
 }
 const css=[
   ":host{display:block;min-width:0;color:var(--cu-text,#242424);font:13px var(--cu-font-body,system-ui);}",
-  ".frame{border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);overflow:hidden;background:var(--cu-surface,#fff);}.toolbar{display:flex;align-items:center;gap:8px;padding:9px;border-bottom:1px solid var(--cu-border,#e5e5e5);}.toolbar[hidden]{display:none!important;}",
+  ".frame{border:1px solid var(--cu-border,#e5e5e5);border-radius:var(--cu-radius-lg,8px);overflow:hidden;background:var(--cu-surface,#fff);}.toolbar{display:flex;align-items:center;gap:8px;padding:9px;border-bottom:1px solid var(--cu-border,#e5e5e5);}.toolbar[hidden]{display:none!important;}.toolbar cu-search-box{flex:1;min-width:0;}",
   "input,select{font:inherit;color:inherit;box-sizing:border-box;min-width:0;}input:not([type=checkbox]),select{width:100%;min-height:32px;border:1px solid var(--cu-border-strong,#d1d1d1);border-radius:var(--cu-radius-md,6px);padding:4px 8px;background:var(--cu-surface,#fff);}input[type=checkbox]{width:17px;height:17px;accent-color:var(--cu-accent,#0067c0);margin:0;}input[type=color]{max-width:72px;cursor:pointer;}",
   ".group-header{width:100%;display:flex;align-items:center;gap:7px;text-align:start;padding:10px 12px;border:0;border-bottom:1px solid var(--cu-border,#e5e5e5);background:var(--cu-surface-alt,#fafafa);color:inherit;font:650 12px var(--cu-font-body,system-ui);cursor:pointer;}.group-header:hover{background:var(--cu-state-hover);}.group-header[aria-expanded=true] cu-icon{transform:rotate(90deg);}.rows[hidden]{display:none!important;}",
   ".row{display:grid;grid-template-columns:minmax(0,var(--cu-property-label-width,42%)) minmax(0,1fr);gap:12px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--cu-border,#e5e5e5);}.row:last-child{border-bottom:0;}.row:hover{background:var(--cu-state-hover);}.label{padding-top:7px;overflow-wrap:anywhere;font-weight:550;}.editor{min-width:0;display:grid;gap:4px;align-items:center;min-height:32px;}.description,.error,.empty{font-size:12px;color:var(--cu-text-muted,#616161);line-height:1.5;}.description{font-weight:400;}.error{color:var(--cu-danger,#c42b1c);}.error:empty{display:none;}.editor [aria-invalid=true]{border-color:var(--cu-danger,#c42b1c);}.editor :disabled{opacity:.55;cursor:not-allowed;}.empty{padding:20px;text-align:center;}.empty[hidden]{display:none!important;}.color-value{font:12px ui-monospace,monospace;}",
@@ -57,9 +58,10 @@ export class CuPropertyGrid extends BrowserElement{
   static get observedAttributes(){return ["query","searchable","disabled","readonly","label","aria-label","empty-text"];}
   constructor(){
     super();this._items=[];this._collapsed=new Set();
-    const root=mount(this,css,'<section class="frame" role="region" part="frame"><div class="toolbar"><cu-icon name="search" size="16"></cu-icon><input type="search" class="search" aria-label="Filter properties" placeholder="Filter properties…"></div><div class="groups"></div><div class="empty" hidden></div></section>');
+    const root=mount(this,css,'<section class="frame" role="region" part="frame"><div class="toolbar"><cu-search-box class="search" aria-label="Filter properties" placeholder="Filter properties…"></cu-search-box></div><div class="groups"></div><div class="empty" hidden></div></section>');
     for(const [k,q] of Object.entries({frame:".frame",toolbar:".toolbar",search:".search",groups:".groups",empty:".empty"}))this["_"+k]=root.querySelector(q);
-    this._search.addEventListener("input",()=>{this.query=this._search.value;notify(this,"cu-search",{query:this.query});});
+    this._search.addEventListener("cu-input",event=>{event.stopPropagation();this.query=event.detail.value;notify(this,"cu-search",{query:this.query});});
+    for(const type of ["cu-change","cu-search"])this._search.addEventListener(type,event=>event.stopPropagation());
   }
   connectedCallback(){this._render();}
   attributeChangedCallback(){this._render();}
