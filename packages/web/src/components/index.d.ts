@@ -492,6 +492,7 @@ export declare class CuColorPicker extends HTMLElement {
   static formAssociated:boolean;
   value:string;
   alpha:boolean;
+  compact:boolean;
   disabled:boolean;
   readonly:boolean;
   required:boolean;
