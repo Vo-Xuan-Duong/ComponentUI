@@ -1044,6 +1044,10 @@ declare global {
     "cu-dashboard-designer": CuDashboardDesigner;
     "cu-form-designer": CuFormDesigner;
     "cu-schema-editor": CuSchemaEditor;
+    "cu-database-explorer": CuDatabaseExplorer;
+    "cu-application-shell": CuApplicationShell;
+    "cu-report-builder": CuReportBuilder;
+    "cu-automation-designer": CuAutomationDesigner;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1267,3 +1271,17 @@ export interface CuObjectSchema {type:"object";properties:Record<string,{type:Cu
 export declare const SCHEMA_FIELD_TYPES:readonly CuSchemaFieldType[];
 export declare function normalizeObjectSchema(value?:Partial<CuObjectSchema>):CuObjectSchema;
 export declare class CuSchemaEditor extends HTMLElement {value:CuObjectSchema;readonly:boolean;addProperty(name:string,type:CuSchemaFieldType):boolean;removeProperty(name:string):boolean;}
+
+export interface CuDatabaseTable {id:string;label?:string;schema?:string;rows:Record<string,unknown>[];}
+export declare function normalizeDatabaseTables(tables:unknown):Required<CuDatabaseTable>[];
+export declare class CuDatabaseExplorer extends HTMLElement {tables:CuDatabaseTable[];selected:string;query:CuQueryValue;selectTable(id:string):boolean;}
+export interface CuApplicationSection {id:string;label?:string;disabled?:boolean;}
+export declare function normalizeApplicationSections(items:unknown):Required<CuApplicationSection>[];
+export declare class CuApplicationShell extends HTMLElement {sections:CuApplicationSection[];groups:CuMenuGroup[];commands:CuPaletteCommand[];active:string;selectSection(id:string):boolean;showCommands():boolean;}
+export interface CuReport {config:Required<CuPivotConfig>;query:CuQueryValue;chartType:"bar"|"line";result:CuPivotResult;}
+export declare function reportChartItems(result:CuPivotResult):CuChartItem[];
+export declare class CuReportBuilder extends HTMLElement {rows:Record<string,unknown>[];query:CuQueryValue;config:CuPivotConfig;chartType:"bar"|"line";readonly result:CuPivotResult;readonly report:CuReport;}
+export interface CuAutomationValue {graph:CuNodeGraph;lanes:CuKanbanLane[];tasks:CuKanbanItem[];}
+export interface CuAutomationAnalysis {valid:boolean;cyclic:boolean;order:string[];nodeCount:number;edgeCount:number;}
+export declare function analyzeAutomationGraph(value:CuNodeGraph):CuAutomationAnalysis;
+export declare class CuAutomationDesigner extends HTMLElement {value:CuAutomationValue;readonly analysis:CuAutomationAnalysis;readonly:boolean;requestRun():boolean;}
