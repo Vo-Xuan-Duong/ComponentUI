@@ -5,8 +5,9 @@ import "./text-field.js";
 const modifiers=["Ctrl","Alt","Shift","Meta"];
 const aliases={control:"Ctrl",ctrl:"Ctrl",alt:"Alt",shift:"Shift",meta:"Meta",cmd:"Meta",command:"Meta"};
 export function normalizeShortcut(value){
-  const parts=String(value??"").trim().split("+").map(x=>x.trim()).filter(Boolean);
-  if(!parts.length)return "";
+  const raw=String(value??"").trim();if(!raw)return "";
+  const parts=raw.split("+").map(x=>x.trim());
+  if(parts.some(p=>!p))return null;
   const key=parts.pop(),mods=new Set();
   for(const p of parts){const m=aliases[p.toLowerCase()];if(!m)return null;mods.add(m);}
   const named=["Enter","Escape","Tab","Space","Backspace","Delete","Insert","Home","End","PageUp","PageDown","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
