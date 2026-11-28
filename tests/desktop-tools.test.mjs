@@ -49,3 +49,15 @@ test("workspace lifecycle and file explorer shared search contracts",async()=>{
  assert.match(explorer,/this\._search\.addEventListener\("cu-input"/);
  assert.match(explorer,/e\.preventDefault\(\);e\.stopPropagation\(\);this\._showMenu/);
 });
+
+test("composed workspaces guard internal navigation and reuse close actions",async()=>{
+ const read=n=>readFile(new URL("../packages/web/src/components/"+n+".js",import.meta.url),"utf8");
+ const pane=await read("window-pane"),manager=await read("window-manager"),document=await read("document-workspace"),dev=await read("developer-tools"),shell=await read("application-shell");
+ assert.match(pane,/<cu-icon-button class="close"/);
+ assert.match(pane,/this\._content\.inert=this\.collapsed/);
+ assert.match(manager,/if\(e\.target===this\._dock\)e\.stopPropagation\(\)/);
+ assert.match(document,/\["document","notes"\]\.includes\(e\.detail\?\.value\)/);
+ assert.match(dev,/if\(e\.target!==control\)return/);
+ assert.match(shell,/if\(this\.selectSection\(e\.detail\.value\)\)/);
+ assert.match(shell,/panel\.matches\(":focus-within"\)/);
+});
