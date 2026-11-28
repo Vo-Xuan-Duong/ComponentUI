@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "FormDesigner",
+  "tag": "cu-form-designer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "readonly": "boolean"
+  },
+  "properties": {
+    "fields": "CuDesignFormField[]"
+  },
+  "events": [
+    "cu-change",
+    "cu-select",
+    "cu-submit"
+  ],
+  "composition": [
+    "Form",
+    "PropertyInspector",
+    "SplitView",
+    "TextField",
+    "TextArea",
+    "NumberField",
+    "Checkbox",
+    "Select",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
