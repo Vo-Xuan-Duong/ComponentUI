@@ -1,7 +1,7 @@
 {
   "version": "0.12.0",
   "style": "Fluent Calm",
-  "summary": "160 catalogued experimental browser Custom Elements; 160 catalog preview entries, 0 planned, 0 production-ready.",
+  "summary": "164 catalogued experimental browser Custom Elements; 164 catalog preview entries, 0 planned, 0 production-ready.",
   "statusLegend": {
     "planned": "Specified for future implementation",
     "preview": "Visually demonstrated, not published as a runtime component",
@@ -1479,6 +1479,42 @@
         },
         {
           "name": "PropertyInspector",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ChartEditor",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "NotificationSettings",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "ImageGallery",
+          "priority": "P1",
+          "status": "preview",
+          "renderers": [
+            "web",
+            "native-as-needed"
+          ]
+        },
+        {
+          "name": "FileManager",
           "priority": "P1",
           "status": "preview",
           "renderers": [
