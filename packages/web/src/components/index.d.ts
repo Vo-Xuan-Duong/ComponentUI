@@ -1040,6 +1040,10 @@ declare global {
     "cu-document-workspace": CuDocumentWorkspace;
     "cu-data-inspector": CuDataInspector;
     "cu-api-explorer": CuAPIExplorer;
+    "cu-media-library": CuMediaLibrary;
+    "cu-dashboard-designer": CuDashboardDesigner;
+    "cu-form-designer": CuFormDesigner;
+    "cu-schema-editor": CuSchemaEditor;
     "cu-message-list": CuMessageList;
     "cu-chat-composer": CuChatComposer;
     "cu-window-pane": CuWindowPane;
@@ -1246,3 +1250,20 @@ export declare function normalizeApiRequest(value?:Partial<CuAPIRequest>):CuAPIR
 export declare function validateApiRequest(value?:Partial<CuAPIRequest>):{valid:boolean;error:string};
 export declare function normalizeApiResponse(value:unknown):CuAPIResponse|null;
 export declare class CuAPIExplorer extends HTMLElement {request:CuAPIRequest;response:CuAPIResponse|null;disabled:boolean;loading:boolean;submit():boolean;}
+
+export interface CuMediaEntry extends CuFileEntry {mediaType?:"image"|"audio"|"video"|"";src?:string;poster?:string;}
+export declare function normalizeMediaEntries(items:unknown):CuMediaEntry[];
+export declare class CuMediaLibrary extends HTMLElement {items:CuMediaEntry[];selected:string;selectMedia(id:string):boolean;}
+export interface CuDashboardWidget {id:string;config:CuChartConfig;items:CuChartItem[];}
+export declare function normalizeDashboardWidgets(items:unknown):CuDashboardWidget[];
+export declare class CuDashboardDesigner extends HTMLElement {widgets:CuDashboardWidget[];selected:string;readonly:boolean;addWidget():boolean;removeWidget(id:string):boolean;}
+export type CuFormFieldType="text"|"email"|"number"|"textarea"|"checkbox";
+export interface CuDesignFormField {id:string;name:string;type:CuFormFieldType;label?:string;required?:boolean;value?:string|boolean|number;}
+export declare const FORM_FIELD_TYPES:readonly CuFormFieldType[];
+export declare function normalizeFormFields(items:unknown):Required<CuDesignFormField>[];
+export declare class CuFormDesigner extends HTMLElement {fields:CuDesignFormField[];readonly:boolean;addField(type:CuFormFieldType):boolean;removeField(id:string):boolean;}
+export type CuSchemaFieldType="string"|"number"|"integer"|"boolean"|"array"|"object"|"null";
+export interface CuObjectSchema {type:"object";properties:Record<string,{type:CuSchemaFieldType;description?:string}>;required:string[];}
+export declare const SCHEMA_FIELD_TYPES:readonly CuSchemaFieldType[];
+export declare function normalizeObjectSchema(value?:Partial<CuObjectSchema>):CuObjectSchema;
+export declare class CuSchemaEditor extends HTMLElement {value:CuObjectSchema;readonly:boolean;addProperty(name:string,type:CuSchemaFieldType):boolean;removeProperty(name:string):boolean;}
