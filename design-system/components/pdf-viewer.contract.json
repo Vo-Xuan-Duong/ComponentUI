@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "PDFViewer",
+  "tag": "cu-pdf-viewer",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "page": "number"
+  },
+  "properties": {
+    "pages": "string[]",
+    "document": "CuPdfDocument | null",
+    "pageCount": "number (readonly)"
+  },
+  "events": [
+    "cu-change",
+    "cu-transform",
+    "cu-action"
+  ],
+  "composition": [
+    "ImageViewer",
+    "Button",
+    "Spinner",
+    "EmptyState"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
