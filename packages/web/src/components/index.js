@@ -180,3 +180,8 @@ export { CuPdfViewer, clampPdfPage } from "./pdf-viewer.js";
 export { CuResourceCalendar, normalizeResources, normalizeResourceEvents } from "./resource-calendar.js";
 export { CuTimelineEditor, normalizeTimelineEntries } from "./timeline-editor.js";
 export { CuPropertyInspector, normalizeInspectorObjects, resolveInspectorObject } from "./property-inspector.js";
+
+export { CuCommandConsole } from "./command-console.js";
+export { CuKeyboardShortcutEditor, normalizeShortcut, shortcutFromEvent, normalizeShortcutItems } from "./keyboard-shortcut-editor.js";
+export { CuColorPalette, normalizePaletteColors } from "./color-palette.js";
+export { CuFontPicker, DEFAULT_FONT_FAMILIES, normalizeFontFamilies } from "./font-picker.js";
