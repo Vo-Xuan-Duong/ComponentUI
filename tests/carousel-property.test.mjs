@@ -46,5 +46,35 @@ test("components have exports, contracts and live playground examples",async()=>
     assert.equal(JSON.parse(await read("../design-system/components/"+tag+".contract.json")).status,"preview");
   }
   const carousel=await read("../packages/web/src/components/carousel.js");assert.ok(carousel.includes('aria-roledescription="carousel"'));assert.ok(carousel.includes("pointerup"));
-  const grid=await read("../packages/web/src/components/property-grid.js");assert.ok(grid.includes("coercePropertyValue(item"));assert.ok(grid.includes('aria-invalid'));
+  const grid=await read("../packages/web/src/components/property-grid.js");assert.ok(grid.includes("coercePropertyValue(item"));assert.ok(grid.includes('control.setAttribute("error",parsed.message)'));
+});
+
+test("property grid composes shared controls and contains their events",async()=>{
+  const source=await read("../packages/web/src/components/property-grid.js");
+  for(const [type,tag] of [["text","text-field"],["number","number-field"],["boolean","checkbox"],["select","select"],["color","color-picker"]]){
+    assert.ok(source.includes('import "./'+tag+'.js";'));
+    assert.ok(source.includes(type+':"cu-'+tag+'"'));
+  }
+  assert.ok(source.includes('<cu-search-box'));
+  assert.ok(source.includes('doc.createElement(editorTags[item.type])'));
+  assert.ok(!source.includes('doc.createElement("input")'));
+  assert.ok(!source.includes('?"select":"input"'));
+  assert.ok(source.includes('control.setAttribute("value",String(item.value))'));
+  assert.ok(source.includes('control.addEventListener("cu-change",e=>{e.stopPropagation();this._commit'));
+});
+test("property grid rejects invalid and locked editor commits",()=>{
+  const [item]=normalizePropertyItems([{key:"width",type:"number",min:0,max:100,step:5,value:20}]);
+  const el=Object.create(CuPropertyGrid.prototype);
+  el.hasAttribute=()=>false;
+  const attrs=new Map(),control={value:"26",setAttribute:(k,v)=>attrs.set(k,v)},error={textContent:""};
+  el._commit(item,control,error);
+  assert.equal(item.value,20);
+  assert.match(attrs.get("error"),/increments/);
+  control.value="25";item.readonly=true;
+  el._commit(item,control,error);
+  assert.equal(item.value,20);
+  item.readonly=false;control.value="20";
+  el._commit(item,control,error);
+  assert.equal(attrs.get("error"),"");
+  assert.equal(item.value,20);
 });
