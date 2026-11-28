@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "ShortcutSettings",
+  "tag": "cu-shortcut-settings",
+  "status": "preview",
+  "kind": "component",
+  "attributes": {
+    "disabled": "boolean"
+  },
+  "properties": {
+    "items": "CuShortcutItem[]",
+    "defaults": "CuShortcutItem[]"
+  },
+  "events": [
+    "cu-change"
+  ],
+  "composition": [
+    "KeyboardShortcutEditor",
+    "SettingsPage",
+    "Button"
+  ],
+  "accessibility": {
+    "formAssociated": false
+  }
+}
